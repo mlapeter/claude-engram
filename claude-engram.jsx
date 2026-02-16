@@ -22,11 +22,15 @@ const daysAgo = ts => Math.max(0, (Date.now() - ts) / 864e5);
 
 function strength(m) {
   const age = daysAgo(m.createdAt);
-  const sal = (m.salience.novelty + m.salience.relevance + m.salience.emotional + m.salience.predictive) / 4;
+  const n = Number(m.salience?.novelty) || 0;
+  const r = Number(m.salience?.relevance) || 0;
+  const e = Number(m.salience?.emotional) || 0;
+  const p = Number(m.salience?.predictive) || 0;
+  const sal = (n + r + e + p) / 4;
   return Math.max(0, Math.min(1, sal + Math.min(m.accessCount * RETRIEVAL_BOOST, 0.5) + (m.consolidated ? 0.2 : 0) - DECAY_RATE * age));
 }
 
-function sCol(s) { return s > 0.7 ? "#16a34a" : s > 0.4 ? "#d97706" : s > 0.2 ? "#ea580c" : "#dc2626"; }
+function sCol(s) { return s > 0.7 ? colors.green : s > 0.4 ? colors.accent : s > 0.2 ? "#ea6d2f" : colors.red; }
 function sLbl(s) { return s > 0.7 ? "Strong" : s > 0.4 ? "Stable" : s > 0.2 ? "Fading" : "Decaying"; }
 
 async function load(key) { try { const r = await window.storage.get(key); return r ? JSON.parse(r.value) : null; } catch { return null; } }
@@ -213,7 +217,7 @@ function LogPanel({ lines }) {
 }
 
 // ═══ Main ═══
-export default function NeuralMemoryBank() {
+export default function ClaudeEngram() {
   const [mems, setMems] = useState([]);
   const [meta, setMeta] = useState({ lastConsol: null, created: null });
   const [briefing, setBriefing] = useState("");
@@ -232,6 +236,12 @@ export default function NeuralMemoryBank() {
   const [consoling, setConsoling] = useState(false);
   const [consolLog, setConsolLog] = useState([]);
   const [exporting, setExporting] = useState(false);
+
+  // Toast & confirm dialog (alert/confirm don't work in iframes)
+  const [toast, setToast] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState(null);
+  const showToast = (msg, isError) => { setToast({ msg, isError }); setTimeout(() => setToast(null), 4000); };
+  const showConfirm = (msg, onYes) => setConfirmDialog({ msg, onYes });
 
   // Copy helper that works in iframes
   const copyText = (text) => {
@@ -320,7 +330,7 @@ export default function NeuralMemoryBank() {
     const newMems = [];
     for (const item of parsed) {
       if (item.updates && typeof item.updates === "string") {
-        updated = updated.map(m => m.id === item.updates ? { ...m, content: (item.content || m.content).slice(0, 400), salience: item.salience ? { ...m.salience, ...item.salience } : m.salience, tags: item.tags || m.tags, lastAccessed: Date.now(), accessCount: m.accessCount + 1 } : m);
+        updated = updated.map(m => m.id === item.updates ? { ...m, content: (item.content || m.content).slice(0, 400), salience: item.salience ? sanitizeSalience({ ...m.salience, ...item.salience }, m.salience) : m.salience, tags: item.tags || m.tags, lastAccessed: Date.now(), accessCount: m.accessCount + 1 } : m);
         updateCount++;
       } else {
         newMems.push({
@@ -367,11 +377,11 @@ export default function NeuralMemoryBank() {
     if (plan.merge) for (const mg of plan.merge) {
       if (!mg.ids || !mg.merged) continue;
       updated = updated.filter(m => !mg.ids.includes(m.id));
-      updated.unshift({ id: uid(), content: (mg.merged.content || "").slice(0, 400), salience: mg.merged.salience || { novelty: .5, relevance: .5, emotional: .3, predictive: .4 }, tags: mg.merged.tags || [], accessCount: 1, lastAccessed: Date.now(), createdAt: Date.now(), consolidated: true, generalized: false }); mc++;
+      updated.unshift({ id: uid(), content: (mg.merged.content || "").slice(0, 400), salience: sanitizeSalience(mg.merged.salience, { novelty: .5, relevance: .5, emotional: .3, predictive: .4 }), tags: mg.merged.tags || [], accessCount: 1, lastAccessed: Date.now(), createdAt: Date.now(), consolidated: true, generalized: false }); mc++;
     }
     if (plan.prune_ids) { const b = updated.length; updated = updated.filter(m => !plan.prune_ids.includes(m.id)); pc = b - updated.length; }
     if (plan.generalize) for (const g of plan.generalize) {
-      updated.unshift({ id: uid(), content: (g.content || "").slice(0, 400), salience: g.salience || { novelty: .6, relevance: .7, emotional: .3, predictive: .5 }, tags: g.tags || ["pattern"], accessCount: 0, lastAccessed: null, createdAt: Date.now(), consolidated: true, generalized: true }); gc++;
+      updated.unshift({ id: uid(), content: (g.content || "").slice(0, 400), salience: sanitizeSalience(g.salience, { novelty: .6, relevance: .7, emotional: .3, predictive: .5 }), tags: g.tags || ["pattern"], accessCount: 0, lastAccessed: null, createdAt: Date.now(), consolidated: true, generalized: true }); gc++;
     }
     updated = updated.map(m => (!m.consolidated && strength(m) >= .5 && m.accessCount >= 2) ? { ...m, consolidated: true } : m);
     await persist(updated); await persistMeta({ ...meta, lastConsol: Date.now() });
@@ -399,7 +409,7 @@ export default function NeuralMemoryBank() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `neural-memory-bank-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `claude-engram-backup-${new Date().toISOString().slice(0, 10)}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -417,16 +427,18 @@ export default function NeuralMemoryBank() {
         const text = await file.text();
         const data = JSON.parse(text);
         if (!data.memories || !Array.isArray(data.memories)) {
-          alert("Invalid backup file — no memories array found.");
+          showToast("Invalid backup file — no memories array found.", true);
           return;
         }
-        if (!window.confirm(`Restore ${data.memories.length} memories from backup? This will replace your current memory bank.`)) return;
-        await persist(data.memories);
-        if (data.meta) await persistMeta(data.meta);
-        if (data.briefing) await persistBriefing(data.briefing);
-        alert(`Restored ${data.memories.length} memories successfully.`);
+        showConfirm(`Restore ${data.memories.length} memories from backup? This will replace your current memory bank.`, async () => {
+          await persist(data.memories);
+          if (data.meta) await persistMeta(data.meta);
+          if (data.briefing) await persistBriefing(data.briefing);
+          showToast(`Restored ${data.memories.length} memories successfully.`);
+          setConfirmDialog(null);
+        });
       } catch (err) {
-        alert(`Import failed: ${err.message}`);
+        showToast(`Import failed: ${err.message}`, true);
       }
     };
     input.click();
@@ -434,7 +446,7 @@ export default function NeuralMemoryBank() {
 
   const reinforce = id => persist(mems.map(m => m.id === id ? { ...m, accessCount: m.accessCount + 1, lastAccessed: Date.now() } : m));
   const remove = id => { persist(mems.filter(m => m.id !== id)); setExpId(null); };
-  const resetAll = async () => { if (!window.confirm("Wipe ALL memories permanently?")) return; await persist([]); await persistBriefing(""); await persistMeta({ lastConsol: null, created: Date.now() }); };
+  const resetAll = () => showConfirm("Wipe ALL memories permanently?", async () => { await persist([]); await persistBriefing(""); await persistMeta({ lastConsol: null, created: Date.now() }); setConfirmDialog(null); showToast("All memories wiped."); });
 
   const processed = mems.map(m => ({ ...m, _s: strength(m) }))
     .filter(m => !search || m.content.toLowerCase().includes(search.toLowerCase()) || m.tags?.some(t => t.includes(search.toLowerCase())))
@@ -672,9 +684,54 @@ export default function NeuralMemoryBank() {
             }}>Reset All Memories</button>
           </div>
         </div>
+
+        {/* Toast notification */}
+        {toast && (
+          <div style={{
+            position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)",
+            background: toast.isError ? colors.red : colors.green, color: "#fff",
+            padding: "10px 20px", borderRadius: 10, fontSize: 13, fontWeight: 500,
+            boxShadow: "0 4px 20px rgba(0,0,0,0.4)", zIndex: 999, maxWidth: "90%", textAlign: "center",
+          }}>{toast.msg}</div>
+        )}
+
+        {/* Confirm dialog */}
+        {confirmDialog && (
+          <div style={{
+            position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
+            display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000,
+          }}>
+            <div style={{
+              background: colors.surface, border: `1px solid ${colors.border}`, borderRadius: 14,
+              padding: 24, maxWidth: 360, width: "90%",
+            }}>
+              <p style={{ color: colors.text, fontSize: 14, lineHeight: 1.55, margin: "0 0 20px" }}>{confirmDialog.msg}</p>
+              <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+                <button onClick={() => setConfirmDialog(null)} style={{
+                  background: colors.bg, border: `1px solid ${colors.border}`, color: colors.textSecondary,
+                  fontSize: 13, fontWeight: 500, padding: "8px 16px", borderRadius: 8, cursor: "pointer",
+                }}>Cancel</button>
+                <button onClick={confirmDialog.onYes} style={{
+                  background: colors.accent, border: "none", color: "#fff",
+                  fontSize: 13, fontWeight: 600, padding: "8px 16px", borderRadius: 8, cursor: "pointer",
+                }}>Confirm</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-function clamp(v, d) { return Math.max(0, Math.min(1, v ?? d)); }
+function clamp(v, d) { const n = Number(v); return Number.isFinite(n) ? Math.max(0, Math.min(1, n)) : d; }
+
+function sanitizeSalience(raw, defaults) {
+  if (!raw || typeof raw !== "object") return defaults;
+  return {
+    novelty: clamp(raw.novelty, defaults.novelty),
+    relevance: clamp(raw.relevance, defaults.relevance),
+    emotional: clamp(raw.emotional, defaults.emotional),
+    predictive: clamp(raw.predictive, defaults.predictive),
+  };
+}
