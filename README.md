@@ -4,7 +4,8 @@
 
 No API key. No server. No browser extension. Just paste a React artifact into Claude and it gains persistent memory with salience scoring, forgetting curves, sleep consolidation, and context briefings that carry across conversations.
 
-<!-- Add screenshots here: ![Memories](./screenshots/memories.png) -->
+![claude-engram memories view](./screenshots/memories.png)
+*Each memory tracks strength, salience scores, tags, and access history — decaying naturally over time unless reinforced.*
 
 ---
 
@@ -93,11 +94,17 @@ The key insight: **Claude.ai artifacts can call the Anthropic API.** So the arti
 
 **Briefing** — Your "boot screen." Shows a compressed context briefing generated from your strongest memories. Copy this into a new Claude conversation to restore context. Auto-regenerates during consolidation.
 
+![Briefing tab](./screenshots/briefing.png)
+
 **Memories** — Browse, search, and manage your memory bank. Each memory shows its strength (computed from salience scores, access count, age, and consolidation status), tags, and salience profile. You can reinforce important memories or prune irrelevant ones.
 
 **Ingest** — Paste Claude's end-of-conversation memory dump (or a full conversation transcript) and hit Process. A Sonnet instance extracts discrete memories, scores their salience, assigns associative tags, and cross-references against your existing memory bank to detect contradictions and updates.
 
+![Ingest tab](./screenshots/ingest.png)
+
 **Sleep Cycle** — Manual deep consolidation. The API analyzes your entire memory bank, merging redundancies, resolving contradictions, extracting generalized patterns, and flagging dead memories for pruning. Also runs automatically every 3 days when you open the artifact.
+
+![Sleep Cycle tab](./screenshots/sleep.png)
 
 ### Memory Strength Formula
 
@@ -185,6 +192,7 @@ PRs welcome on the artifact itself. Or fork it and build something better — th
 ```
 claude-engram/
 ├── claude-engram.jsx        # The artifact (paste into Claude.ai)
+├── screenshots/             # UI screenshots
 ├── LICENSE                  # MIT
 └── README.md                # This file
 ```
