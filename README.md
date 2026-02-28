@@ -1,15 +1,140 @@
-# 🧠 claude-engram
+# claude-engram
 
-**Brain-inspired persistent memory for Claude.ai — runs entirely inside the chat interface.**
+**Brain-inspired persistent memory for Claude.** Salience scoring, forgetting curves, sleep consolidation, and context briefings — modeled on human hippocampal memory formation.
+
+Two implementations:
+- **[v4: Claude Code](#v4-claude-code)** — Fully automatic via hooks. Zero manual steps. Memory capture and context restoration happen invisibly every session.
+- **[v1: Claude.ai Artifact](#v1-claudeai-artifact)** — The original. A single React artifact you paste into Claude.ai. Manual but works without an API key or any external tools.
+
+---
+
+## v4: Claude Code
+
+Persistent memory that works automatically with [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Hooks fire at session start, during conversation, and at session end — capturing memories and restoring context with zero manual effort.
+
+### Installation
+
+**Prerequisites:** [bun](https://bun.sh), an [Anthropic API key](https://console.anthropic.com/settings/keys)
+
+```bash
+git clone https://github.com/mlapeter/claude-engram.git
+cd claude-engram
+
+# Add your API key to your shell profile (~/.zshrc or ~/.bashrc)
+echo 'export ANTHROPIC_API_KEY=your-key-here' >> ~/.zshrc
+source ~/.zshrc
+
+# Install and register hooks
+./install.sh
+```
+
+Restart Claude Code. That's it — memory capture starts automatically.
+
+### How It Works
+
+Three hooks run at different points in the Claude Code lifecycle:
+
+1. **SessionStart** — Loads your strongest memories, generates a context briefing via Sonnet, and injects it so Claude starts every session knowing who you are and what you've been working on.
+2. **Stop** (async) — After each Claude response, reads new transcript content and sends it to Haiku for memory extraction. Runs in the background — doesn't slow anything down.
+3. **SessionEnd** — Safety net that captures anything the Stop hook missed before the session closes.
+
+```
+Session Start                During Session              Session End
+     │                            │                          │
+     ▼                            ▼                          ▼
+Load memories              Read new transcript         Catch remaining
+Generate briefing ──►      Extract via Haiku ──►       Extract & store ──►
+Inject as context          Store memories              Reset cursor
+```
+
+### Memory Scoping
+
+- **Global** (`~/.claude-engram/global/`) — Identity, preferences, patterns. Tagged with `identity`, `preference`, `relationship`, `goal`, `personal`. Follows you across all projects.
+- **Project** (`~/.claude-engram/projects/<hash>/`) — Technical details, project context. Tagged with `project`, `technical`, `context`. Scoped per working directory.
+
+Both stores are loaded for every briefing, so Claude always has full context regardless of which project you're in.
+
+### Data Directory
+
+```
+~/.claude-engram/
+├── global/
+│   ├── memories.json      # Global memories (identity, preferences)
+│   └── meta.json          # Session count, consolidation timestamp
+├── projects/
+│   └── <hash>/            # SHA-256 of project path, truncated to 12 chars
+│       ├── memories.json  # Project-scoped memories
+│       ├── meta.json      # Project metadata
+│       └── cursor.json    # Transcript read position
+├── backups/               # Pre-consolidation snapshots
+└── engram.log             # Diagnostic log
+```
+
+### Cost
+
+- ~$0.001 per Stop hook fire (Haiku extraction)
+- ~$0.01 per session start (Sonnet briefing)
+- Estimated $0.05–0.15/day with active use
+
+### Debugging
+
+```bash
+# Check the log
+tail -20 ~/.claude-engram/engram.log
+
+# See your memories
+cat ~/.claude-engram/global/memories.json | python3 -m json.tool
+cat ~/.claude-engram/projects/*/memories.json | python3 -m json.tool
+
+# Run tests (33 tests across 5 files)
+bun run test
+
+# Start Claude in debug mode to see hook output
+claude --debug
+```
+
+### v4 Roadmap
+
+- [x] Phase 1: Core engine + hooks (session-start, stop, session-end)
+- [ ] Phase 2: MCP server with 6 tools (recall, store, search_by_tag, reinforce, consolidate, status)
+- [ ] Phase 3: Consolidation "sleep cycle" (merge, generalize, prune)
+- [ ] Phase 4: Config file, v1 migration tool, polish
+
+### v4 Architecture
+
+```
+claude-engram/
+├── src/
+│   ├── core/
+│   │   ├── types.ts          # Interfaces, Zod schemas, helpers
+│   │   ├── strength.ts       # Dynamic strength calculation
+│   │   ├── store.ts          # JSON file CRUD with file locking
+│   │   ├── logger.ts         # File logger with rotation
+│   │   ├── transcript.ts     # JSONL parser with cursor tracking
+│   │   ├── salience.ts       # Haiku-powered memory extraction
+│   │   └── briefing.ts       # Sonnet-powered context briefing
+│   └── hooks/
+│       ├── on-session-start.ts
+│       ├── on-stop.ts
+│       └── on-session-end.ts
+├── hooks/                    # Shell wrappers for Claude Code
+├── tests/                    # 33 vitest tests
+├── install.sh
+└── package.json
+```
+
+---
+
+## v1: Claude.ai Artifact
+
+**The original implementation — runs entirely inside the Claude.ai chat interface.**
 
 No API key. No server. No browser extension. Just paste a React artifact into Claude and it gains persistent memory with salience scoring, forgetting curves, sleep consolidation, and context briefings that carry across conversations.
 
 <img src="./screenshots/memories.png" width="600" />
 *Each memory tracks strength, salience scores, tags, and access history — decaying naturally over time unless reinforced.*
 
----
-
-## Quick Start
+### Quick Start
 
 Setup takes about 2 minutes.
 
@@ -154,26 +279,14 @@ Beyond the practical utility, this project surfaces some genuinely fascinating q
 
 ---
 
-## Limitations & Honest Caveats
+### v1 Limitations
 
-- **Two manual paste steps per conversation.** The briefing in and the dump out. It's not zero-friction — a browser extension to automate this is in development.
+- **Two manual paste steps per conversation.** The briefing in and the dump out. (v4 Claude Code eliminates this entirely.)
 - **Storage fragility.** `window.storage` is persistent but Anthropic doesn't publish retention guarantees. Back up regularly.
 - **Artifact isolation.** The artifact cannot see your conversation. It's a sandboxed iframe with no access to the parent page DOM. You are the bridge.
 - **API costs are invisible.** Each ingest and consolidation cycle calls Claude Sonnet through the artifact's built-in API access. This is included in your Claude subscription — but if Anthropic changes this, the system breaks.
 - **Briefing compression vs. completeness.** As memories accumulate, the briefing has to be more aggressive about what it includes. The consolidation cycle helps, but very large memory banks may produce briefings that lose nuance.
 - **New artifact = new storage.** If you recreate the artifact (new file), you lose your memories. Always edit in place, and keep backups.
-
-## Browser Extension (Coming Soon)
-
-A Chrome extension is in development that will eliminate all manual steps:
-
-- **Auto-capture** conversations from the claude.ai DOM
-- **Auto-process** through the API with full memory bank context
-- **Auto-inject** briefings into new conversations
-- **Background consolidation** on a schedule
-- **IndexedDB storage** (unlimited, robust, indexed)
-
-Follow the repo for updates.
 
 ## Contributing
 
@@ -191,10 +304,16 @@ PRs welcome on the artifact itself. Or fork it and build something better — th
 
 ```
 claude-engram/
-├── claude-engram.jsx        # The artifact (paste into Claude.ai)
-├── screenshots/             # UI screenshots
-├── LICENSE                  # MIT
-└── README.md                # This file
+├── src/                        # v4: Claude Code core engine
+│   ├── core/                   #   Types, strength, store, transcript, salience, briefing
+│   └── hooks/                  #   TypeScript hook handlers
+├── hooks/                      # v4: Shell script wrappers for Claude Code
+├── tests/                      # v4: 33 vitest tests
+├── install.sh                  # v4: One-step installer
+├── claude-engram.jsx           # v1: The artifact (paste into Claude.ai)
+├── screenshots/                # v1: UI screenshots
+├── LICENSE                     # MIT
+└── README.md
 ```
 
 ## License
