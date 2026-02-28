@@ -86,6 +86,17 @@ HOOKS_JSON=$(cat <<HOOKEOF
         }
       ]
     }
+  ],
+  "PreCompact": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$ENGRAM_DIR/hooks/pre-compact.sh",
+          "timeout": 30
+        }
+      ]
+    }
   ]
 }
 HOOKEOF
@@ -98,7 +109,8 @@ if [ -f "$SETTINGS_FILE" ]; then
     .hooks = (.hooks // {}) |
     .hooks.SessionStart = ((.hooks.SessionStart // []) + $hooks.SessionStart | unique_by(.hooks[0].command)) |
     .hooks.Stop = ((.hooks.Stop // []) + $hooks.Stop | unique_by(.hooks[0].command)) |
-    .hooks.SessionEnd = ((.hooks.SessionEnd // []) + $hooks.SessionEnd | unique_by(.hooks[0].command))
+    .hooks.SessionEnd = ((.hooks.SessionEnd // []) + $hooks.SessionEnd | unique_by(.hooks[0].command)) |
+    .hooks.PreCompact = ((.hooks.PreCompact // []) + $hooks.PreCompact | unique_by(.hooks[0].command))
   ')
   echo "$MERGED" > "$SETTINGS_FILE"
 else

@@ -15,6 +15,7 @@ import { calculateStrength } from "../core/strength.js";
 import { generateId, sanitizeSalience, scopeFromTags, getDataDir } from "../core/types.js";
 import type { Memory } from "../core/types.js";
 import { log } from "../core/logger.js";
+import { runConsolidation } from "../core/consolidation.js";
 
 // --- Store initialization ---
 // MCP server uses process.cwd() for project scoping — Claude Code launches
@@ -231,35 +232,26 @@ server.registerTool("forget", {
   };
 });
 
-// --- Tool: consolidate (stub — full implementation in Phase 3) ---
+// --- Tool: consolidate ---
 server.registerTool("consolidate", {
   title: "Consolidate Memories",
-  description: "Run a sleep consolidation cycle. Merges redundant memories, extracts patterns, prunes dead memories. (Full implementation coming in Phase 3 — currently runs basic pruning only.)",
+  description: "Run a sleep consolidation cycle. Merges redundant memories, extracts patterns, prunes dead memories.",
 }, async () => {
-  const all = await store.loadAll();
-  const before = all.length;
+  const before = (await store.loadAll()).length;
 
-  // Basic pruning: remove memories below strength threshold
-  let pruned = 0;
-  for (const m of all) {
-    if (calculateStrength(m) < 0.03) {
-      await store.remove(m.id);
-      pruned++;
-    }
-  }
+  log("info", `MCP consolidate: starting (${before} memories)`);
+  const result = await runConsolidation(store);
+  const after = (await store.loadAll()).length;
 
-  // Backup after pruning
-  let backupPath = "";
-  if (pruned > 0) {
-    backupPath = await store.backup();
-  }
+  const msg = [
+    `Consolidation complete (${before} → ${after} memories):`,
+    `  Merged: ${result.mergeCount}`,
+    `  Generalized: ${result.generalizeCount}`,
+    `  Pruned: ${result.pruneCount}`,
+    `  Notes: ${result.notes}`,
+  ].join("\n");
 
-  const after = before - pruned;
-  const msg = pruned > 0
-    ? `Pruned ${pruned} decayed memories (${before} → ${after}). Backup: ${backupPath}\nFull consolidation (merge, generalize, pattern extraction) coming in Phase 3.`
-    : `No memories below pruning threshold. ${before} memories healthy.\nFull consolidation (merge, generalize, pattern extraction) coming in Phase 3.`;
-
-  log("info", `MCP consolidate: pruned ${pruned}/${before}`);
+  log("info", `MCP consolidate: done — ${result.mergeCount} merges, ${result.generalizeCount} generalizations, ${result.pruneCount} prunes`);
   return { content: [{ type: "text" as const, text: msg }] };
 });
 
