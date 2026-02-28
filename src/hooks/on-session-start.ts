@@ -1,11 +1,9 @@
 import type { HookInput } from "../core/types.js";
 import { createStore } from "../core/store.js";
+import { loadConfig } from "../core/config.js";
 import { generateBriefing } from "../core/briefing.js";
 import { runConsolidation } from "../core/consolidation.js";
 import { log } from "../core/logger.js";
-
-const AUTO_CONSOL_MIN_MEMORIES = 50;
-const AUTO_CONSOL_MIN_DAYS = 3;
 
 async function main() {
   let rawInput = "";
@@ -28,14 +26,15 @@ async function main() {
   // Load all memories for briefing
   const memories = await store.loadAll();
 
-  // Check if auto-consolidation is due (>50 memories AND >3 days since last)
+  // Check if auto-consolidation is due
   // Run async — don't block session startup
-  if (memories.length >= AUTO_CONSOL_MIN_MEMORIES) {
+  const config = loadConfig();
+  if (memories.length >= config.autoConsolidationMinMemories) {
     const daysSinceLast = meta.lastConsolidation
       ? (Date.now() - new Date(meta.lastConsolidation).getTime()) / 86400000
       : Infinity;
 
-    if (daysSinceLast >= AUTO_CONSOL_MIN_DAYS) {
+    if (daysSinceLast >= config.autoConsolidationMinDays) {
       log("info", `SessionStart: triggering auto-consolidation (${memories.length} memories, ${daysSinceLast.toFixed(1)} days since last)`);
       // Fire and forget — don't await, don't block briefing
       runConsolidation(store).then((result) => {

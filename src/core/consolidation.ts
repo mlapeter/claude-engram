@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import type { Memory } from "./types.js";
 import { sanitizeSalience, generateId } from "./types.js";
+import { loadConfig } from "./config.js";
 import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
 import type { MemoryStore } from "./store.js";
@@ -154,10 +155,12 @@ export async function runConsolidation(
   const backupPath = await store.backup();
   log("info", `Consolidation backup: ${backupPath}`);
 
-  // Step 2: Auto-prune below 0.03 strength
+  const config = loadConfig();
+
+  // Step 2: Auto-prune below threshold
   let autoPruned = 0;
   for (const m of all) {
-    if (calculateStrength(m) < 0.03) {
+    if (calculateStrength(m) < config.pruneThreshold) {
       await store.remove(m.id);
       autoPruned++;
     }
@@ -182,7 +185,7 @@ export async function runConsolidation(
 
   try {
     const response = await getClient().messages.create({
-      model: "claude-sonnet-4-5",
+      model: config.consolidationModel,
       max_tokens: 8000,
       system: CONSOLIDATION_SYSTEM_PROMPT,
       messages: [{ role: "user", content: `MEMORY BANK (${remaining.length} memories):\n\n${memoriesText}` }],

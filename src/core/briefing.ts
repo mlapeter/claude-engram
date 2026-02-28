@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { Memory } from "./types.js";
+import { loadConfig } from "./config.js";
 import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
 
@@ -38,11 +39,13 @@ export async function generateBriefing(memories: Memory[]): Promise<string> {
     return WELCOME_MESSAGE;
   }
 
-  // Sort by strength, take top 60
+  const config = loadConfig();
+
+  // Sort by strength, take top N
   const sorted = [...memories]
     .map((m) => ({ memory: m, strength: calculateStrength(m) }))
     .sort((a, b) => b.strength - a.strength)
-    .slice(0, 60);
+    .slice(0, config.briefingMaxMemories);
 
   const memoriesText = sorted
     .map(({ memory, strength }) =>
@@ -52,7 +55,7 @@ export async function generateBriefing(memories: Memory[]): Promise<string> {
 
   try {
     const response = await getClient().messages.create({
-      model: "claude-sonnet-4-5",
+      model: config.briefingModel,
       max_tokens: 2000,
       system: BRIEFING_SYSTEM_PROMPT,
       messages: [{ role: "user", content: memoriesText }],

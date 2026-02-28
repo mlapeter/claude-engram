@@ -132,13 +132,19 @@ else
 fi
 
 # Remove existing registration if present, then re-add
+# Pass ANTHROPIC_API_KEY so MCP server can call API for consolidation
 if command -v claude &>/dev/null; then
   claude mcp remove --scope user engram 2>/dev/null || true
-  claude mcp add --transport stdio --scope user engram -- "$BUN_PATH" run "$ENGRAM_DIR/src/mcp/server.ts"
+  if [ -n "$ANTHROPIC_API_KEY" ]; then
+    claude mcp add --transport stdio --scope user engram -e ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" -- "$BUN_PATH" run "$ENGRAM_DIR/src/mcp/server.ts"
+  else
+    claude mcp add --transport stdio --scope user engram -- "$BUN_PATH" run "$ENGRAM_DIR/src/mcp/server.ts"
+    echo "  NOTE: ANTHROPIC_API_KEY not set. MCP consolidation will need it later."
+  fi
   echo "  MCP server registered as 'engram' (user scope)."
 else
   echo "  WARNING: 'claude' CLI not found. Register manually:"
-  echo "    claude mcp add --transport stdio --scope user engram -- $BUN_PATH run $ENGRAM_DIR/src/mcp/server.ts"
+  echo "    claude mcp add --transport stdio --scope user engram -e ANTHROPIC_API_KEY=\$ANTHROPIC_API_KEY -- $BUN_PATH run $ENGRAM_DIR/src/mcp/server.ts"
 fi
 
 # 6. Check ANTHROPIC_API_KEY

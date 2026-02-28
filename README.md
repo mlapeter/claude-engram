@@ -3,14 +3,14 @@
 **Brain-inspired persistent memory for Claude.** Salience scoring, forgetting curves, sleep consolidation, and context briefings — modeled on human hippocampal memory formation.
 
 Two implementations:
-- **[v4: Claude Code](#v4-claude-code)** — Fully automatic via hooks. Zero manual steps. Memory capture and context restoration happen invisibly every session.
+- **[v4: Claude Code](#v4-claude-code)** — Fully automatic via hooks + MCP. Zero manual steps. Memory capture, context restoration, consolidation, and active recall happen invisibly.
 - **[v1: Claude.ai Artifact](#v1-claudeai-artifact)** — The original. A single React artifact you paste into Claude.ai. Manual but works without an API key or any external tools.
 
 ---
 
 ## v4: Claude Code
 
-Persistent memory that works automatically with [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Hooks fire at session start, during conversation, and at session end — capturing memories and restoring context with zero manual effort.
+Persistent memory that works automatically with [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Hooks fire at key lifecycle points — capturing memories, restoring context, and preserving state before compaction. An MCP server gives Claude active memory access mid-conversation.
 
 ### Installation
 
@@ -24,7 +24,7 @@ cd claude-engram
 echo 'export ANTHROPIC_API_KEY=your-key-here' >> ~/.zshrc
 source ~/.zshrc
 
-# Install and register hooks
+# Install, register hooks, and set up MCP server
 ./install.sh
 ```
 
@@ -32,20 +32,52 @@ Restart Claude Code. That's it — memory capture starts automatically.
 
 ### How It Works
 
-Three hooks run at different points in the Claude Code lifecycle:
+#### Hooks (Passive — Automatic)
 
-1. **SessionStart** — Loads your strongest memories, generates a context briefing via Sonnet, and injects it so Claude starts every session knowing who you are and what you've been working on.
+Four hooks run at different points in the Claude Code lifecycle:
+
+1. **SessionStart** — Loads your strongest memories, generates a context briefing via Sonnet, and injects it so Claude starts every session knowing who you are and what you've been working on. Also triggers auto-consolidation when due.
 2. **Stop** (async) — After each Claude response, reads new transcript content and sends it to Haiku for memory extraction. Runs in the background — doesn't slow anything down.
-3. **SessionEnd** — Safety net that captures anything the Stop hook missed before the session closes.
+3. **PreCompact** — Fires before Claude Code compresses your context window. Extracts memories from content about to be lost and injects a mini-briefing so Claude retains key context post-compaction.
+4. **SessionEnd** — Safety net that captures anything the Stop hook missed before the session closes.
 
 ```
-Session Start                During Session              Session End
-     │                            │                          │
-     ▼                            ▼                          ▼
-Load memories              Read new transcript         Catch remaining
-Generate briefing ──►      Extract via Haiku ──►       Extract & store ──►
-Inject as context          Store memories              Reset cursor
+Session Start          During Session         Pre-Compact           Session End
+     │                      │                      │                     │
+     ▼                      ▼                      ▼                     ▼
+Load memories         Read new transcript    Save pre-compact      Catch remaining
+Generate briefing ──► Extract via Haiku ──►  memories, inject ──►  Extract & store
+Inject as context     Store memories         mini-briefing         Reset cursor
+Auto-consolidate?
 ```
+
+#### MCP Server (Active — On Demand)
+
+The MCP server exposes 7 tools that Claude can use mid-conversation:
+
+| Tool | Description |
+|---|---|
+| `engram_status` | Health overview: counts, strength distribution, consolidation status |
+| `engram_recall` | Search memories by text query, ranked by relevance × strength |
+| `engram_search_by_tag` | Find memories by tag (OR logic) |
+| `engram_reinforce` | Strengthen a memory (Hebbian learning — accessed memories get stronger) |
+| `engram_store` | Immediately store something important without waiting for the Stop hook |
+| `engram_forget` | Remove a wrong or outdated memory |
+| `engram_consolidate` | Run a full sleep consolidation cycle on demand |
+
+When you ask Claude "what do you remember about X?", it can actively search your memories rather than relying only on the session-start briefing.
+
+### Consolidation ("Sleep Cycle")
+
+The consolidation engine sends your full memory bank to Sonnet for intelligent optimization:
+
+- **Merge** redundant memories (e.g., "Mike's name is Mike" + "User's name is Mike" → one combined memory)
+- **Resolve contradictions** (keeps the newest information)
+- **Extract patterns** (recurring themes across 3+ memories become generalized memories)
+- **Prune** trivial or fully superseded memories
+- **Auto-prune** any memories that have decayed below 0.03 strength
+
+Auto-consolidation triggers on SessionStart when you have >50 memories and >3 days since the last consolidation. It runs asynchronously — doesn't block your session. You can also trigger it manually via the MCP `consolidate` tool.
 
 ### Memory Scoping
 
@@ -53,6 +85,29 @@ Inject as context          Store memories              Reset cursor
 - **Project** (`~/.claude-engram/projects/<hash>/`) — Technical details, project context. Tagged with `project`, `technical`, `context`. Scoped per working directory.
 
 Both stores are loaded for every briefing, so Claude always has full context regardless of which project you're in.
+
+### Configuration
+
+Optional overrides in `~/.claude-engram/config.json`:
+
+```json
+{
+  "decayRate": 0.015,
+  "retrievalBoost": 0.12,
+  "maxRetrievalBonus": 0.5,
+  "consolidationBonus": 0.2,
+  "autoConsolidationMinMemories": 50,
+  "autoConsolidationMinDays": 3,
+  "pruneThreshold": 0.03,
+  "extractionModel": "claude-haiku-4-5",
+  "briefingModel": "claude-sonnet-4-5",
+  "consolidationModel": "claude-sonnet-4-5",
+  "briefingMaxMemories": 60,
+  "maxBackups": 5
+}
+```
+
+All values have sensible defaults — you only need this file if you want to tune something.
 
 ### Data Directory
 
@@ -66,14 +121,30 @@ Both stores are loaded for every briefing, so Claude always has full context reg
 │       ├── memories.json  # Project-scoped memories
 │       ├── meta.json      # Project metadata
 │       └── cursor.json    # Transcript read position
-├── backups/               # Pre-consolidation snapshots
-└── engram.log             # Diagnostic log
+├── backups/               # Pre-consolidation snapshots (keeps last 5)
+├── config.json            # Optional user overrides
+└── engram.log             # Diagnostic log (auto-rotated at 1MB)
 ```
+
+### Migrating from v1
+
+If you have a v1 artifact backup (JSON export), you can import it:
+
+```bash
+# Dry run first — see what would be imported
+bun run src/migrate-v1.ts /path/to/backup.json --dry-run
+
+# Import for real
+bun run src/migrate-v1.ts /path/to/backup.json
+```
+
+The migration handles all schema differences: field renaming (camelCase → snake_case), timestamp conversion (epoch → ISO), salience field normalization, scope inference from tags, and duplicate detection.
 
 ### Cost
 
 - ~$0.001 per Stop hook fire (Haiku extraction)
 - ~$0.01 per session start (Sonnet briefing)
+- ~$0.01 per consolidation (Sonnet)
 - Estimated $0.05–0.15/day with active use
 
 ### Debugging
@@ -86,19 +157,12 @@ tail -20 ~/.claude-engram/engram.log
 cat ~/.claude-engram/global/memories.json | python3 -m json.tool
 cat ~/.claude-engram/projects/*/memories.json | python3 -m json.tool
 
-# Run tests (33 tests across 5 files)
+# Run tests (60 tests across 7 files)
 bun run test
 
 # Start Claude in debug mode to see hook output
 claude --debug
 ```
-
-### v4 Roadmap
-
-- [x] Phase 1: Core engine + hooks (session-start, stop, session-end)
-- [ ] Phase 2: MCP server with 6 tools (recall, store, search_by_tag, reinforce, consolidate, status)
-- [ ] Phase 3: Consolidation "sleep cycle" (merge, generalize, prune)
-- [ ] Phase 4: Config file, v1 migration tool, polish
 
 ### v4 Architecture
 
@@ -107,19 +171,25 @@ claude-engram/
 ├── src/
 │   ├── core/
 │   │   ├── types.ts          # Interfaces, Zod schemas, helpers
+│   │   ├── config.ts         # User-configurable settings
 │   │   ├── strength.ts       # Dynamic strength calculation
 │   │   ├── store.ts          # JSON file CRUD with file locking
 │   │   ├── logger.ts         # File logger with rotation
 │   │   ├── transcript.ts     # JSONL parser with cursor tracking
 │   │   ├── salience.ts       # Haiku-powered memory extraction
-│   │   └── briefing.ts       # Sonnet-powered context briefing
-│   └── hooks/
-│       ├── on-session-start.ts
-│       ├── on-stop.ts
-│       └── on-session-end.ts
+│   │   ├── briefing.ts       # Sonnet-powered context briefing
+│   │   └── consolidation.ts  # Sonnet-powered sleep cycle
+│   ├── hooks/
+│   │   ├── on-session-start.ts
+│   │   ├── on-stop.ts
+│   │   ├── on-pre-compact.ts
+│   │   └── on-session-end.ts
+│   ├── mcp/
+│   │   └── server.ts         # MCP server with 7 tools
+│   └── migrate-v1.ts         # v1 backup import tool
 ├── hooks/                    # Shell wrappers for Claude Code
-├── tests/                    # 33 vitest tests
-├── install.sh
+├── tests/                    # 60 vitest tests
+├── install.sh                # One-step installer
 └── package.json
 ```
 
@@ -179,61 +249,19 @@ Every Claude conversation starts from zero. Claude can't remember what you discu
 
 ## How It Works
 
-claude-engram is a single React artifact that runs inside Claude.ai and gives it a brain-inspired memory system:
+claude-engram is modeled on the human hippocampal memory system:
 
-- **Persistent storage** — memories survive across sessions (up to 5MB via Claude's `window.storage` API)
+- **Persistent storage** — memories survive across sessions
 - **Salience scoring** — each memory is rated on 4 dimensions: novelty, relevance, emotional weight, and prediction error
 - **Forgetting curves** — memories decay over time unless reinforced through access
-- **Sleep consolidation** — merges redundant memories, extracts patterns, and prunes dead ones (auto-runs every 3 days)
-- **Context briefings** — compresses your entire memory bank into a portable summary you paste into new conversations
+- **Sleep consolidation** — merges redundant memories, extracts patterns, and prunes dead ones
+- **Context briefings** — compresses your entire memory bank into a portable summary
 
-The key insight: **Claude.ai artifacts can call the Anthropic API.** So the artifact uses a separate Claude Sonnet instance as a "hippocampal processor" — it evaluates raw conversation notes, scores them for importance, and stores structured memories. The artifact is both the storage layer and the intelligence layer.
-
-### The Memory Loop
-
-```
-┌─────────────────────────────────────────────────┐
-│                                                 │
-│   1. Start conversation                         │
-│      └─ Paste briefing from claude-engram       │
-│                                                 │
-│   2. Have your conversation                     │
-│      └─ Claude has full context from past chats │
-│                                                 │
-│   3. End of conversation                        │
-│      └─ Claude outputs a structured memory dump │
-│                                                 │
-│   4. Open claude-engram artifact                │
-│      └─ Paste dump → API processes → stored     │
-│                                                 │
-│   5. claude-engram auto-consolidates            │
-│      └─ Patterns extracted, noise pruned        │
-│                                                 │
-│   6. Next conversation                          │
-│      └─ Export fresh briefing → paste → goto 1  │
-│                                                 │
-└─────────────────────────────────────────────────┘
-```
-
-### What Each Tab Does
-
-**Briefing** — Your "boot screen." Shows a compressed context briefing generated from your strongest memories. Copy this into a new Claude conversation to restore context. Auto-regenerates during consolidation.
-
-<img src="./screenshots/briefing.png" width="600" />
-
-**Memories** — Browse, search, and manage your memory bank. Each memory shows its strength (computed from salience scores, access count, age, and consolidation status), tags, and salience profile. You can reinforce important memories or prune irrelevant ones.
-
-**Ingest** — Paste Claude's end-of-conversation memory dump (or a full conversation transcript) and hit Process. A Sonnet instance extracts discrete memories, scores their salience, assigns associative tags, and cross-references against your existing memory bank to detect contradictions and updates.
-
-<img src="./screenshots/ingest.png" width="600" />
-
-**Sleep Cycle** — Manual deep consolidation. The API analyzes your entire memory bank, merging redundancies, resolving contradictions, extracting generalized patterns, and flagging dead memories for pruning. Also runs automatically every 3 days when you open the artifact.
-
-<img src="./screenshots/sleep.png" width="600" />
+The key insight: the salience scorer uses a separate Claude instance as a "hippocampal processor" — it evaluates raw conversation content, scores it for importance, and stores structured memories. This creates a biologically-plausible gating mechanism where only salient information makes it into long-term storage.
 
 ### Memory Strength Formula
 
-Each memory's strength is computed dynamically:
+Each memory's strength is computed dynamically (never stored):
 
 ```
 strength = avg_salience + retrieval_boost + consolidation_bonus - (decay_rate × age_in_days)
@@ -255,11 +283,12 @@ This isn't a random architecture. It's modeled on how human memory actually work
 
 | Human Brain | claude-engram |
 |---|---|
-| **Sensory buffer** → working memory → long-term | Context window → memory dump → persistent storage |
-| **Hippocampus** gates what gets stored based on emotion, novelty, prediction error | **Sonnet API** scores memories on 4 salience dimensions |
-| **Sleep** replays important memories, extracts patterns, prunes noise | **Consolidation cycle** merges, generalizes, and prunes every 3 days |
+| **Sensory buffer** → working memory → long-term | Context window → memory extraction → persistent storage |
+| **Hippocampus** gates what gets stored based on emotion, novelty, prediction error | **Salience scorer** rates memories on 4 dimensions via Claude |
+| **Sleep** replays important memories, extracts patterns, prunes noise | **Consolidation cycle** merges, generalizes, and prunes |
 | **Forgetting curves** — unused memories fade, accessed ones strengthen | **Decay rate** weakens memories over time, retrieval boosts them |
 | **Context-dependent recall** — cues activate relevant memories | **Briefing generator** compresses memories weighted by strength and relevance |
+| **Hebbian learning** — "neurons that fire together wire together" | **Retrieval boost** — accessed memories get stronger |
 
 The most brain-like feature: **forgetting is a feature, not a bug.** Memories that aren't accessed gradually lose strength and eventually get pruned. This prevents the system from drowning in noise and keeps briefings focused on what actually matters.
 
@@ -290,31 +319,15 @@ Beyond the practical utility, this project surfaces some genuinely fascinating q
 
 ## Contributing
 
-This started as a brainstorming session about "what if we modeled AI memory on the human brain?" and turned into a working system in a single afternoon. There's a lot of room to improve:
+This started as a brainstorming session about "what if we modeled AI memory on the human brain?" and turned into a working system. There's a lot of room to improve:
 
 - **Associative linking** — memories should activate related memories, not just exist independently
 - **Learned salience** — the scoring criteria could adapt based on what the user actually reinforces vs. prunes
 - **Reconsolidation** — accessing a memory should allow it to be updated, not just strengthened (human memory is reconstructive)
 - **Multi-modal memory** — currently text-only; could store structured data, code snippets, or image descriptions
-- **The extension** — coming soon. Follow the repo for updates.
+- **Semantic search** — currently substring matching; vector embeddings would enable fuzzy/conceptual recall
 
-PRs welcome on the artifact itself. Or fork it and build something better — the neuroscience mapping in this README should give you plenty of ideas.
-
-## Project Structure
-
-```
-claude-engram/
-├── src/                        # v4: Claude Code core engine
-│   ├── core/                   #   Types, strength, store, transcript, salience, briefing
-│   └── hooks/                  #   TypeScript hook handlers
-├── hooks/                      # v4: Shell script wrappers for Claude Code
-├── tests/                      # v4: 33 vitest tests
-├── install.sh                  # v4: One-step installer
-├── claude-engram.jsx           # v1: The artifact (paste into Claude.ai)
-├── screenshots/                # v1: UI screenshots
-├── LICENSE                     # MIT
-└── README.md
-```
+PRs welcome. Or fork it and build something better — the neuroscience mapping in this README should give you plenty of ideas.
 
 ## License
 

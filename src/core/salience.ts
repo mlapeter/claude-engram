@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { ExtractedMemorySchema } from "./types.js";
 import type { Memory, NewMemory } from "./types.js";
+import { loadConfig } from "./config.js";
 import { log } from "./logger.js";
 import { z } from "zod";
 
@@ -85,8 +86,9 @@ export async function extractMemories(
   const userContent = `${mode === "transcript" ? "TRANSCRIPT" : "SUMMARY"}:\n${input}${existingContext}`;
 
   try {
+    const config = loadConfig();
     const response = await getClient().messages.create({
-      model: "claude-haiku-4-5",
+      model: config.extractionModel,
       max_tokens: 4000,
       system: EXTRACTION_SYSTEM_PROMPT,
       messages: [{ role: "user", content: userContent }],
