@@ -1,0 +1,24 @@
+{
+  "name": "claude-engram",
+  "version": "0.4.0",
+  "type": "module",
+  "description": "Persistent memory system for Claude Code",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "proper-lockfile": "^4.1.2",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/proper-lockfile": "^4.1.4",
+    "typescript": "^5.7.0",
+    "vitest": "^4.0.18"
+  }
+}
