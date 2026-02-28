@@ -106,11 +106,28 @@ else
 fi
 echo "  Done."
 
-# 5. MCP server registration (print instructions for Phase 2)
-echo "[5/6] MCP server..."
-echo "  MCP server will be registered in Phase 2."
-echo "  When ready, run:"
-echo "    claude mcp add --transport stdio --scope user engram -- bun run $ENGRAM_DIR/src/mcp/server.ts"
+# 5. Register MCP server at user scope
+echo "[5/6] Registering MCP server..."
+
+# Determine bun path
+if command -v "$HOME/.bun/bin/bun" &>/dev/null; then
+  BUN_PATH="$HOME/.bun/bin/bun"
+elif command -v bun &>/dev/null; then
+  BUN_PATH="$(which bun)"
+else
+  echo "  ERROR: bun not found."
+  exit 1
+fi
+
+# Remove existing registration if present, then re-add
+if command -v claude &>/dev/null; then
+  claude mcp remove --scope user engram 2>/dev/null || true
+  claude mcp add --transport stdio --scope user engram -- "$BUN_PATH" run "$ENGRAM_DIR/src/mcp/server.ts"
+  echo "  MCP server registered as 'engram' (user scope)."
+else
+  echo "  WARNING: 'claude' CLI not found. Register manually:"
+  echo "    claude mcp add --transport stdio --scope user engram -- $BUN_PATH run $ENGRAM_DIR/src/mcp/server.ts"
+fi
 
 # 6. Check ANTHROPIC_API_KEY
 echo "[6/6] Checking ANTHROPIC_API_KEY..."
