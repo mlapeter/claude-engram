@@ -111,7 +111,7 @@ function formatEntry(obj: unknown): string | null {
   if (!obj || typeof obj !== "object") return null;
   const entry = obj as Record<string, unknown>;
 
-  // Handle conversation messages
+  // Handle direct conversation messages (role at top level)
   const role = entry.role as string | undefined;
   if (role === "user" || role === "assistant") {
     const content = extractContent(entry.content);
@@ -120,8 +120,15 @@ function formatEntry(obj: unknown): string | null {
     }
   }
 
-  // Handle message wrapper format
-  if (entry.type === "message" && entry.message) {
+  // Handle Claude Code transcript wrapper format:
+  // {type: "user"|"assistant", message: {role: "user"|"assistant", content: ...}}
+  const entryType = entry.type as string | undefined;
+  if ((entryType === "user" || entryType === "assistant") && entry.message) {
+    return formatEntry(entry.message);
+  }
+
+  // Handle generic message wrapper
+  if (entryType === "message" && entry.message) {
     return formatEntry(entry.message);
   }
 
