@@ -1,19 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("@anthropic-ai/sdk", () => {
-  const mockCreate = vi.fn();
-  return {
-    default: class MockAnthropic {
-      messages = { create: mockCreate };
-    },
-    __mockCreate: mockCreate,
-  };
-});
+const mockCreate = vi.fn();
+
+vi.mock("@anthropic-ai/sdk", () => ({
+  default: class MockAnthropic {
+    messages = { create: mockCreate };
+  },
+}));
 
 import { generateBriefing } from "../../src/core/briefing.js";
 import type { Memory } from "../../src/core/types.js";
-
-const { __mockCreate: mockCreate } = await import("@anthropic-ai/sdk") as any;
 
 function makeMemory(overrides: Partial<Memory> = {}): Memory {
   return {
@@ -35,7 +31,7 @@ function makeMemory(overrides: Partial<Memory> = {}): Memory {
 
 describe("generateBriefing", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockCreate.mockReset();
     process.env.ENGRAM_DATA_DIR = "/tmp/engram-test-briefing";
   });
 

@@ -14,23 +14,25 @@ function getClient(): Anthropic {
   return client;
 }
 
-const EXTRACTION_SYSTEM_PROMPT = `You are a hippocampal memory processor. Extract discrete, atomic memories
-from the input. For each, evaluate salience (0.0-1.0) on:
+const EXTRACTION_SYSTEM_PROMPT = `You are a hippocampal memory processor. Extract discrete, atomic memories from the input.
+
+CRITICAL: Only extract information that is GENUINELY NEW. You will receive EXISTING MEMORIES below — do NOT create memories that duplicate or rephrase what already exists. If an existing memory already covers the information, skip it entirely. Only extract if:
+- The information is completely absent from existing memories
+- The information meaningfully updates or contradicts an existing memory (set "updates" to that memory's ID)
+
+Also skip: routine confirmations ("ok", "sounds good"), session metadata, tool invocations, and generic task descriptions that aren't worth remembering.
+
+For each memory, evaluate salience (0.0-1.0) on:
 - novelty: how surprising or new is this information
 - relevance: how useful is this for future interactions
 - emotional: personal significance to the user
 - predictive: does this change expectations about the user or their goals
 
-Assign scope: "global" for identity/preferences/relationships/goals that span
-projects. "project" for technical details, project-specific context, code patterns.
+Assign scope: "global" for identity/preferences/relationships/goals that span projects. "project" for technical details, project-specific context, code patterns.
 
-Assign 1-4 tags from: identity, goal, preference, project, relationship,
-skill, insight, contradiction, pattern, context, technical, personal,
-business, creative.
+Assign 1-4 tags from: identity, goal, preference, project, relationship, skill, insight, contradiction, pattern, context, technical, personal, business, creative.
 
-You will also receive EXISTING MEMORIES. If new information contradicts
-or updates an existing memory, set the "updates" field to that memory's ID.
-Otherwise set "updates" to null.`;
+If nothing genuinely new is in the input, return an empty memories array. Fewer high-quality memories are better than many redundant ones.`;
 
 const EXTRACTION_SCHEMA = {
   type: "object" as const,

@@ -6,6 +6,34 @@ import { log } from "./logger.js";
 import type { Memory, Meta, TranscriptCursor } from "./types.js";
 import { getDataDir, projectHash } from "./types.js";
 
+/**
+ * Tokenize a string into normalized words (lowercase, stripped of possessives/punctuation).
+ * "Mike's kids" → ["mike", "kids"]
+ */
+export function tokenize(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/['']s\b/g, "")  // strip possessives
+    .split(/[^a-z0-9]+/)       // split on non-alphanumeric
+    .filter((t) => t.length > 1); // drop single chars
+}
+
+/**
+ * Score how well query tokens match against target tokens.
+ * Returns 0-1: fraction of query tokens that appear in (or are substrings of) target tokens.
+ */
+export function tokenOverlap(queryTokens: string[], targetTokens: string[]): number {
+  if (queryTokens.length === 0) return 0;
+  let matches = 0;
+  for (const qt of queryTokens) {
+    // Check if any target token contains the query token or vice versa
+    if (targetTokens.some((tt) => tt.includes(qt) || qt.includes(tt))) {
+      matches++;
+    }
+  }
+  return matches / queryTokens.length;
+}
+
 export interface MemoryStore {
   load(scope: "global" | "project"): Promise<Memory[]>;
   loadAll(): Promise<Memory[]>;
@@ -152,10 +180,38 @@ export function createStore(projectCwd: string): MemoryStore {
     async search(query, limit = 10) {
       const all = await store.loadAll();
       const q = query.toLowerCase();
-      return all
-        .filter((m) => m.content.toLowerCase().includes(q))
-        .sort((a, b) => calculateStrength(b) - calculateStrength(a))
-        .slice(0, limit);
+
+      // Phase 1: exact substring match (best signal)
+      const exact = all.filter((m) => m.content.toLowerCase().includes(q));
+      if (exact.length > 0) {
+        return exact
+          .sort((a, b) => calculateStrength(b) - calculateStrength(a))
+          .slice(0, limit);
+      }
+
+      // Phase 2: token-based fuzzy matching
+      const queryTokens = tokenize(q);
+      if (queryTokens.length === 0) return [];
+
+      const scored = all
+        .map((m) => {
+          const contentTokens = tokenize(m.content.toLowerCase());
+          const tagTokens = m.tags.map((t) => t.toLowerCase());
+          const allTargetTokens = [...contentTokens, ...tagTokens];
+          const score = tokenOverlap(queryTokens, allTargetTokens);
+          return { memory: m, score };
+        })
+        .filter((s) => s.score > 0)
+        .sort((a, b) => {
+          // Sort by (token_score * strength) descending
+          const aRank = a.score * calculateStrength(a.memory);
+          const bRank = b.score * calculateStrength(b.memory);
+          return bRank - aRank;
+        })
+        .slice(0, limit)
+        .map((s) => s.memory);
+
+      return scored;
     },
 
     async searchByTag(tags, limit = 10) {

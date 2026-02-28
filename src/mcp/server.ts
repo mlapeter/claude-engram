@@ -143,28 +143,38 @@ server.registerTool("search_by_tag", {
 // --- Tool: reinforce ---
 server.registerTool("reinforce", {
   title: "Reinforce Memory",
-  description: "Strengthen a memory that proved relevant or useful. Like Hebbian learning — accessed memories get stronger.",
+  description: "Strengthen a memory that proved relevant or useful. Like Hebbian learning — accessed memories get stronger. Optionally update the memory's content (reconsolidation) — use this when a memory is mostly right but needs correction or refinement.",
   inputSchema: {
     memory_id: z.string().describe("ID of the memory to reinforce"),
+    new_content: z.string().max(400).optional().describe("Updated content to replace the existing memory text. Only use when the memory needs correction — leave empty to just strengthen."),
   },
-}, async ({ memory_id }) => {
+}, async ({ memory_id, new_content }) => {
   const all = await store.loadAll();
   const mem = all.find((m) => m.id === memory_id);
   if (!mem) {
     return { content: [{ type: "text" as const, text: `Memory ${memory_id} not found.` }], isError: true };
   }
 
-  await store.update(memory_id, {
+  const updates: Partial<Memory> = {
     access_count: mem.access_count + 1,
     last_accessed: new Date().toISOString(),
-  });
+  };
+
+  let action = "Reinforced";
+  if (new_content && new_content.trim() !== mem.content) {
+    log("info", `MCP reinforce/reconsolidate: ${memory_id} old content: "${mem.content}"`);
+    updates.content = new_content.slice(0, 400);
+    action = "Reconsolidated";
+  }
+
+  await store.update(memory_id, updates);
 
   const newStrength = calculateStrength({ ...mem, access_count: mem.access_count + 1 });
-  log("info", `MCP reinforce: ${memory_id} → strength ${round(newStrength)}`);
+  log("info", `MCP reinforce: ${memory_id} → strength ${round(newStrength)}${new_content ? " (content updated)" : ""}`);
   return {
     content: [{
       type: "text" as const,
-      text: `Reinforced "${mem.content.slice(0, 60)}..." — strength: ${round(newStrength)}`,
+      text: `${action} "${(new_content || mem.content).slice(0, 60)}..." — strength: ${round(newStrength)}`,
     }],
   };
 });

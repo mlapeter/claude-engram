@@ -1,21 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+const mockCreate = vi.fn();
+
 // Mock the Anthropic SDK before importing salience
-vi.mock("@anthropic-ai/sdk", () => {
-  const mockCreate = vi.fn();
-  return {
-    default: class MockAnthropic {
-      messages = { create: mockCreate };
-    },
-    __mockCreate: mockCreate,
-  };
-});
+vi.mock("@anthropic-ai/sdk", () => ({
+  default: class MockAnthropic {
+    messages = { create: mockCreate };
+  },
+}));
 
 import { extractMemories } from "../../src/core/salience.js";
 import type { Memory } from "../../src/core/types.js";
-
-// Get the mock function
-const { __mockCreate: mockCreate } = await import("@anthropic-ai/sdk") as any;
 
 function makeExistingMemory(overrides: Partial<Memory> = {}): Memory {
   return {
@@ -37,7 +32,7 @@ function makeExistingMemory(overrides: Partial<Memory> = {}): Memory {
 
 describe("extractMemories", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockCreate.mockReset();
     process.env.ENGRAM_DATA_DIR = "/tmp/engram-test-salience";
   });
 

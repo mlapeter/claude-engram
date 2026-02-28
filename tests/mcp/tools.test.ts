@@ -181,6 +181,37 @@ describe("reinforce tool", () => {
     const found = all.find((m) => m.id === "nonexistent_id");
     expect(found).toBeUndefined();
   });
+
+  it("updates content when new_content is provided (reconsolidation)", async () => {
+    const mem = makeMemory({ content: "Mike has one son named Miles" });
+    await store.add([mem]);
+
+    // Simulate reconsolidation — update content while reinforcing
+    await store.update(mem.id, {
+      access_count: mem.access_count + 1,
+      last_accessed: new Date().toISOString(),
+      content: "Mike has two sons: Miles and Macklin",
+    });
+
+    const updated = (await store.loadAll()).find((m) => m.id === mem.id)!;
+    expect(updated.content).toBe("Mike has two sons: Miles and Macklin");
+    expect(updated.access_count).toBe(1);
+  });
+
+  it("does not change content when new_content is omitted", async () => {
+    const mem = makeMemory({ content: "original content" });
+    await store.add([mem]);
+
+    // Plain reinforce — no content update
+    await store.update(mem.id, {
+      access_count: mem.access_count + 1,
+      last_accessed: new Date().toISOString(),
+    });
+
+    const updated = (await store.loadAll()).find((m) => m.id === mem.id)!;
+    expect(updated.content).toBe("original content");
+    expect(updated.access_count).toBe(1);
+  });
 });
 
 describe("store tool", () => {

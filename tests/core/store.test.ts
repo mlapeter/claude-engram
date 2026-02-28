@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { createStore } from "../../src/core/store.js";
+import { createStore, tokenize, tokenOverlap } from "../../src/core/store.js";
 import type { Memory } from "../../src/core/types.js";
 import { generateId } from "../../src/core/types.js";
 
@@ -34,6 +34,43 @@ beforeEach(() => {
 afterEach(() => {
   rmSync(tempDir, { recursive: true, force: true });
   delete process.env.ENGRAM_DATA_DIR;
+});
+
+describe("tokenize", () => {
+  it("splits text into lowercase tokens", () => {
+    expect(tokenize("Hello World")).toEqual(["hello", "world"]);
+  });
+
+  it("strips possessives", () => {
+    expect(tokenize("Mike's kids")).toEqual(["mike", "kids"]);
+  });
+
+  it("drops single-char tokens", () => {
+    expect(tokenize("I am a person")).toEqual(["am", "person"]);
+  });
+
+  it("handles punctuation and special chars", () => {
+    expect(tokenize("bun-test, vitest!")).toEqual(["bun", "test", "vitest"]);
+  });
+});
+
+describe("tokenOverlap", () => {
+  it("returns 1.0 for perfect match", () => {
+    expect(tokenOverlap(["mike", "kids"], ["mike", "kids", "play"])).toBe(1.0);
+  });
+
+  it("returns 0.5 for half match", () => {
+    expect(tokenOverlap(["mike", "dogs"], ["mike", "kids"])).toBe(0.5);
+  });
+
+  it("returns 0 for no match", () => {
+    expect(tokenOverlap(["xyz", "abc"], ["mike", "kids"])).toBe(0);
+  });
+
+  it("matches substrings bidirectionally", () => {
+    // "type" is substring of "typescript"
+    expect(tokenOverlap(["type"], ["typescript", "project"])).toBe(1.0);
+  });
 });
 
 describe("MemoryStore", () => {
@@ -139,6 +176,47 @@ describe("MemoryStore", () => {
 
     const loaded = await store.loadCursor();
     expect(loaded).toEqual(cursor);
+  });
+
+  it("search falls back to token matching when no substring match", async () => {
+    const store = createStore("/test/project");
+    await store.add([
+      makeMemory({ content: "Miles and Macklin are Mike's sons", tags: ["relationship"] }),
+      makeMemory({ content: "project uses vitest for testing" }),
+      makeMemory({ content: "bun is the preferred runtime" }),
+    ]);
+
+    // "Mike's kids" has no exact substring match, but tokens "mike" and "kid"
+    // should partially match against "Mike's sons" (via token overlap)
+    const results = await store.search("Mike's kids");
+    expect(results.length).toBeGreaterThanOrEqual(1);
+    expect(results[0].content).toContain("Miles");
+  });
+
+  it("search matches against tags in token mode", async () => {
+    const store = createStore("/test/project");
+    await store.add([
+      makeMemory({ content: "loves hiking in mountains", tags: ["personal", "preference"] }),
+      makeMemory({ content: "uses strict TypeScript", tags: ["technical"] }),
+    ]);
+
+    // "personal" won't substring match content, but should match tag
+    const results = await store.search("personal");
+    expect(results).toHaveLength(1);
+    expect(results[0].content).toContain("hiking");
+  });
+
+  it("search prefers exact substring matches over token matches", async () => {
+    const store = createStore("/test/project");
+    await store.add([
+      makeMemory({ content: "Mike lives in Montana" }),
+      makeMemory({ content: "the microphone broke" }), // "micro" contains "mi"
+    ]);
+
+    // "Mike" exact substring match should work directly
+    const results = await store.search("Mike");
+    expect(results).toHaveLength(1);
+    expect(results[0].content).toContain("Mike");
   });
 
   it("backup creates a file and manages max 5", async () => {
