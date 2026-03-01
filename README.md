@@ -67,11 +67,44 @@ The MCP server exposes 7 tools that Claude can use mid-conversation:
 
 When you ask Claude "what do you remember about X?", it can actively search your memories rather than relying only on the session-start briefing.
 
+### Brain-Inspired Features (v5)
+
+Five features modeled directly on neuroscience research:
+
+**Proactive Interference** — When a new memory updates an old one, the old trace's salience is immediately dampened (×0.7). Models how the brain inhibits competing memory traces during encoding rather than waiting for consolidation.
+
+**Episodic→Semantic Degradation** — New memories start as "episodic" (detailed, contextual). After 7+ days, consolidation compresses them to "semantic" (gist only) via Haiku. This is [Fuzzy Trace Theory](https://en.wikipedia.org/wiki/Fuzzy-trace_theory) — you forget the exact words but retain the meaning. Merged and generalized memories are always semantic.
+
+**Temporal Associations** — Recalling a memory also surfaces other memories formed in the same session. Models [temporal contiguity](https://en.wikipedia.org/wiki/Contiguity) — the brain's strongest association mechanism. Searching for "TypeScript config" might also surface "switched to ESM" if both were discussed in the same session.
+
+**Learned Salience** — Every reinforce, forget, and prune emits a salience signal. After 50+ signals, per-dimension weights (0.5–1.5) adapt and calibrate future extraction. If you consistently reinforce memories with high emotional salience and prune ones with high novelty, the system learns to weight emotional content higher. Models VTA dopamine adaptation.
+
+**Context-Adaptive Briefing** — When starting a session, project-scoped memories get a 1.3× boost in the briefing sort order (doesn't change stored values). Sonnet also receives the project name for context. Models context-dependent retrieval — walking into your kitchen activates cooking memories.
+
+### Journey of a Memory
+
+Say you're talking to Claude about your daughter Emma struggling with math. Here's what happens behind the scenes:
+
+**Session 1** — You mention Emma is in 3rd grade and came home upset because she couldn't keep up with multiplication tables. The Stop hook fires, Haiku extracts an episodic memory: *"Emma (8, 3rd grade) struggling with multiplication tables — came home upset, feels behind classmates."* It scores high on emotional salience (0.8) and gets stored.
+
+**Session 3** — You mention Emma's teacher recommended extra practice and that you've been doing flashcards at bedtime. Haiku extracts another memory. Now there are two overlapping episodic memories about Emma and math.
+
+**Session 7** — You ask Claude for advice about math anxiety in kids. The `recall` tool fires, surfaces both Emma memories via fuzzy search, and also pulls in **temporal associations** — other memories from those same sessions (maybe a project you were working on that day). Each recall bumps `access_count`, making the memories stronger. The `reinforce` signals start training the salience weights: *this user cares about emotional/family content*.
+
+**Day 10 — Consolidation runs.** Sonnet sees the two overlapping memories and merges them: *"Emma (8, 3rd grade) struggling with multiplication — feels behind classmates. Teacher recommended extra practice; doing flashcards at bedtime."* One clean semantic memory instead of two redundant episodic ones. Average strength goes up.
+
+**Day 14 — Episodic→Semantic promotion.** Any surviving episodic details older than 7 days get compressed to gist by Haiku. The specific timestamps and session context fade, but the meaning is preserved.
+
+**Next month** — You start a fresh Claude Code session. The SessionStart hook generates a briefing. Because of high emotional salience and multiple reinforcements, Emma's memory has strength near 1.0 — it makes the cut for the top 60 memories. Claude starts the session already knowing about Emma and math, without you ever mentioning it again.
+
+That's the full hippocampal loop: **encode → store → reinforce → consolidate → retrieve.**
+
 ### Consolidation ("Sleep Cycle")
 
 The consolidation engine sends your full memory bank to Sonnet for intelligent optimization:
 
-- **Merge** redundant memories (e.g., "Mike's name is Mike" + "User's name is Mike" → one combined memory)
+- **Promote** episodic memories older than 7 days to semantic gist (Haiku compression)
+- **Merge** redundant memories (e.g., two memories about the same topic → one combined memory)
 - **Resolve contradictions** (keeps the newest information)
 - **Extract patterns** (recurring themes across 3+ memories become generalized memories)
 - **Prune** trivial or fully superseded memories
@@ -103,7 +136,8 @@ Optional overrides in `~/.claude-engram/config.json`:
   "briefingModel": "claude-sonnet-4-5",
   "consolidationModel": "claude-sonnet-4-5",
   "briefingMaxMemories": 60,
-  "maxBackups": 5
+  "maxBackups": 5,
+  "interferenceFactor": 0.7
 }
 ```
 
@@ -157,7 +191,7 @@ tail -20 ~/.claude-engram/engram.log
 cat ~/.claude-engram/global/memories.json | python3 -m json.tool
 cat ~/.claude-engram/projects/*/memories.json | python3 -m json.tool
 
-# Run tests (60 tests across 7 files)
+# Run tests (91 tests across 9 files)
 bun run test
 
 # Start Claude in debug mode to see hook output
@@ -173,12 +207,14 @@ claude-engram/
 │   │   ├── types.ts          # Interfaces, Zod schemas, helpers
 │   │   ├── config.ts         # User-configurable settings
 │   │   ├── strength.ts       # Dynamic strength calculation
-│   │   ├── store.ts          # JSON file CRUD with file locking
+│   │   ├── store.ts          # JSON file CRUD with file locking + temporal siblings
 │   │   ├── logger.ts         # File logger with rotation
 │   │   ├── transcript.ts     # JSONL parser with cursor tracking
 │   │   ├── salience.ts       # Haiku-powered memory extraction
-│   │   ├── briefing.ts       # Sonnet-powered context briefing
-│   │   └── consolidation.ts  # Sonnet-powered sleep cycle
+│   │   ├── briefing.ts       # Sonnet-powered context briefing + context adaptation
+│   │   ├── consolidation.ts  # Sonnet-powered sleep cycle + episodic→semantic
+│   │   ├── interference.ts   # Proactive interference (salience damping)
+│   │   └── salience-weights.ts # Learned salience (VTA dopamine adaptation)
 │   ├── hooks/
 │   │   ├── on-session-start.ts
 │   │   ├── on-stop.ts
@@ -188,7 +224,7 @@ claude-engram/
 │   │   └── server.ts         # MCP server with 7 tools
 │   └── migrate-v1.ts         # v1 backup import tool
 ├── hooks/                    # Shell wrappers for Claude Code
-├── tests/                    # 60 vitest tests
+├── tests/                    # 91 vitest tests
 ├── install.sh                # One-step installer
 └── package.json
 ```
@@ -287,7 +323,11 @@ This isn't a random architecture. It's modeled on how human memory actually work
 | **Hippocampus** gates what gets stored based on emotion, novelty, prediction error | **Salience scorer** rates memories on 4 dimensions via Claude |
 | **Sleep** replays important memories, extracts patterns, prunes noise | **Consolidation cycle** merges, generalizes, and prunes |
 | **Forgetting curves** — unused memories fade, accessed ones strengthen | **Decay rate** weakens memories over time, retrieval boosts them |
-| **Context-dependent recall** — cues activate relevant memories | **Briefing generator** compresses memories weighted by strength and relevance |
+| **Proactive interference** — new learning weakens conflicting old traces | **Interference damping** — updated memories weaken their predecessors |
+| **Fuzzy Trace Theory** — episodic details fade to semantic gist | **Episodic→Semantic promotion** — Haiku compresses old memories to gist |
+| **Temporal contiguity** — co-temporal events are linked in episodes | **Temporal associations** — recall surfaces memories from the same session |
+| **VTA dopamine** — reward signals adapt what the brain attends to | **Learned salience** — reinforce/forget signals train extraction weights |
+| **Context-dependent recall** — environmental cues modulate retrieval | **Context-adaptive briefing** — project context boosts relevant memories |
 | **Hebbian learning** — "neurons that fire together wire together" | **Retrieval boost** — accessed memories get stronger |
 
 The most brain-like feature: **forgetting is a feature, not a bug.** Memories that aren't accessed gradually lose strength and eventually get pruned. This prevents the system from drowning in noise and keeps briefings focused on what actually matters.
@@ -319,13 +359,20 @@ Beyond the practical utility, this project surfaces some genuinely fascinating q
 
 ## Contributing
 
-This started as a brainstorming session about "what if we modeled AI memory on the human brain?" and turned into a working system. There's a lot of room to improve:
+This started as a brainstorming session about "what if we modeled AI memory on the human brain?" and turned into a working system. Some things we've built, some are still open:
 
-- **Associative linking** — memories should activate related memories, not just exist independently
-- **Learned salience** — the scoring criteria could adapt based on what the user actually reinforces vs. prunes
-- **Reconsolidation** — accessing a memory should allow it to be updated, not just strengthened (human memory is reconstructive)
+**Done:**
+- ~~Associative linking~~ → Temporal associations (v5)
+- ~~Learned salience~~ → VTA dopamine adaptation (v5)
+- ~~Reconsolidation~~ → `reinforce` tool with content update (v4)
+- ~~Semantic search~~ → Token-based fuzzy matching (v4)
+
+**Open:**
+- **Deep archive** — instead of deleting decayed memories, migrate them to cold storage retrievable only with highly specific cues (models retrieval failure vs. true forgetting)
+- **Prospective memory** — "remind me to check on X next time I'm in this project" (future-oriented memory)
 - **Multi-modal memory** — currently text-only; could store structured data, code snippets, or image descriptions
-- **Semantic search** — currently substring matching; vector embeddings would enable fuzzy/conceptual recall
+- **Cross-project awareness** — surface relevant memories from other projects when patterns overlap
+- **Vector embeddings** — token matching works surprisingly well, but embeddings would enable deeper conceptual recall
 
 PRs welcome. Or fork it and build something better — the neuroscience mapping in this README should give you plenty of ideas.
 
