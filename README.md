@@ -37,7 +37,7 @@ Restart Claude Code. That's it — memory capture starts automatically.
 Four hooks run at different points in the Claude Code lifecycle:
 
 1. **SessionStart** — Loads your strongest memories, generates a context briefing via Sonnet, and injects it so Claude starts every session knowing who you are and what you've been working on. Also triggers auto-consolidation when due.
-2. **Stop** (async) — After each Claude response, reads new transcript content and sends it to Haiku for memory extraction. Runs in the background — doesn't slow anything down.
+2. **Stop** (async) — After each Claude response, reads new transcript content and sends it to Haiku for memory extraction. Uses a capped dedup window (recent + session + strongest memories) instead of the full bank to keep extraction fast at scale. Runs in the background — doesn't slow anything down.
 3. **PreCompact** — Fires before Claude Code compresses your context window. Extracts memories from content about to be lost and injects a mini-briefing so Claude retains key context post-compaction.
 4. **SessionEnd** — Safety net that captures anything the Stop hook missed before the session closes.
 
@@ -112,6 +112,8 @@ The consolidation engine sends your full memory bank to Sonnet for intelligent o
 
 Auto-consolidation triggers on SessionStart when you have >50 memories and >3 days since the last consolidation. It runs asynchronously — doesn't block your session. You can also trigger it manually via the MCP `consolidate` tool.
 
+Above 100 memories, consolidation uses a **two-pass** approach: Haiku identifies merge candidate groups cheaply, then Sonnet only processes the flagged groups — dramatically reducing cost and context size at scale.
+
 ### Memory Scoping
 
 - **Global** (`~/.claude-engram/global/`) — Identity, preferences, patterns. Tagged with `identity`, `preference`, `relationship`, `goal`, `personal`. Follows you across all projects.
@@ -137,7 +139,8 @@ Optional overrides in `~/.claude-engram/config.json`:
   "consolidationModel": "claude-sonnet-4-5",
   "briefingMaxMemories": 60,
   "maxBackups": 5,
-  "interferenceFactor": 0.7
+  "interferenceFactor": 0.7,
+  "consolidationBatchThreshold": 100
 }
 ```
 
@@ -191,7 +194,7 @@ tail -20 ~/.claude-engram/engram.log
 cat ~/.claude-engram/global/memories.json | python3 -m json.tool
 cat ~/.claude-engram/projects/*/memories.json | python3 -m json.tool
 
-# Run tests (91 tests across 9 files)
+# Run tests (98 tests across 9 files)
 bun run test
 
 # Start Claude in debug mode to see hook output
@@ -224,7 +227,7 @@ claude-engram/
 │   │   └── server.ts         # MCP server with 7 tools
 │   └── migrate-v1.ts         # v1 backup import tool
 ├── hooks/                    # Shell wrappers for Claude Code
-├── tests/                    # 91 vitest tests
+├── tests/                    # 98 vitest tests
 ├── install.sh                # One-step installer
 └── package.json
 ```
