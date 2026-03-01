@@ -69,6 +69,7 @@ function convertMemory(v1: V1Memory): Memory {
     id: generateId(),
     content: v1.content.slice(0, 400),
     scope,
+    memory_type: "episodic" as const,
     salience,
     tags: v1.tags.slice(0, 5),
     access_count: v1.accessCount ?? 0,

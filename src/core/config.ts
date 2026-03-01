@@ -27,6 +27,8 @@ export interface EngramConfig {
   briefingMaxMemories: number;
   /** Max backups to keep (default: 5) */
   maxBackups: number;
+  /** Salience damping factor for superseded memories (default: 0.7) */
+  interferenceFactor: number;
 }
 
 const DEFAULTS: EngramConfig = {
@@ -42,6 +44,7 @@ const DEFAULTS: EngramConfig = {
   consolidationModel: "claude-sonnet-4-5",
   briefingMaxMemories: 60,
   maxBackups: 5,
+  interferenceFactor: 0.7,
 };
 
 let cachedConfig: EngramConfig | null = null;
@@ -59,7 +62,7 @@ export function loadConfig(): EngramConfig {
     cachedConfig = { ...DEFAULTS };
   }
 
-  return cachedConfig;
+  return cachedConfig!;
 }
 
 /** Reset cached config (useful for testing). */

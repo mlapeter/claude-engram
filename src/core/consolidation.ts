@@ -6,6 +6,7 @@ import { loadConfig } from "./config.js";
 import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
 import type { MemoryStore } from "./store.js";
+import { recordSignal } from "./salience-weights.js";
 
 let client: Anthropic | null = null;
 
@@ -20,6 +21,7 @@ export interface ConsolidationResult {
   mergeCount: number;
   generalizeCount: number;
   pruneCount: number;
+  promotionCount: number;
   notes: string;
 }
 
@@ -148,7 +150,7 @@ export async function runConsolidation(
   const all = await store.loadAll();
 
   if (all.length === 0) {
-    return { mergeCount: 0, generalizeCount: 0, pruneCount: 0, notes: "No memories to consolidate." };
+    return { mergeCount: 0, generalizeCount: 0, pruneCount: 0, promotionCount: 0, notes: "No memories to consolidate." };
   }
 
   // Step 1: Backup before consolidation
@@ -162,6 +164,7 @@ export async function runConsolidation(
   for (const m of all) {
     if (calculateStrength(m) < config.pruneThreshold) {
       await store.remove(m.id);
+      await recordSignal(store, "prune", m.salience);
       autoPruned++;
     }
   }
@@ -172,14 +175,84 @@ export async function runConsolidation(
   // Reload after pruning
   const remaining = await store.loadAll();
   if (remaining.length === 0) {
-    return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, notes: "All memories pruned due to decay." };
+    return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount: 0, notes: "All memories pruned due to decay." };
   }
 
-  // Step 3: Send to Sonnet for intelligent consolidation
-  const memoriesText = remaining
+  // Step 3: Episodic→Semantic promotion (Fuzzy Trace Theory)
+  // Episodic details fade to semantic gist after 7+ days
+  const PROMOTION_AGE_DAYS = 7;
+  const now = Date.now();
+  const promotable = remaining.filter((m) => {
+    const type = (m as Memory & { memory_type?: string }).memory_type ?? "episodic";
+    if (type !== "episodic") return false;
+    if (m.consolidated) return false; // already processed
+    const ageMs = now - new Date(m.created_at).getTime();
+    return ageMs > PROMOTION_AGE_DAYS * 86_400_000;
+  });
+
+  let promotionCount = 0;
+  if (promotable.length > 0) {
+    try {
+      const gistResponse = await getClient().messages.create({
+        model: config.extractionModel, // Haiku — cheap batch compression
+        max_tokens: 4000,
+        system: "Compress each episodic memory to its semantic gist. Keep essential meaning, drop episodic detail (dates, exact sequences). Max 400 chars each. Return JSON array of {id, gist} objects.",
+        messages: [{
+          role: "user",
+          content: JSON.stringify(promotable.map((m) => ({ id: m.id, content: m.content }))),
+        }],
+        output_config: {
+          format: {
+            type: "json_schema",
+            schema: {
+              type: "object" as const,
+              properties: {
+                items: {
+                  type: "array" as const,
+                  items: {
+                    type: "object" as const,
+                    properties: {
+                      id: { type: "string" as const },
+                      gist: { type: "string" as const },
+                    },
+                    required: ["id", "gist"] as const,
+                    additionalProperties: false as const,
+                  },
+                },
+              },
+              required: ["items"] as const,
+              additionalProperties: false as const,
+            },
+          },
+        },
+      });
+
+      const gistBlock = gistResponse.content.find((b) => b.type === "text");
+      if (gistBlock && gistBlock.type === "text") {
+        const gistResult = JSON.parse(gistBlock.text) as { items: Array<{ id: string; gist: string }> };
+        for (const { id, gist } of gistResult.items) {
+          await store.update(id, {
+            content: gist.slice(0, 400),
+            memory_type: "semantic",
+          } as Partial<Memory>);
+          promotionCount++;
+        }
+        log("info", `Promoted ${promotionCount} episodic→semantic memories`);
+      }
+    } catch (err) {
+      log("warn", `Episodic→semantic promotion failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
+  // Reload after promotions
+  const postPromotion = promotionCount > 0 ? await store.loadAll() : remaining;
+
+  // Step 4: Send to Sonnet for intelligent consolidation
+  const memoriesText = postPromotion
     .map((m) => {
       const strength = calculateStrength(m);
-      return `[${m.id}] (${m.scope}, strength=${strength.toFixed(2)}) [${m.tags.join(",")}] ${m.content}`;
+      const type = (m as Memory & { memory_type?: string }).memory_type ?? "episodic";
+      return `[${m.id}] (${m.scope}, ${type}, strength=${strength.toFixed(2)}) [${m.tags.join(",")}] ${m.content}`;
     })
     .join("\n");
 
@@ -200,16 +273,16 @@ export async function runConsolidation(
     const textBlock = response.content.find((b) => b.type === "text");
     if (!textBlock || textBlock.type !== "text") {
       log("warn", "No text block in consolidation response");
-      return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, notes: "API returned no content." };
+      return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: "API returned no content." };
     }
 
     const parsed = JSON.parse(textBlock.text);
     const result = ConsolidationResponseSchema.parse(parsed);
 
-    return await applyConsolidation(store, remaining, result, autoPruned);
+    return await applyConsolidation(store, postPromotion, result, autoPruned, promotionCount);
   } catch (error) {
     log("error", `Consolidation API call failed: ${error instanceof Error ? error.message : String(error)}`);
-    return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, notes: `API error, only auto-pruning applied. ${error instanceof Error ? error.message : ""}` };
+    return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: `API error, only auto-pruning applied. ${error instanceof Error ? error.message : ""}` };
   }
 }
 
@@ -221,6 +294,7 @@ async function applyConsolidation(
   memories: Memory[],
   result: z.infer<typeof ConsolidationResponseSchema>,
   autoPruned: number,
+  promotionCount: number,
 ): Promise<ConsolidationResult> {
   const memById = new Map(memories.map((m) => [m.id, m]));
   let mergeCount = 0;
@@ -245,6 +319,7 @@ async function applyConsolidation(
       id: generateId(),
       content: merge.merged.content.slice(0, 400),
       scope,
+      memory_type: "semantic", // Merged memories are always semantic
       salience: sanitizeSalience(merge.merged.salience),
       tags: merge.merged.tags.slice(0, 5),
       access_count: totalAccess,
@@ -269,7 +344,9 @@ async function applyConsolidation(
   // Apply prunes (only IDs that still exist and weren't already merged)
   for (const id of result.prune_ids) {
     if (memById.has(id)) {
+      const pruned = memById.get(id)!;
       await store.remove(id);
+      await recordSignal(store, "prune", pruned.salience);
       memById.delete(id);
       pruneCount++;
     }
@@ -281,6 +358,7 @@ async function applyConsolidation(
       id: generateId(),
       content: gen.content.slice(0, 400),
       scope: "global", // patterns are typically global
+      memory_type: "semantic", // Generalized memories are always semantic
       salience: sanitizeSalience(gen.salience),
       tags: gen.tags.slice(0, 5),
       access_count: 0,
@@ -306,13 +384,16 @@ async function applyConsolidation(
     await store.saveMeta(scope, meta);
   }
 
-  const notes = result.notes + (autoPruned > 0 ? ` (+ ${autoPruned} auto-pruned from decay)` : "");
-  log("info", `Consolidation complete: ${mergeCount} merges, ${result.generalize.length} generalizations, ${pruneCount} prunes`);
+  const notes = result.notes
+    + (autoPruned > 0 ? ` (+ ${autoPruned} auto-pruned from decay)` : "")
+    + (promotionCount > 0 ? ` (+ ${promotionCount} episodic→semantic)` : "");
+  log("info", `Consolidation complete: ${mergeCount} merges, ${result.generalize.length} generalizations, ${pruneCount} prunes, ${promotionCount} promotions`);
 
   return {
     mergeCount,
     generalizeCount: result.generalize.length,
     pruneCount,
+    promotionCount,
     notes,
   };
 }

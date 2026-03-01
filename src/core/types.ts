@@ -14,6 +14,8 @@ export const MemorySchema = z.object({
   id: z.string(),
   content: z.string().max(400),
   scope: z.enum(["global", "project"]),
+  /** Fuzzy Trace Theory: episodic details fade to semantic gist over time */
+  memory_type: z.enum(["episodic", "semantic"]).default("episodic"),
   salience: SalienceSchema,
   tags: z.array(z.string()).min(1).max(5),
   access_count: z.number().int().min(0),
@@ -47,6 +49,10 @@ export interface Meta {
   lastConsolidation: string | null;
   created: string;
   sessionCount: number;
+  /** VTA dopamine signals for learned salience adaptation */
+  salience_signals?: Array<{ event: string; salience: Salience; timestamp: string }>;
+  /** Cached computed weights (invalidated on new signal) */
+  salience_weights_cache?: Record<string, number>;
 }
 
 export interface TranscriptCursor {

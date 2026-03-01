@@ -172,6 +172,44 @@ describe("consolidation - meta update", () => {
   });
 });
 
+describe("consolidation - episodic→semantic", () => {
+  it("loads old memories without memory_type as episodic (backward compat)", async () => {
+    const mem = makeMemory({ content: "pre-v5 memory" });
+    // Simulate a pre-v5 memory without memory_type field
+    delete (mem as Record<string, unknown>).memory_type;
+    await store.add([mem]);
+
+    const loaded = await store.loadAll();
+    expect(loaded[0].memory_type).toBe("episodic");
+  });
+
+  it("merged memories are stored as semantic", async () => {
+    const merged = makeMemory({
+      content: "merged result",
+      consolidated: true,
+      memory_type: "semantic",
+    });
+    await store.add([merged]);
+
+    const loaded = await store.loadAll();
+    expect(loaded[0].memory_type).toBe("semantic");
+  });
+
+  it("generalized memories are stored as semantic", async () => {
+    const gen = makeMemory({
+      content: "pattern observed",
+      consolidated: true,
+      generalized: true,
+      memory_type: "semantic",
+    });
+    await store.add([gen]);
+
+    const loaded = await store.loadAll();
+    expect(loaded[0].memory_type).toBe("semantic");
+    expect(loaded[0].generalized).toBe(true);
+  });
+});
+
 describe("consolidation - edge cases", () => {
   it("handles empty memory store", async () => {
     const all = await store.loadAll();

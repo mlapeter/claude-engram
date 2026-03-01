@@ -1,3 +1,4 @@
+import { basename } from "node:path";
 import type { HookInput } from "../core/types.js";
 import { createStore } from "../core/store.js";
 import { loadConfig } from "../core/config.js";
@@ -45,8 +46,9 @@ async function main() {
     }
   }
 
-  // Generate briefing (uses pre-consolidation data — next session benefits from consolidated store)
-  const briefing = await generateBriefing(memories);
+  // Generate briefing with context-dependent retrieval
+  const projectName = basename(cwd);
+  const briefing = await generateBriefing(memories, { cwd, projectName });
 
   // Output hook response
   const output = {

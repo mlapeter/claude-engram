@@ -219,6 +219,43 @@ describe("MemoryStore", () => {
     expect(results[0].content).toContain("Mike");
   });
 
+  it("getTemporalSiblings returns memories from same session", async () => {
+    const store = createStore("/test/project");
+    const sessionId = "session-123";
+    const mem1 = makeMemory({ id: "ts_1", content: "first in session", source_session: sessionId });
+    const mem2 = makeMemory({ id: "ts_2", content: "second in session", source_session: sessionId });
+    const mem3 = makeMemory({ id: "ts_3", content: "different session", source_session: "other" });
+    await store.add([mem1, mem2, mem3]);
+
+    const siblings = await store.getTemporalSiblings(sessionId, "ts_1");
+    expect(siblings).toHaveLength(1);
+    expect(siblings[0].id).toBe("ts_2");
+  });
+
+  it("getTemporalSiblings excludes synthetic sessions", async () => {
+    const store = createStore("/test/project");
+    const mem1 = makeMemory({ id: "mc_1", source_session: "mcp-store" });
+    const mem2 = makeMemory({ id: "mc_2", source_session: "mcp-store" });
+    await store.add([mem1, mem2]);
+
+    const siblings = await store.getTemporalSiblings("mcp-store", "mc_1");
+    expect(siblings).toHaveLength(0);
+  });
+
+  it("getTemporalSiblings respects limit", async () => {
+    const store = createStore("/test/project");
+    const session = "session-limit";
+    await store.add([
+      makeMemory({ id: "lim_1", source_session: session }),
+      makeMemory({ id: "lim_2", source_session: session }),
+      makeMemory({ id: "lim_3", source_session: session }),
+      makeMemory({ id: "lim_4", source_session: session }),
+    ]);
+
+    const siblings = await store.getTemporalSiblings(session, "lim_1", 2);
+    expect(siblings).toHaveLength(2);
+  });
+
   it("backup creates a file and manages max 5", async () => {
     const store = createStore("/test/project");
     await store.add([makeMemory({ content: "backup test" })]);

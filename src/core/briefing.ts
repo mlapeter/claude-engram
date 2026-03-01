@@ -34,30 +34,59 @@ persistent context at the start of a Claude Code session. Structure:
 
 Keep total output under 2000 chars. Dense, informative, system-prompt style.`;
 
-export async function generateBriefing(memories: Memory[]): Promise<string> {
+/**
+ * Context-dependent retrieval — recall is modulated by environmental cues.
+ *
+ * Neuroscience: The hippocampus uses environmental context (place, project,
+ * activity) to modulate memory retrieval. Project-scoped memories get a
+ * strength boost when the user is working in that project's directory,
+ * making them more likely to appear in the briefing.
+ */
+export interface BriefingContext {
+  cwd: string;
+  projectName: string;
+}
+
+const PROJECT_BOOST = 1.3;
+
+export async function generateBriefing(
+  memories: Memory[],
+  context?: BriefingContext,
+): Promise<string> {
   if (memories.length === 0) {
     return WELCOME_MESSAGE;
   }
 
   const config = loadConfig();
 
-  // Sort by strength, take top N
+  // Sort by effective strength (project boost for context-dependent retrieval), take top N
   const sorted = [...memories]
-    .map((m) => ({ memory: m, strength: calculateStrength(m) }))
-    .sort((a, b) => b.strength - a.strength)
+    .map((m) => {
+      const baseStrength = calculateStrength(m);
+      // Boost project-scoped memories when context matches
+      const effectiveStrength = context && m.scope === "project"
+        ? baseStrength * PROJECT_BOOST
+        : baseStrength;
+      return { memory: m, strength: baseStrength, effectiveStrength };
+    })
+    .sort((a, b) => b.effectiveStrength - a.effectiveStrength)
     .slice(0, config.briefingMaxMemories);
 
   const memoriesText = sorted
-    .map(({ memory, strength }) =>
-      `[${strength.toFixed(2)}] (${memory.scope}) [${memory.tags.join(",")}] ${memory.content}`,
-    )
+    .map(({ memory, strength }) => {
+      const type = (memory as Memory & { memory_type?: string }).memory_type ?? "episodic";
+      return `[${strength.toFixed(2)}] (${memory.scope}, ${type}) [${memory.tags.join(",")}] ${memory.content}`;
+    })
     .join("\n");
 
   try {
+    const systemPrompt = context
+      ? `${BRIEFING_SYSTEM_PROMPT}\n\nUser is starting in '${context.projectName}'. Weight project context appropriately.`
+      : BRIEFING_SYSTEM_PROMPT;
     const response = await getClient().messages.create({
       model: config.briefingModel,
       max_tokens: 2000,
-      system: BRIEFING_SYSTEM_PROMPT,
+      system: systemPrompt,
       messages: [{ role: "user", content: memoriesText }],
     });
 

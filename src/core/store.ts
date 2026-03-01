@@ -47,6 +47,8 @@ export interface MemoryStore {
   loadMeta(scope: "global" | "project"): Promise<Meta>;
   saveMeta(scope: "global" | "project", meta: Meta): Promise<void>;
   backup(): Promise<string>;
+  /** Temporal contiguity: find memories formed in the same session */
+  getTemporalSiblings(sessionId: string, excludeId: string, limit?: number): Promise<Memory[]>;
   loadCursor(): Promise<TranscriptCursor>;
   saveCursor(cursor: TranscriptCursor): Promise<void>;
 }
@@ -118,7 +120,9 @@ export function createStore(projectCwd: string): MemoryStore {
 
   const store: MemoryStore = {
     async load(scope) {
-      return readJsonFile<Memory[]>(memoriesPath(scope), []);
+      const memories = readJsonFile<Memory[]>(memoriesPath(scope), []);
+      // Backward compat: default memory_type for pre-v5 memories
+      return memories.map((m) => ({ ...m, memory_type: m.memory_type ?? "episodic" as const }));
     },
 
     async loadAll() {
@@ -262,6 +266,18 @@ export function createStore(projectCwd: string): MemoryStore {
       }
 
       return backupFile;
+    },
+
+    async getTemporalSiblings(sessionId, excludeId, limit = 3) {
+      // Synthetic sessions don't form real temporal associations
+      const SYNTHETIC_SESSIONS = ["mcp-store", "consolidation"];
+      if (SYNTHETIC_SESSIONS.includes(sessionId)) return [];
+
+      const all = await store.loadAll();
+      return all
+        .filter((m) => m.source_session === sessionId && m.id !== excludeId)
+        .sort((a, b) => calculateStrength(b) - calculateStrength(a))
+        .slice(0, limit);
     },
 
     async loadCursor() {

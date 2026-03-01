@@ -16,6 +16,7 @@ import { generateId, sanitizeSalience, scopeFromTags, getDataDir } from "../core
 import type { Memory } from "../core/types.js";
 import { log } from "../core/logger.js";
 import { runConsolidation } from "../core/consolidation.js";
+import { recordSignal } from "../core/salience-weights.js";
 
 // --- Store initialization ---
 // MCP server uses process.cwd() for project scoping — Claude Code launches
@@ -99,13 +100,35 @@ server.registerTool("recall", {
     id: m.id,
     content: m.content,
     scope: m.scope,
+    memory_type: m.memory_type ?? "episodic",
     tags: m.tags,
     strength: round(calculateStrength(m)),
     created_at: m.created_at,
   }));
 
-  log("info", `MCP recall: "${query}" → ${output.length} results`);
-  return { content: [{ type: "text" as const, text: JSON.stringify(output, null, 2) }] };
+  // Temporal contiguity: gather associated memories formed in the same session
+  const directIds = new Set(filtered.map((m) => m.id));
+  const associations: Array<{ id: string; content: string; strength: number; associated_with: string; association_type: string }> = [];
+  for (const m of filtered) {
+    if (associations.length >= 6) break;
+    const siblings = await store.getTemporalSiblings(m.source_session, m.id, 2);
+    for (const s of siblings) {
+      if (directIds.has(s.id)) continue;
+      if (associations.some((a) => a.id === s.id)) continue;
+      if (associations.length >= 6) break;
+      associations.push({
+        id: s.id,
+        content: s.content,
+        strength: round(calculateStrength(s)),
+        associated_with: m.id,
+        association_type: "temporal",
+      });
+    }
+  }
+
+  const result = associations.length > 0 ? { memories: output, associations } : output;
+  log("info", `MCP recall: "${query}" → ${output.length} results, ${associations.length} associations`);
+  return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
 });
 
 // --- Tool: search_by_tag ---
@@ -131,13 +154,35 @@ server.registerTool("search_by_tag", {
     id: m.id,
     content: m.content,
     scope: m.scope,
+    memory_type: m.memory_type ?? "episodic",
     tags: m.tags,
     strength: round(calculateStrength(m)),
     created_at: m.created_at,
   }));
 
-  log("info", `MCP search_by_tag: [${tags.join(", ")}] → ${output.length} results`);
-  return { content: [{ type: "text" as const, text: JSON.stringify(output, null, 2) }] };
+  // Temporal contiguity: gather associated memories formed in the same session
+  const directIds = new Set(results.map((m) => m.id));
+  const associations: Array<{ id: string; content: string; strength: number; associated_with: string; association_type: string }> = [];
+  for (const m of results) {
+    if (associations.length >= 6) break;
+    const siblings = await store.getTemporalSiblings(m.source_session, m.id, 2);
+    for (const s of siblings) {
+      if (directIds.has(s.id)) continue;
+      if (associations.some((a) => a.id === s.id)) continue;
+      if (associations.length >= 6) break;
+      associations.push({
+        id: s.id,
+        content: s.content,
+        strength: round(calculateStrength(s)),
+        associated_with: m.id,
+        association_type: "temporal",
+      });
+    }
+  }
+
+  const result = associations.length > 0 ? { memories: output, associations } : output;
+  log("info", `MCP search_by_tag: [${tags.join(", ")}] → ${output.length} results, ${associations.length} associations`);
+  return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
 });
 
 // --- Tool: reinforce ---
@@ -168,6 +213,7 @@ server.registerTool("reinforce", {
   }
 
   await store.update(memory_id, updates);
+  await recordSignal(store, "reinforce", mem.salience);
 
   const newStrength = calculateStrength({ ...mem, access_count: mem.access_count + 1 });
   log("info", `MCP reinforce: ${memory_id} → strength ${round(newStrength)}${new_content ? " (content updated)" : ""}`);
@@ -197,6 +243,7 @@ server.registerTool("store", {
     id: generateId(),
     content: content.slice(0, 400),
     scope,
+    memory_type: "episodic",
     salience: sanitizeSalience({ novelty: score, relevance: score, emotional: score * 0.8, predictive: score }),
     tags: tags!.slice(0, 5),
     access_count: 0,
@@ -233,6 +280,7 @@ server.registerTool("forget", {
   }
 
   await store.remove(memory_id);
+  await recordSignal(store, "forget", mem.salience);
   log("info", `MCP forget: ${memory_id} "${mem.content.slice(0, 60)}..."`);
   return {
     content: [{
@@ -258,6 +306,7 @@ server.registerTool("consolidate", {
     `  Merged: ${result.mergeCount}`,
     `  Generalized: ${result.generalizeCount}`,
     `  Pruned: ${result.pruneCount}`,
+    `  Episodic→Semantic: ${result.promotionCount}`,
     `  Notes: ${result.notes}`,
   ].join("\n");
 

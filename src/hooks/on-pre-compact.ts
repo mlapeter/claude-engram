@@ -4,6 +4,8 @@ import { readTranscriptFromCursor } from "../core/transcript.js";
 import { extractMemories } from "../core/salience.js";
 import { generateId } from "../core/types.js";
 import { calculateStrength } from "../core/strength.js";
+import { applyInterference } from "../core/interference.js";
+import { getWeights, getWeightsPromptHint } from "../core/salience-weights.js";
 import { log } from "../core/logger.js";
 
 const MIN_CONTENT_LENGTH = 200;
@@ -32,13 +34,16 @@ async function main() {
   // Step 2: Extract memories from content about to be lost
   if (content.length >= MIN_CONTENT_LENGTH) {
     const existingMemories = await store.loadAll();
-    const newMemories = await extractMemories(content, existingMemories, "transcript");
+    const weights = await getWeights(store);
+    const weightsHint = getWeightsPromptHint(weights);
+    const newMemories = await extractMemories(content, existingMemories, "transcript", weightsHint);
 
     if (newMemories.length > 0) {
       const fullMemories = newMemories.map((m) => ({
         id: generateId(),
         content: m.content,
         scope: m.scope,
+        memory_type: "episodic" as const,
         salience: m.salience,
         tags: m.tags,
         access_count: 0,
@@ -51,7 +56,8 @@ async function main() {
       }));
 
       await store.add(fullMemories);
-      log("info", `PreCompact: extracted ${fullMemories.length} memories`);
+      const weakened = await applyInterference(fullMemories, existingMemories, store);
+      log("info", `PreCompact: extracted ${fullMemories.length} memories${weakened > 0 ? `, weakened ${weakened} via interference` : ""}`);
     }
   }
 

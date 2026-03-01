@@ -65,6 +65,47 @@ describe("generateBriefing", () => {
     expect(inputLines.length).toBeLessThanOrEqual(60);
   });
 
+  it("context-adaptive: project memories sort higher with context", async () => {
+    mockCreate.mockResolvedValueOnce({
+      content: [{ type: "text", text: "## Active Context\n\nProject-aware briefing." }],
+    });
+
+    // Global memory with higher salience
+    const globalMem = makeMemory({
+      id: "g1",
+      content: "global fact",
+      scope: "global",
+      salience: { novelty: 0.8, relevance: 0.8, emotional: 0.8, predictive: 0.8 },
+    });
+    // Project memory with slightly lower salience
+    const projectMem = makeMemory({
+      id: "p1",
+      content: "project detail",
+      scope: "project",
+      salience: { novelty: 0.7, relevance: 0.7, emotional: 0.7, predictive: 0.7 },
+    });
+
+    await generateBriefing([globalMem, projectMem], { cwd: "/Users/test/my-project", projectName: "my-project" });
+
+    expect(mockCreate).toHaveBeenCalledTimes(1);
+    const callArgs = mockCreate.mock.calls[0][0];
+    // System prompt should mention the project name
+    expect(callArgs.system).toContain("my-project");
+  });
+
+  it("context-adaptive: no context → standard behavior", async () => {
+    mockCreate.mockResolvedValueOnce({
+      content: [{ type: "text", text: "## Active Context\n\nStandard briefing." }],
+    });
+
+    const mem = makeMemory({ content: "some memory" });
+    await generateBriefing([mem]);
+
+    const callArgs = mockCreate.mock.calls[0][0];
+    // System prompt should NOT contain project context
+    expect(callArgs.system).not.toContain("starting in");
+  });
+
   it("API failure → fallback local briefing generated", async () => {
     mockCreate.mockRejectedValueOnce(new Error("API down"));
 

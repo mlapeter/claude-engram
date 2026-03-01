@@ -75,6 +75,7 @@ export async function extractMemories(
   input: string,
   existingMemories: Memory[],
   mode: "summary" | "transcript",
+  weightsHint?: string | null,
 ): Promise<NewMemory[]> {
   if (!input.trim()) return [];
 
@@ -89,10 +90,13 @@ export async function extractMemories(
 
   try {
     const config = loadConfig();
+    const systemPrompt = weightsHint
+      ? `${EXTRACTION_SYSTEM_PROMPT}\nSALIENCE CALIBRATION: ${weightsHint}`
+      : EXTRACTION_SYSTEM_PROMPT;
     const response = await getClient().messages.create({
       model: config.extractionModel,
       max_tokens: 4000,
-      system: EXTRACTION_SYSTEM_PROMPT,
+      system: systemPrompt,
       messages: [{ role: "user", content: userContent }],
       output_config: {
         format: {
@@ -114,6 +118,7 @@ export async function extractMemories(
     return validated.memories.map((m) => ({
       content: m.content.substring(0, 400),
       scope: m.scope,
+      memory_type: "episodic" as const,
       salience: m.salience,
       tags: m.tags.slice(0, 5),
       source_session: "",

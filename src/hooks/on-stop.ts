@@ -3,6 +3,8 @@ import { createStore } from "../core/store.js";
 import { readTranscriptFromCursor } from "../core/transcript.js";
 import { extractMemories } from "../core/salience.js";
 import { generateId } from "../core/types.js";
+import { applyInterference } from "../core/interference.js";
+import { getWeights, getWeightsPromptHint } from "../core/salience-weights.js";
 import { log } from "../core/logger.js";
 
 const MIN_CONTENT_LENGTH = 200;
@@ -44,14 +46,19 @@ async function main() {
   // Load existing memories for contradiction detection
   const existingMemories = await store.loadAll();
 
+  // Compute learned salience weights for extraction calibration
+  const weights = await getWeights(store);
+  const weightsHint = getWeightsPromptHint(weights);
+
   // Extract new memories
-  const newMemories = await extractMemories(content, existingMemories, "transcript");
+  const newMemories = await extractMemories(content, existingMemories, "transcript", weightsHint);
 
   if (newMemories.length > 0) {
     const fullMemories = newMemories.map((m) => ({
       id: generateId(),
       content: m.content,
       scope: m.scope,
+      memory_type: "episodic" as const,
       salience: m.salience,
       tags: m.tags,
       access_count: 0,
@@ -64,7 +71,8 @@ async function main() {
     }));
 
     await store.add(fullMemories);
-    log("info", `Stop: extracted ${fullMemories.length} memories`);
+    const weakened = await applyInterference(fullMemories, existingMemories, store);
+    log("info", `Stop: extracted ${fullMemories.length} memories${weakened > 0 ? `, weakened ${weakened} via interference` : ""}`);
   }
 
   // Update cursor
