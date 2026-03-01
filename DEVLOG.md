@@ -4,6 +4,38 @@ Changes and the reasoning behind them, especially brain-inspired features.
 
 ---
 
+## 2026-03-01: Scaling Improvements
+
+Three changes to keep the system efficient as the memory bank grows to hundreds of memories at 5-10 sessions/day.
+
+### 1. Request-Scoped Memory Cache
+
+**What:** 1-second TTL cache on `store.loadAll()`. Returns cached result within TTL, invalidates on any mutation (add, remove, update, save).
+
+**Why:** MCP tool handlers like `recall` and `search_by_tag` call `loadAll()` multiple times per request — once for search, then N times for `getTemporalSiblings()`. Each call reads and parses two JSON files from disk. The cache eliminates redundant reads within a single tool call while the 1s TTL prevents stale data across requests.
+
+**Files:** `src/core/store.ts` (cachedAll, cacheTime, invalidateCache)
+
+### 2. Capped Dedup Window
+
+**What:** New `store.getRecentAndStrong()` replaces `store.loadAll()` in all 3 extraction hooks. Returns a bounded window: current session memories + last 48 hours + top 30 strongest. Capped at 100 total.
+
+**Why:** The extraction prompt sends existing memories to Haiku as dedup context. Sending all memories is wasteful — most aren't relevant to the current conversation. Recent memories are most likely to overlap with current content, same-session memories prevent intra-session duplicates, and strongest memories catch long-lived facts. At 500+ total memories, this sends ~100 instead of 500+ to Haiku.
+
+**Files:** `src/core/store.ts` (getRecentAndStrong), `src/hooks/on-stop.ts`, `src/hooks/on-session-end.ts`, `src/hooks/on-pre-compact.ts`
+
+### 3. Two-Pass Consolidation
+
+**What:** When memory count exceeds `consolidationBatchThreshold` (default 100), consolidation uses a Haiku pre-filter pass to identify merge candidate groups, then sends only those groups to Sonnet. Below threshold, unchanged single-pass behavior.
+
+**Why:** Sending 300+ memories to Sonnet in one call is expensive and approaches token limits. Haiku is ~20x cheaper and only needs to identify overlapping content, not write merged text. Sonnet then focuses its expensive reasoning on just the candidates. Falls back to single-pass if Haiku clustering fails.
+
+**Files:** `src/core/consolidation.ts` (twoPassConsolidation, singlePassConsolidation, CLUSTERING_SCHEMA), `src/core/config.ts` (consolidationBatchThreshold)
+
+### Test Count: 91 → 98
+
+---
+
 ## 2026-03-01: 5 Brain-Inspired Memory Features
 
 Five features that close gaps between our implementation and the biological blueprint.

@@ -29,8 +29,8 @@ async function main() {
   );
 
   if (content.length > 0) {
-    // Load existing memories for contradiction detection
-    const existingMemories = await store.loadAll();
+    // Load bounded dedup window (recent + session + strongest) instead of all memories
+    const existingMemories = await store.getRecentAndStrong(session_id);
 
     // Compute learned salience weights for extraction calibration
     const weights = await getWeights(store);

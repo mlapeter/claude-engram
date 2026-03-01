@@ -33,7 +33,7 @@ async function main() {
 
   // Step 2: Extract memories from content about to be lost
   if (content.length >= MIN_CONTENT_LENGTH) {
-    const existingMemories = await store.loadAll();
+    const existingMemories = await store.getRecentAndStrong(session_id);
     const weights = await getWeights(store);
     const weightsHint = getWeightsPromptHint(weights);
     const newMemories = await extractMemories(content, existingMemories, "transcript", weightsHint);

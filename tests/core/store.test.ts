@@ -256,6 +256,74 @@ describe("MemoryStore", () => {
     expect(siblings).toHaveLength(2);
   });
 
+  it("loadAll cache returns same result within TTL", async () => {
+    const store = createStore("/test/project");
+    await store.add([makeMemory({ content: "cached" })]);
+
+    const first = await store.loadAll();
+    const second = await store.loadAll();
+    // Same reference means cache hit
+    expect(first).toBe(second);
+  });
+
+  it("loadAll cache invalidated after mutation", async () => {
+    const store = createStore("/test/project");
+    await store.add([makeMemory({ content: "before" })]);
+
+    const first = await store.loadAll();
+    expect(first).toHaveLength(1);
+
+    await store.add([makeMemory({ content: "after" })]);
+    const second = await store.loadAll();
+    expect(second).toHaveLength(2);
+    // Different reference means cache was invalidated
+    expect(first).not.toBe(second);
+  });
+
+  it("getRecentAndStrong returns current session memories", async () => {
+    const store = createStore("/test/project");
+    const oldDate = new Date(Date.now() - 7 * 86400_000).toISOString(); // 7 days ago
+    await store.add([
+      makeMemory({ content: "current session", source_session: "sess-1", created_at: oldDate }),
+      makeMemory({ content: "other session", source_session: "sess-2", created_at: oldDate }),
+    ]);
+
+    const result = await store.getRecentAndStrong("sess-1");
+    const contents = result.map((m) => m.content);
+    expect(contents).toContain("current session");
+  });
+
+  it("getRecentAndStrong returns recent memories within window", async () => {
+    const store = createStore("/test/project");
+    const recentDate = new Date(Date.now() - 12 * 3600_000).toISOString(); // 12 hours ago
+    const oldDate = new Date(Date.now() - 5 * 86400_000).toISOString(); // 5 days ago
+    await store.add([
+      makeMemory({ content: "recent", source_session: "other", created_at: recentDate }),
+      makeMemory({
+        content: "old but strong",
+        source_session: "other",
+        created_at: oldDate,
+        salience: { novelty: 0.9, relevance: 0.9, emotional: 0.9, predictive: 0.9 },
+      }),
+    ]);
+
+    const result = await store.getRecentAndStrong("sess-X", { topStrongest: 0 });
+    // Should include recent but not old (with topStrongest=0, no strength-based inclusion)
+    expect(result).toHaveLength(1);
+    expect(result[0].content).toBe("recent");
+  });
+
+  it("getRecentAndStrong caps at maxTotal", async () => {
+    const store = createStore("/test/project");
+    const mems = Array.from({ length: 10 }, (_, i) =>
+      makeMemory({ content: `mem-${i}`, source_session: "sess-1" }),
+    );
+    await store.add(mems);
+
+    const result = await store.getRecentAndStrong("sess-1", { maxTotal: 5 });
+    expect(result).toHaveLength(5);
+  });
+
   it("backup creates a file and manages max 5", async () => {
     const store = createStore("/test/project");
     await store.add([makeMemory({ content: "backup test" })]);

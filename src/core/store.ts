@@ -49,6 +49,8 @@ export interface MemoryStore {
   backup(): Promise<string>;
   /** Temporal contiguity: find memories formed in the same session */
   getTemporalSiblings(sessionId: string, excludeId: string, limit?: number): Promise<Memory[]>;
+  /** Bounded dedup window: recent + current session + top strongest */
+  getRecentAndStrong(sessionId: string, opts?: { recentHours?: number; topStrongest?: number; maxTotal?: number }): Promise<Memory[]>;
   loadCursor(): Promise<TranscriptCursor>;
   saveCursor(cursor: TranscriptCursor): Promise<void>;
 }
@@ -118,6 +120,15 @@ export function createStore(projectCwd: string): MemoryStore {
     }
   }
 
+  // Request-scoped cache: avoids redundant JSON reads within a single MCP tool call
+  let cachedAll: Memory[] | null = null;
+  let cacheTime = 0;
+  const CACHE_TTL_MS = 1000; // 1 second
+
+  function invalidateCache() {
+    cachedAll = null;
+  }
+
   const store: MemoryStore = {
     async load(scope) {
       const memories = readJsonFile<Memory[]>(memoriesPath(scope), []);
@@ -126,15 +137,22 @@ export function createStore(projectCwd: string): MemoryStore {
     },
 
     async loadAll() {
+      const now = Date.now();
+      if (cachedAll && (now - cacheTime) < CACHE_TTL_MS) {
+        return cachedAll;
+      }
       const global = await store.load("global");
       const project = await store.load("project");
-      return [...global, ...project];
+      cachedAll = [...global, ...project];
+      cacheTime = now;
+      return cachedAll;
     },
 
     async save(scope, memories) {
       await withLock(memoriesPath(scope), async () => {
         writeJsonFile(memoriesPath(scope), memories);
       });
+      invalidateCache();
     },
 
     async add(memories) {
@@ -152,6 +170,7 @@ export function createStore(projectCwd: string): MemoryStore {
           writeJsonFile(path, existing);
         });
       }
+      invalidateCache();
     },
 
     async remove(id) {
@@ -165,6 +184,7 @@ export function createStore(projectCwd: string): MemoryStore {
           }
         });
       }
+      invalidateCache();
     },
 
     async update(id, updates) {
@@ -179,6 +199,7 @@ export function createStore(projectCwd: string): MemoryStore {
           }
         });
       }
+      invalidateCache();
     },
 
     async search(query, limit = 10) {
@@ -278,6 +299,45 @@ export function createStore(projectCwd: string): MemoryStore {
         .filter((m) => m.source_session === sessionId && m.id !== excludeId)
         .sort((a, b) => calculateStrength(b) - calculateStrength(a))
         .slice(0, limit);
+    },
+
+    async getRecentAndStrong(sessionId, opts = {}) {
+      const { recentHours = 48, topStrongest = 30, maxTotal = 100 } = opts;
+      const all = await store.loadAll();
+      const cutoff = Date.now() - recentHours * 3600_000;
+
+      const seen = new Set<string>();
+      const result: Memory[] = [];
+
+      // 1. Current session memories (avoid intra-session duplicates)
+      for (const m of all) {
+        if (m.source_session === sessionId) {
+          seen.add(m.id);
+          result.push(m);
+        }
+      }
+
+      // 2. Recent memories (last recentHours)
+      for (const m of all) {
+        if (seen.has(m.id)) continue;
+        if (new Date(m.created_at).getTime() >= cutoff) {
+          seen.add(m.id);
+          result.push(m);
+        }
+      }
+
+      // 3. Top strongest (long-lived important facts)
+      const byStrength = all
+        .filter((m) => !seen.has(m.id))
+        .sort((a, b) => calculateStrength(b) - calculateStrength(a))
+        .slice(0, topStrongest);
+      for (const m of byStrength) {
+        seen.add(m.id);
+        result.push(m);
+      }
+
+      // Cap at maxTotal
+      return result.slice(0, maxTotal);
     },
 
     async loadCursor() {

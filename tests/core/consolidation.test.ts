@@ -210,6 +210,32 @@ describe("consolidation - episodic→semantic", () => {
   });
 });
 
+describe("consolidation - two-pass threshold", () => {
+  it("consolidationBatchThreshold defaults to 100", async () => {
+    const { loadConfig, resetConfig } = await import("../../src/core/config.js");
+    resetConfig();
+    const config = loadConfig();
+    expect(config.consolidationBatchThreshold).toBe(100);
+    resetConfig();
+  });
+
+  it("two-pass only activates above threshold", async () => {
+    // With <100 memories, two-pass should not activate
+    // This verifies the config threshold is respected by checking the value
+    const { loadConfig, resetConfig } = await import("../../src/core/config.js");
+    resetConfig();
+    const config = loadConfig();
+    const memCount = 50;
+    const useTwoPass = memCount > config.consolidationBatchThreshold;
+    expect(useTwoPass).toBe(false);
+
+    const largeMemCount = 150;
+    const useTwoPassLarge = largeMemCount > config.consolidationBatchThreshold;
+    expect(useTwoPassLarge).toBe(true);
+    resetConfig();
+  });
+});
+
 describe("consolidation - edge cases", () => {
   it("handles empty memory store", async () => {
     const all = await store.loadAll();

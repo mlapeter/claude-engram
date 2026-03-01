@@ -29,6 +29,8 @@ export interface EngramConfig {
   maxBackups: number;
   /** Salience damping factor for superseded memories (default: 0.7) */
   interferenceFactor: number;
+  /** Memory count above which consolidation uses Haiku pre-filter (default: 100) */
+  consolidationBatchThreshold: number;
 }
 
 const DEFAULTS: EngramConfig = {
@@ -45,6 +47,7 @@ const DEFAULTS: EngramConfig = {
   briefingMaxMemories: 60,
   maxBackups: 5,
   interferenceFactor: 0.7,
+  consolidationBatchThreshold: 100,
 };
 
 let cachedConfig: EngramConfig | null = null;
