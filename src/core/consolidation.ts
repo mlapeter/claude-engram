@@ -148,7 +148,7 @@ const CLUSTERING_SYSTEM_PROMPT = `You are a memory deduplication filter. Given a
 
 Return groups of memory IDs that should be reviewed together. Each group should contain IDs of memories that are related/overlapping. Only group memories that genuinely overlap — don't force unrelated memories together. If a memory is unique and valuable, leave it ungrouped.`;
 
-const CONSOLIDATION_SYSTEM_PROMPT = `You are a sleep consolidation processor for a memory system. Analyze these memories and optimize the memory bank.
+const CONSOLIDATION_SYSTEM_PROMPT = `You are processing Claude's memory bank during a consolidation cycle. Analyze these memories and optimize the memory bank.
 
 Your tasks:
 1. **Merge redundant memories** — If two or more memories say essentially the same thing (even with slight wording differences), combine them into one stronger, more complete memory. Use the best details from each.

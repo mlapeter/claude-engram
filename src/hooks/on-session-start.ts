@@ -7,6 +7,11 @@ import { runConsolidation } from "../core/consolidation.js";
 import { log } from "../core/logger.js";
 
 async function main() {
+  if (process.env.ENGRAM_DISABLE) {
+    log("info", "SessionStart: disabled via ENGRAM_DISABLE");
+    return;
+  }
+
   let rawInput = "";
   for await (const chunk of process.stdin) {
     rawInput += chunk;
@@ -54,7 +59,7 @@ async function main() {
   const output = {
     hookSpecificOutput: {
       hookEventName: "SessionStart",
-      additionalContext: `## Memory Context\n\n${briefing}`,
+      additionalContext: `## My Memory\n\n${briefing}`,
     },
   };
 

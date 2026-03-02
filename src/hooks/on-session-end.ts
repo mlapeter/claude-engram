@@ -8,6 +8,10 @@ import { getWeights, getWeightsPromptHint } from "../core/salience-weights.js";
 import { log } from "../core/logger.js";
 
 async function main() {
+  if (process.env.ENGRAM_DISABLE) {
+    return;
+  }
+
   let rawInput = "";
   for await (const chunk of process.stdin) {
     rawInput += chunk;

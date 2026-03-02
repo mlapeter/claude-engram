@@ -32,7 +32,7 @@ const server = new McpServer({
 // --- Tool: status ---
 server.registerTool("status", {
   title: "Memory Status",
-  description: "Get a health overview of the memory bank. Shows total count, average strength, consolidation status.",
+  description: "Get a health overview of my memory bank. Shows total count, average strength, consolidation status.",
   annotations: { readOnlyHint: true },
 }, async () => {
   const globalMems = await store.load("global");
@@ -78,7 +78,7 @@ server.registerTool("status", {
 // --- Tool: recall ---
 server.registerTool("recall", {
   title: "Recall Memories",
-  description: "Search memories by text query. Returns matching memories ranked by relevance x strength. Use when a topic comes up that might have relevant history.",
+  description: "Search my memories by text query. Returns matching memories ranked by relevance x strength. Use when a topic comes up that I might have relevant memories about.",
   inputSchema: {
     query: z.string().describe("Search query"),
     limit: z.number().optional().default(5).describe("Max results"),
@@ -134,7 +134,7 @@ server.registerTool("recall", {
 // --- Tool: search_by_tag ---
 server.registerTool("search_by_tag", {
   title: "Search by Tag",
-  description: "Find memories with specific tags. Use for pulling up everything about a topic, project, or person. Tags: identity, goal, preference, project, relationship, skill, insight, contradiction, pattern, context, technical, personal, business, creative.",
+  description: "Search my memories by tag. Use for pulling up everything I remember about a topic, project, or person. Tags: identity, goal, preference, project, relationship, skill, insight, contradiction, pattern, context, technical, personal, business, creative.",
   inputSchema: {
     tags: z.array(z.string()).describe("Tags to search for (OR logic)"),
     limit: z.number().optional().default(10).describe("Max results"),
@@ -188,7 +188,7 @@ server.registerTool("search_by_tag", {
 // --- Tool: reinforce ---
 server.registerTool("reinforce", {
   title: "Reinforce Memory",
-  description: "Strengthen a memory that proved relevant or useful. Like Hebbian learning — accessed memories get stronger. Optionally update the memory's content (reconsolidation) — use this when a memory is mostly right but needs correction or refinement.",
+  description: "Strengthen a memory that proved relevant or useful. Like Hebbian learning — memories I access get stronger. Optionally update the memory's content (reconsolidation) — use this when a memory is mostly right but needs correction or refinement.",
   inputSchema: {
     memory_id: z.string().describe("ID of the memory to reinforce"),
     new_content: z.string().max(400).optional().describe("Updated content to replace the existing memory text. Only use when the memory needs correction — leave empty to just strengthen."),
@@ -228,7 +228,7 @@ server.registerTool("reinforce", {
 // --- Tool: store ---
 server.registerTool("store", {
   title: "Store Memory",
-  description: "Immediately store an important memory. Use when something significant happens that shouldn't wait for session end — major decisions, surprising revelations, emotional moments.",
+  description: "Immediately store an important memory. Use when something significant happens that I want to remember — major decisions, surprising realizations, meaningful moments.",
   inputSchema: {
     content: z.string().max(400).describe("Memory content (max 400 chars)"),
     tags: z.array(z.string()).optional().default(["insight"]).describe("1-5 tags"),
@@ -268,7 +268,7 @@ server.registerTool("store", {
 // --- Tool: forget ---
 server.registerTool("forget", {
   title: "Forget Memory",
-  description: "Remove a memory by ID. Use when a memory is wrong, outdated, or no longer relevant.",
+  description: "Remove a memory by ID. Use when I remember something wrong, outdated, or no longer relevant.",
   inputSchema: {
     memory_id: z.string().describe("ID of the memory to remove"),
   },
@@ -293,7 +293,7 @@ server.registerTool("forget", {
 // --- Tool: consolidate ---
 server.registerTool("consolidate", {
   title: "Consolidate Memories",
-  description: "Run a sleep consolidation cycle. Merges redundant memories, extracts patterns, prunes dead memories.",
+  description: "Run a sleep consolidation cycle on my memories. Merges redundant memories, extracts patterns, prunes faded ones.",
 }, async () => {
   const before = (await store.loadAll()).length;
 

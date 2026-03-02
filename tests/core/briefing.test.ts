@@ -115,7 +115,7 @@ describe("generateBriefing", () => {
     ];
 
     const result = await generateBriefing(memories);
-    expect(result).toContain("Memory Context (local fallback)");
+    expect(result).toContain("My Memory (local fallback)");
     expect(result).toContain("User likes TypeScript");
     expect(result).toContain("User prefers bun");
   });

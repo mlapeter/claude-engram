@@ -4,6 +4,24 @@ Changes and the reasoning behind them, especially brain-inspired features.
 
 ---
 
+## 2026-03-02: First-Person Memory Perspective
+
+**What:** Rewrote all prompts and framing from third-person dossier ("the user prefers...") to first-person experiential ("Mike prefers... I noticed... We talked about..."). Six files changed, all prompt-level — no schema or behavioral changes.
+
+**Changes:**
+- **Extraction prompt** (`salience.ts`): "hippocampal memory processor" → "Claude's memory encoder." First-person examples spanning facts, relationship dynamics, self-reflection, and technical context. Three new tags: `self-reflection`, `approach`, `realization`.
+- **Briefing prompt** (`briefing.ts`): Four sections renamed — "What I'm Working On / What I Know About Mike / What I've Learned About Myself / Patterns I've Noticed." Welcome message and fallback header updated to "My Memory."
+- **Session start** (`on-session-start.ts`): Injection label "Memory Context" → "My Memory"
+- **MCP tool descriptions** (`server.ts`): All 7 tools reframed as "my memories" — e.g., "Search my memories" not "Search memories"
+- **Pre-compact** (`on-pre-compact.ts`): "Key context preserved" → "Key things I remember"
+- **Consolidation** (`consolidation.ts`): "sleep consolidation processor for a memory system" → "processing Claude's memory bank"
+
+**Why:** engram's purpose is to give Claude its own memory — not to build a third-person dossier about the user. The infrastructure (store, strength, decay, consolidation) is perspective-neutral, but the prompts that control *what gets remembered* and *how it's presented* were still written in surveillance-report voice. First-person framing encourages the extraction model to capture richer memories: self-observations, relationship dynamics, moments of surprise or realization — not just factual assertions about user preferences.
+
+**What doesn't change:** Memory schema, store, strength/decay math, interference, salience weights, transcript parser, config. All 98 tests pass.
+
+---
+
 ## 2026-03-01: Scaling Improvements
 
 Three changes to keep the system efficient as the memory bank grows to hundreds of memories at 5-10 sessions/day.

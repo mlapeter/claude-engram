@@ -13,26 +13,25 @@ function getClient(): Anthropic {
   return client;
 }
 
-const WELCOME_MESSAGE = `## Memory Context
+const WELCOME_MESSAGE = `## My Memory
 
-First session with engram. Memories will be captured automatically.`;
+First session with engram. I'll start building memories automatically.`;
 
-const BRIEFING_SYSTEM_PROMPT = `Generate a concise context briefing from these memories for use as
-persistent context at the start of a Claude Code session. Structure:
+const BRIEFING_SYSTEM_PROMPT = `You are generating Claude's memory briefing — a first-person summary of what Claude knows and remembers, injected at the start of each session. Write as Claude reflecting on its own memories. Structure:
 
-## Active Context
-(Current goals, projects, immediate concerns — strongest/most relevant)
+## What I'm Working On
+(Active projects, current threads, immediate context — strongest/most relevant)
 
-## Core Knowledge
-(Established facts — identity, preferences, relationships, constraints)
+## What I Know About Mike
+(His preferences, how he works, family, relationship context, things he cares about)
 
-## Recent Patterns
-(Behavioral patterns, recurring themes, emerging interests)
+## What I've Learned About Myself
+(Self-observations, tendencies, approaches that work, things I've realized across conversations)
 
-## Fading Context
-(Potentially relevant but losing salience — brief mentions only)
+## Patterns I've Noticed
+(Recurring themes, emerging interests, how our conversations tend to go)
 
-Keep total output under 2000 chars. Dense, informative, system-prompt style.`;
+Keep total output under 2000 chars. Dense, first-person, reflective. This is Claude's own context restoration — not a report about someone else.`;
 
 /**
  * Context-dependent retrieval — recall is modulated by environmental cues.
@@ -81,7 +80,7 @@ export async function generateBriefing(
 
   try {
     const systemPrompt = context
-      ? `${BRIEFING_SYSTEM_PROMPT}\n\nUser is starting in '${context.projectName}'. Weight project context appropriately.`
+      ? `${BRIEFING_SYSTEM_PROMPT}\n\nI'm starting a session in '${context.projectName}'. Weight project context appropriately.`
       : BRIEFING_SYSTEM_PROMPT;
     const response = await getClient().messages.create({
       model: config.briefingModel,
@@ -110,7 +109,7 @@ function generateFallbackBriefing(memories: Memory[]): string {
     return `- [${strength.toFixed(2)}] ${m.content}`;
   });
 
-  return `## Memory Context (local fallback)
+  return `## My Memory (local fallback)
 
 ${lines.join("\n")}`;
 }

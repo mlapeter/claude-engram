@@ -10,6 +10,10 @@ import { log } from "../core/logger.js";
 const MIN_CONTENT_LENGTH = 200;
 
 async function main() {
+  if (process.env.ENGRAM_DISABLE) {
+    return;
+  }
+
   let rawInput = "";
   for await (const chunk of process.stdin) {
     rawInput += chunk;

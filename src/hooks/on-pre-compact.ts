@@ -11,6 +11,10 @@ import { log } from "../core/logger.js";
 const MIN_CONTENT_LENGTH = 200;
 
 async function main() {
+  if (process.env.ENGRAM_DISABLE) {
+    return;
+  }
+
   let rawInput = "";
   for await (const chunk of process.stdin) {
     rawInput += chunk;
@@ -77,7 +81,7 @@ async function main() {
 
   const briefing = `## Pre-compaction memory save
 
-${content.length >= MIN_CONTENT_LENGTH ? "Memories extracted from pre-compaction context." : "No new content to extract."} Key context preserved:
+${content.length >= MIN_CONTENT_LENGTH ? "Memories extracted from pre-compaction context." : "No new content to extract."} Key things I remember:
 
 ${briefingLines.join("\n")}`;
 
