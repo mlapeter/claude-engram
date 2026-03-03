@@ -2,6 +2,7 @@
   "name": "claude-engram",
   "version": "0.4.0",
   "type": "module",
+  "license": "AGPL-3.0-only",
   "description": "Persistent memory system for Claude Code",
   "scripts": {
     "build": "tsc",

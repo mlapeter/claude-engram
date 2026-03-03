@@ -381,4 +381,6 @@ PRs welcome. Or fork it and build something better — the neuroscience mapping 
 
 ## License
 
-MIT
+AGPL-3.0 — see [LICENSE](LICENSE).
+
+For commercial licensing, contact Mike LaPeter.
