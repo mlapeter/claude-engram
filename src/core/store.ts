@@ -5,6 +5,13 @@ import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
 import type { Memory, Meta, TranscriptCursor } from "./types.js";
 import { getDataDir, projectHash } from "./types.js";
+import { loadConfig } from "./config.js";
+import {
+  isEmbeddingEnabled,
+  embedAndStore,
+  removeFromIndex,
+  vectorSearch,
+} from "./embeddings.js";
 
 /**
  * Tokenize a string into normalized words (lowercase, stripped of possessives/punctuation).
@@ -100,6 +107,10 @@ export function createStore(projectCwd: string): MemoryStore {
     return join(scope === "global" ? globalDir : projectDir, "memories.json");
   }
 
+  function embeddingsPath(scope: "global" | "project"): string {
+    return join(scope === "global" ? globalDir : projectDir, "embeddings.json");
+  }
+
   function metaPath(scope: "global" | "project"): string {
     return join(scope === "global" ? globalDir : projectDir, "meta.json");
   }
@@ -169,6 +180,8 @@ export function createStore(projectCwd: string): MemoryStore {
           existing.push(...byScope[scope]);
           writeJsonFile(path, existing);
         });
+        // Embed new memories (async, best-effort)
+        await embedAndStore(byScope[scope], embeddingsPath(scope));
       }
       invalidateCache();
     },
@@ -183,6 +196,7 @@ export function createStore(projectCwd: string): MemoryStore {
             writeJsonFile(path, filtered);
           }
         });
+        await removeFromIndex([id], embeddingsPath(scope));
       }
       invalidateCache();
     },
@@ -190,14 +204,20 @@ export function createStore(projectCwd: string): MemoryStore {
     async update(id, updates) {
       for (const scope of ["global", "project"] as const) {
         const path = memoriesPath(scope);
+        let updated: Memory | null = null;
         await withLock(path, async () => {
           const memories = readJsonFile<Memory[]>(path, []);
           const idx = memories.findIndex((m) => m.id === id);
           if (idx !== -1) {
             memories[idx] = { ...memories[idx], ...updates };
+            updated = memories[idx];
             writeJsonFile(path, memories);
           }
         });
+        // Re-embed if content changed
+        if (updated && updates.content !== undefined) {
+          await embedAndStore([updated], embeddingsPath(scope));
+        }
       }
       invalidateCache();
     },
@@ -214,29 +234,66 @@ export function createStore(projectCwd: string): MemoryStore {
           .slice(0, limit);
       }
 
-      // Phase 2: token-based fuzzy matching
+      // Phase 2: token-based scoring for all memories
       const queryTokens = tokenize(q);
-      if (queryTokens.length === 0) return [];
-
-      const scored = all
-        .map((m) => {
+      const tokenScores = new Map<string, number>();
+      if (queryTokens.length > 0) {
+        for (const m of all) {
           const contentTokens = tokenize(m.content.toLowerCase());
           const tagTokens = m.tags.map((t) => t.toLowerCase());
           const allTargetTokens = [...contentTokens, ...tagTokens];
           const score = tokenOverlap(queryTokens, allTargetTokens);
-          return { memory: m, score };
+          if (score > 0) tokenScores.set(m.id, score);
+        }
+      }
+
+      // Phase 3: vector-based scoring (if embeddings enabled)
+      let vecScores = new Map<string, number>();
+      if (isEmbeddingEnabled()) {
+        try {
+          vecScores = await vectorSearch(
+            query,
+            all,
+            embeddingsPath("global"),
+            embeddingsPath("project"),
+          );
+        } catch (err) {
+          log("warn", `Vector search failed, falling back to token-only: ${err}`);
+        }
+      }
+
+      // Phase 4: hybrid ranking
+      const config = loadConfig();
+      const w = config.hybridVectorWeight;
+      const candidateIds = new Set([...tokenScores.keys(), ...vecScores.keys()]);
+
+      if (candidateIds.size === 0) return [];
+
+      const memById = new Map(all.map((m) => [m.id, m]));
+      const ranked = [...candidateIds]
+        .map((id) => {
+          const tScore = tokenScores.get(id);
+          const vScore = vecScores.get(id);
+          let hybridScore: number;
+          if (tScore !== undefined && vScore !== undefined) {
+            hybridScore = (1 - w) * tScore + w * vScore;
+          } else if (tScore !== undefined) {
+            hybridScore = tScore;
+          } else {
+            hybridScore = vScore!;
+          }
+          const memory = memById.get(id)!;
+          return { memory, hybridScore };
         })
-        .filter((s) => s.score > 0)
         .sort((a, b) => {
-          // Sort by (token_score * strength) descending
-          const aRank = a.score * calculateStrength(a.memory);
-          const bRank = b.score * calculateStrength(b.memory);
+          const aRank = a.hybridScore * calculateStrength(a.memory);
+          const bRank = b.hybridScore * calculateStrength(b.memory);
           return bRank - aRank;
         })
         .slice(0, limit)
         .map((s) => s.memory);
 
-      return scored;
+      return ranked;
     },
 
     async searchByTag(tags, limit = 10) {
