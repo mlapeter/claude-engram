@@ -7,10 +7,31 @@
  * Use console.error() or the file logger for diagnostics.
  */
 
+import { readFileSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { createStore, type MemoryStore } from "../core/store.js";
+
+// Load .env for API keys (VOYAGE_API_KEY, etc.) — don't overwrite existing env
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const envPath = join(__dirname, "../../.env");
+try {
+  const raw = readFileSync(envPath, "utf-8");
+  for (const line of raw.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eqIdx = trimmed.indexOf("=");
+    if (eqIdx === -1) continue;
+    const key = trimmed.slice(0, eqIdx).trim();
+    const value = trimmed.slice(eqIdx + 1).trim();
+    if (!process.env[key]) process.env[key] = value;
+  }
+} catch {
+  // No .env file — that's fine
+}
 import { calculateStrength } from "../core/strength.js";
 import { generateId, sanitizeSalience, scopeFromTags, getDataDir } from "../core/types.js";
 import type { Memory } from "../core/types.js";

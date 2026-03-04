@@ -12,6 +12,10 @@ export ENGRAM_DISABLE="${_ENGRAM_DISABLE}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ENGRAM_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Load engram .env for API keys (VOYAGE_API_KEY, etc.)
+[ -f "$ENGRAM_DIR/.env" ] && set -a && source "$ENGRAM_DIR/.env" && set +a
+
 INPUT=$(cat)
 
 cd "$ENGRAM_DIR" && "$HOME/.bun/bin/bun" run src/hooks/on-session-end.ts <<< "$INPUT" 2>/dev/null
