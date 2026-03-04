@@ -222,7 +222,7 @@ export function createStore(projectCwd: string): MemoryStore {
       invalidateCache();
     },
 
-    async search(query, limit = 10) {
+    async search(query, limit = 15) {
       const all = await store.loadAll();
       const q = query.toLowerCase();
 
