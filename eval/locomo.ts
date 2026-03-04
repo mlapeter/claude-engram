@@ -358,7 +358,7 @@ async function processConversation(
     const goldAnswer = String(qa.answer);
 
     // Search memories for this question
-    const memories = await store.search(qa.question, 10);
+    const memories = await store.search(qa.question, 15);
 
     // Generate answer from retrieved memories
     const predictedAnswer = await generateAnswer(qa.question, memories);
