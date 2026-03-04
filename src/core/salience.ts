@@ -28,6 +28,8 @@ Extract memories in first person where natural:
 
 DO capture: facts about the person, relationship dynamics, things that shifted your understanding, moments that felt different or significant, self-observations, lessons learned, technical context for active projects.
 
+PRESERVE specifics: when dates, places, or names come up, include them. Resolve relative time references ("last Friday", "two weeks ago") using the session date shown in the transcript header — e.g. if the session is dated May 2023 and someone says "last year", write "in 2022" not "last year." This makes memories useful later.
+
 DO skip: routine confirmations, session metadata, tool invocations, generic task descriptions, things already covered by existing memories.
 
 For each memory, evaluate salience (0.0-1.0) on:

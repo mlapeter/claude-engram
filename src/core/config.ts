@@ -31,6 +31,12 @@ export interface EngramConfig {
   interferenceFactor: number;
   /** Memory count above which consolidation uses Haiku pre-filter (default: 100) */
   consolidationBatchThreshold: number;
+  /** Enable vector embeddings for semantic search (default: true, requires VOYAGE_API_KEY) */
+  embeddingsEnabled: boolean;
+  /** Voyage AI model for embeddings (default: "voyage-3-lite") */
+  embeddingModel: string;
+  /** Weight of vector score in hybrid search, 0=token only, 1=vector only (default: 0.4) */
+  hybridVectorWeight: number;
 }
 
 const DEFAULTS: EngramConfig = {
@@ -48,6 +54,9 @@ const DEFAULTS: EngramConfig = {
   maxBackups: 5,
   interferenceFactor: 0.7,
   consolidationBatchThreshold: 100,
+  embeddingsEnabled: true,
+  embeddingModel: "voyage-3-lite",
+  hybridVectorWeight: 0.4,
 };
 
 let cachedConfig: EngramConfig | null = null;

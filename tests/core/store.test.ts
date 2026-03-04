@@ -1,10 +1,11 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { createStore, tokenize, tokenOverlap } from "../../src/core/store.js";
 import type { Memory } from "../../src/core/types.js";
 import { generateId } from "../../src/core/types.js";
+import { resetConfig } from "../../src/core/config.js";
 
 let tempDir: string;
 
@@ -29,11 +30,16 @@ function makeMemory(overrides: Partial<Memory> = {}): Memory {
 beforeEach(() => {
   tempDir = mkdtempSync(join(tmpdir(), "engram-test-"));
   process.env.ENGRAM_DATA_DIR = tempDir;
+  delete process.env.VOYAGE_API_KEY;
+  resetConfig();
 });
 
 afterEach(() => {
   rmSync(tempDir, { recursive: true, force: true });
   delete process.env.ENGRAM_DATA_DIR;
+  delete process.env.VOYAGE_API_KEY;
+  resetConfig();
+  vi.restoreAllMocks();
 });
 
 describe("tokenize", () => {
@@ -340,5 +346,92 @@ describe("MemoryStore", () => {
       f.startsWith("memories-"),
     );
     expect(backups.length).toBeLessThanOrEqual(5);
+  });
+
+  describe("hybrid search (embeddings)", () => {
+    it("falls back to token-only search when VOYAGE_API_KEY not set", async () => {
+      delete process.env.VOYAGE_API_KEY;
+      const store = createStore("/test/project");
+      await store.add([
+        makeMemory({ content: "Miles and Macklin are Mike's sons", tags: ["relationship"] }),
+      ]);
+
+      const fetchSpy = vi.spyOn(globalThis, "fetch");
+      const results = await store.search("Mike's kids");
+      expect(results.length).toBeGreaterThanOrEqual(1);
+      expect(fetchSpy).not.toHaveBeenCalled();
+    });
+
+    it("existing search tests work with embeddings disabled", async () => {
+      delete process.env.VOYAGE_API_KEY;
+      const store = createStore("/test/project");
+      await store.add([
+        makeMemory({ content: "typescript is great" }),
+        makeMemory({ content: "bun is the preferred runtime" }),
+      ]);
+
+      const results = await store.search("typescript");
+      expect(results).toHaveLength(1);
+      expect(results[0].content).toContain("typescript");
+    });
+
+    it("hybrid search includes vector-only matches", async () => {
+      process.env.VOYAGE_API_KEY = "test-key";
+
+      // Mock the Voyage API for both the add() embedAndStore calls and search vectorSearch call
+      const fetchSpy = vi.spyOn(globalThis, "fetch").mockImplementation(async (_url, opts) => {
+        const body = JSON.parse((opts as RequestInit).body as string);
+        const embeddings = body.input.map((text: string) => {
+          // "pottery at a local studio" → vector similar to hobby queries
+          if (text.includes("pottery")) return { embedding: [0.9, 0.1, 0.0] };
+          // "software testing" → orthogonal
+          if (text.includes("software")) return { embedding: [0.0, 0.1, 0.9] };
+          // "hobby" query → similar to pottery
+          if (text.includes("hobby")) return { embedding: [0.85, 0.15, 0.05] };
+          return { embedding: [0.33, 0.33, 0.33] };
+        });
+        return new Response(JSON.stringify({ data: embeddings }), { status: 200 });
+      });
+
+      const store = createStore("/test/project");
+      await store.add([
+        makeMemory({ content: "Angela started pottery at a local studio", tags: ["personal"] }),
+        makeMemory({ content: "software testing with vitest", tags: ["technical"] }),
+      ]);
+
+      // "hobby" has zero token overlap with "pottery" but high vector similarity
+      const results = await store.search("What hobby did Angela take up?");
+      expect(results.length).toBeGreaterThanOrEqual(1);
+      // Pottery memory should be found via vector similarity
+      expect(results.some((r) => r.content.includes("pottery"))).toBe(true);
+    });
+
+    it("search degrades gracefully when vector search fails", async () => {
+      process.env.VOYAGE_API_KEY = "test-key";
+
+      // Fail on all API calls after initial add
+      let callCount = 0;
+      vi.spyOn(globalThis, "fetch").mockImplementation(async (_url, opts) => {
+        callCount++;
+        // Let the add() embedAndStore calls succeed
+        if (callCount <= 2) {
+          const body = JSON.parse((opts as RequestInit).body as string);
+          const embeddings = body.input.map(() => ({ embedding: [0.5] }));
+          return new Response(JSON.stringify({ data: embeddings }), { status: 200 });
+        }
+        // Fail during search
+        throw new Error("network error");
+      });
+
+      const store = createStore("/test/project");
+      await store.add([
+        makeMemory({ content: "bun is the preferred runtime", tags: ["technical"] }),
+      ]);
+
+      // Should still find results via token overlap despite vector search failure
+      const results = await store.search("bun runtime");
+      expect(results.length).toBeGreaterThanOrEqual(1);
+      expect(results[0].content).toContain("bun");
+    });
   });
 });
