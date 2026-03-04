@@ -20,15 +20,20 @@ Persistent memory that works automatically with [Claude Code](https://docs.anthr
 git clone https://github.com/mlapeter/claude-engram.git
 cd claude-engram
 
-# Add your API key to your shell profile (~/.zshrc or ~/.bashrc)
-echo 'export ANTHROPIC_API_KEY=your-key-here' >> ~/.zshrc
-source ~/.zshrc
+# Add your API key to .env (never committed — in .gitignore)
+echo 'ANTHROPIC_API_KEY=your-key-here' > .env
+
+# Optional: add Voyage AI key for vector embeddings (semantic search)
+# Get one free at https://dash.voyageai.com/
+echo 'VOYAGE_API_KEY=your-voyage-key-here' >> .env
 
 # Install, register hooks, and set up MCP server
 ./install.sh
 ```
 
 Restart Claude Code. That's it — memory capture starts automatically.
+
+Vector embeddings are optional but recommended. Without them, search uses token matching (still works well). With them, you get semantic search — "CI/CD" finds "GitHub Actions", "grief" finds "father passed away".
 
 ### How It Works
 
@@ -140,7 +145,10 @@ Optional overrides in `~/.claude-engram/config.json`:
   "briefingMaxMemories": 60,
   "maxBackups": 5,
   "interferenceFactor": 0.7,
-  "consolidationBatchThreshold": 100
+  "consolidationBatchThreshold": 100,
+  "embeddingsEnabled": true,
+  "embeddingModel": "voyage-3-lite",
+  "hybridVectorWeight": 0.4
 }
 ```
 
@@ -152,10 +160,12 @@ All values have sensible defaults — you only need this file if you want to tun
 ~/.claude-engram/
 ├── global/
 │   ├── memories.json      # Global memories (identity, preferences)
+│   ├── embeddings.json    # Vector embeddings index (if enabled)
 │   └── meta.json          # Session count, consolidation timestamp
 ├── projects/
 │   └── <hash>/            # SHA-256 of project path, truncated to 12 chars
 │       ├── memories.json  # Project-scoped memories
+│       ├── embeddings.json # Vector embeddings index (if enabled)
 │       ├── meta.json      # Project metadata
 │       └── cursor.json    # Transcript read position
 ├── backups/               # Pre-consolidation snapshots (keeps last 5)
@@ -194,7 +204,7 @@ tail -20 ~/.claude-engram/engram.log
 cat ~/.claude-engram/global/memories.json | python3 -m json.tool
 cat ~/.claude-engram/projects/*/memories.json | python3 -m json.tool
 
-# Run tests (98 tests across 9 files)
+# Run tests
 bun run test
 
 # Start Claude in debug mode to see hook output
@@ -217,7 +227,8 @@ claude-engram/
 │   │   ├── briefing.ts       # Sonnet-powered context briefing + context adaptation
 │   │   ├── consolidation.ts  # Sonnet-powered sleep cycle + episodic→semantic
 │   │   ├── interference.ts   # Proactive interference (salience damping)
-│   │   └── salience-weights.ts # Learned salience (VTA dopamine adaptation)
+│   │   ├── salience-weights.ts # Learned salience (VTA dopamine adaptation)
+│   │   └── embeddings.ts     # Voyage AI vector embeddings for semantic search
 │   ├── hooks/
 │   │   ├── on-session-start.ts
 │   │   ├── on-stop.ts
@@ -227,7 +238,7 @@ claude-engram/
 │   │   └── server.ts         # MCP server with 7 tools
 │   └── migrate-v1.ts         # v1 backup import tool
 ├── hooks/                    # Shell wrappers for Claude Code
-├── tests/                    # 98 vitest tests
+├── tests/                    # vitest tests
 ├── install.sh                # One-step installer
 └── package.json
 ```
@@ -369,13 +380,13 @@ This started as a brainstorming session about "what if we modeled AI memory on t
 - ~~Learned salience~~ → VTA dopamine adaptation (v5)
 - ~~Reconsolidation~~ → `reinforce` tool with content update (v4)
 - ~~Semantic search~~ → Token-based fuzzy matching (v4)
+- ~~Vector embeddings~~ → Voyage AI hybrid search (v6) — token + vector scoring with configurable weight
 
 **Open:**
 - **Deep archive** — instead of deleting decayed memories, migrate them to cold storage retrievable only with highly specific cues (models retrieval failure vs. true forgetting)
 - **Prospective memory** — "remind me to check on X next time I'm in this project" (future-oriented memory)
 - **Multi-modal memory** — currently text-only; could store structured data, code snippets, or image descriptions
 - **Cross-project awareness** — surface relevant memories from other projects when patterns overlap
-- **Vector embeddings** — token matching works surprisingly well, but embeddings would enable deeper conceptual recall
 
 PRs welcome. Or fork it and build something better — the neuroscience mapping in this README should give you plenty of ideas.
 

@@ -12,6 +12,14 @@ echo "Install dir: $ENGRAM_DIR"
 echo "Data dir:    $DATA_DIR"
 echo ""
 
+# Load .env if present (for API keys)
+if [ -f "$ENGRAM_DIR/.env" ]; then
+  set -a
+  source "$ENGRAM_DIR/.env"
+  set +a
+  echo "Loaded .env file."
+fi
+
 # 1. Create data directory structure
 echo "[1/6] Creating data directory structure..."
 mkdir -p "$DATA_DIR/global"
@@ -132,14 +140,24 @@ else
 fi
 
 # Remove existing registration if present, then re-add
-# Pass ANTHROPIC_API_KEY so MCP server can call API for consolidation
+# Pass API keys so MCP server can call APIs for consolidation + embeddings
 if command -v claude &>/dev/null; then
   claude mcp remove --scope user engram 2>/dev/null || true
+
+  # Build env flags
+  MCP_ENV_FLAGS=""
   if [ -n "$ANTHROPIC_API_KEY" ]; then
-    claude mcp add --transport stdio --scope user engram -e ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" -- "$BUN_PATH" run "$ENGRAM_DIR/src/mcp/server.ts"
+    MCP_ENV_FLAGS="$MCP_ENV_FLAGS -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY"
+  fi
+  if [ -n "$VOYAGE_API_KEY" ]; then
+    MCP_ENV_FLAGS="$MCP_ENV_FLAGS -e VOYAGE_API_KEY=$VOYAGE_API_KEY"
+  fi
+
+  if [ -n "$MCP_ENV_FLAGS" ]; then
+    eval claude mcp add --transport stdio --scope user engram $MCP_ENV_FLAGS -- "$BUN_PATH" run "$ENGRAM_DIR/src/mcp/server.ts"
   else
     claude mcp add --transport stdio --scope user engram -- "$BUN_PATH" run "$ENGRAM_DIR/src/mcp/server.ts"
-    echo "  NOTE: ANTHROPIC_API_KEY not set. MCP consolidation will need it later."
+    echo "  NOTE: No API keys found. Set them in .env and re-run install.sh."
   fi
   echo "  MCP server registered as 'engram' (user scope)."
 else
@@ -147,14 +165,19 @@ else
   echo "    claude mcp add --transport stdio --scope user engram -e ANTHROPIC_API_KEY=\$ANTHROPIC_API_KEY -- $BUN_PATH run $ENGRAM_DIR/src/mcp/server.ts"
 fi
 
-# 6. Check ANTHROPIC_API_KEY
-echo "[6/6] Checking ANTHROPIC_API_KEY..."
+# 6. Check API keys
+echo "[6/6] Checking API keys..."
 if [ -n "$ANTHROPIC_API_KEY" ]; then
-  echo "  ANTHROPIC_API_KEY is set."
+  echo "  ANTHROPIC_API_KEY: set"
 else
-  echo "  WARNING: ANTHROPIC_API_KEY is not set."
-  echo "  Memory extraction and briefing generation require an API key."
-  echo "  Set it with: export ANTHROPIC_API_KEY=your-key-here"
+  echo "  ANTHROPIC_API_KEY: NOT SET (required for memory extraction + briefing)"
+  echo "    Add to .env: ANTHROPIC_API_KEY=your-key-here"
+fi
+if [ -n "$VOYAGE_API_KEY" ]; then
+  echo "  VOYAGE_API_KEY:   set (vector embeddings enabled)"
+else
+  echo "  VOYAGE_API_KEY:   not set (optional — enables semantic search)"
+  echo "    Get a free key: https://dash.voyageai.com/"
 fi
 
 echo ""
