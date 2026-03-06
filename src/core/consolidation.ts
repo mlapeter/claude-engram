@@ -314,11 +314,15 @@ async function runConsolidationInner(
   // Reload after promotions
   const postPromotion = promotionCount > 0 ? await store.loadAll() : remaining;
 
+  // Load lastConsolidation for scoped similarity (skip old×old pairs)
+  const globalMeta = await store.loadMeta("global");
+  const lastConsolidation = globalMeta.lastConsolidation ?? null;
+
   // Step 4: Intelligent consolidation (single-pass or two-pass based on memory count)
   const useTwoPass = postPromotion.length > config.consolidationBatchThreshold;
 
   if (useTwoPass) {
-    return await twoPassConsolidation(store, config, postPromotion, autoPruned, promotionCount);
+    return await twoPassConsolidation(store, config, postPromotion, autoPruned, promotionCount, lastConsolidation);
   } else {
     return await singlePassConsolidation(store, config, postPromotion, autoPruned, promotionCount);
   }
@@ -383,13 +387,23 @@ async function singlePassConsolidation(
  * Find groups of similar memories using embedding cosine similarity.
  * Replaces Haiku-based clustering — deterministic, fast, no API call.
  * Falls back to token overlap when embeddings aren't available.
+ *
+ * Scoped comparison: when lastConsolidation is provided, only compare pairs
+ * where at least one memory is recent (created after last consolidation).
+ * Old×old pairs were already compared in previous consolidation cycles.
+ * This reduces O(n²) to O(n×r) where r = recent memory count.
  */
 function findSimilarGroups(
   memories: Memory[],
   globalIndex: EmbeddingIndex,
   projectIndex: EmbeddingIndex,
   threshold: number = 0.8,
+  lastConsolidation: string | null = null,
 ): string[][] {
+  // Identify which memories are recent (need comparison)
+  const cutoff = lastConsolidation ? new Date(lastConsolidation).getTime() : 0;
+  const isRecent = (m: Memory) => new Date(m.created_at).getTime() > cutoff;
+
   // Build adjacency via pairwise similarity
   const adjacent = new Map<string, Set<string>>();
 
@@ -399,8 +413,14 @@ function findSimilarGroups(
     const vecI = idxI[mi.id];
     if (!vecI) continue;
 
+    const miRecent = isRecent(mi);
+
     for (let j = i + 1; j < memories.length; j++) {
       const mj = memories[j];
+
+      // Skip old×old pairs — already compared in previous consolidation
+      if (lastConsolidation && !miRecent && !isRecent(mj)) continue;
+
       const idxJ = mj.scope === "global" ? globalIndex : projectIndex;
       const vecJ = idxJ[mj.id];
       if (!vecJ) continue;
@@ -442,20 +462,28 @@ function findSimilarGroups(
 
 /**
  * Token-overlap fallback for similarity grouping when embeddings aren't available.
+ *
+ * Same scoped comparison as findSimilarGroups — skip old×old pairs.
  */
 function findSimilarGroupsByTokens(
   memories: Memory[],
   threshold: number = 0.7,
+  lastConsolidation: string | null = null,
 ): string[][] {
+  const cutoff = lastConsolidation ? new Date(lastConsolidation).getTime() : 0;
   const tokenSets = memories.map((m) => ({
     id: m.id,
     tokens: tokenize(m.content),
+    recent: new Date(m.created_at).getTime() > cutoff,
   }));
 
   const adjacent = new Map<string, Set<string>>();
 
   for (let i = 0; i < tokenSets.length; i++) {
     for (let j = i + 1; j < tokenSets.length; j++) {
+      // Skip old×old pairs — already compared in previous consolidation
+      if (lastConsolidation && !tokenSets[i].recent && !tokenSets[j].recent) continue;
+
       const overlap = tokenOverlap(tokenSets[i].tokens, tokenSets[j].tokens);
       if (overlap >= threshold) {
         const idI = tokenSets[i].id;
@@ -502,20 +530,22 @@ async function twoPassConsolidation(
   memories: Memory[],
   autoPruned: number,
   promotionCount: number,
+  lastConsolidation: string | null,
 ): Promise<ConsolidationResult> {
   const memById = new Map(memories.map((m) => [m.id, m]));
 
   // Step 4a: Find similar memory groups (deterministic, no API call for clustering)
+  // Scoped: only compare pairs where at least one memory is recent
   let groups: string[][];
   if (isEmbeddingEnabled()) {
     const paths = store.getEmbeddingPaths();
     const globalIndex = loadEmbeddingIndex(paths.global);
     const projectIndex = loadEmbeddingIndex(paths.project);
-    groups = findSimilarGroups(memories, globalIndex, projectIndex, 0.8);
-    log("info", `Two-pass: embedding similarity found ${groups.length} groups from ${memories.length} memories`);
+    groups = findSimilarGroups(memories, globalIndex, projectIndex, 0.8, lastConsolidation);
+    log("info", `Two-pass: embedding similarity found ${groups.length} groups from ${memories.length} memories (scoped to recent)`);
   } else {
-    groups = findSimilarGroupsByTokens(memories, 0.7);
-    log("info", `Two-pass: token overlap found ${groups.length} groups from ${memories.length} memories`);
+    groups = findSimilarGroupsByTokens(memories, 0.7, lastConsolidation);
+    log("info", `Two-pass: token overlap found ${groups.length} groups from ${memories.length} memories (scoped to recent)`);
   }
 
   // Collect all IDs from groups

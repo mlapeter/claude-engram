@@ -81,7 +81,12 @@ async function main() {
   try {
     const allMemories = await store.loadAll();
     const projectName = basename(cwd);
-    const briefing = await generateBriefing(allMemories, { cwd, projectName });
+    const lastCache = await store.loadBriefingCache();
+    const briefing = await generateBriefing(
+      allMemories,
+      { cwd, projectName },
+      lastCache?.generatedAt,
+    );
     await store.saveBriefingCache(briefing, allMemories.length);
     log("info", `SessionEnd: cached briefing (${allMemories.length} memories)`);
   } catch (err) {

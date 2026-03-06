@@ -2,7 +2,7 @@ import type { Memory } from "./types.js";
 import { loadConfig } from "./config.js";
 
 // Re-export defaults for backward compatibility with tests
-export const DECAY_RATE = 0.015;
+export const DECAY_RATE = 0.05;
 export const RETRIEVAL_BOOST = 0.12;
 export const MAX_RETRIEVAL_BONUS = 0.5;
 export const CONSOLIDATION_BONUS = 0.2;
@@ -25,8 +25,10 @@ export function calculateStrength(memory: Memory): number {
   );
   const consolBonus = memory.consolidated ? config.consolidationBonus : 0;
 
+  // Power-law decay (Ebbinghaus): fast initial forgetting, stabilizes over time.
+  // sqrt(age) means a 30-day-old memory decays ~5.5x total vs 30x with linear.
   return Math.max(
     0,
-    Math.min(1, avgSalience + retrievalBonus + consolBonus - config.decayRate * ageInDays),
+    Math.min(1, avgSalience + retrievalBonus + consolBonus - config.decayRate * Math.sqrt(ageInDays)),
   );
 }
