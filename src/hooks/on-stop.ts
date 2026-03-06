@@ -62,7 +62,9 @@ async function main() {
     const dupIndices = await store.checkDuplicates(
       newMemories.map((m) => m.content),
     );
-    const dedupedMemories = newMemories.filter((m, i) => !dupIndices.has(i) || m.updates);
+    // Only bypass dedup for genuine updates (valid memory ID), not malformed extraction output
+    const isValidUpdate = (u: string | null) => u != null && /^m_\d+_\w+$/.test(u);
+    const dedupedMemories = newMemories.filter((m, i) => !dupIndices.has(i) || isValidUpdate(m.updates));
 
     if (dupIndices.size > 0) {
       log("info", `Stop: filtered ${dupIndices.size} duplicate${dupIndices.size > 1 ? "s" : ""} (${dedupedMemories.length} unique)`);
@@ -82,7 +84,7 @@ async function main() {
         consolidated: false,
         generalized: false,
         source_session: session_id,
-        updated_from: m.updates,
+        updated_from: isValidUpdate(m.updates) ? m.updates : null,
       }));
 
       await store.add(fullMemories);

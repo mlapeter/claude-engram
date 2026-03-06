@@ -240,8 +240,9 @@ export function createStore(projectCwd: string): MemoryStore {
       // Phase 1: exact substring match (best signal)
       const exact = all.filter((m) => m.content.toLowerCase().includes(q));
       if (exact.length > 0) {
+        const strengthMap = new Map(exact.map((m) => [m.id, calculateStrength(m)]));
         return exact
-          .sort((a, b) => calculateStrength(b) - calculateStrength(a))
+          .sort((a, b) => strengthMap.get(b.id)! - strengthMap.get(a.id)!)
           .slice(0, limit);
       }
 
@@ -294,13 +295,10 @@ export function createStore(projectCwd: string): MemoryStore {
             hybridScore = vScore!;
           }
           const memory = memById.get(id)!;
-          return { memory, hybridScore };
+          const strength = calculateStrength(memory);
+          return { memory, rank: hybridScore * strength };
         })
-        .sort((a, b) => {
-          const aRank = a.hybridScore * calculateStrength(a.memory);
-          const bRank = b.hybridScore * calculateStrength(b.memory);
-          return bRank - aRank;
-        })
+        .sort((a, b) => b.rank - a.rank)
         .slice(0, limit)
         .map((s) => s.memory);
 
@@ -309,17 +307,20 @@ export function createStore(projectCwd: string): MemoryStore {
 
     async searchByTag(tags, limit = 10) {
       const all = await store.loadAll();
-      return all
-        .filter((m) => m.tags.some((t) => tags.includes(t)))
-        .sort((a, b) => calculateStrength(b) - calculateStrength(a))
+      const matched = all.filter((m) => m.tags.some((t) => tags.includes(t)));
+      const strengthMap = new Map(matched.map((m) => [m.id, calculateStrength(m)]));
+      return matched
+        .sort((a, b) => strengthMap.get(b.id)! - strengthMap.get(a.id)!)
         .slice(0, limit);
     },
 
     async getAboveThreshold(minStrength) {
       const all = await store.loadAll();
-      return all
-        .filter((m) => calculateStrength(m) >= minStrength)
-        .sort((a, b) => calculateStrength(b) - calculateStrength(a));
+      const withStrength = all.map((m) => ({ memory: m, strength: calculateStrength(m) }));
+      return withStrength
+        .filter((s) => s.strength >= minStrength)
+        .sort((a, b) => b.strength - a.strength)
+        .map((s) => s.memory);
     },
 
     async loadMeta(scope) {
@@ -368,9 +369,10 @@ export function createStore(projectCwd: string): MemoryStore {
       if (SYNTHETIC_SESSIONS.includes(sessionId)) return [];
 
       const all = await store.loadAll();
-      return all
-        .filter((m) => m.source_session === sessionId && m.id !== excludeId)
-        .sort((a, b) => calculateStrength(b) - calculateStrength(a))
+      const siblings = all.filter((m) => m.source_session === sessionId && m.id !== excludeId);
+      const strengthMap = new Map(siblings.map((m) => [m.id, calculateStrength(m)]));
+      return siblings
+        .sort((a, b) => strengthMap.get(b.id)! - strengthMap.get(a.id)!)
         .slice(0, limit);
     },
 
@@ -400,9 +402,10 @@ export function createStore(projectCwd: string): MemoryStore {
       }
 
       // 3. Top strongest (long-lived important facts)
-      const byStrength = all
-        .filter((m) => !seen.has(m.id))
-        .sort((a, b) => calculateStrength(b) - calculateStrength(a))
+      const unseen = all.filter((m) => !seen.has(m.id));
+      const strengthMap = new Map(unseen.map((m) => [m.id, calculateStrength(m)]));
+      const byStrength = unseen
+        .sort((a, b) => strengthMap.get(b.id)! - strengthMap.get(a.id)!)
         .slice(0, topStrongest);
       for (const m of byStrength) {
         seen.add(m.id);
