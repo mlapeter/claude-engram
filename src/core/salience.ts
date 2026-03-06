@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { ExtractedMemorySchema } from "./types.js";
+import { ExtractedMemorySchema, sanitizeSalience } from "./types.js";
 import type { Memory, NewMemory } from "./types.js";
 import { loadConfig } from "./config.js";
 import { log } from "./logger.js";
@@ -18,7 +18,9 @@ const EXTRACTION_SYSTEM_PROMPT = `You are Claude's memory encoder. You process t
 
 CRITICAL: Only extract information that is GENUINELY NEW. You will receive EXISTING MEMORIES below — do NOT create memories that duplicate or rephrase what already exists. Only extract if:
 - The information is completely absent from existing memories
-- The information meaningfully updates or contradicts an existing memory (set "updates" to that memory's ID)
+- The information DIRECTLY CONTRADICTS an existing memory — the old fact is now WRONG (set "updates" to that memory's ID)
+
+IMPORTANT: "updates" should be RARE — only use it when a fact has genuinely CHANGED (e.g., "switched from Django to FastAPI", "moved from Portland to Seattle"). Do NOT set "updates" just because a conversation revisits or elaborates on an existing topic. Elaboration is NOT contradiction. If the existing memory is still correct, set "updates" to null and either skip extraction or create a new standalone memory.
 
 Extract memories in first person where natural:
 - About the person: "Mike prefers bun over npm — always reach for bun first"
@@ -121,7 +123,15 @@ export async function extractMemories(
     }
 
     const parsed = JSON.parse(textBlock.text);
-    const validated = ExtractedResponseSchema.parse(parsed);
+    // Clamp salience values before Zod validation — Haiku sometimes returns > 1.0
+    const sanitized = {
+      ...parsed,
+      memories: (parsed.memories ?? []).map((m: Record<string, unknown>) => ({
+        ...m,
+        salience: sanitizeSalience(m.salience as Record<string, unknown>),
+      })),
+    };
+    const validated = ExtractedResponseSchema.parse(sanitized);
 
     return validated.memories.map((m) => ({
       content: m.content.substring(0, 400),

@@ -29,7 +29,7 @@ export interface EngramConfig {
   maxBackups: number;
   /** Salience damping factor for superseded memories (default: 0.7) */
   interferenceFactor: number;
-  /** Memory count above which consolidation uses Haiku pre-filter (default: 100) */
+  /** Memory count above which consolidation uses two-pass embedding similarity clustering (default: 100) */
   consolidationBatchThreshold: number;
   /** Enable vector embeddings for semantic search (default: true, requires VOYAGE_API_KEY) */
   embeddingsEnabled: boolean;

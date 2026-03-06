@@ -33,11 +33,14 @@ export async function applyInterference(
     const old = existingById.get(newMem.updated_from);
     if (!old) continue;
 
+    // Floor of 0.1 prevents salience from spiraling to zero via compounding (0.7^n)
+    const SALIENCE_FLOOR = 0.1;
+    const dampen = (v: number) => Math.max(SALIENCE_FLOOR, v * factor);
     const dampedSalience = {
-      novelty: old.salience.novelty * factor,
-      relevance: old.salience.relevance * factor,
-      emotional: old.salience.emotional * factor,
-      predictive: old.salience.predictive * factor,
+      novelty: dampen(old.salience.novelty),
+      relevance: dampen(old.salience.relevance),
+      emotional: dampen(old.salience.emotional),
+      predictive: dampen(old.salience.predictive),
     };
 
     await store.update(old.id, { salience: dampedSalience });

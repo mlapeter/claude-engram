@@ -96,13 +96,14 @@ export function scopeFromTags(tags: string[]): "global" | "project" {
   return "project";
 }
 
-/** Sanitize salience values — converts NaN/undefined to 0 */
+/** Sanitize salience values — clamps to [0, 1], converts NaN/undefined to 0 */
 export function sanitizeSalience(s: Partial<Salience> | undefined): Salience {
+  const clamp = (v: unknown) => Math.max(0, Math.min(1, Number(v) || 0));
   return {
-    novelty: Number(s?.novelty) || 0,
-    relevance: Number(s?.relevance) || 0,
-    emotional: Number(s?.emotional) || 0,
-    predictive: Number(s?.predictive) || 0,
+    novelty: clamp(s?.novelty),
+    relevance: clamp(s?.relevance),
+    emotional: clamp(s?.emotional),
+    predictive: clamp(s?.predictive),
   };
 }
 

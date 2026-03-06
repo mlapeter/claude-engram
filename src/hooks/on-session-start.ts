@@ -23,9 +23,11 @@ async function main() {
 
   const store = createStore(cwd);
 
-  // Update session count
+  // Update session count (only on actual new sessions, not resume/compact/clear)
   const meta = await store.loadMeta("global");
-  meta.sessionCount += 1;
+  if (!input.source || input.source === "startup") {
+    meta.sessionCount += 1;
+  }
   await store.saveMeta("global", meta);
 
   // Load all memories for briefing

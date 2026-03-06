@@ -332,7 +332,12 @@ export function createStore(projectCwd: string): MemoryStore {
     },
 
     async saveMeta(scope, meta) {
-      writeJsonFile(metaPath(scope), meta);
+      const path = metaPath(scope);
+      // Ensure file exists for proper-lockfile
+      try { readFileSync(path); } catch { writeJsonFile(path, {}); }
+      await withLock(path, async () => {
+        writeJsonFile(path, meta);
+      });
     },
 
     async backup() {
