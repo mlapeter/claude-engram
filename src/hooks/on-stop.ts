@@ -58,25 +58,37 @@ async function main() {
   const newMemories = await extractMemories(content, existingMemories, "transcript", weightsHint);
 
   if (newMemories.length > 0) {
-    const fullMemories = newMemories.map((m) => ({
-      id: generateId(),
-      content: m.content,
-      scope: m.scope,
-      memory_type: "episodic" as const,
-      salience: m.salience,
-      tags: m.tags,
-      access_count: 0,
-      last_accessed: null,
-      created_at: new Date().toISOString(),
-      consolidated: false,
-      generalized: false,
-      source_session: session_id,
-      updated_from: m.updates,
-    }));
+    // Post-extraction dedup: filter out near-duplicates of existing memories
+    const dupIndices = await store.checkDuplicates(
+      newMemories.map((m) => m.content),
+    );
+    const dedupedMemories = newMemories.filter((m, i) => !dupIndices.has(i) || m.updates);
 
-    await store.add(fullMemories);
-    const weakened = await applyInterference(fullMemories, existingMemories, store);
-    log("info", `Stop: extracted ${fullMemories.length} memories${weakened > 0 ? `, weakened ${weakened} via interference` : ""}`);
+    if (dupIndices.size > 0) {
+      log("info", `Stop: filtered ${dupIndices.size} duplicate${dupIndices.size > 1 ? "s" : ""} (${dedupedMemories.length} unique)`);
+    }
+
+    if (dedupedMemories.length > 0) {
+      const fullMemories = dedupedMemories.map((m) => ({
+        id: generateId(),
+        content: m.content,
+        scope: m.scope,
+        memory_type: "episodic" as const,
+        salience: m.salience,
+        tags: m.tags,
+        access_count: 0,
+        last_accessed: null,
+        created_at: new Date().toISOString(),
+        consolidated: false,
+        generalized: false,
+        source_session: session_id,
+        updated_from: m.updates,
+      }));
+
+      await store.add(fullMemories);
+      const weakened = await applyInterference(fullMemories, existingMemories, store);
+      log("info", `Stop: stored ${fullMemories.length} memories${weakened > 0 ? `, weakened ${weakened} via interference` : ""}`);
+    }
   }
 
   // Update cursor

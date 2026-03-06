@@ -11,6 +11,9 @@ import {
   embedAndStore,
   removeFromIndex,
   vectorSearch,
+  embed,
+  cosineSimilarity,
+  loadEmbeddingIndex,
 } from "./embeddings.js";
 
 /**
@@ -60,6 +63,14 @@ export interface MemoryStore {
   getRecentAndStrong(sessionId: string, opts?: { recentHours?: number; topStrongest?: number; maxTotal?: number }): Promise<Memory[]>;
   loadCursor(): Promise<TranscriptCursor>;
   saveCursor(cursor: TranscriptCursor): Promise<void>;
+  /** Check which new content strings are duplicates of existing memories */
+  checkDuplicates(contents: string[], threshold?: number): Promise<Set<number>>;
+  /** Cache a generated briefing for instant SessionStart */
+  saveBriefingCache(briefing: string, memoryCount: number): Promise<void>;
+  /** Load cached briefing (null if none exists) */
+  loadBriefingCache(): Promise<{ briefing: string; generatedAt: string; memoryCount: number } | null>;
+  /** Embedding paths for external use (consolidation) */
+  getEmbeddingPaths(): { global: string; project: string };
 }
 
 const MAX_BACKUPS = 5;
@@ -406,6 +417,68 @@ export function createStore(projectCwd: string): MemoryStore {
 
     async saveCursor(cursor) {
       writeJsonFile(cursorPath(), cursor);
+    },
+
+    async checkDuplicates(contents, threshold = 0.85) {
+      const duplicates = new Set<number>();
+      if (contents.length === 0) return duplicates;
+
+      if (isEmbeddingEnabled()) {
+        // Embedding-based dedup: one API call for all new contents
+        const newVecs = await embed(contents);
+        if (newVecs.length !== contents.length) return duplicates; // API failure, skip dedup
+
+        const globalIndex = loadEmbeddingIndex(embeddingsPath("global"));
+        const projectIndex = loadEmbeddingIndex(embeddingsPath("project"));
+        const allVecs = { ...globalIndex, ...projectIndex };
+
+        for (let i = 0; i < newVecs.length; i++) {
+          for (const existingVec of Object.values(allVecs)) {
+            if (cosineSimilarity(newVecs[i], existingVec) >= threshold) {
+              duplicates.add(i);
+              break;
+            }
+          }
+        }
+      } else {
+        // Token overlap fallback
+        const all = await store.loadAll();
+        const existingTokenSets = all.map((m) => tokenize(m.content));
+
+        for (let i = 0; i < contents.length; i++) {
+          const newTokens = tokenize(contents[i]);
+          for (const et of existingTokenSets) {
+            if (tokenOverlap(newTokens, et) > 0.8) {
+              duplicates.add(i);
+              break;
+            }
+          }
+        }
+      }
+
+      return duplicates;
+    },
+
+    async saveBriefingCache(briefing, memoryCount) {
+      const cachePath = join(projectDir, "briefing-cache.json");
+      writeJsonFile(cachePath, {
+        briefing,
+        generatedAt: new Date().toISOString(),
+        memoryCount,
+      });
+    },
+
+    async loadBriefingCache() {
+      const cachePath = join(projectDir, "briefing-cache.json");
+      const data = readJsonFile<{ briefing: string; generatedAt: string; memoryCount: number } | null>(cachePath, null);
+      return data;
+    },
+
+    getEmbeddingPaths() {
+      return {
+        global: embeddingsPath("global"),
+        project: embeddingsPath("project"),
+      };
     },
   };
 

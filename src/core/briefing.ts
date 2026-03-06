@@ -102,7 +102,7 @@ export async function generateBriefing(
   }
 }
 
-function generateFallbackBriefing(memories: Memory[]): string {
+export function generateFallbackBriefing(memories: Memory[]): string {
   const top20 = memories.slice(0, 20);
   const lines = top20.map((m) => {
     const strength = calculateStrength(m);

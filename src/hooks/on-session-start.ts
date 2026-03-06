@@ -1,8 +1,7 @@
-import { basename } from "node:path";
 import type { HookInput } from "../core/types.js";
 import { createStore } from "../core/store.js";
 import { loadConfig } from "../core/config.js";
-import { generateBriefing } from "../core/briefing.js";
+import { generateFallbackBriefing } from "../core/briefing.js";
 import { runConsolidation } from "../core/consolidation.js";
 import { log } from "../core/logger.js";
 
@@ -51,9 +50,17 @@ async function main() {
     }
   }
 
-  // Generate briefing with context-dependent retrieval
-  const projectName = basename(cwd);
-  const briefing = await generateBriefing(memories, { cwd, projectName });
+  // Use cached briefing (generated at previous SessionEnd) for instant startup
+  const cached = await store.loadBriefingCache();
+  let briefing: string;
+  if (cached) {
+    briefing = cached.briefing;
+    log("info", `SessionStart: using cached briefing (${cached.memoryCount} memories, from ${cached.generatedAt})`);
+  } else {
+    // First session or cache missing — fallback to plaintext (no API call)
+    briefing = generateFallbackBriefing(memories);
+    log("info", `SessionStart: no cached briefing, using fallback (${memories.length} memories)`);
+  }
 
   // Output hook response
   const output = {

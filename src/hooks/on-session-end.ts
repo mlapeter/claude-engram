@@ -1,7 +1,9 @@
+import { basename } from "node:path";
 import type { HookInput } from "../core/types.js";
 import { createStore } from "../core/store.js";
 import { readTranscriptFromCursor } from "../core/transcript.js";
 import { extractMemories } from "../core/salience.js";
+import { generateBriefing } from "../core/briefing.js";
 import { generateId } from "../core/types.js";
 import { applyInterference } from "../core/interference.js";
 import { getWeights, getWeightsPromptHint } from "../core/salience-weights.js";
@@ -44,26 +46,45 @@ async function main() {
     const newMemories = await extractMemories(content, existingMemories, "transcript", weightsHint);
 
     if (newMemories.length > 0) {
-      const fullMemories = newMemories.map((m) => ({
-        id: generateId(),
-        content: m.content,
-        scope: m.scope,
-        memory_type: "episodic" as const,
-        salience: m.salience,
-        tags: m.tags,
-        access_count: 0,
-        last_accessed: null,
-        created_at: new Date().toISOString(),
-        consolidated: false,
-        generalized: false,
-        source_session: session_id,
-        updated_from: m.updates,
-      }));
+      // Post-extraction dedup
+      const dupIndices = await store.checkDuplicates(
+        newMemories.map((m) => m.content),
+      );
+      const dedupedMemories = newMemories.filter((m, i) => !dupIndices.has(i) || m.updates);
 
-      await store.add(fullMemories);
-      const weakened = await applyInterference(fullMemories, existingMemories, store);
-      log("info", `SessionEnd: extracted ${fullMemories.length} memories (safety net)${weakened > 0 ? `, weakened ${weakened} via interference` : ""}`);
+      if (dedupedMemories.length > 0) {
+        const fullMemories = dedupedMemories.map((m) => ({
+          id: generateId(),
+          content: m.content,
+          scope: m.scope,
+          memory_type: "episodic" as const,
+          salience: m.salience,
+          tags: m.tags,
+          access_count: 0,
+          last_accessed: null,
+          created_at: new Date().toISOString(),
+          consolidated: false,
+          generalized: false,
+          source_session: session_id,
+          updated_from: m.updates,
+        }));
+
+        await store.add(fullMemories);
+        const weakened = await applyInterference(fullMemories, existingMemories, store);
+        log("info", `SessionEnd: stored ${fullMemories.length} memories${weakened > 0 ? `, weakened ${weakened} via interference` : ""}`);
+      }
     }
+  }
+
+  // Generate and cache briefing for next session's instant startup
+  try {
+    const allMemories = await store.loadAll();
+    const projectName = basename(cwd);
+    const briefing = await generateBriefing(allMemories, { cwd, projectName });
+    await store.saveBriefingCache(briefing, allMemories.length);
+    log("info", `SessionEnd: cached briefing (${allMemories.length} memories)`);
+  } catch (err) {
+    log("warn", `SessionEnd: briefing cache failed: ${err instanceof Error ? err.message : String(err)}`);
   }
 
   // Reset cursor for next session

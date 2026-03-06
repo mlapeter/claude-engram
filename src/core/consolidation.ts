@@ -1,12 +1,21 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { mkdirSync, writeFileSync, unlinkSync, statSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { z } from "zod";
 import type { Memory } from "./types.js";
-import { sanitizeSalience, generateId } from "./types.js";
+import { sanitizeSalience, generateId, getDataDir } from "./types.js";
 import { loadConfig } from "./config.js";
 import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
 import type { MemoryStore } from "./store.js";
+import { tokenize, tokenOverlap } from "./store.js";
 import { recordSignal } from "./salience-weights.js";
+import {
+  isEmbeddingEnabled,
+  cosineSimilarity,
+  loadEmbeddingIndex,
+  type EmbeddingIndex,
+} from "./embeddings.js";
 
 let client: Anthropic | null = null;
 
@@ -123,31 +132,6 @@ const CONSOLIDATION_SCHEMA = {
   additionalProperties: false as const,
 };
 
-// --- Haiku pre-filter for two-pass consolidation ---
-
-const CLUSTERING_SCHEMA = {
-  type: "object" as const,
-  properties: {
-    groups: {
-      type: "array" as const,
-      items: {
-        type: "array" as const,
-        items: { type: "string" as const },
-      },
-    },
-  },
-  required: ["groups"] as const,
-  additionalProperties: false as const,
-};
-
-const ClusteringResponseSchema = z.object({
-  groups: z.array(z.array(z.string())),
-});
-
-const CLUSTERING_SYSTEM_PROMPT = `You are a memory deduplication filter. Given a list of memories, identify groups of 2+ memories that overlap, are redundant, or could be merged. Also identify memories that are trivial or clearly superseded.
-
-Return groups of memory IDs that should be reviewed together. Each group should contain IDs of memories that are related/overlapping. Only group memories that genuinely overlap — don't force unrelated memories together. If a memory is unique and valuable, leave it ungrouped.`;
-
 const CONSOLIDATION_SYSTEM_PROMPT = `You are processing Claude's memory bank during a consolidation cycle. Analyze these memories and optimize the memory bank.
 
 Your tasks:
@@ -166,15 +150,72 @@ Rules:
 - Assign 1-5 tags from: identity, goal, preference, project, relationship, skill, insight, contradiction, pattern, context, technical, personal, business, creative`;
 
 /**
+ * Update lastConsolidation timestamp in meta for both scopes.
+ * Called after every consolidation attempt (even if nothing was consolidated)
+ * to prevent infinite re-triggering.
+ */
+async function updateConsolidationTimestamp(store: MemoryStore): Promise<void> {
+  const now = new Date().toISOString();
+  for (const scope of ["global", "project"] as const) {
+    const meta = await store.loadMeta(scope);
+    meta.lastConsolidation = now;
+    await store.saveMeta(scope, meta);
+  }
+}
+
+/** Lock file path for preventing concurrent consolidation runs */
+function consolidationLockPath(): string {
+  return join(getDataDir(), "consolidation.lock");
+}
+
+/**
  * Run a full consolidation cycle on a set of memories.
  * Uses Sonnet for intelligent merge/generalize/prune decisions.
+ *
+ * Guarded by a lock file to prevent concurrent runs.
  */
 export async function runConsolidation(
+  store: MemoryStore,
+): Promise<ConsolidationResult> {
+  // Prevent concurrent consolidation runs
+  const lockPath = consolidationLockPath();
+  try {
+    mkdirSync(dirname(lockPath), { recursive: true });
+    writeFileSync(lockPath, String(process.pid), { flag: "wx" }); // fails if exists
+  } catch {
+    // Check if lock is stale (older than 10 minutes = stuck consolidation)
+    try {
+      const stat = statSync(lockPath);
+      const ageMs = Date.now() - stat.mtimeMs;
+      if (ageMs > 10 * 60_000) {
+        log("warn", `Consolidation: removing stale lock (${(ageMs / 60_000).toFixed(1)}min old)`);
+        unlinkSync(lockPath);
+        writeFileSync(lockPath, String(process.pid), { flag: "wx" });
+      } else {
+        log("info", "Consolidation: skipped (already running)");
+        return { mergeCount: 0, generalizeCount: 0, pruneCount: 0, promotionCount: 0, notes: "Skipped: concurrent consolidation in progress." };
+      }
+    } catch {
+      log("info", "Consolidation: skipped (lock contention)");
+      return { mergeCount: 0, generalizeCount: 0, pruneCount: 0, promotionCount: 0, notes: "Skipped: lock contention." };
+    }
+  }
+
+  try {
+    return await runConsolidationInner(store);
+  } finally {
+    // Always release lock
+    try { unlinkSync(lockPath); } catch { /* already removed */ }
+  }
+}
+
+async function runConsolidationInner(
   store: MemoryStore,
 ): Promise<ConsolidationResult> {
   const all = await store.loadAll();
 
   if (all.length === 0) {
+    await updateConsolidationTimestamp(store);
     return { mergeCount: 0, generalizeCount: 0, pruneCount: 0, promotionCount: 0, notes: "No memories to consolidate." };
   }
 
@@ -200,6 +241,7 @@ export async function runConsolidation(
   // Reload after pruning
   const remaining = await store.loadAll();
   if (remaining.length === 0) {
+    await updateConsolidationTimestamp(store);
     return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount: 0, notes: "All memories pruned due to decay." };
   }
 
@@ -322,6 +364,7 @@ async function singlePassConsolidation(
     const textBlock = response.content.find((b) => b.type === "text");
     if (!textBlock || textBlock.type !== "text") {
       log("warn", "No text block in consolidation response");
+      await updateConsolidationTimestamp(store);
       return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: "API returned no content." };
     }
 
@@ -331,12 +374,126 @@ async function singlePassConsolidation(
     return await applyConsolidation(store, memories, result, autoPruned, promotionCount);
   } catch (error) {
     log("error", `Consolidation API call failed: ${error instanceof Error ? error.message : String(error)}`);
+    await updateConsolidationTimestamp(store);
     return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: `API error, only auto-pruning applied. ${error instanceof Error ? error.message : ""}` };
   }
 }
 
 /**
- * Two-pass consolidation: Haiku identifies merge candidates, Sonnet processes only those.
+ * Find groups of similar memories using embedding cosine similarity.
+ * Replaces Haiku-based clustering — deterministic, fast, no API call.
+ * Falls back to token overlap when embeddings aren't available.
+ */
+function findSimilarGroups(
+  memories: Memory[],
+  globalIndex: EmbeddingIndex,
+  projectIndex: EmbeddingIndex,
+  threshold: number = 0.8,
+): string[][] {
+  // Build adjacency via pairwise similarity
+  const adjacent = new Map<string, Set<string>>();
+
+  for (let i = 0; i < memories.length; i++) {
+    const mi = memories[i];
+    const idxI = mi.scope === "global" ? globalIndex : projectIndex;
+    const vecI = idxI[mi.id];
+    if (!vecI) continue;
+
+    for (let j = i + 1; j < memories.length; j++) {
+      const mj = memories[j];
+      const idxJ = mj.scope === "global" ? globalIndex : projectIndex;
+      const vecJ = idxJ[mj.id];
+      if (!vecJ) continue;
+
+      if (cosineSimilarity(vecI, vecJ) >= threshold) {
+        if (!adjacent.has(mi.id)) adjacent.set(mi.id, new Set());
+        if (!adjacent.has(mj.id)) adjacent.set(mj.id, new Set());
+        adjacent.get(mi.id)!.add(mj.id);
+        adjacent.get(mj.id)!.add(mi.id);
+      }
+    }
+  }
+
+  // Connected components via BFS
+  const visited = new Set<string>();
+  const groups: string[][] = [];
+
+  for (const [id] of adjacent) {
+    if (visited.has(id)) continue;
+    const group: string[] = [];
+    const queue = [id];
+    while (queue.length > 0) {
+      const current = queue.pop()!;
+      if (visited.has(current)) continue;
+      visited.add(current);
+      group.push(current);
+      const neighbors = adjacent.get(current);
+      if (neighbors) {
+        for (const n of neighbors) {
+          if (!visited.has(n)) queue.push(n);
+        }
+      }
+    }
+    if (group.length >= 2) groups.push(group);
+  }
+
+  return groups;
+}
+
+/**
+ * Token-overlap fallback for similarity grouping when embeddings aren't available.
+ */
+function findSimilarGroupsByTokens(
+  memories: Memory[],
+  threshold: number = 0.7,
+): string[][] {
+  const tokenSets = memories.map((m) => ({
+    id: m.id,
+    tokens: tokenize(m.content),
+  }));
+
+  const adjacent = new Map<string, Set<string>>();
+
+  for (let i = 0; i < tokenSets.length; i++) {
+    for (let j = i + 1; j < tokenSets.length; j++) {
+      const overlap = tokenOverlap(tokenSets[i].tokens, tokenSets[j].tokens);
+      if (overlap >= threshold) {
+        const idI = tokenSets[i].id;
+        const idJ = tokenSets[j].id;
+        if (!adjacent.has(idI)) adjacent.set(idI, new Set());
+        if (!adjacent.has(idJ)) adjacent.set(idJ, new Set());
+        adjacent.get(idI)!.add(idJ);
+        adjacent.get(idJ)!.add(idI);
+      }
+    }
+  }
+
+  const visited = new Set<string>();
+  const groups: string[][] = [];
+  for (const [id] of adjacent) {
+    if (visited.has(id)) continue;
+    const group: string[] = [];
+    const queue = [id];
+    while (queue.length > 0) {
+      const current = queue.pop()!;
+      if (visited.has(current)) continue;
+      visited.add(current);
+      group.push(current);
+      const neighbors = adjacent.get(current);
+      if (neighbors) {
+        for (const n of neighbors) {
+          if (!visited.has(n)) queue.push(n);
+        }
+      }
+    }
+    if (group.length >= 2) groups.push(group);
+  }
+
+  return groups;
+}
+
+/**
+ * Two-pass consolidation: embedding similarity identifies merge candidates, Sonnet processes them.
  * Used when memory count exceeds consolidationBatchThreshold.
  */
 async function twoPassConsolidation(
@@ -348,56 +505,32 @@ async function twoPassConsolidation(
 ): Promise<ConsolidationResult> {
   const memById = new Map(memories.map((m) => [m.id, m]));
 
-  // Step 4a: Haiku clustering — identify merge candidate groups
-  let candidateIds: Set<string>;
-  try {
-    const summaryText = memories
-      .map((m) => `[${m.id}] [${m.tags.join(",")}] ${m.content}`)
-      .join("\n");
-
-    log("info", `Two-pass: Haiku clustering ${memories.length} memories`);
-    const clusterResponse = await getClient().messages.create({
-      model: config.extractionModel, // Haiku — cheap
-      max_tokens: 4000,
-      system: CLUSTERING_SYSTEM_PROMPT,
-      messages: [{ role: "user", content: `MEMORIES (${memories.length}):\n\n${summaryText}` }],
-      output_config: {
-        format: {
-          type: "json_schema",
-          schema: CLUSTERING_SCHEMA,
-        },
-      },
-    });
-
-    const clusterBlock = clusterResponse.content.find((b) => b.type === "text");
-    if (!clusterBlock || clusterBlock.type !== "text") {
-      log("warn", "Two-pass: Haiku returned no content, falling back to single-pass");
-      return await singlePassConsolidation(store, config, memories, autoPruned, promotionCount);
-    }
-
-    const clusterParsed = JSON.parse(clusterBlock.text);
-    const clusterResult = ClusteringResponseSchema.parse(clusterParsed);
-
-    // Collect all IDs from groups (only groups with 2+ members)
-    candidateIds = new Set<string>();
-    for (const group of clusterResult.groups) {
-      if (group.length >= 2) {
-        for (const id of group) {
-          if (memById.has(id)) {
-            candidateIds.add(id);
-          }
-        }
-      }
-    }
-
-    log("info", `Two-pass: Haiku identified ${candidateIds.size} candidates in ${clusterResult.groups.filter((g) => g.length >= 2).length} groups (${memories.length - candidateIds.size} standalone)`);
-  } catch (error) {
-    log("warn", `Two-pass: Haiku clustering failed, falling back to single-pass: ${error instanceof Error ? error.message : String(error)}`);
-    return await singlePassConsolidation(store, config, memories, autoPruned, promotionCount);
+  // Step 4a: Find similar memory groups (deterministic, no API call for clustering)
+  let groups: string[][];
+  if (isEmbeddingEnabled()) {
+    const paths = store.getEmbeddingPaths();
+    const globalIndex = loadEmbeddingIndex(paths.global);
+    const projectIndex = loadEmbeddingIndex(paths.project);
+    groups = findSimilarGroups(memories, globalIndex, projectIndex, 0.8);
+    log("info", `Two-pass: embedding similarity found ${groups.length} groups from ${memories.length} memories`);
+  } else {
+    groups = findSimilarGroupsByTokens(memories, 0.7);
+    log("info", `Two-pass: token overlap found ${groups.length} groups from ${memories.length} memories`);
   }
 
-  // If no candidates found, nothing to consolidate
+  // Collect all IDs from groups
+  const candidateIds = new Set<string>();
+  for (const group of groups) {
+    for (const id of group) {
+      if (memById.has(id)) {
+        candidateIds.add(id);
+      }
+    }
+  }
+
+  // If no candidates found, nothing to consolidate — but still update timestamp
   if (candidateIds.size === 0) {
+    await updateConsolidationTimestamp(store);
     return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: "No merge candidates identified." };
   }
 
@@ -423,6 +556,7 @@ async function twoPassConsolidation(
     const textBlock = response.content.find((b) => b.type === "text");
     if (!textBlock || textBlock.type !== "text") {
       log("warn", "No text block in consolidation response");
+      await updateConsolidationTimestamp(store);
       return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: "API returned no content." };
     }
 
@@ -435,6 +569,7 @@ async function twoPassConsolidation(
     return consolResult;
   } catch (error) {
     log("error", `Two-pass Sonnet call failed: ${error instanceof Error ? error.message : String(error)}`);
+    await updateConsolidationTimestamp(store);
     return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: `API error in two-pass Sonnet. ${error instanceof Error ? error.message : ""}` };
   }
 }
@@ -531,11 +666,7 @@ async function applyConsolidation(
   }
 
   // Update meta with consolidation timestamp
-  for (const scope of ["global", "project"] as const) {
-    const meta = await store.loadMeta(scope);
-    meta.lastConsolidation = new Date().toISOString();
-    await store.saveMeta(scope, meta);
-  }
+  await updateConsolidationTimestamp(store);
 
   const notes = result.notes
     + (autoPruned > 0 ? ` (+ ${autoPruned} auto-pruned from decay)` : "")
