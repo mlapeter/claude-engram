@@ -233,11 +233,12 @@ server.registerTool("store", {
     content: z.string().max(400).describe("Memory content (max 400 chars)"),
     tags: z.array(z.string()).optional().default(["insight"]).describe("1-5 tags"),
     salience_hint: z.enum(["low", "medium", "high", "critical"]).optional().default("medium").describe("Importance level"),
+    scope: z.enum(["global", "project"]).optional().describe("Memory scope — global (across all projects) or project (this project only). Defaults to auto-detect from tags."),
   },
-}, async ({ content, tags, salience_hint }) => {
+}, async ({ content, tags, salience_hint, scope: explicitScope }) => {
   const hintMap: Record<string, number> = { low: 0.3, medium: 0.5, high: 0.7, critical: 0.9 };
   const score = hintMap[salience_hint!] ?? 0.5;
-  const scope = scopeFromTags(tags!);
+  const scope = explicitScope ?? scopeFromTags(tags!);
 
   const memory: Memory = {
     id: generateId(),
