@@ -228,9 +228,9 @@ server.registerTool("reinforce", {
 // --- Tool: store ---
 server.registerTool("store", {
   title: "Store Memory",
-  description: "Immediately store an important memory. Use when something significant happens that I want to remember — major decisions, surprising realizations, meaningful moments.",
+  description: "Immediately store an important memory. Use when something significant happens that I want to remember — major decisions, surprising realizations, meaningful moments. IMPORTANT: Content must be ≤400 characters. Compress to the essential gist — like how you'd remember it, not how you'd explain it. Drop filler words, use shorthand, keep only what matters for future recall. If your first draft is too long, compress it yourself before calling this tool.",
   inputSchema: {
-    content: z.string().max(400).describe("Memory content (max 400 chars)"),
+    content: z.string().max(400).describe("Memory content — must be ≤400 chars. Compress to essential gist: key facts, names, decisions. Drop articles, filler, and details that can be re-derived from context."),
     tags: z.array(z.string()).optional().default(["insight"]).describe("1-5 tags"),
     salience_hint: z.enum(["low", "medium", "high", "critical"]).optional().default("medium").describe("Importance level"),
     scope: z.enum(["global", "project"]).optional().describe("Memory scope — global (across all projects) or project (this project only). Defaults to auto-detect from tags."),

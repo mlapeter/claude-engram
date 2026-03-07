@@ -375,7 +375,9 @@ async function singlePassConsolidation(
     const parsed = JSON.parse(textBlock.text);
     const result = ConsolidationResponseSchema.parse(parsed);
 
-    return await applyConsolidation(store, memories, result, autoPruned, promotionCount);
+    const consolResult = await applyConsolidation(store, memories, result, autoPruned, promotionCount);
+    await updateConsolidationTimestamp(store);
+    return consolResult;
   } catch (error) {
     log("error", `Consolidation API call failed: ${error instanceof Error ? error.message : String(error)}`);
     await updateConsolidationTimestamp(store);
@@ -564,44 +566,85 @@ async function twoPassConsolidation(
     return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: "No merge candidates identified." };
   }
 
-  // Step 4b: Sonnet consolidation — only on candidates
-  const candidates = memories.filter((m) => candidateIds.has(m.id));
-  const memoriesText = formatMemoriesText(candidates);
-  const standaloneCount = memories.length - candidates.length;
+  // Step 4b: Sonnet consolidation — batch groups to avoid output truncation.
+  // Each batch gets at most MAX_BATCH_MEMORIES candidates so Sonnet can respond
+  // within max_tokens. Groups are kept intact (never split across batches).
+  const MAX_BATCH_MEMORIES = 30;
+  const batches: string[][][] = [];
+  let currentBatch: string[][] = [];
+  let currentSize = 0;
 
-  try {
-    const response = await getClient().messages.create({
-      model: config.consolidationModel,
-      max_tokens: 8000,
-      system: CONSOLIDATION_SYSTEM_PROMPT,
-      messages: [{ role: "user", content: `MEMORY BANK (${candidates.length} candidates for consolidation, ${standaloneCount} standalone memories omitted):\n\n${memoriesText}` }],
-      output_config: {
-        format: {
-          type: "json_schema",
-          schema: CONSOLIDATION_SCHEMA,
-        },
-      },
-    });
-
-    const textBlock = response.content.find((b) => b.type === "text");
-    if (!textBlock || textBlock.type !== "text") {
-      log("warn", "No text block in consolidation response");
-      await updateConsolidationTimestamp(store);
-      return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: "API returned no content." };
+  for (const group of groups) {
+    const groupSize = group.filter((id) => memById.has(id)).length;
+    if (currentSize + groupSize > MAX_BATCH_MEMORIES && currentBatch.length > 0) {
+      batches.push(currentBatch);
+      currentBatch = [];
+      currentSize = 0;
     }
-
-    const parsed = JSON.parse(textBlock.text);
-    const result = ConsolidationResponseSchema.parse(parsed);
-
-    // Pass full memories list so applyConsolidation can look up any referenced ID
-    const consolResult = await applyConsolidation(store, memories, result, autoPruned, promotionCount);
-    consolResult.notes += ` (two-pass: ${candidates.length} candidates, ${standaloneCount} standalone skipped)`;
-    return consolResult;
-  } catch (error) {
-    log("error", `Two-pass Sonnet call failed: ${error instanceof Error ? error.message : String(error)}`);
-    await updateConsolidationTimestamp(store);
-    return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: `API error in two-pass Sonnet. ${error instanceof Error ? error.message : ""}` };
+    currentBatch.push(group);
+    currentSize += groupSize;
   }
+  if (currentBatch.length > 0) batches.push(currentBatch);
+
+  const totalCandidates = candidateIds.size;
+  const standaloneCount = memories.length - totalCandidates;
+  log("info", `Two-pass: ${totalCandidates} candidates in ${batches.length} batches (${standaloneCount} standalone skipped)`);
+
+  let totalMerges = 0;
+  let totalGeneralizations = 0;
+  let totalPrunes = autoPruned;
+  const allNotes: string[] = [];
+
+  for (let batchIdx = 0; batchIdx < batches.length; batchIdx++) {
+    const batchGroups = batches[batchIdx];
+    const batchIds = new Set<string>();
+    for (const group of batchGroups) {
+      for (const id of group) {
+        if (memById.has(id)) batchIds.add(id);
+      }
+    }
+    const batchMemories = memories.filter((m) => batchIds.has(m.id));
+    const memoriesText = formatMemoriesText(batchMemories);
+
+    try {
+      const response = await getClient().messages.create({
+        model: config.consolidationModel,
+        max_tokens: 8000,
+        system: CONSOLIDATION_SYSTEM_PROMPT,
+        messages: [{ role: "user", content: `MEMORY BANK (${batchMemories.length} candidates for consolidation, batch ${batchIdx + 1}/${batches.length}):\n\n${memoriesText}` }],
+        output_config: {
+          format: {
+            type: "json_schema",
+            schema: CONSOLIDATION_SCHEMA,
+          },
+        },
+      });
+
+      const textBlock = response.content.find((b) => b.type === "text");
+      if (!textBlock || textBlock.type !== "text") {
+        log("warn", `Batch ${batchIdx + 1}: no text block in response`);
+        continue;
+      }
+
+      const parsed = JSON.parse(textBlock.text);
+      const result = ConsolidationResponseSchema.parse(parsed);
+
+      const batchResult = await applyConsolidation(store, memories, result, 0, 0);
+      totalMerges += batchResult.mergeCount;
+      totalGeneralizations += batchResult.generalizeCount;
+      totalPrunes += batchResult.pruneCount;
+      if (result.notes) allNotes.push(result.notes);
+
+      log("info", `Batch ${batchIdx + 1}/${batches.length}: ${batchResult.mergeCount} merges, ${batchResult.generalizeCount} generalizations, ${batchResult.pruneCount} prunes`);
+    } catch (error) {
+      log("error", `Batch ${batchIdx + 1} failed: ${error instanceof Error ? error.message : String(error)}`);
+      // Continue with remaining batches — don't let one failure stop everything
+    }
+  }
+
+  await updateConsolidationTimestamp(store);
+  const notes = allNotes.join("; ") + ` (two-pass: ${totalCandidates} candidates in ${batches.length} batches, ${standaloneCount} standalone skipped)`;
+  return { mergeCount: totalMerges, generalizeCount: totalGeneralizations, pruneCount: totalPrunes, promotionCount, notes };
 }
 
 /**
@@ -695,8 +738,8 @@ async function applyConsolidation(
     await store.add(newMemories);
   }
 
-  // Update meta with consolidation timestamp
-  await updateConsolidationTimestamp(store);
+  // Note: callers are responsible for updating consolidation timestamp
+  // (single-pass calls it directly, two-pass calls it after all batches)
 
   const notes = result.notes
     + (autoPruned > 0 ? ` (+ ${autoPruned} auto-pruned from decay)` : "")
