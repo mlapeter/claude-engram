@@ -78,7 +78,7 @@ export interface HookInput {
 
 // --- Constants ---
 
-export const GLOBAL_TAGS = ["identity", "preference", "relationship", "goal", "personal"] as const;
+export const GLOBAL_TAGS = ["identity", "preference", "relationship", "goal", "personal", "self-reflection", "realization"] as const;
 export const PROJECT_TAGS = ["project", "technical", "context"] as const;
 export const ALL_TAGS = [
   "identity", "goal", "preference", "project", "relationship",
