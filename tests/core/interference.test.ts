@@ -72,4 +72,49 @@ describe("applyInterference", () => {
 
     expect(count).toBe(0);
   });
+
+  it("multiple updates compound but salience never drops below 0.1 floor", async () => {
+    const store = createStore("/test");
+    const old = makeMemory({
+      id: "old_compound",
+      salience: { novelty: 1.0, relevance: 1.0, emotional: 1.0, predictive: 1.0 },
+    });
+    await store.add([old]);
+
+    // Simulate 5 successive updates to the same memory
+    for (let i = 0; i < 5; i++) {
+      const existing = await store.load("project");
+      const current = existing.find((m) => m.id === "old_compound")!;
+      const newMem = makeMemory({ id: `new_c${i}`, updated_from: "old_compound" });
+      await applyInterference([newMem], [current], store);
+    }
+
+    const loaded = await store.load("project");
+    const updated = loaded.find((m) => m.id === "old_compound")!;
+    // After 5x interference at 0.7: 0.7^5 = 0.168, but floor is 0.1
+    // Some dimensions should hit the floor
+    expect(updated.salience.novelty).toBeGreaterThanOrEqual(0.1);
+    expect(updated.salience.relevance).toBeGreaterThanOrEqual(0.1);
+    expect(updated.salience.emotional).toBeGreaterThanOrEqual(0.1);
+    expect(updated.salience.predictive).toBeGreaterThanOrEqual(0.1);
+  });
+
+  it("single interference weakens each dimension independently", async () => {
+    const store = createStore("/test");
+    const old = makeMemory({
+      id: "old_dims",
+      salience: { novelty: 1.0, relevance: 0.5, emotional: 0.2, predictive: 0.8 },
+    });
+    await store.add([old]);
+
+    const newMem = makeMemory({ id: "new_dims", updated_from: "old_dims" });
+    await applyInterference([newMem], [old], store);
+
+    const loaded = await store.load("project");
+    const updated = loaded.find((m) => m.id === "old_dims")!;
+    expect(updated.salience.novelty).toBeCloseTo(0.7);
+    expect(updated.salience.relevance).toBeCloseTo(0.35);
+    expect(updated.salience.emotional).toBeCloseTo(0.14);
+    expect(updated.salience.predictive).toBeCloseTo(0.56);
+  });
 });

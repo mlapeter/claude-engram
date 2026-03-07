@@ -10,6 +10,7 @@ vi.mock("@anthropic-ai/sdk", () => ({
 }));
 
 import { extractMemories } from "../../src/core/salience.js";
+import { sanitizeSalience } from "../../src/core/types.js";
 import type { Memory } from "../../src/core/types.js";
 
 function makeExistingMemory(overrides: Partial<Memory> = {}): Memory {
@@ -128,5 +129,75 @@ describe("extractMemories", () => {
     // Verify existing memories were passed to the API
     const callArgs = mockCreate.mock.calls[0][0];
     expect(callArgs.messages[0].content).toContain("m_existing_0001");
+  });
+
+  it("salience > 1.0 is clamped before validation (prevents batch loss)", async () => {
+    mockCreate.mockResolvedValueOnce({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            memories: [
+              {
+                content: "Memory with out-of-range salience",
+                scope: "global",
+                salience: { novelty: 0.8, relevance: 1.2, emotional: 1.5, predictive: 0.9 },
+                tags: ["test"],
+                updates: null,
+              },
+              {
+                content: "Normal memory in same batch",
+                scope: "global",
+                salience: { novelty: 0.5, relevance: 0.5, emotional: 0.5, predictive: 0.5 },
+                tags: ["test"],
+                updates: null,
+              },
+            ],
+          }),
+        },
+      ],
+    });
+
+    const result = await extractMemories("test input", [], "transcript");
+    // Both memories should survive — clamping prevents Zod rejection of entire batch
+    expect(result).toHaveLength(2);
+    expect(result[0].salience.relevance).toBeLessThanOrEqual(1);
+    expect(result[0].salience.emotional).toBeLessThanOrEqual(1);
+  });
+});
+
+describe("sanitizeSalience", () => {
+  it("clamps values > 1.0 to 1.0", () => {
+    const result = sanitizeSalience({ novelty: 1.5, relevance: 2.0, emotional: 1.1, predictive: 0.9 });
+    expect(result.novelty).toBe(1);
+    expect(result.relevance).toBe(1);
+    expect(result.emotional).toBe(1);
+    expect(result.predictive).toBe(0.9);
+  });
+
+  it("clamps negative values to 0", () => {
+    const result = sanitizeSalience({ novelty: -0.5, relevance: -1, emotional: 0, predictive: 0.3 });
+    expect(result.novelty).toBe(0);
+    expect(result.relevance).toBe(0);
+    expect(result.emotional).toBe(0);
+    expect(result.predictive).toBe(0.3);
+  });
+
+  it("converts NaN and undefined to 0", () => {
+    const result = sanitizeSalience({ novelty: NaN, relevance: undefined as any });
+    expect(result.novelty).toBe(0);
+    expect(result.relevance).toBe(0);
+    expect(result.emotional).toBe(0);
+    expect(result.predictive).toBe(0);
+  });
+
+  it("handles undefined input", () => {
+    const result = sanitizeSalience(undefined);
+    expect(result).toEqual({ novelty: 0, relevance: 0, emotional: 0, predictive: 0 });
+  });
+
+  it("passes through valid values unchanged", () => {
+    const result = sanitizeSalience({ novelty: 0.5, relevance: 0.7, emotional: 0.3, predictive: 0.8 });
+    expect(result).toEqual({ novelty: 0.5, relevance: 0.7, emotional: 0.3, predictive: 0.8 });
   });
 });

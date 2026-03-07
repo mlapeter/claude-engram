@@ -348,6 +348,121 @@ describe("MemoryStore", () => {
     expect(backups.length).toBeLessThanOrEqual(5);
   });
 
+  it("search boosts recent memories over older ones with same salience", async () => {
+    const store = createStore("/test/project");
+    const oldDate = new Date(Date.now() - 7 * 86_400_000).toISOString(); // 7 days ago
+    const recentDate = new Date(Date.now() - 60_000).toISOString(); // 1 minute ago
+    await store.add([
+      makeMemory({
+        content: "typescript project setup details",
+        created_at: oldDate,
+        salience: { novelty: 0.8, relevance: 0.8, emotional: 0.8, predictive: 0.8 },
+      }),
+      makeMemory({
+        content: "typescript migration to new version",
+        created_at: recentDate,
+        salience: { novelty: 0.8, relevance: 0.8, emotional: 0.8, predictive: 0.8 },
+      }),
+    ]);
+
+    const results = await store.search("typescript");
+    expect(results).toHaveLength(2);
+    // Recent memory should rank first due to recency boost
+    expect(results[0].content).toContain("migration");
+  });
+
+  it("recency boost fades — 24h old memory gets minimal boost", async () => {
+    const store = createStore("/test/project");
+    const dayOld = new Date(Date.now() - 24 * 3_600_000).toISOString();
+    const weekOld = new Date(Date.now() - 7 * 86_400_000).toISOString();
+    await store.add([
+      makeMemory({
+        content: "typescript older memory",
+        created_at: weekOld,
+        salience: { novelty: 0.9, relevance: 0.9, emotional: 0.9, predictive: 0.9 },
+      }),
+      makeMemory({
+        content: "typescript newer memory",
+        created_at: dayOld,
+        salience: { novelty: 0.7, relevance: 0.7, emotional: 0.7, predictive: 0.7 },
+      }),
+    ]);
+
+    const results = await store.search("typescript");
+    expect(results).toHaveLength(2);
+    // Higher salience should still win when both are old enough that recency boost is minimal
+    expect(results[0].content).toContain("older");
+  });
+
+  describe("checkDuplicates", () => {
+    it("detects duplicate via token overlap", async () => {
+      const store = createStore("/test/project");
+      await store.add([
+        makeMemory({ content: "Mike prefers bun over npm for running scripts" }),
+      ]);
+
+      const dupes = await store.checkDuplicates([
+        "Mike prefers bun over npm for running scripts",
+        "TypeScript is the language of choice",
+      ]);
+      expect(dupes.has(0)).toBe(true); // first is duplicate
+      expect(dupes.has(1)).toBe(false); // second is unique
+    });
+
+    it("returns empty set for empty input", async () => {
+      const store = createStore("/test/project");
+      const dupes = await store.checkDuplicates([]);
+      expect(dupes.size).toBe(0);
+    });
+
+    it("returns empty set when no existing memories", async () => {
+      const store = createStore("/test/project");
+      const dupes = await store.checkDuplicates(["brand new memory content"]);
+      expect(dupes.size).toBe(0);
+    });
+
+    it("does not flag dissimilar content as duplicate", async () => {
+      const store = createStore("/test/project");
+      await store.add([
+        makeMemory({ content: "Mike prefers bun over npm" }),
+      ]);
+
+      const dupes = await store.checkDuplicates([
+        "The weather in Montana is beautiful today",
+      ]);
+      expect(dupes.size).toBe(0);
+    });
+  });
+
+  describe("briefing cache", () => {
+    it("save and load round-trip", async () => {
+      const store = createStore("/test/project");
+      await store.saveBriefingCache("Test briefing content", 42);
+
+      const cached = await store.loadBriefingCache();
+      expect(cached).not.toBeNull();
+      expect(cached!.briefing).toBe("Test briefing content");
+      expect(cached!.memoryCount).toBe(42);
+      expect(cached!.generatedAt).toBeTruthy();
+    });
+
+    it("returns null when no cache exists", async () => {
+      const store = createStore("/test/project");
+      const cached = await store.loadBriefingCache();
+      expect(cached).toBeNull();
+    });
+
+    it("overwrites previous cache", async () => {
+      const store = createStore("/test/project");
+      await store.saveBriefingCache("First briefing", 10);
+      await store.saveBriefingCache("Second briefing", 20);
+
+      const cached = await store.loadBriefingCache();
+      expect(cached!.briefing).toBe("Second briefing");
+      expect(cached!.memoryCount).toBe(20);
+    });
+  });
+
   describe("hybrid search (embeddings)", () => {
     it("falls back to token-only search when VOYAGE_API_KEY not set", async () => {
       delete process.env.VOYAGE_API_KEY;

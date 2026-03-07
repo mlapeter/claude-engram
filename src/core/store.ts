@@ -282,6 +282,7 @@ export function createStore(projectCwd: string): MemoryStore {
       if (candidateIds.size === 0) return [];
 
       const memById = new Map(all.map((m) => [m.id, m]));
+      const now = Date.now();
       const ranked = [...candidateIds]
         .map((id) => {
           const tScore = tokenScores.get(id);
@@ -296,7 +297,10 @@ export function createStore(projectCwd: string): MemoryStore {
           }
           const memory = memById.get(id)!;
           const strength = calculateStrength(memory);
-          return { memory, rank: hybridScore * strength };
+          // Recency boost: 2x at 0 hours, 1.5x at 1 hour, ~1.04x at 24 hours
+          const ageHours = (now - new Date(memory.created_at).getTime()) / 3_600_000;
+          const recencyBoost = 1 + 1 / (1 + ageHours);
+          return { memory, rank: hybridScore * strength * recencyBoost };
         })
         .sort((a, b) => b.rank - a.rank)
         .slice(0, limit)
