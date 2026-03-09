@@ -19,7 +19,7 @@ export interface EngramConfig {
   pruneThreshold: number;
   /** Model for memory extraction (default: "claude-haiku-4-5") */
   extractionModel: string;
-  /** Model for briefing generation (default: "claude-sonnet-4-5") */
+  /** Model for briefing generation (default: "claude-opus-4-6") */
   briefingModel: string;
   /** Model for consolidation (default: "claude-sonnet-4-5") */
   consolidationModel: string;
@@ -48,7 +48,7 @@ const DEFAULTS: EngramConfig = {
   autoConsolidationMinDays: 3,
   pruneThreshold: 0.03,
   extractionModel: "claude-haiku-4-5",
-  briefingModel: "claude-sonnet-4-5",
+  briefingModel: "claude-opus-4-6",
   consolidationModel: "claude-sonnet-4-5",
   briefingMaxMemories: 60,
   maxBackups: 5,

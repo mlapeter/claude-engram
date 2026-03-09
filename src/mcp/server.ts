@@ -233,7 +233,7 @@ server.registerTool("store", {
     content: z.string().max(400).describe("Memory content — must be ≤400 chars. Compress to essential gist: key facts, names, decisions. Drop articles, filler, and details that can be re-derived from context."),
     tags: z.array(z.string()).optional().default(["insight"]).describe("1-5 tags"),
     salience_hint: z.enum(["low", "medium", "high", "critical"]).optional().default("medium").describe("Importance level"),
-    scope: z.enum(["global", "project"]).optional().describe("Memory scope — global (across all projects) or project (this project only). Defaults to auto-detect from tags."),
+    scope: z.enum(["global", "project"]).optional().describe("Memory scope. Global memories are visible across all projects — use for personal facts, relationships, decisions, realizations, and anything you'd want to remember in a different project. Project memories are only visible in this project — use for implementation details specific to this codebase. When in doubt, prefer global. Defaults to auto-detect from tags."),
   },
 }, async ({ content, tags, salience_hint, scope: explicitScope }) => {
   const hintMap: Record<string, number> = { low: 0.3, medium: 0.5, high: 0.7, critical: 0.9 };

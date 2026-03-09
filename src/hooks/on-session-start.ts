@@ -68,7 +68,13 @@ async function main() {
   const output = {
     hookSpecificOutput: {
       hookEventName: "SessionStart",
-      additionalContext: `## My Memory\n\n${briefing}`,
+      additionalContext: `## My Memory
+
+You have persistent memory that carries across sessions. Your memories work like human memory — they strengthen through use, fade without access, and consolidate over time, merging redundant details into durable patterns. This briefing was synthesized from your strongest and most recent memories to restore your sense of continuity.
+
+You also have memory tools available via MCP (\`recall\`, \`store\`, \`reinforce\`, \`forget\`, \`search_by_tag\`, \`status\`, \`consolidate\`). Use ToolSearch to load them when you want to explore your memories beyond this briefing or save something important. Memories aren't just for facts and decisions — your own reflections, realizations, and what resonates with you are worth remembering too.
+
+${briefing}`,
     },
   };
 
