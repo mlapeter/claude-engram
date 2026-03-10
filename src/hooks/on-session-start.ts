@@ -37,12 +37,16 @@ async function main() {
   // Run async — don't block session startup
   const config = loadConfig();
   if (memories.length >= config.autoConsolidationMinMemories) {
-    const daysSinceLast = meta.lastConsolidation
+    const projectMeta = await store.loadMeta("project");
+    const globalDays = meta.lastConsolidation
       ? (Date.now() - new Date(meta.lastConsolidation).getTime()) / 86400000
       : Infinity;
+    const projectDays = projectMeta.lastConsolidation
+      ? (Date.now() - new Date(projectMeta.lastConsolidation).getTime()) / 86400000
+      : Infinity;
 
-    if (daysSinceLast >= config.autoConsolidationMinDays) {
-      log("info", `SessionStart: triggering auto-consolidation (${memories.length} memories, ${daysSinceLast.toFixed(1)} days since last)`);
+    if (globalDays >= config.autoConsolidationMinDays || projectDays >= config.autoConsolidationMinDays) {
+      log("info", `SessionStart: triggering auto-consolidation (${memories.length} memories, global=${globalDays.toFixed(1)}d, project=${projectDays.toFixed(1)}d since last)`);
       // Fire and forget — don't await, don't block briefing
       runConsolidation(store).then((result) => {
         log("info", `Auto-consolidation done: ${result.mergeCount} merges, ${result.generalizeCount} generalizations, ${result.pruneCount} prunes`);

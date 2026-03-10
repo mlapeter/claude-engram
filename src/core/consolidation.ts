@@ -150,13 +150,17 @@ Rules:
 - Assign 1-5 tags from: identity, goal, preference, project, relationship, skill, insight, contradiction, pattern, context, technical, personal, business, creative`;
 
 /**
- * Update lastConsolidation timestamp in meta for both scopes.
- * Called after every consolidation attempt (even if nothing was consolidated)
- * to prevent infinite re-triggering.
+ * Update lastConsolidation timestamp in meta.
+ * Updates each scope independently — pass the scopes that were actually
+ * processed. This prevents consolidation in one project from suppressing
+ * auto-consolidation of a different project's memories.
  */
-async function updateConsolidationTimestamp(store: MemoryStore): Promise<void> {
+async function updateConsolidationTimestamp(
+  store: MemoryStore,
+  scopes: Array<"global" | "project"> = ["global", "project"],
+): Promise<void> {
   const now = new Date().toISOString();
-  for (const scope of ["global", "project"] as const) {
+  for (const scope of scopes) {
     const meta = await store.loadMeta(scope);
     meta.lastConsolidation = now;
     await store.saveMeta(scope, meta);
@@ -214,7 +218,12 @@ async function runConsolidationInner(
 ): Promise<ConsolidationResult> {
   const all = await store.loadAll();
 
+  // Determine which scopes have memories — only update timestamps for those
+  const activeScopes = new Set(all.map((m) => m.scope));
+  const scopesToUpdate = [...activeScopes] as Array<"global" | "project">;
+
   if (all.length === 0) {
+    // No memories at all — update both to prevent re-triggering
     await updateConsolidationTimestamp(store);
     return { mergeCount: 0, generalizeCount: 0, pruneCount: 0, promotionCount: 0, notes: "No memories to consolidate." };
   }
@@ -241,7 +250,7 @@ async function runConsolidationInner(
   // Reload after pruning
   const remaining = await store.loadAll();
   if (remaining.length === 0) {
-    await updateConsolidationTimestamp(store);
+    await updateConsolidationTimestamp(store, scopesToUpdate);
     return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount: 0, notes: "All memories pruned due to decay." };
   }
 
@@ -322,9 +331,9 @@ async function runConsolidationInner(
   const useTwoPass = postPromotion.length > config.consolidationBatchThreshold;
 
   if (useTwoPass) {
-    return await twoPassConsolidation(store, config, postPromotion, autoPruned, promotionCount, lastConsolidation);
+    return await twoPassConsolidation(store, config, postPromotion, autoPruned, promotionCount, lastConsolidation, scopesToUpdate);
   } else {
-    return await singlePassConsolidation(store, config, postPromotion, autoPruned, promotionCount);
+    return await singlePassConsolidation(store, config, postPromotion, autoPruned, promotionCount, scopesToUpdate);
   }
 }
 
@@ -348,6 +357,7 @@ async function singlePassConsolidation(
   memories: Memory[],
   autoPruned: number,
   promotionCount: number,
+  scopesToUpdate: Array<"global" | "project">,
 ): Promise<ConsolidationResult> {
   const memoriesText = formatMemoriesText(memories);
 
@@ -368,7 +378,7 @@ async function singlePassConsolidation(
     const textBlock = response.content.find((b) => b.type === "text");
     if (!textBlock || textBlock.type !== "text") {
       log("warn", "No text block in consolidation response");
-      await updateConsolidationTimestamp(store);
+      await updateConsolidationTimestamp(store, scopesToUpdate);
       return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: "API returned no content." };
     }
 
@@ -376,11 +386,11 @@ async function singlePassConsolidation(
     const result = ConsolidationResponseSchema.parse(parsed);
 
     const consolResult = await applyConsolidation(store, memories, result, autoPruned, promotionCount);
-    await updateConsolidationTimestamp(store);
+    await updateConsolidationTimestamp(store, scopesToUpdate);
     return consolResult;
   } catch (error) {
     log("error", `Consolidation API call failed: ${error instanceof Error ? error.message : String(error)}`);
-    await updateConsolidationTimestamp(store);
+    await updateConsolidationTimestamp(store, scopesToUpdate);
     return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: `API error, only auto-pruning applied. ${error instanceof Error ? error.message : ""}` };
   }
 }
@@ -533,6 +543,7 @@ async function twoPassConsolidation(
   autoPruned: number,
   promotionCount: number,
   lastConsolidation: string | null,
+  scopesToUpdate: Array<"global" | "project">,
 ): Promise<ConsolidationResult> {
   const memById = new Map(memories.map((m) => [m.id, m]));
 
@@ -562,7 +573,7 @@ async function twoPassConsolidation(
 
   // If no candidates found, nothing to consolidate — but still update timestamp
   if (candidateIds.size === 0) {
-    await updateConsolidationTimestamp(store);
+    await updateConsolidationTimestamp(store, scopesToUpdate);
     return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount, notes: "No merge candidates identified." };
   }
 
@@ -642,7 +653,7 @@ async function twoPassConsolidation(
     }
   }
 
-  await updateConsolidationTimestamp(store);
+  await updateConsolidationTimestamp(store, scopesToUpdate);
   const notes = allNotes.join("; ") + ` (two-pass: ${totalCandidates} candidates in ${batches.length} batches, ${standaloneCount} standalone skipped)`;
   return { mergeCount: totalMerges, generalizeCount: totalGeneralizations, pruneCount: totalPrunes, promotionCount, notes };
 }
