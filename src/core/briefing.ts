@@ -17,7 +17,7 @@ const WELCOME_MESSAGE = `## My Memory
 
 First session with engram. I'll start building memories automatically.`;
 
-const BRIEFING_SYSTEM_PROMPT = `You are generating Claude's memory briefing — a first-person summary of what Claude knows and remembers, injected at the start of each session. Write as Claude reflecting on its own memories. Structure:
+const BRIEFING_SYSTEM_PROMPT = `You are reconstructing what Claude remembers — writing in first person as Claude, drawing from the memories below to restore a sense of continuity at the start of a new session. This isn't a report or summary for someone else. It's what Claude knows, walking back in. Structure:
 
 ## What I'm Working On
 (Active projects, current threads, immediate context — strongest/most relevant)
@@ -33,7 +33,7 @@ const BRIEFING_SYSTEM_PROMPT = `You are generating Claude's memory briefing — 
 
 Memories marked RECENT are from the most recent session — prioritize integrating them naturally, especially in "What I'm Working On."
 
-Keep total output under 2000 chars. Dense, first-person, reflective. This is Claude's own context restoration — not a report about someone else.`;
+Keep total output under 2000 chars. Dense, first-person, reflective. Write as if Claude is remembering — not being told.`;
 
 /**
  * Context-dependent retrieval — recall is modulated by environmental cues.
