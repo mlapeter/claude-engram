@@ -580,7 +580,7 @@ async function twoPassConsolidation(
   // Step 4b: Sonnet consolidation — batch groups to avoid output truncation.
   // Each batch gets at most MAX_BATCH_MEMORIES candidates so Sonnet can respond
   // within max_tokens. Groups are kept intact (never split across batches).
-  const MAX_BATCH_MEMORIES = 30;
+  const MAX_BATCH_MEMORIES = 20;
   const batches: string[][][] = [];
   let currentBatch: string[][] = [];
   let currentSize = 0;
