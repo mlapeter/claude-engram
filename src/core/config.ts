@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { getDataDir } from "./types.js";
 
 export interface EngramConfig {
-  /** Strength decay coefficient — applied as rate * ln(1 + age_days) (default: 0.04) */
+  /** Strength decay coefficient — applied as rate * sqrt(age_days), power-law forgetting (default: 0.035) */
   decayRate: number;
   /** Strength gained per retrieval (default: 0.12) */
   retrievalBoost: number;
@@ -40,7 +40,7 @@ export interface EngramConfig {
 }
 
 const DEFAULTS: EngramConfig = {
-  decayRate: 0.04,
+  decayRate: 0.035,
   retrievalBoost: 0.12,
   maxRetrievalBonus: 0.5,
   consolidationBonus: 0.2,

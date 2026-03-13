@@ -2,7 +2,7 @@ import type { Memory } from "./types.js";
 import { loadConfig } from "./config.js";
 
 // Re-export defaults for backward compatibility with tests
-export const DECAY_RATE = 0.04;
+export const DECAY_RATE = 0.035;
 export const RETRIEVAL_BOOST = 0.12;
 export const MAX_RETRIEVAL_BONUS = 0.5;
 export const CONSOLIDATION_BONUS = 0.2;
@@ -25,12 +25,13 @@ export function calculateStrength(memory: Memory): number {
   );
   const consolBonus = memory.consolidated ? config.consolidationBonus : 0;
 
-  // Logarithmic decay: gentle early forgetting, asymptotically bounded.
-  // Memories never fully decay from time alone — pruning decisions are left
-  // to consolidation where an LLM can judge content value contextually.
-  // ln(1 + 30) ≈ 3.43 → decay of 0.137 at 30 days (vs 0.274 with old sqrt)
+  // Power-law decay (Ebbinghaus/Wixted): rate × √age.
+  // Rapid initial forgetting that progressively slows (Jost's Law).
+  // This matches the brain's most robust finding — unrehearsed memories
+  // fade fast, while retrieval and consolidation protect important ones.
+  // √30 ≈ 5.48 → decay of 0.192 at 30 days for rate=0.035
   return Math.max(
     0,
-    Math.min(1, avgSalience + retrievalBonus + consolBonus - config.decayRate * Math.log(1 + ageInDays)),
+    Math.min(1, avgSalience + retrievalBonus + consolBonus - config.decayRate * Math.sqrt(ageInDays)),
   );
 }
