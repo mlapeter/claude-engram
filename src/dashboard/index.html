@@ -394,6 +394,81 @@
         <div class="tag-list" id="tagList"></div>
       </div>
     </div>
+
+    <!-- Sync Section -->
+    <div class="card" style="margin-top: 20px;">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+        Artifact Sync
+        <span style="font-size:10px;color:var(--text-dim);font-weight:300;">Claude.ai &#8596; Claude Code</span>
+      </div>
+
+      <!-- Step 1: Upload -->
+      <div id="syncStep1">
+        <p style="color:var(--text-dim);margin:12px 0 16px;line-height:1.6;">
+          Sync global memories between your Claude.ai artifact and Claude Code.
+          Upload your artifact backup to merge both sets bidirectionally.
+        </p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <label style="flex:1;min-width:200px;cursor:pointer;">
+            <input type="file" id="syncFileInput" accept=".json" style="display:none;">
+            <div style="border:1px dashed var(--border-glow);border-radius:8px;padding:20px;text-align:center;transition:border-color 0.2s;">
+              <div style="color:var(--cyan);font-size:14px;margin-bottom:6px;">&#8593; Upload v1 Backup</div>
+              <div style="color:var(--text-dim);font-size:11px;">Download from artifact footer first</div>
+            </div>
+          </label>
+          <button onclick="skipUpload()" style="flex:0 0 auto;background:transparent;border:1px solid var(--border-glow);color:var(--amber);padding:12px 20px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;">
+            Skip &#8212; no artifact memories
+          </button>
+        </div>
+        <div id="syncUploadStatus" style="margin-top:12px;display:none;"></div>
+      </div>
+
+      <!-- Step 2: Review -->
+      <div id="syncStep2" style="display:none;">
+        <div id="syncSummary" style="margin:12px 0;padding:14px;background:var(--bg);border-radius:8px;border:1px solid var(--border);"></div>
+
+        <!-- Similar matches for review -->
+        <div id="syncSimilar" style="margin:12px 0;"></div>
+
+        <div style="display:flex;gap:12px;margin-top:16px;">
+          <button onclick="applySyncAction()" id="syncApplyBtn" style="flex:1;background:var(--cyan-glow);border:1px solid var(--cyan-dim);color:var(--cyan);padding:10px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;">
+            Apply Sync
+          </button>
+          <button onclick="resetSync()" style="flex:0 0 auto;background:transparent;border:1px solid var(--border);color:var(--text-dim);padding:10px 16px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;">
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Results -->
+      <div id="syncStep3" style="display:none;">
+        <div id="syncResults" style="margin:12px 0;padding:14px;background:var(--bg);border-radius:8px;border:1px solid var(--border);"></div>
+        <div style="display:flex;gap:12px;margin-top:16px;">
+          <button onclick="downloadV1Export()" id="syncDownloadBtn" style="flex:1;background:var(--cyan-glow);border:1px solid var(--cyan-dim);color:var(--cyan);padding:10px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;">
+            &#8595; Download Merged v1 Backup
+          </button>
+          <button onclick="resetSync()" style="flex:0 0 auto;background:transparent;border:1px solid var(--border);color:var(--text-dim);padding:10px 16px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;">
+            Done
+          </button>
+        </div>
+      </div>
+
+      <!-- Skip confirmation dialog -->
+      <div id="syncSkipDialog" style="display:none;margin-top:12px;padding:14px;background:rgba(255,215,64,0.08);border:1px solid rgba(255,215,64,0.25);border-radius:8px;">
+        <p style="color:var(--amber);margin:0 0 12px;font-size:12px;line-height:1.6;">
+          &#9888; This will export Claude Code memories without merging artifact memories.
+          Any artifact-only memories won't be included. Continue?
+        </p>
+        <div style="display:flex;gap:8px;">
+          <button onclick="confirmSkip()" style="background:var(--amber);color:#0a0e14;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:500;">
+            Continue
+          </button>
+          <button onclick="cancelSkip()" style="background:transparent;border:1px solid var(--border);color:var(--text-dim);padding:6px 16px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:12px;">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -694,6 +769,218 @@
 
     refresh();
     setInterval(refresh, 30000); // Refresh every 30s
+
+    // --- Sync ---
+    let syncV1Export = null;
+    let syncPlanData = null;
+
+    document.getElementById('syncFileInput').addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      const status = document.getElementById('syncUploadStatus');
+      status.style.display = 'block';
+      status.innerHTML = '<span style="color:var(--cyan);">Uploading...</span>';
+
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+
+        const res = await fetch('/api/sync/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: text,
+        });
+
+        const result = await res.json();
+        if (!res.ok) {
+          status.innerHTML = `<span style="color:var(--red);">${result.error}</span>`;
+          return;
+        }
+
+        status.innerHTML = `<span style="color:var(--teal);">&#10003; Loaded ${result.count} artifact memories</span>` +
+          (result.exportedAt ? `<span style="color:var(--text-dim);margin-left:8px;">(exported ${new Date(result.exportedAt).toLocaleDateString()})</span>` : '');
+
+        // Auto-reconcile
+        await runReconcile();
+      } catch (err) {
+        status.innerHTML = `<span style="color:var(--red);">Error: ${err.message}</span>`;
+      }
+    });
+
+    async function runReconcile() {
+      const status = document.getElementById('syncUploadStatus');
+      status.innerHTML += '<br><span style="color:var(--cyan);">Analyzing differences...</span>';
+
+      const res = await fetch('/api/sync/reconcile', { method: 'POST' });
+      const plan = await res.json();
+
+      if (!res.ok) {
+        status.innerHTML += `<br><span style="color:var(--red);">${plan.error}</span>`;
+        return;
+      }
+
+      syncPlanData = plan;
+      showReconcileResults(plan);
+    }
+
+    function showReconcileResults(plan) {
+      document.getElementById('syncStep1').style.display = 'none';
+      document.getElementById('syncStep2').style.display = 'block';
+
+      const summary = document.getElementById('syncSummary');
+      summary.innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
+          <div>
+            <div style="color:var(--text-dim);font-size:10px;text-transform:uppercase;letter-spacing:1px;">New from Artifact</div>
+            <div style="color:var(--teal);font-size:20px;font-weight:500;">${plan.newFromV1}</div>
+          </div>
+          <div>
+            <div style="color:var(--text-dim);font-size:10px;text-transform:uppercase;letter-spacing:1px;">New from Code</div>
+            <div style="color:var(--purple);font-size:20px;font-weight:500;">${plan.newFromV4}</div>
+          </div>
+          <div>
+            <div style="color:var(--text-dim);font-size:10px;text-transform:uppercase;letter-spacing:1px;">Similar Matches</div>
+            <div style="color:var(--amber);font-size:20px;font-weight:500;">${plan.similar.length}</div>
+          </div>
+          <div>
+            <div style="color:var(--text-dim);font-size:10px;text-transform:uppercase;letter-spacing:1px;">Duplicates (skip)</div>
+            <div style="color:var(--text-dim);font-size:20px;font-weight:500;">${plan.duplicates}</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;color:var(--text-dim);font-size:10px;">Method: ${plan.method}</div>
+      `;
+
+      // Similar matches for review
+      const similarDiv = document.getElementById('syncSimilar');
+      if (plan.similar.length === 0) {
+        similarDiv.innerHTML = '';
+      } else {
+        similarDiv.innerHTML = '<div style="color:var(--amber);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Review Similar Matches</div>' +
+          plan.similar.map((s, i) => `
+            <div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px;background:var(--bg);">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px;">
+                <div>
+                  <div style="color:var(--teal);font-size:10px;margin-bottom:4px;">ARTIFACT</div>
+                  <div style="font-size:12px;line-height:1.5;">${escHtml(s.v1Content)}</div>
+                </div>
+                <div>
+                  <div style="color:var(--purple);font-size:10px;margin-bottom:4px;">CODE</div>
+                  <div style="font-size:12px;line-height:1.5;">${escHtml(s.v4Content)}</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+                <span style="color:var(--text-dim);font-size:10px;margin-right:8px;">${Math.round(s.similarity * 100)}% similar</span>
+                <label style="font-size:11px;cursor:pointer;color:var(--cyan);"><input type="radio" name="sim_${i}" value="merge" checked style="margin-right:3px;">Merge</label>
+                <label style="font-size:11px;cursor:pointer;color:var(--purple);"><input type="radio" name="sim_${i}" value="keep-v4" style="margin-right:3px;">Keep Code</label>
+                <label style="font-size:11px;cursor:pointer;color:var(--teal);"><input type="radio" name="sim_${i}" value="keep-v1" style="margin-right:3px;">Keep Artifact</label>
+                <label style="font-size:11px;cursor:pointer;color:var(--text-dim);"><input type="radio" name="sim_${i}" value="keep-both" style="margin-right:3px;">Keep Both</label>
+              </div>
+            </div>
+          `).join('');
+      }
+    }
+
+    async function applySyncAction() {
+      const btn = document.getElementById('syncApplyBtn');
+      btn.textContent = 'Applying...';
+      btn.disabled = true;
+
+      // Gather resolutions for similar pairs
+      const resolutions = [];
+      if (syncPlanData) {
+        for (let i = 0; i < syncPlanData.similar.length; i++) {
+          const selected = document.querySelector(`input[name="sim_${i}"]:checked`);
+          resolutions.push({ action: selected ? selected.value : 'merge' });
+        }
+      }
+
+      try {
+        const res = await fetch('/api/sync/apply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ resolutions }),
+        });
+
+        const result = await res.json();
+        if (!res.ok) {
+          btn.textContent = 'Error';
+          alert(result.error);
+          return;
+        }
+
+        syncV1Export = result.v1Export;
+
+        document.getElementById('syncStep2').style.display = 'none';
+        document.getElementById('syncStep3').style.display = 'block';
+
+        document.getElementById('syncResults').innerHTML = `
+          <div style="color:var(--teal);margin-bottom:8px;">&#10003; Sync complete</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;">
+            <div style="font-size:12px;"><span style="color:var(--text-dim);">Added to Code:</span> <span style="color:var(--cyan);">${result.addedToV4}</span></div>
+            <div style="font-size:12px;"><span style="color:var(--text-dim);">Similar resolved:</span> <span style="color:var(--amber);">${result.resolvedSimilar}</span></div>
+            <div style="font-size:12px;"><span style="color:var(--text-dim);">Total global:</span> <span style="color:var(--cyan);">${result.totalV4Global}</span></div>
+          </div>
+          <div style="color:var(--text-dim);font-size:11px;margin-top:8px;">Backup: ${result.backupPath}</div>
+          <div style="color:var(--amber);font-size:11px;margin-top:6px;">&#8595; Download the merged backup below and restore it in your artifact.</div>
+        `;
+
+        refresh(); // Update dashboard stats
+      } catch (err) {
+        btn.textContent = 'Error';
+        alert(err.message);
+      }
+    }
+
+    function downloadV1Export() {
+      if (!syncV1Export) return;
+      const blob = new Blob([JSON.stringify(syncV1Export, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `claude-engram-synced-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function skipUpload() {
+      document.getElementById('syncSkipDialog').style.display = 'block';
+    }
+
+    function cancelSkip() {
+      document.getElementById('syncSkipDialog').style.display = 'none';
+    }
+
+    async function confirmSkip() {
+      document.getElementById('syncSkipDialog').style.display = 'none';
+      const status = document.getElementById('syncUploadStatus');
+      status.style.display = 'block';
+      status.innerHTML = '<span style="color:var(--amber);">Skipped upload — exporting Code memories only</span>';
+
+      const res = await fetch('/api/sync/skip-upload', { method: 'POST' });
+      const plan = await res.json();
+      syncPlanData = plan;
+      showReconcileResults(plan);
+    }
+
+    function resetSync() {
+      syncV1Export = null;
+      syncPlanData = null;
+      document.getElementById('syncStep1').style.display = 'block';
+      document.getElementById('syncStep2').style.display = 'none';
+      document.getElementById('syncStep3').style.display = 'none';
+      document.getElementById('syncUploadStatus').style.display = 'none';
+      document.getElementById('syncSkipDialog').style.display = 'none';
+      document.getElementById('syncFileInput').value = '';
+    }
+
+    function escHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
   </script>
 </body>
 </html>

@@ -303,16 +303,16 @@ The key insight: the salience scorer uses a separate Claude instance as a "hippo
 Each memory's strength is computed dynamically (never stored):
 
 ```
-strength = avg_salience + retrieval_boost + consolidation_bonus - (decay_rate × age_in_days)
+strength = avg_salience + retrieval_boost + consolidation_bonus - (decay_rate × √age_in_days)
 ```
 
 Where:
 - `avg_salience` = average of novelty, relevance, emotional, and predictive scores (0-1)
 - `retrieval_boost` = min(access_count × 0.12, 0.5)
 - `consolidation_bonus` = 0.2 if the memory has been consolidated
-- `decay_rate` = 0.015 per day
+- `decay_rate` = 0.035 (power-law, matching Ebbinghaus/Wixted forgetting curve)
 
-A memory with average salience of 0.6, accessed 3 times, and consolidated, would maintain strength for months. An unaccessed memory with salience of 0.3 would fade to near-zero in about 3 weeks and get auto-pruned.
+This follows the brain's power law of forgetting: rapid initial decay that progressively slows (Jost's Law). A high-salience memory stays strong for weeks without reinforcement. Unrehearsed low-salience memories fade naturally — forgetting is a feature, not a bug.
 
 ---
 

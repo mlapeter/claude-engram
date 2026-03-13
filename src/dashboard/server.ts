@@ -10,6 +10,10 @@ import { join, resolve } from "node:path";
 import { getDataDir } from "../core/types.js";
 import { calculateStrength } from "../core/strength.js";
 import { rollupDailyStats, pruneOldEvents } from "../core/events.js";
+import { createStore } from "../core/store.js";
+import { reconcile, type ReconciliationPlan } from "../sync/reconcile.js";
+import { applySync, exportV4AsV1, type SimilarResolution } from "../sync/apply.js";
+import { isValidV1Backup, type V1Memory, type V1Backup } from "../sync/schema.js";
 import type { Memory } from "../core/types.js";
 
 const PORT = 3333;
@@ -281,9 +285,119 @@ const server = Bun.serve({
       return Response.json(Object.values(projects));
     }
 
+    // --- Sync API ---
+
+    // Sync state (single-user, module-level)
+    // Upload v1 backup
+    if (url.pathname === "/api/sync/upload" && req.method === "POST") {
+      try {
+        const body = await req.json();
+        if (!isValidV1Backup(body)) {
+          return Response.json({ error: "Invalid v1 backup format — expected { memories: [...] }" }, { status: 400 });
+        }
+        syncState.v1Memories = (body as V1Backup).memories;
+        syncState.plan = null;
+        return Response.json({
+          count: syncState.v1Memories.length,
+          version: (body as V1Backup).version ?? "unknown",
+          exportedAt: (body as V1Backup).exportedAt ? new Date((body as V1Backup).exportedAt!).toISOString() : null,
+        });
+      } catch (e) {
+        return Response.json({ error: `Parse error: ${e}` }, { status: 400 });
+      }
+    }
+
+    // Run reconciliation
+    if (url.pathname === "/api/sync/reconcile" && req.method === "POST") {
+      const v1Mems = syncState.v1Memories;
+      if (!v1Mems) {
+        return Response.json({ error: "No v1 backup uploaded. Upload first or use skip." }, { status: 400 });
+      }
+
+      const globalPath = join(DATA_DIR, "global", "memories.json");
+      const v4Global = readJsonFile<Memory[]>(globalPath, []);
+
+      const plan = await reconcile(v1Mems, v4Global);
+      syncState.plan = plan;
+
+      return Response.json({
+        method: plan.method,
+        newFromV1: plan.newFromV1.length,
+        newFromV4: plan.newFromV4.length,
+        similar: plan.similar.map((s) => ({
+          v1Content: s.v1.content,
+          v4Content: s.v4.content,
+          similarity: Math.round(s.similarity * 100) / 100,
+          suggestedContent: s.suggestedMerge.content,
+        })),
+        duplicates: plan.duplicates.length,
+      });
+    }
+
+    // Apply sync (write to v4 store + return v1 export)
+    if (url.pathname === "/api/sync/apply" && req.method === "POST") {
+      const plan = syncState.plan;
+      if (!plan) {
+        return Response.json({ error: "No reconciliation plan. Run reconcile first." }, { status: 400 });
+      }
+
+      const body = await req.json() as { resolutions?: SimilarResolution[] };
+      const resolutions = body.resolutions ?? plan.similar.map(() => ({ action: "keep-v4" as const }));
+
+      const store = createStore(process.cwd());
+      const result = await applySync(store, { plan, similarResolutions: resolutions });
+
+      // Clear sync state
+      syncState.v1Memories = null;
+      syncState.plan = null;
+
+      return Response.json({
+        backupPath: result.backupPath,
+        addedToV4: result.addedToV4,
+        resolvedSimilar: result.resolvedSimilar,
+        totalV4Global: result.totalV4Global,
+        v1Export: result.v1Export,
+      });
+    }
+
+    // Skip upload — just export v4 globals as v1 (with warning acknowledgment)
+    if (url.pathname === "/api/sync/export-v1" && req.method === "GET") {
+      const globalPath = join(DATA_DIR, "global", "memories.json");
+      const v4Global = readJsonFile<Memory[]>(globalPath, []);
+      const v1Export = exportV4AsV1(v4Global);
+      return Response.json(v1Export);
+    }
+
+    // Reconcile with empty v1 (skip-upload path)
+    if (url.pathname === "/api/sync/skip-upload" && req.method === "POST") {
+      syncState.v1Memories = [];
+      const globalPath = join(DATA_DIR, "global", "memories.json");
+      const v4Global = readJsonFile<Memory[]>(globalPath, []);
+
+      const plan = await reconcile([], v4Global);
+      syncState.plan = plan;
+
+      return Response.json({
+        method: plan.method,
+        newFromV1: 0,
+        newFromV4: plan.newFromV4.length,
+        similar: [],
+        duplicates: 0,
+      });
+    }
+
     return new Response("Not found", { status: 404 });
   },
 });
+
+// Sync state — single-user, cleared after apply
+const syncState: {
+  v1Memories: V1Memory[] | null;
+  plan: ReconciliationPlan | null;
+} = {
+  v1Memories: null,
+  plan: null,
+};
 
 console.log(`\n  ⚡ engram dashboard running at http://localhost:${PORT}\n`);
 console.log(`  Data: ${DATA_DIR}`);

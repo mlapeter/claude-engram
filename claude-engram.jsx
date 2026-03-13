@@ -6,7 +6,7 @@ const STORAGE = {
   briefing: "nmb-brief-v3",
 };
 
-const DECAY_RATE = 0.015;
+const DECAY_RATE = 0.035;
 const RETRIEVAL_BOOST = 0.12;
 const AUTO_CONSOL_DAYS = 3;
 
@@ -27,7 +27,7 @@ function strength(m) {
   const e = Number(m.salience?.emotional) || 0;
   const p = Number(m.salience?.predictive) || 0;
   const sal = (n + r + e + p) / 4;
-  return Math.max(0, Math.min(1, sal + Math.min(m.accessCount * RETRIEVAL_BOOST, 0.5) + (m.consolidated ? 0.2 : 0) - DECAY_RATE * age));
+  return Math.max(0, Math.min(1, sal + Math.min(m.accessCount * RETRIEVAL_BOOST, 0.5) + (m.consolidated ? 0.2 : 0) - DECAY_RATE * Math.sqrt(age)));
 }
 
 function sCol(s) { return s > 0.7 ? colors.green : s > 0.4 ? colors.accent : s > 0.2 ? "#ea6d2f" : colors.red; }
@@ -430,13 +430,28 @@ export default function ClaudeEngram() {
           showToast("Invalid backup file — no memories array found.", true);
           return;
         }
-        showConfirm(`Restore ${data.memories.length} memories from backup? This will replace your current memory bank.`, async () => {
-          await persist(data.memories);
-          if (data.meta) await persistMeta(data.meta);
-          if (data.briefing) await persistBriefing(data.briefing);
-          showToast(`Restored ${data.memories.length} memories successfully.`);
-          setConfirmDialog(null);
-        });
+        // Merge-based restore: deduplicate incoming against existing
+        const incoming = data.memories;
+        const isDup = (a, b) => {
+          const al = a.content.toLowerCase(), bl = b.content.toLowerCase();
+          if (al.includes(bl) || bl.includes(al)) return true;
+          if (al.slice(0, 80) === bl.slice(0, 80)) return true;
+          return false;
+        };
+        const newMems = incoming.filter(inc => !mems.some(existing => isDup(inc, existing)));
+        const dupeCount = incoming.length - newMems.length;
+
+        showConfirm(
+          `Import ${incoming.length} memories: ${newMems.length} new, ${dupeCount} duplicates skipped. Existing memories will be kept.`,
+          async () => {
+            const merged = [...mems, ...newMems];
+            await persist(merged);
+            if (data.meta) await persistMeta({ ...meta, ...data.meta });
+            if (data.briefing) await persistBriefing(data.briefing);
+            showToast(`Imported ${newMems.length} new memories (${dupeCount} duplicates skipped). Total: ${merged.length}`);
+            setConfirmDialog(null);
+          }
+        );
       } catch (err) {
         showToast(`Import failed: ${err.message}`, true);
       }
