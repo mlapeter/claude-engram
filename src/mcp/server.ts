@@ -49,7 +49,11 @@ server.registerTool("status", {
 
   const globalMeta = await store.loadMeta("global");
   const projectMeta = await store.loadMeta("project");
-  const lastConsol = globalMeta.lastConsolidation || projectMeta.lastConsolidation;
+  // Pick the most recent consolidation timestamp across scopes
+  const lastConsol = [globalMeta.lastConsolidation, projectMeta.lastConsolidation]
+    .filter(Boolean)
+    .sort()
+    .pop() ?? null;
   const daysSinceConsol = lastConsol
     ? (Date.now() - new Date(lastConsol).getTime()) / 86400000
     : null;

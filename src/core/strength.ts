@@ -9,8 +9,8 @@ export const CONSOLIDATION_BONUS = 0.2;
 
 export function calculateStrength(memory: Memory): number {
   const config = loadConfig();
-  const ageInDays =
-    (Date.now() - new Date(memory.created_at).getTime()) / 86_400_000;
+  const rawAge = (Date.now() - new Date(memory.created_at).getTime()) / 86_400_000;
+  const ageInDays = Number.isFinite(rawAge) && rawAge >= 0 ? rawAge : 0;
 
   // Sanitize salience — prevents NaN propagation
   const n = Number(memory.salience?.novelty) || 0;
