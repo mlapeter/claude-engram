@@ -28,15 +28,15 @@ describe("calculateStrength", () => {
     expect(strength).toBeCloseTo(expected, 1);
   });
 
-  it("aged memory with no access → decayed (power-law)", () => {
+  it("aged memory with no access → decayed (logarithmic)", () => {
     const thirtyDaysAgo = new Date(Date.now() - 30 * 86_400_000).toISOString();
     const mem = makeMemory({ created_at: thirtyDaysAgo });
     const strength = calculateStrength(mem);
-    const expected = 0.65 - DECAY_RATE * Math.sqrt(30);
+    const expected = 0.65 - DECAY_RATE * Math.log(1 + 30);
     expect(strength).toBeCloseTo(expected, 1);
     expect(strength).toBeLessThan(0.65);
-    // Power-law: 30-day memory should retain more than linear would predict
-    expect(strength).toBeGreaterThan(0.3);
+    // Logarithmic: 30-day memory retains most of its strength
+    expect(strength).toBeGreaterThan(0.5);
   });
 
   it("memory with high access count → retrieval bonus capped at 0.5", () => {

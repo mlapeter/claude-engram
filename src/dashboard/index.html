@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>engram</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='none' stroke='%2300e5ff' stroke-width='2'/><circle cx='16' cy='16' r='4' fill='%2300e5ff'/><line x1='16' y1='2' x2='16' y2='12' stroke='%2300e5ff' stroke-width='1.5'/><line x1='16' y1='20' x2='16' y2='30' stroke='%2300e5ff' stroke-width='1.5'/><line x1='2' y1='16' x2='12' y2='16' stroke='%2300e5ff' stroke-width='1.5'/><line x1='20' y1='16' x2='30' y2='16' stroke='%2300e5ff' stroke-width='1.5'/></svg>">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -158,37 +159,45 @@
       color: var(--text);
     }
 
-    /* Strength bars */
-    .strength-bars {
+    /* Health bars — horizontal stacked */
+    .health-row {
       display: flex;
-      gap: 3px;
-      height: 32px;
-      margin-top: 12px;
-      align-items: flex-end;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 10px;
     }
 
-    .strength-bar {
-      flex: 1;
-      border-radius: 2px 2px 0 0;
-      transition: height 0.5s ease;
-      position: relative;
-      min-height: 2px;
+    .health-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .strength-bar:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--bg);
-      border: 1px solid var(--border-glow);
-      padding: 4px 8px;
+    .health-bar-label {
       font-size: 10px;
-      white-space: nowrap;
+      width: 56px;
+      text-align: right;
+      letter-spacing: 0.5px;
+    }
+
+    .health-bar-track {
+      flex: 1;
+      height: 10px;
+      background: var(--cyan-subtle);
       border-radius: 2px;
-      color: var(--cyan);
-      z-index: 10;
+      overflow: hidden;
+    }
+
+    .health-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.5s ease;
+    }
+
+    .health-bar-count {
+      font-size: 10px;
+      color: var(--text-dim);
+      width: 36px;
     }
 
     /* Chart containers */
@@ -343,8 +352,7 @@
       </div>
       <div class="card">
         <div class="card-title">Health Distribution</div>
-        <div class="strength-bars" id="healthBars"></div>
-        <div class="stat-sub" id="healthSub"></div>
+        <div class="health-row" id="healthBars"></div>
       </div>
       <div class="card">
         <div class="card-title">Salience Profile</div>
@@ -437,7 +445,7 @@
       document.getElementById('episodicCount').textContent = data.episodic;
       document.getElementById('semanticCount').textContent = data.semantic;
 
-      // Health bars
+      // Health bars — horizontal rows
       const bars = document.getElementById('healthBars');
       const categories = [
         { label: 'Strong', count: data.strong, color: CYAN },
@@ -447,12 +455,15 @@
       ];
       const max = Math.max(...categories.map(c => c.count), 1);
       bars.innerHTML = categories.map(c => {
-        const h = Math.max(2, (c.count / max) * 32);
-        return `<div class="strength-bar" style="height:${h}px;background:${c.color};box-shadow:0 0 6px ${c.color}40" data-tooltip="${c.label}: ${c.count}"></div>`;
+        const pct = Math.max(1, (c.count / max) * 100);
+        return `<div class="health-bar-wrap">
+          <span class="health-bar-label" style="color:${c.color}">${c.label}</span>
+          <div class="health-bar-track">
+            <div class="health-bar-fill" style="width:${pct}%;background:${c.color};box-shadow:0 0 6px ${c.color}40"></div>
+          </div>
+          <span class="health-bar-count">${c.count}</span>
+        </div>`;
       }).join('');
-      document.getElementById('healthSub').innerHTML = categories.map(c =>
-        `<span style="color:${c.color}">${c.count}</span> ${c.label.toLowerCase()}`
-      ).join(' &middot; ');
 
       document.getElementById('lastUpdate').textContent = 'updated ' + new Date().toLocaleTimeString();
     }
@@ -509,27 +520,30 @@
       const globalPts = data.filter(p => p.scope === 'global');
       const projectPts = data.filter(p => p.scope === 'project');
 
+      // Add slight jitter to reduce overplotting in dense regions
+      const jitter = () => (Math.random() - 0.5) * 0.02;
+
       constellationChart = new Chart(ctx, {
         type: 'scatter',
         data: {
           datasets: [
             {
               label: 'Global',
-              data: globalPts.map(p => ({ x: p.age, y: p.strength })),
-              backgroundColor: CYAN_DIM,
-              borderColor: CYAN,
+              data: globalPts.map(p => ({ x: p.age + (Math.random() - 0.5) * 0.3, y: p.strength + jitter() })),
+              backgroundColor: 'rgba(0, 229, 255, 0.18)',
+              borderColor: 'rgba(0, 229, 255, 0.4)',
               borderWidth: 0.5,
-              pointRadius: globalPts.map(p => Math.max(2, Math.min(6, 2 + p.access_count))),
-              pointHoverRadius: 8,
+              pointRadius: globalPts.map(p => Math.max(2, Math.min(5, 2 + p.access_count * 0.5))),
+              pointHoverRadius: 7,
             },
             {
               label: 'Project',
-              data: projectPts.map(p => ({ x: p.age, y: p.strength })),
-              backgroundColor: 'rgba(179, 136, 255, 0.3)',
-              borderColor: PURPLE,
+              data: projectPts.map(p => ({ x: p.age + (Math.random() - 0.5) * 0.3, y: p.strength + jitter() })),
+              backgroundColor: 'rgba(179, 136, 255, 0.15)',
+              borderColor: 'rgba(179, 136, 255, 0.35)',
               borderWidth: 0.5,
-              pointRadius: projectPts.map(p => Math.max(2, Math.min(6, 2 + p.access_count))),
-              pointHoverRadius: 8,
+              pointRadius: projectPts.map(p => Math.max(1.5, Math.min(4, 1.5 + p.access_count * 0.5))),
+              pointHoverRadius: 7,
             },
           ],
         },
