@@ -1,8 +1,10 @@
 import { basename } from "node:path";
+import { projectHash } from "../core/types.js";
 import type { HookInput } from "../core/types.js";
 import { createStore } from "../core/store.js";
 import { generateBriefing } from "../core/briefing.js";
 import { log } from "../core/logger.js";
+import { recordEvent } from "../core/events.js";
 
 /**
  * SessionEnd hook — runs when the session ends.
@@ -47,6 +49,7 @@ async function main() {
   // Reset cursor for next session
   await store.saveCursor({ byteOffset: 0, lastSessionId: "" });
   log("info", `SessionEnd: cursor reset`);
+  recordEvent({ event: "session_end", project: basename(cwd), project_hash: projectHash(cwd), session_id });
 }
 
 main().catch((err) => {

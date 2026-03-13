@@ -2,10 +2,12 @@ import type { HookInput } from "../core/types.js";
 import { createStore } from "../core/store.js";
 import { readTranscriptFromCursor } from "../core/transcript.js";
 import { extractMemories } from "../core/salience.js";
-import { generateId } from "../core/types.js";
+import { generateId, projectHash } from "../core/types.js";
 import { applyInterference } from "../core/interference.js";
 import { getWeights, getWeightsPromptHint } from "../core/salience-weights.js";
 import { log } from "../core/logger.js";
+import { recordEvent } from "../core/events.js";
+import { basename } from "node:path";
 
 const MIN_CONTENT_LENGTH = 200;
 
@@ -55,7 +57,10 @@ async function main() {
   const weightsHint = getWeightsPromptHint(weights);
 
   // Extract new memories
+  const extractStart = Date.now();
   const newMemories = await extractMemories(content, existingMemories, "transcript", weightsHint);
+  const projectName = basename(cwd);
+  const projHash = projectHash(cwd);
 
   if (newMemories.length > 0) {
     // Post-extraction dedup: filter out near-duplicates of existing memories
@@ -68,6 +73,7 @@ async function main() {
 
     if (dupIndices.size > 0) {
       log("info", `Stop: filtered ${dupIndices.size} duplicate${dupIndices.size > 1 ? "s" : ""} (${dedupedMemories.length} unique)`);
+      recordEvent({ event: "dedup", project: projectName, project_hash: projHash, session_id, count: dupIndices.size });
     }
 
     if (dedupedMemories.length > 0) {
@@ -90,7 +96,22 @@ async function main() {
       await store.add(fullMemories);
       const weakened = await applyInterference(fullMemories, existingMemories, store);
       log("info", `Stop: stored ${fullMemories.length} memories${weakened > 0 ? `, weakened ${weakened} via interference` : ""}`);
+
+      for (const m of fullMemories) {
+        recordEvent({
+          event: "extract",
+          project: projectName,
+          project_hash: projHash,
+          session_id,
+          scope: m.scope,
+          content_snippet: m.content.slice(0, 80),
+          tags: m.tags,
+          duration_ms: Date.now() - extractStart,
+        });
+      }
     }
+  } else {
+    recordEvent({ event: "extract", project: projectName, project_hash: projHash, session_id, count: 0, duration_ms: Date.now() - extractStart });
   }
 
   // Update cursor

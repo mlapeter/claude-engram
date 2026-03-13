@@ -4,6 +4,9 @@ import { loadConfig } from "../core/config.js";
 import { generateFallbackBriefing } from "../core/briefing.js";
 import { runConsolidation } from "../core/consolidation.js";
 import { log } from "../core/logger.js";
+import { recordEvent } from "../core/events.js";
+import { basename } from "node:path";
+import { projectHash } from "../core/types.js";
 
 async function main() {
   if (process.env.ENGRAM_DISABLE) {
@@ -84,6 +87,7 @@ ${briefing}`,
 
   process.stdout.write(JSON.stringify(output));
   log("info", `SessionStart: injected briefing (${memories.length} memories)`);
+  recordEvent({ event: "session_start", project: basename(cwd), project_hash: projectHash(cwd), session_id, count: memories.length });
 }
 
 main().catch((err) => {

@@ -12,11 +12,16 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { createStore, type MemoryStore } from "../core/store.js";
 import { calculateStrength } from "../core/strength.js";
-import { generateId, sanitizeSalience, scopeFromTags, getDataDir } from "../core/types.js";
+import { generateId, sanitizeSalience, scopeFromTags, getDataDir, projectHash } from "../core/types.js";
 import type { Memory } from "../core/types.js";
 import { log } from "../core/logger.js";
 import { runConsolidation } from "../core/consolidation.js";
 import { recordSignal } from "../core/salience-weights.js";
+import { recordEvent } from "../core/events.js";
+import { basename } from "node:path";
+
+const projectName = basename(process.cwd());
+const projHash = projectHash(process.cwd());
 
 // --- Store initialization ---
 // MCP server uses process.cwd() for project scoping — Claude Code launches
@@ -132,6 +137,7 @@ server.registerTool("recall", {
 
   const result = associations.length > 0 ? { memories: output, associations } : output;
   log("info", `MCP recall: "${query}" → ${output.length} results, ${associations.length} associations`);
+  recordEvent({ event: "recall", project: projectName, project_hash: projHash, query, count: output.length });
   return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
 });
 
@@ -186,6 +192,7 @@ server.registerTool("search_by_tag", {
 
   const result = associations.length > 0 ? { memories: output, associations } : output;
   log("info", `MCP search_by_tag: [${tags.join(", ")}] → ${output.length} results, ${associations.length} associations`);
+  recordEvent({ event: "recall", project: projectName, project_hash: projHash, query: `tag:${tags.join(",")}`, count: output.length, tags });
   return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
 });
 
@@ -221,6 +228,7 @@ server.registerTool("reinforce", {
 
   const newStrength = calculateStrength({ ...mem, access_count: mem.access_count + 1 });
   log("info", `MCP reinforce: ${memory_id} → strength ${round(newStrength)}${new_content ? " (content updated)" : ""}`);
+  recordEvent({ event: "reinforce", project: projectName, project_hash: projHash, memory_id, strength: round(newStrength), content_snippet: mem.content.slice(0, 80) });
   return {
     content: [{
       type: "text" as const,
@@ -262,6 +270,7 @@ server.registerTool("store", {
 
   await store.add([memory]);
   log("info", `MCP store: "${content.slice(0, 60)}..." (${scope}, ${salience_hint})`);
+  recordEvent({ event: "store", project: projectName, project_hash: projHash, scope, tags: tags!, content_snippet: content.slice(0, 80) });
   return {
     content: [{
       type: "text" as const,
@@ -287,6 +296,7 @@ server.registerTool("forget", {
   await store.remove(memory_id);
   await recordSignal(store, "forget", mem.salience);
   log("info", `MCP forget: ${memory_id} "${mem.content.slice(0, 60)}..."`);
+  recordEvent({ event: "forget", project: projectName, project_hash: projHash, memory_id, content_snippet: mem.content.slice(0, 80) });
   return {
     content: [{
       type: "text" as const,
@@ -316,6 +326,7 @@ server.registerTool("consolidate", {
   ].join("\n");
 
   log("info", `MCP consolidate: done — ${result.mergeCount} merges, ${result.generalizeCount} generalizations, ${result.pruneCount} prunes`);
+  recordEvent({ event: "consolidate", project: projectName, project_hash: projHash, merges: result.mergeCount, prunes: result.pruneCount, generalizations: result.generalizeCount, count: after });
   return { content: [{ type: "text" as const, text: msg }] };
 });
 
