@@ -11,6 +11,7 @@ import { getDataDir } from "../core/types.js";
 import { calculateStrength } from "../core/strength.js";
 import { rollupDailyStats, pruneOldEvents } from "../core/events.js";
 import { createStore } from "../core/store.js";
+import { runConsolidation } from "../core/consolidation.js";
 import { reconcile, type ReconciliationPlan } from "../sync/reconcile.js";
 import { applySync, exportV4AsV1, type SimilarResolution } from "../sync/apply.js";
 import { isValidV1Backup, type V1Memory, type V1Backup } from "../sync/schema.js";
@@ -283,6 +284,62 @@ const server = Bun.serve({
       }
 
       return Response.json(Object.values(projects));
+    }
+
+    // --- Actions API ---
+
+    // Run consolidation
+    if (url.pathname === "/api/consolidate" && req.method === "POST") {
+      const store = createStore(process.cwd());
+      const before = (await store.loadAll()).length;
+      const result = await runConsolidation(store);
+      const after = (await store.loadAll()).length;
+
+      return Response.json({
+        before,
+        after,
+        merged: result.mergeCount,
+        generalized: result.generalizeCount,
+        pruned: result.pruneCount,
+        promoted: result.promotionCount,
+        notes: result.notes,
+      });
+    }
+
+    // Manual backup + download
+    if (url.pathname === "/api/backup" && req.method === "POST") {
+      const store = createStore(process.cwd());
+      const backupPath = await store.backup();
+      const all = await store.loadAll();
+      return Response.json({
+        backupPath,
+        memoryCount: all.length,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    if (url.pathname === "/api/backup/download" && req.method === "GET") {
+      const globalPath = join(DATA_DIR, "global", "memories.json");
+      const globalMems = readJsonFile<Memory[]>(globalPath, []);
+
+      // Include project memories from all projects
+      const all: Memory[] = [...globalMems];
+      const projectsDir = join(DATA_DIR, "projects");
+      if (existsSync(projectsDir)) {
+        for (const hash of readdirSync(projectsDir)) {
+          const memPath = join(projectsDir, hash, "memories.json");
+          const mems = readJsonFile<Memory[]>(memPath, []);
+          all.push(...mems);
+        }
+      }
+
+      const backup = JSON.stringify({ memories: all, exportedAt: Date.now(), version: "v4" }, null, 2);
+      return new Response(backup, {
+        headers: {
+          "content-type": "application/json",
+          "content-disposition": `attachment; filename="engram-backup-${new Date().toISOString().slice(0, 10)}.json"`,
+        },
+      });
     }
 
     // --- Sync API ---

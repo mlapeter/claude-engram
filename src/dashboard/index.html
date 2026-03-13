@@ -395,6 +395,35 @@
       </div>
     </div>
 
+    <!-- Actions -->
+    <div class="grid" style="grid-template-columns: 1fr 1fr; margin-top: 20px; gap: 16px;">
+      <div class="card">
+        <div class="card-title">Consolidate</div>
+        <p style="color:var(--text-dim);margin:8px 0 14px;line-height:1.6;font-size:12px;">
+          Run sleep consolidation: merge redundant memories, extract patterns, prune faded ones. Uses Sonnet.
+        </p>
+        <button onclick="runConsolidate(this)" style="width:100%;background:var(--cyan-glow);border:1px solid var(--cyan-dim);color:var(--cyan);padding:10px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;">
+          Run Consolidation
+        </button>
+        <div id="consolResult" style="margin-top:10px;display:none;"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Backup</div>
+        <p style="color:var(--text-dim);margin:8px 0 14px;line-height:1.6;font-size:12px;">
+          Create a snapshot and download all memories (global + project) as JSON.
+        </p>
+        <div style="display:flex;gap:8px;">
+          <button onclick="runBackup(this)" style="flex:1;background:var(--cyan-glow);border:1px solid var(--cyan-dim);color:var(--cyan);padding:10px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;">
+            Backup Now
+          </button>
+          <a href="/api/backup/download" download style="flex:1;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border-glow);color:var(--purple);padding:10px;border-radius:8px;text-decoration:none;font-family:inherit;font-size:13px;font-weight:500;">
+            &#8595; Download
+          </a>
+        </div>
+        <div id="backupResult" style="margin-top:10px;display:none;"></div>
+      </div>
+    </div>
+
     <!-- Sync Section -->
     <div class="card" style="margin-top: 20px;">
       <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
@@ -769,6 +798,52 @@
 
     refresh();
     setInterval(refresh, 30000); // Refresh every 30s
+
+    // --- Actions ---
+    async function runConsolidate(btn) {
+      btn.textContent = 'Consolidating...';
+      btn.disabled = true;
+      const result = document.getElementById('consolResult');
+      result.style.display = 'block';
+      result.innerHTML = '<span style="color:var(--cyan);">Running sleep cycle...</span>';
+
+      try {
+        const res = await fetch('/api/consolidate', { method: 'POST' });
+        const data = await res.json();
+        result.innerHTML = `
+          <div style="color:var(--teal);">&#10003; Complete (${data.before} &#8594; ${data.after})</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">
+            Merged: ${data.merged} &middot; Patterns: ${data.generalized} &middot; Pruned: ${data.pruned} &middot; Promoted: ${data.promoted}
+          </div>
+          ${data.notes ? `<div style="font-size:11px;color:var(--text-dim);margin-top:2px;">${escHtml(data.notes)}</div>` : ''}
+        `;
+        refresh();
+      } catch (err) {
+        result.innerHTML = `<span style="color:var(--red);">Error: ${err.message}</span>`;
+      }
+      btn.textContent = 'Run Consolidation';
+      btn.disabled = false;
+    }
+
+    async function runBackup(btn) {
+      btn.textContent = 'Backing up...';
+      btn.disabled = true;
+      const result = document.getElementById('backupResult');
+      result.style.display = 'block';
+
+      try {
+        const res = await fetch('/api/backup', { method: 'POST' });
+        const data = await res.json();
+        result.innerHTML = `
+          <div style="color:var(--teal);font-size:11px;">&#10003; Backed up ${data.memoryCount} memories</div>
+          <div style="color:var(--text-dim);font-size:10px;margin-top:2px;">${data.backupPath}</div>
+        `;
+      } catch (err) {
+        result.innerHTML = `<span style="color:var(--red);font-size:11px;">Error: ${err.message}</span>`;
+      }
+      btn.textContent = 'Backup Now';
+      btn.disabled = false;
+    }
 
     // --- Sync ---
     let syncV1Export = null;
