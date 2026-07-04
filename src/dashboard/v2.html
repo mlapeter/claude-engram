@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>engram — v2</title>
+<style>
+  :root { --bg:#0a0e14; --card:#0d1117; --hover:#111820; --border:#1c2430; --glow:#2a3548;
+    --ink:#c9d4e3; --dim:#6b7a90; --cyan:#56d4dd; --cyanglow:rgba(86,212,221,0.08);
+    --purple:#b78af7; --amber:#e0b45c; --teal:#4fd6a8; --red:#e06c75; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;line-height:1.6}
+  .wrap{max-width:1500px;margin:0 auto;padding:24px 24px 60px}
+  header{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+  h1{font-size:20px;color:var(--cyan)} h1 span{color:var(--dim);font-weight:400}
+  header a{color:var(--dim);text-decoration:none;font-size:12px} header a:hover{color:var(--cyan)}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px}
+  .tile{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+  .tile .n{font-size:22px;font-weight:600;color:var(--cyan)} .tile .l{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+  .tile.p .n{color:var(--purple)} .tile.a .n{color:var(--amber)} .tile.t .n{color:var(--teal)}
+  .cols{display:grid;grid-template-columns:1fr 1.2fr;gap:18px}
+  @media(max-width:980px){.cols{grid-template-columns:1fr}}
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--dim);margin:20px 0 10px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+  .bars{padding:14px 16px}
+  .bar{display:grid;grid-template-columns:80px 1fr 60px;gap:10px;align-items:center;margin:7px 0;font-size:11px}
+  .bar .track{height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+  .bar .fill{height:100%;border-radius:4px}
+  .feed{max-height:420px;overflow-y:auto}
+  .ev{display:grid;grid-template-columns:64px 92px 1fr;gap:10px;padding:7px 14px;border-bottom:1px solid var(--border);font-size:11px}
+  .ev:hover{background:var(--hover)} .ev .t{color:var(--dim)} .ev .k{font-weight:600}
+  .k.extract{color:var(--teal)} .k.episode_request{color:var(--purple)} .k.reinforce{color:var(--cyan)}
+  .k.dedup{color:var(--dim)} .k.session_start{color:var(--amber)} .ev .s{color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dhead{display:flex;gap:10px;align-items:center;padding:11px 14px;cursor:pointer;user-select:none;font-size:12px;font-weight:600}
+  .dhead:hover{background:var(--hover)} .dhead .chev{color:var(--dim);font-size:10px;transition:transform .15s}
+  .card.open .chev{transform:rotate(90deg)} .dbody{display:none;padding:4px 18px 16px;border-top:1px solid var(--border)}
+  .card.open .dbody{display:block}
+  .md{white-space:pre-wrap;font-size:12px}
+  .md-h{color:var(--cyan);font-weight:600} .md-hh{color:var(--purple);font-weight:600} .md-em{color:var(--amber)}
+  .badge{font-size:9px;padding:1px 7px;border-radius:9px;border:1px solid var(--glow);color:var(--dim);margin-left:auto}
+  .badge.critical{color:var(--amber);border-color:var(--amber)} .badge.high{color:var(--purple);border-color:var(--purple)}
+  .empty{color:var(--dim);font-size:11px;padding:12px 14px;border:1px dashed var(--glow);border-radius:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>engram <span>/ v2 — is it working?</span></h1>
+    <a href="/">classic</a><a href="/mind">mind</a><div style="margin-left:auto" class="badge" id="upd">…</div></header>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="cols">
+    <div>
+      <h2>Memory strength</h2>
+      <div class="card bars" id="bars"></div>
+      <h2>Live activity <span style="color:var(--purple)">— hooks firing</span></h2>
+      <div class="card feed" id="feed"></div>
+    </div>
+    <div>
+      <h2>Who I am — identity</h2>
+      <div id="identity"></div>
+      <h2>Pending deltas</h2>
+      <div id="deltas"></div>
+      <h2>Episodes</h2>
+      <div id="episodes"></div>
+    </div>
+  </div>
+</div>
+<script>
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const md=s=>esc(s).replace(/^###? (.*)$/gm,'<span class="md-hh">$1</span>').replace(/^# (.*)$/gm,'<span class="md-h">$1</span>').replace(/\*\*([^*]+)\*\*/g,'<span class="md-em">$1</span>');
+const doc=(t,c,b,open)=>`<div class="card${open?' open':''}"><div class="dhead" onclick="this.parentElement.classList.toggle('open')"><span class="chev">▶</span>${esc(t)}${b?`<span class="badge ${b}">${b}</span>`:''}</div><div class="dbody"><div class="md">${md(c)}</div></div></div>`;
+const fm=c=>{const m=c.match(/^---\n([\s\S]*?)\n---/),o={};if(m)for(const l of m[1].split('\n')){const i=l.indexOf(':');if(i>0)o[l.slice(0,i).trim()]=l.slice(i+1).trim()}return o};
+async function j(u){return (await fetch(u)).json()}
+async function load(){
+  const h=await j('/api/health');
+  const tile=(n,l,c)=>`<div class="tile ${c||''}"><div class="n">${n}</div><div class="l">${l}</div></div>`;
+  document.getElementById('tiles').innerHTML =
+    tile(h.total.toLocaleString(),'memories')+tile(h.avgStrength,'avg strength','t')+
+    tile(h.semantic,'semantic','p')+tile(h.consolidated,'consolidated','p')+
+    tile(h.avgAge+'d','avg age','a')+tile(h.global.toLocaleString(),'global')+tile(h.project.toLocaleString(),'project');
+  const mx=Math.max(h.strong,h.stable,h.fading,h.decaying)||1;
+  const colors={strong:'var(--teal)',stable:'var(--cyan)',fading:'var(--amber)',decaying:'var(--red)'};
+  document.getElementById('bars').innerHTML=['strong','stable','fading','decaying'].map(k=>
+    `<div class="bar"><span>${k}</span><div class="track"><div class="fill" style="width:${(h[k]/mx*100).toFixed(0)}%;background:${colors[k]}"></div></div><span>${h[k].toLocaleString()}</span></div>`).join('');
+  const evs=await j('/api/events');
+  document.getElementById('feed').innerHTML=(evs.slice(0,60)).map(e=>
+    `<div class="ev"><span class="t">${(e.ts||'').slice(11,19)}</span><span class="k ${e.event}">${e.event}</span><span class="s">${esc(e.project||'')}${e.content_snippet?' · '+esc(e.content_snippet):''}</span></div>`).join('')||'<div class="empty">no events</div>';
+  const idn=await j('/api/identity');
+  document.getElementById('identity').innerHTML=(idn.core?doc('core.md',idn.core,null,false):'')+idn.people.map(p=>doc('people/'+p.name+'.md',p.content,null,false)).join('')||'<div class="empty">none yet</div>';
+  document.getElementById('deltas').innerHTML=idn.deltas?doc('deltas.md — awaiting consolidation',idn.deltas,'high',true):'<div class="empty">none pending — identity is up to date</div>';
+  const eps=await j('/api/episodes');
+  document.getElementById('episodes').innerHTML=eps.episodes.map(e=>{const f=fm(e.content);return doc((f.when||e.file.slice(0,10))+' — with '+(f.with||'?'),e.content,f.salience||null,false)}).join('')||'<div class="empty">none yet — written at session end</div>';
+  document.getElementById('upd').textContent='updated '+new Date().toTimeString().slice(0,8);
+}
+load(); setInterval(load, 30000);
+</script>
+</body>
+</html>

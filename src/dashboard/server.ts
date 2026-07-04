@@ -94,6 +94,16 @@ const server = Bun.serve({
       }
     }
 
+    // v2 — combined at-a-glance view (health + activity + mind)
+    if (url.pathname === "/v2") {
+      try {
+        const html = readFileSync(resolve(import.meta.dir, "v2.html"), "utf-8");
+        return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
+      } catch {
+        return new Response("v2 HTML not found", { status: 500 });
+      }
+    }
+
     // The Mind view — identity documents + episodes (DESIGN-RECENTER.md)
     if (url.pathname === "/mind") {
       try {
