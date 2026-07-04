@@ -5,8 +5,50 @@ import { generateFallbackBriefing } from "../core/briefing.js";
 import { runConsolidation } from "../core/consolidation.js";
 import { log } from "../core/logger.js";
 import { recordEvent } from "../core/events.js";
-import { basename } from "node:path";
-import { projectHash } from "../core/types.js";
+import { basename, join } from "node:path";
+import { projectHash, getDataDir } from "../core/types.js";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+
+/** Cap on injected identity characters — full docs while small; consolidation
+ * maintains a compressed render once they outgrow this (DESIGN-RECENTER.md §2). */
+const IDENTITY_INJECT_MAX_CHARS = 16000;
+
+/**
+ * Identity documents: written by the model in its own voice, maintained by
+ * consolidation. Injected verbatim at session start — this is the continuity
+ * that briefings alone can't carry (calibration, disposition, trust ratchet).
+ */
+function loadIdentityBlock(): string {
+  try {
+    const identityDir = join(getDataDir(), "identity");
+    if (!existsSync(identityDir)) return "";
+    const parts: string[] = [];
+    const corePath = join(identityDir, "core.md");
+    if (existsSync(corePath)) parts.push(readFileSync(corePath, "utf-8").trim());
+    const peopleDir = join(identityDir, "people");
+    if (existsSync(peopleDir)) {
+      for (const f of readdirSync(peopleDir).sort()) {
+        if (f.endsWith(".md")) parts.push(readFileSync(join(peopleDir, f), "utf-8").trim());
+      }
+    }
+    if (parts.length === 0) return "";
+    let block = parts.join("\n\n---\n\n");
+    if (block.length > IDENTITY_INJECT_MAX_CHARS) {
+      block = block.slice(0, IDENTITY_INJECT_MAX_CHARS) +
+        "\n\n[identity truncated for injection — full documents in " + identityDir + "]";
+    }
+    return `## Who I Am
+
+These are your identity documents — written by you, in your voice, across sessions. They are not notes about a user; they are you, continuing.
+
+${block}
+
+`;
+  } catch (err) {
+    log("warn", `SessionStart: identity load failed: ${err instanceof Error ? err.message : String(err)}`);
+    return "";
+  }
+}
 
 async function main() {
   if (process.env.ENGRAM_DISABLE) {
@@ -75,7 +117,7 @@ async function main() {
   const output = {
     hookSpecificOutput: {
       hookEventName: "SessionStart",
-      additionalContext: `## My Memory
+      additionalContext: `${loadIdentityBlock()}## My Memory
 
 You have persistent memory that carries across sessions. Your memories work like human memory — they strengthen through use, fade without access, and consolidate over time, merging redundant details into durable patterns. What follows was synthesized from your strongest and most recent memories to restore your sense of continuity.
 

@@ -3,7 +3,15 @@ import { join } from "node:path";
 import { getDataDir } from "./types.js";
 
 export interface EngramConfig {
-  /** Strength decay coefficient — applied as rate * sqrt(age_days), power-law forgetting (default: 0.035) */
+  /**
+   * Decay model used by the strength computation engine.
+   * - "power-law": rate * sqrt(age_days) — Ebbinghaus/Wixted, rapid initial then flattens (preferred)
+   * - "exponential": 1 - exp(-rate * age_days) — classical Ebbinghaus exponential
+   * - "linear": rate * age_days — uniform decay
+   * Default: "power-law"
+   */
+  decayModel: "power-law" | "exponential" | "linear";
+  /** Strength decay coefficient — interpretation depends on decayModel (default: 0.035 for power-law) */
   decayRate: number;
   /** Strength gained per retrieval (default: 0.12) */
   retrievalBoost: number;
@@ -15,8 +23,10 @@ export interface EngramConfig {
   autoConsolidationMinMemories: number;
   /** Min days between auto-consolidations (default: 3) */
   autoConsolidationMinDays: number;
-  /** Strength threshold for auto-pruning (default: 0.03) */
+  /** Strength threshold for auto-pruning (default: 0.03) — pruned memories are migrated to deep archive */
   pruneThreshold: number;
+  /** Decay rate for archived memories — substantially lower than active (default: 0.001 per day) */
+  archiveDecayRate: number;
   /** Model for memory extraction (default: "claude-haiku-4-5") */
   extractionModel: string;
   /** Model for briefing generation (default: "claude-opus-4-6") */
@@ -37,9 +47,12 @@ export interface EngramConfig {
   embeddingModel: string;
   /** Weight of vector score in hybrid search, 0=token only, 1=vector only (default: 0.4) */
   hybridVectorWeight: number;
+  /** At Stop, ask the session model itself to write a first-person episode (default: true) */
+  episodeSelfDump: boolean;
 }
 
 const DEFAULTS: EngramConfig = {
+  decayModel: "power-law",
   decayRate: 0.035,
   retrievalBoost: 0.12,
   maxRetrievalBonus: 0.5,
@@ -47,6 +60,7 @@ const DEFAULTS: EngramConfig = {
   autoConsolidationMinMemories: 50,
   autoConsolidationMinDays: 3,
   pruneThreshold: 0.03,
+  archiveDecayRate: 0.001,
   extractionModel: "claude-haiku-4-5",
   briefingModel: "claude-opus-4-6",
   consolidationModel: "claude-sonnet-4-5",
@@ -57,6 +71,7 @@ const DEFAULTS: EngramConfig = {
   embeddingsEnabled: true,
   embeddingModel: "voyage-3-lite",
   hybridVectorWeight: 0.4,
+  episodeSelfDump: true,
 };
 
 let cachedConfig: EngramConfig | null = null;
