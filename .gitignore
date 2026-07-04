@@ -5,3 +5,6 @@ dist/
 IDEAS.md
 PATENT-PRIOR-ART.md
 .env
+
+# Real conversation transcripts + answer keys — never publish
+eval/

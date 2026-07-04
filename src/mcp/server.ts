@@ -330,6 +330,47 @@ server.registerTool("consolidate", {
   return { content: [{ type: "text" as const, text: msg }] };
 });
 
+// --- Tool: deep_recall ---
+server.registerTool("deep_recall", {
+  title: "Deep Recall (Archived Memories)",
+  description: "Search memories that have been archived (faded below the prune threshold but not permanently deleted). Use this when standard recall comes up empty and you have a specific cue. Stricter matching than recall — bring a precise query. A recovered memory is reactivated (moved back to active store).",
+  inputSchema: {
+    query: z.string().describe("High-specificity search query — exact phrase or strong keyword cluster works best"),
+    limit: z.number().optional().default(5).describe("Max results"),
+    reactivate: z.boolean().optional().default(false).describe("If true, move the top result back to the active memory store"),
+  },
+}, async ({ query, limit, reactivate }) => {
+  const results = await store.deepRecall(query, { limit: limit ?? 5 });
+
+  if (results.length === 0) {
+    return { content: [{ type: "text" as const, text: "No archived memories matched the query." }] };
+  }
+
+  let reactivatedId: string | null = null;
+  if (reactivate) {
+    const top = results[0];
+    const recovered = await store.reactivateMemory(top.id);
+    if (recovered) {
+      reactivatedId = top.id;
+      log("info", `MCP deep_recall: reactivated ${top.id}`);
+    }
+  }
+
+  const output = results.map((m) => ({
+    id: m.id,
+    content: m.content,
+    scope: m.scope,
+    memory_type: m.memory_type ?? "episodic",
+    tags: m.tags,
+    strength: round(calculateStrength(m)),
+    archived_at: m.archived_at ?? null,
+    reactivated: m.id === reactivatedId,
+  }));
+
+  recordEvent({ event: "recall", project: projectName, project_hash: projHash, query: `deep:${query}`, count: output.length });
+  return { content: [{ type: "text" as const, text: JSON.stringify(output, null, 2) }] };
+});
+
 // --- Helpers ---
 function round(n: number): number {
   return Math.round(n * 100) / 100;

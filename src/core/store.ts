@@ -71,6 +71,14 @@ export interface MemoryStore {
   loadBriefingCache(): Promise<{ briefing: string; generatedAt: string; memoryCount: number } | null>;
   /** Embedding paths for external use (consolidation) */
   getEmbeddingPaths(): { global: string; project: string };
+  /** Deep archive: load all archived memories for a scope */
+  loadArchive(scope: "global" | "project"): Promise<Memory[]>;
+  /** Deep archive: migrate active memories to the archive (preserves them with archived flag) */
+  archiveMemories(ids: string[]): Promise<number>;
+  /** Deep archive: reactivate an archived memory, moving it back to active store with refreshed access */
+  reactivateMemory(id: string): Promise<Memory | null>;
+  /** Deep archive: high-specificity search over archived memories only */
+  deepRecall(query: string, opts?: { limit?: number; minSpecificity?: number }): Promise<Memory[]>;
 }
 
 const MAX_BACKUPS = 5;
@@ -128,6 +136,10 @@ export function createStore(projectCwd: string): MemoryStore {
 
   function cursorPath(): string {
     return join(projectDir, "cursor.json");
+  }
+
+  function archivePath(scope: "global" | "project"): string {
+    return join(scope === "global" ? globalDir : projectDir, "deep_archive.json");
   }
 
   ensureDataDir();
@@ -491,6 +503,133 @@ export function createStore(projectCwd: string): MemoryStore {
         global: embeddingsPath("global"),
         project: embeddingsPath("project"),
       };
+    },
+
+    async loadArchive(scope) {
+      return readJsonFile<Memory[]>(archivePath(scope), []);
+    },
+
+    async archiveMemories(ids) {
+      if (ids.length === 0) return 0;
+      const idSet = new Set(ids);
+      const now = new Date().toISOString();
+      let total = 0;
+
+      for (const scope of ["global", "project"] as const) {
+        const memPath = memoriesPath(scope);
+        const archPath = archivePath(scope);
+
+        // Ensure archive file exists for locking
+        try { readFileSync(archPath); } catch { writeJsonFile(archPath, []); }
+
+        const archivedHere: Memory[] = [];
+        await withLock(memPath, async () => {
+          const memories = readJsonFile<Memory[]>(memPath, []);
+          const remaining: Memory[] = [];
+          for (const m of memories) {
+            if (idSet.has(m.id)) {
+              archivedHere.push({ ...m, archived: true, archived_at: now });
+            } else {
+              remaining.push(m);
+            }
+          }
+          if (archivedHere.length > 0) {
+            writeJsonFile(memPath, remaining);
+          }
+        });
+
+        if (archivedHere.length > 0) {
+          await withLock(archPath, async () => {
+            const existing = readJsonFile<Memory[]>(archPath, []);
+            writeJsonFile(archPath, [...existing, ...archivedHere]);
+          });
+          total += archivedHere.length;
+          log("info", `Archive: migrated ${archivedHere.length} memories to ${scope} deep archive`);
+        }
+      }
+
+      invalidateCache();
+      return total;
+    },
+
+    async reactivateMemory(id) {
+      for (const scope of ["global", "project"] as const) {
+        const archPath = archivePath(scope);
+        let reactivated: Memory | null = null;
+
+        try { readFileSync(archPath); } catch { continue; }
+
+        await withLock(archPath, async () => {
+          const archive = readJsonFile<Memory[]>(archPath, []);
+          const idx = archive.findIndex((m) => m.id === id);
+          if (idx === -1) return;
+
+          reactivated = {
+            ...archive[idx],
+            archived: false,
+            archived_at: null,
+            last_accessed: new Date().toISOString(),
+            access_count: archive[idx].access_count + 1,
+          };
+
+          const newArchive = archive.filter((m) => m.id !== id);
+          writeJsonFile(archPath, newArchive);
+        });
+
+        if (reactivated) {
+          const memPath = memoriesPath(scope);
+          await withLock(memPath, async () => {
+            const memories = readJsonFile<Memory[]>(memPath, []);
+            memories.push(reactivated!);
+            writeJsonFile(memPath, memories);
+          });
+          invalidateCache();
+          log("info", `Archive: reactivated ${id} from ${scope} deep archive`);
+          return reactivated;
+        }
+      }
+      return null;
+    },
+
+    async deepRecall(query, opts = {}) {
+      const { limit = 5, minSpecificity = 0.5 } = opts;
+      const all: Memory[] = [];
+      for (const scope of ["global", "project"] as const) {
+        all.push(...(await store.loadArchive(scope)));
+      }
+      if (all.length === 0) return [];
+
+      const q = query.toLowerCase();
+
+      // High-specificity matching: prefer exact substring; require strong token overlap otherwise
+      type Scored = { memory: Memory; score: number };
+      const exact: Scored[] = [];
+      const fuzzy: Scored[] = [];
+
+      const queryTokens = tokenize(q);
+      for (const m of all) {
+        const content = m.content.toLowerCase();
+        if (content.includes(q)) {
+          exact.push({ memory: m, score: 1.0 });
+          continue;
+        }
+        if (queryTokens.length === 0) continue;
+        const memTokens = tokenize(content);
+        const overlap = tokenOverlap(queryTokens, memTokens);
+        if (overlap >= minSpecificity) {
+          fuzzy.push({ memory: m, score: overlap });
+        }
+      }
+
+      const candidates = exact.length > 0 ? exact : fuzzy;
+      return candidates
+        .sort((a, b) => {
+          const sA = calculateStrength(a.memory) * a.score;
+          const sB = calculateStrength(b.memory) * b.score;
+          return sB - sA;
+        })
+        .slice(0, limit)
+        .map((s) => s.memory);
     },
   };
 

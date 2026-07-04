@@ -25,6 +25,9 @@ export const MemorySchema = z.object({
   generalized: z.boolean(),
   source_session: z.string(),
   updated_from: z.string().nullable(),
+  /** Deep archive: memories below prune threshold are migrated here instead of deleted */
+  archived: z.boolean().optional(),
+  archived_at: z.string().nullable().optional(),
 });
 
 export const ExtractedMemorySchema = z.object({

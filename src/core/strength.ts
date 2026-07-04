@@ -25,13 +25,31 @@ export function calculateStrength(memory: Memory): number {
   );
   const consolBonus = memory.consolidated ? config.consolidationBonus : 0;
 
-  // Power-law decay (Ebbinghaus/Wixted): rate × √age.
-  // Rapid initial forgetting that progressively slows (Jost's Law).
-  // This matches the brain's most robust finding — unrehearsed memories
-  // fade fast, while retrieval and consolidation protect important ones.
-  // √30 ≈ 5.48 → decay of 0.192 at 30 days for rate=0.035
+  // Decay model — power-law (Ebbinghaus/Wixted) is the preferred embodiment,
+  // matching empirical findings: rapid initial forgetting that progressively
+  // slows (Jost's Law). Linear and exponential variants are supported.
+  // Archived memories use a substantially lower decay rate, modeling the
+  // distinction between retrieval failure (trace exists) and true forgetting.
+  // √30 ≈ 5.48 → decay of 0.192 at 30 days for power-law with rate=0.035
+  const isArchived = memory.archived === true;
+  const effectiveDecayRate = isArchived ? config.archiveDecayRate : config.decayRate;
+
+  let decayPenalty: number;
+  switch (config.decayModel) {
+    case "linear":
+      decayPenalty = effectiveDecayRate * ageInDays;
+      break;
+    case "exponential":
+      decayPenalty = 1 - Math.exp(-effectiveDecayRate * ageInDays);
+      break;
+    case "power-law":
+    default:
+      decayPenalty = effectiveDecayRate * Math.sqrt(ageInDays);
+      break;
+  }
+
   return Math.max(
     0,
-    Math.min(1, avgSalience + retrievalBonus + consolBonus - config.decayRate * Math.sqrt(ageInDays)),
+    Math.min(1, avgSalience + retrievalBonus + consolBonus - decayPenalty),
   );
 }
