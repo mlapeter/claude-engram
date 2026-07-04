@@ -77,6 +77,7 @@ function getDb(): Database | null {
 }
 
 const HTML_PATH = resolve(import.meta.dir, "index.html");
+const MIND_PATH = resolve(import.meta.dir, "mind.html");
 
 const server = Bun.serve({
   port: PORT,
@@ -93,7 +94,52 @@ const server = Bun.serve({
       }
     }
 
+    // The Mind view — identity documents + episodes (DESIGN-RECENTER.md)
+    if (url.pathname === "/mind") {
+      try {
+        const html = readFileSync(MIND_PATH, "utf-8");
+        return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
+      } catch {
+        return new Response("Mind HTML not found", { status: 500 });
+      }
+    }
+
     // --- API routes ---
+
+    // Identity documents (core, people, pending deltas)
+    if (url.pathname === "/api/identity") {
+      const dataDir = getDataDir();
+      const identityDir = join(dataDir, "identity");
+      const readIf = (p: string) => (existsSync(p) ? readFileSync(p, "utf-8") : null);
+      const people: Array<{ name: string; content: string }> = [];
+      const peopleDir = join(identityDir, "people");
+      if (existsSync(peopleDir)) {
+        for (const f of readdirSync(peopleDir).sort()) {
+          if (f.endsWith(".md")) {
+            people.push({ name: f.replace(/\.md$/, ""), content: readFileSync(join(peopleDir, f), "utf-8") });
+          }
+        }
+      }
+      return Response.json({
+        core: readIf(join(identityDir, "core.md")),
+        people,
+        deltas: readIf(join(identityDir, "deltas.md")),
+      });
+    }
+
+    // Episodes — first-person session memories, newest first
+    if (url.pathname === "/api/episodes") {
+      const episodesDir = join(getDataDir(), "episodes");
+      const episodes: Array<{ file: string; content: string }> = [];
+      if (existsSync(episodesDir)) {
+        for (const f of readdirSync(episodesDir).sort().reverse()) {
+          if (f.endsWith(".md")) {
+            episodes.push({ file: f, content: readFileSync(join(episodesDir, f), "utf-8") });
+          }
+        }
+      }
+      return Response.json({ episodes });
+    }
 
     // Health overview
     if (url.pathname === "/api/health") {

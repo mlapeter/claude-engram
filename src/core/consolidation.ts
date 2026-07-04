@@ -7,6 +7,7 @@ import { sanitizeSalience, generateId, getDataDir } from "./types.js";
 import { loadConfig } from "./config.js";
 import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
+import { rewriteIdentity } from "./identity.js";
 import type { MemoryStore } from "./store.js";
 import { tokenize, tokenOverlap } from "./store.js";
 import { recordSignal } from "./salience-weights.js";
@@ -206,7 +207,15 @@ export async function runConsolidation(
   }
 
   try {
-    return await runConsolidationInner(store);
+    const result = await runConsolidationInner(store);
+    // Identity rewrite — fold pending deltas into identity documents ("sleep")
+    try {
+      const idn = await rewriteIdentity();
+      if (idn.rewritten) result.notes += ` Identity rewritten: ${idn.notes}`;
+    } catch (err) {
+      log("warn", `Identity rewrite failed (consolidation otherwise ok): ${err instanceof Error ? err.message : String(err)}`);
+    }
+    return result;
   } finally {
     // Always release lock
     try { unlinkSync(lockPath); } catch { /* already removed */ }
@@ -234,17 +243,19 @@ async function runConsolidationInner(
 
   const config = loadConfig();
 
-  // Step 2: Auto-prune below threshold
-  let autoPruned = 0;
+  // Step 2: Auto-prune below threshold — migrate to deep archive instead of deleting,
+  // modeling retrieval-failure vs true-forgetting distinction in cognitive science.
+  const toArchive: string[] = [];
   for (const m of all) {
     if (calculateStrength(m) < config.pruneThreshold) {
-      await store.remove(m.id);
+      toArchive.push(m.id);
       await recordSignal(store, "prune", m.salience);
-      autoPruned++;
     }
   }
+  const autoPruned = toArchive.length;
   if (autoPruned > 0) {
-    log("info", `Auto-pruned ${autoPruned} decayed memories`);
+    await store.archiveMemories(toArchive);
+    log("info", `Auto-pruned ${autoPruned} decayed memories to deep archive`);
   }
 
   // Reload after pruning
@@ -713,15 +724,20 @@ async function applyConsolidation(
     mergeCount++;
   }
 
-  // Apply prunes (only IDs that still exist and weren't already merged)
+  // Apply prunes (only IDs that still exist and weren't already merged) —
+  // migrate to deep archive instead of deleting
+  const pruneBatch: string[] = [];
   for (const id of result.prune_ids) {
     if (memById.has(id)) {
       const pruned = memById.get(id)!;
-      await store.remove(id);
+      pruneBatch.push(id);
       await recordSignal(store, "prune", pruned.salience);
       memById.delete(id);
       pruneCount++;
     }
+  }
+  if (pruneBatch.length > 0) {
+    await store.archiveMemories(pruneBatch);
   }
 
   // Create generalized memories

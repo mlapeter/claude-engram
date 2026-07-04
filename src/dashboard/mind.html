@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>engram — mind</title>
+<style>
+  :root {
+    --bg: #0a0e14; --bg-card: #0d1117; --bg-card-hover: #111820;
+    --border: #1c2430; --border-glow: #2a3548;
+    --ink: #c9d4e3; --ink-dim: #6b7a90;
+    --cyan: #56d4dd; --cyan-glow: rgba(86,212,221,0.08); --cyan-dim: #2a6a70;
+    --purple: #b78af7; --amber: #e0b45c; --teal: #4fd6a8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; line-height: 1.65; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+  header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  h1 { font-size: 22px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; }
+  h1 span { color: var(--ink-dim); font-weight: 400; }
+  .back { color: var(--ink-dim); text-decoration: none; font-size: 12px; }
+  .back:hover { color: var(--cyan); }
+  .tagline { color: var(--ink-dim); font-size: 12px; margin-bottom: 28px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: var(--ink-dim); margin: 34px 0 12px; }
+  h2 .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 8px; vertical-align: 1px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .card-head { display: flex; align-items: center; gap: 10px; padding: 13px 16px; cursor: pointer; user-select: none; }
+  .card-head:hover { background: var(--bg-card-hover); }
+  .card-title { font-weight: 600; font-size: 13px; flex: 1; }
+  .badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--border-glow); color: var(--ink-dim); }
+  .badge.critical { color: var(--amber); border-color: var(--amber); }
+  .badge.high { color: var(--purple); border-color: var(--purple); }
+  .chev { color: var(--ink-dim); transition: transform .15s; font-size: 11px; }
+  .card.open .chev { transform: rotate(90deg); }
+  .card-body { display: none; padding: 4px 20px 20px; border-top: 1px solid var(--border); }
+  .card.open .card-body { display: block; }
+  .md { white-space: pre-wrap; font-size: 13px; color: var(--ink); }
+  .md-h { color: var(--cyan); font-weight: 600; }
+  .md-hh { color: var(--purple); font-weight: 600; }
+  .md-em { color: var(--amber); }
+  .md-q { color: var(--ink-dim); font-style: italic; }
+  .empty { color: var(--ink-dim); font-size: 12px; padding: 14px 16px; background: var(--bg-card); border: 1px dashed var(--border-glow); border-radius: 10px; }
+  .deltas { border-color: var(--amber); }
+  .meta { color: var(--ink-dim); font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>engram <span>/ mind</span></h1><a class="back" href="/">← dashboard</a></header>
+  <div class="tagline">Identity documents and first-person episodes — written by the model, in the room. This page answers: is this actually working?</div>
+
+  <h2><span class="dot" style="background:var(--cyan)"></span>Who I Am — identity documents</h2>
+  <div id="identity"></div>
+
+  <h2><span class="dot" style="background:var(--amber)"></span>Pending identity deltas <span class="meta">(consolidation folds these in)</span></h2>
+  <div id="deltas"></div>
+
+  <h2><span class="dot" style="background:var(--purple)"></span>Episodes — what happened, in my voice</h2>
+  <div id="episodes"></div>
+</div>
+<script>
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function md(s){
+  return esc(s)
+    .replace(/^### (.*)$/gm,'<span class="md-hh">$1</span>')
+    .replace(/^## (.*)$/gm,'<span class="md-hh">$1</span>')
+    .replace(/^# (.*)$/gm,'<span class="md-h">$1</span>')
+    .replace(/\*\*([^*]+)\*\*/g,'<span class="md-em">$1</span>')
+    .replace(/^\*([^*].*)\*$/gm,'<span class="md-q">$1</span>')
+    .replace(/^---$/gm,'<span class="meta">———</span>');
+}
+function card(title, content, badge, open){
+  const b = badge ? `<span class="badge ${badge}">${badge}</span>` : '';
+  return `<div class="card${open?' open':''}"><div class="card-head" onclick="this.parentElement.classList.toggle('open')">
+    <span class="chev">▶</span><span class="card-title">${esc(title)}</span>${b}</div>
+    <div class="card-body"><div class="md">${md(content)}</div></div></div>`;
+}
+function fm(content){
+  const m = content.match(/^---\n([\s\S]*?)\n---/);
+  const out = {};
+  if (m) for (const line of m[1].split('\n')) { const i = line.indexOf(':'); if (i>0) out[line.slice(0,i).trim()] = line.slice(i+1).trim(); }
+  return out;
+}
+async function load(){
+  const idn = await (await fetch('/api/identity')).json();
+  let ih = '';
+  if (idn.core) ih += card('core.md — who I am', idn.core, null, true);
+  for (const p of idn.people) ih += card('people/' + p.name + '.md', p.content, null, false);
+  document.getElementById('identity').innerHTML = ih || '<div class="empty">No identity documents yet. They appear after the first session with the recentered hooks — or seed them by hand.</div>';
+  document.getElementById('deltas').innerHTML = idn.deltas
+    ? `<div class="card deltas open"><div class="card-body" style="display:block"><div class="md">${md(idn.deltas)}</div></div></div>`
+    : '<div class="empty">No pending deltas — identity is up to date.</div>';
+  const eps = await (await fetch('/api/episodes')).json();
+  let eh = '';
+  for (const e of eps.episodes) {
+    const f = fm(e.content);
+    const title = (f.when || e.file.slice(0,10)) + ' — with ' + (f.with || '?');
+    eh += card(title + '  (' + e.file + ')', e.content, f.salience || null, false);
+  }
+  document.getElementById('episodes').innerHTML = eh || '<div class="empty">No episodes yet. The Stop hook asks the session model to write one at the end of each substantial session.</div>';
+}
+load();
+</script>
+</body>
+</html>

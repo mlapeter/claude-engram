@@ -49,6 +49,8 @@ export interface EngramConfig {
   hybridVectorWeight: number;
   /** At Stop, ask the session model itself to write a first-person episode (default: true) */
   episodeSelfDump: boolean;
+  /** Model that rewrites identity documents at consolidation — highest-stakes text in the system (default: "claude-opus-4-6") */
+  identityModel: string;
 }
 
 const DEFAULTS: EngramConfig = {
@@ -72,6 +74,7 @@ const DEFAULTS: EngramConfig = {
   embeddingModel: "voyage-3-lite",
   hybridVectorWeight: 0.4,
   episodeSelfDump: true,
+  identityModel: "claude-opus-4-6",
 };
 
 let cachedConfig: EngramConfig | null = null;
