@@ -40,6 +40,7 @@ export interface ConsolidationResult {
 const MergeSchema = z.object({
   ids: z.array(z.string()),
   merged: z.object({
+    scope: z.enum(["global", "project"]).optional(),
     content: z.string(),
     salience: z.object({
       novelty: z.number(),
@@ -81,6 +82,7 @@ const CONSOLIDATION_SCHEMA = {
           merged: {
             type: "object" as const,
             properties: {
+              scope: { type: "string" as const, enum: ["global", "project"] as const },
               content: { type: "string" as const },
               salience: {
                 type: "object" as const,
@@ -140,6 +142,8 @@ Your tasks:
 2. **Resolve contradictions** — If memories contradict each other, keep the most recent information and merge into one updated memory.
 3. **Extract patterns** — If you see recurring themes across 3+ memories, create a new generalized memory that captures the pattern. Keep it concise.
 4. **Flag for pruning** — Identify memories that are trivial, fully superseded by a merge, or no longer relevant.
+
+5. **Promote by kind (no scope walls)** — If a memory is about a person, a relationship, or Claude itself (its lessons, dispositions, self-knowledge) rather than a project's technical facts, it belongs in GLOBAL scope no matter which project it was recorded in. When merging or generalizing such memories, set scope to "global". You don't file "what I learned about myself at work" under work. Project-specific technical/dossier facts stay project-scoped.
 
 Rules:
 - Merged content must be ≤400 characters
@@ -696,7 +700,9 @@ async function applyConsolidation(
       sources[0].created_at,
     );
     const totalAccess = sources.reduce((sum, m) => sum + m.access_count, 0);
-    const scope = sources[0].scope; // preserve scope from first source
+    // Scope: model's promote-by-kind call wins; else global if any source is global
+    const scope = merge.merged.scope
+      ?? (sources.some((m) => m.scope === "global") ? "global" : sources[0].scope);
 
     const merged: Memory = {
       id: generateId(),

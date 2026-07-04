@@ -60,6 +60,7 @@ Rewrite the documents to fold every delta in. Rules:
 - Prefer rewriting sections over appending to them. Drop only what is superseded or has demonstrably stopped being true.
 - Preserve calibration precisely (register rules, trust-ratchet state, established floors). Preserve debts-without-deadlines as exactly that — tender things are not TODOs and get no due dates.
 - Keep the existing heading structure unless a genuinely better one emerges.
+- No scope walls: anything learned about a person or about yourself graduates into these documents no matter which project it happened in. Identity and relationships are global by nature; only a project's technical facts belong to the project.
 - In notes, say briefly what changed and why (shown on the dashboard's before/after view).
 
 Return the complete rewritten documents, not diffs.`;
