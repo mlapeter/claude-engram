@@ -115,7 +115,7 @@ export async function extractMemories(
       : EXTRACTION_SYSTEM_PROMPT;
     const response = await getClient().messages.create({
       model: config.extractionModel,
-      max_tokens: 4000,
+      max_tokens: 8000,
       system: systemPrompt,
       messages: [{ role: "user", content: userContent }],
       output_config: {
@@ -125,6 +125,13 @@ export async function extractMemories(
         },
       },
     });
+
+    // Structured output only guarantees valid JSON if generation completed —
+    // a max_tokens cutoff truncates mid-string and must fail loudly (the
+    // caller restores the buffer), not as a cryptic parse error.
+    if (response.stop_reason === "max_tokens") {
+      throw new Error("extraction output truncated at max_tokens");
+    }
 
     const textBlock = response.content.find((b) => b.type === "text");
     if (!textBlock || textBlock.type !== "text") {

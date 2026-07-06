@@ -12,7 +12,7 @@ import { commitMemorySnapshot } from "./snapshot.js";
 import { ageInDays } from "./active-day.js";
 import type { MemoryStore } from "./store.js";
 import { tokenize, tokenOverlap } from "./store.js";
-import { recordSignal } from "./salience-weights.js";
+import { recordSignals } from "./salience-weights.js";
 import {
   isEmbeddingEnabled,
   cosineSimilarity,
@@ -38,6 +38,9 @@ export interface ConsolidationResult {
   notes: string;
   /** Result of the identity rewrite step, when it ran (callers record the identity_rewrite event). */
   identity?: IdentityRewriteResult;
+  /** Set when gist-promotion chunks failed — callers surface it as an event
+   * error so the self-check sees it (silence must never masquerade as health). */
+  promotionFailure?: string;
 }
 
 // --- Zod schemas for API response validation ---
@@ -306,13 +309,15 @@ async function runConsolidationInner(
   // modeling retrieval-failure vs true-forgetting distinction in cognitive science.
   // Protected (sacred-verbatim) memories are exempt.
   const toArchive: string[] = [];
+  const pruneSignals: Memory["salience"][] = [];
   for (const m of all) {
     if (m.protected) continue;
     if (calculateStrength(m) < config.pruneThreshold) {
       toArchive.push(m.id);
-      await recordSignal(store, "prune", m.salience);
+      pruneSignals.push(m.salience);
     }
   }
+  await recordSignals(store, "prune", pruneSignals);
   const autoPruned = toArchive.length;
   if (autoPruned > 0) {
     await store.archiveMemories(toArchive);
@@ -331,8 +336,8 @@ async function runConsolidationInner(
   // person/self only after 30 (their specifics ARE the value).
   // Sacred-verbatim: protected and high-emotional memories keep their exact
   // words forever — gist compression is for the mundane, not the tender.
-  // Bounded per run so the batch always fits one model call (a months-deep
-  // backlog exists from the era when consolidation died mid-run).
+  // Bounded per run to bound run time and cost (a months-deep backlog exists
+  // from the era when consolidation died mid-run).
   const PROMOTION_AGE_DAYS: Record<string, number> = { craft: 7, person: 30, self: 30 };
   const MAX_PROMOTIONS_PER_RUN = 200;
   const promotable = remaining.filter((m) => {
@@ -347,67 +352,87 @@ async function runConsolidationInner(
     .slice(0, MAX_PROMOTIONS_PER_RUN);
 
   let promotionCount = 0;
+  let promotionFailure: string | undefined;
   if (promotable.length > 0) {
-    try {
-      const gistResponse = await getClient().messages.create({
-        model: config.gistModel, // Haiku — cheap batch compression, never-destroy makes errors recoverable
-        max_tokens: 4000,
-        system: "Compress each episodic memory to its semantic gist. Keep essential meaning, drop episodic detail (dates, exact sequences). Max 400 chars each. Return JSON array of {id, gist} objects.",
-        messages: [{
-          role: "user",
-          content: JSON.stringify(promotable.map((m) => ({ id: m.id, content: m.content }))),
-        }],
-        output_config: {
-          format: {
-            type: "json_schema",
-            schema: {
-              type: "object" as const,
-              properties: {
-                items: {
-                  type: "array" as const,
+    // Chunked so each call's OUTPUT fits max_tokens: 200 gists at ≤400 chars
+    // need ~25K output tokens, and a max_tokens cutoff truncates the JSON
+    // mid-string — the whole batch used to fail atomically every run and the
+    // backlog never drained. Chunks fail (and land) independently.
+    let failedChunks = 0;
+    let lastError = "";
+    for (let i = 0; i < promotable.length; i += config.gistChunkSize) {
+      const chunk = promotable.slice(i, i + config.gistChunkSize);
+      try {
+        const gistResponse = await getClient().messages.create({
+          model: config.gistModel, // Haiku — cheap batch compression, never-destroy makes errors recoverable
+          max_tokens: 8000, // ~130 output tokens per gist; 40 items ≈ 5.2K, sized with headroom
+          system: "Compress each episodic memory to its semantic gist. Keep essential meaning, drop episodic detail (dates, exact sequences). Max 400 chars each. Return JSON array of {id, gist} objects.",
+          messages: [{
+            role: "user",
+            content: JSON.stringify(chunk.map((m) => ({ id: m.id, content: m.content }))),
+          }],
+          output_config: {
+            format: {
+              type: "json_schema",
+              schema: {
+                type: "object" as const,
+                properties: {
                   items: {
-                    type: "object" as const,
-                    properties: {
-                      id: { type: "string" as const },
-                      gist: { type: "string" as const },
+                    type: "array" as const,
+                    items: {
+                      type: "object" as const,
+                      properties: {
+                        id: { type: "string" as const },
+                        gist: { type: "string" as const },
+                      },
+                      required: ["id", "gist"] as const,
+                      additionalProperties: false as const,
                     },
-                    required: ["id", "gist"] as const,
-                    additionalProperties: false as const,
                   },
                 },
+                required: ["items"] as const,
+                additionalProperties: false as const,
               },
-              required: ["items"] as const,
-              additionalProperties: false as const,
             },
           },
-        },
-      });
+        });
 
-      const gistBlock = gistResponse.content.find((b) => b.type === "text");
-      if (gistBlock && gistBlock.type === "text") {
-        const gistResult = JSON.parse(gistBlock.text) as { items: Array<{ id: string; gist: string }> };
-        const promotableById = new Map(promotable.map((m) => [m.id, m]));
-        // Never-destroy: the verbatim originals go to the deep archive
-        // (fresh ids, gist_of pointer) before compression overwrites them.
-        const originals: Memory[] = [];
-        for (const { id } of gistResult.items) {
-          const orig = promotableById.get(id);
-          if (orig) originals.push({ ...orig, id: generateId(), gist_of: orig.id });
+        // Structured output only guarantees valid JSON if generation completed
+        if (gistResponse.stop_reason === "max_tokens") {
+          throw new Error(`gist output truncated at max_tokens (${chunk.length} items in chunk)`);
         }
-        await store.archiveCopies(originals);
-        for (const { id, gist } of gistResult.items) {
-          if (!promotableById.has(id)) continue; // hallucinated id — never touch memories outside the batch
-          await store.update(id, {
-            content: gist.slice(0, 400),
-            memory_type: "semantic",
-          } as Partial<Memory>);
-          promotionCount++;
+
+        const gistBlock = gistResponse.content.find((b) => b.type === "text");
+        if (gistBlock && gistBlock.type === "text") {
+          const gistResult = JSON.parse(gistBlock.text) as { items: Array<{ id: string; gist: string }> };
+          const promotableById = new Map(chunk.map((m) => [m.id, m]));
+          // Never-destroy: the verbatim originals go to the deep archive
+          // (fresh ids, gist_of pointer) before compression overwrites them.
+          const originals: Memory[] = [];
+          for (const { id } of gistResult.items) {
+            const orig = promotableById.get(id);
+            if (orig) originals.push({ ...orig, id: generateId(), gist_of: orig.id });
+          }
+          await store.archiveCopies(originals);
+          for (const { id, gist } of gistResult.items) {
+            if (!promotableById.has(id)) continue; // hallucinated id — never touch memories outside the batch
+            await store.update(id, {
+              content: gist.slice(0, 400),
+              memory_type: "semantic",
+            } as Partial<Memory>);
+            promotionCount++;
+          }
         }
-        log("info", `Promoted ${promotionCount} episodic→semantic memories (verbatim originals archived)`);
+      } catch (err) {
+        failedChunks++;
+        lastError = err instanceof Error ? err.message : String(err);
+        log("warn", `Episodic→semantic promotion chunk failed: ${lastError}`);
       }
-    } catch (err) {
-      log("warn", `Episodic→semantic promotion failed: ${err instanceof Error ? err.message : String(err)}`);
     }
+    if (failedChunks > 0) {
+      promotionFailure = `gist promotion: ${failedChunks} chunk(s) failed, ${promotionCount}/${promotable.length} promoted; last: ${lastError}`;
+    }
+    log("info", `Promoted ${promotionCount}/${promotable.length} episodic→semantic memories (verbatim originals archived${failedChunks > 0 ? `; ${failedChunks} chunk(s) failed` : ""})`);
   }
 
   // Reload after promotions. Protected (sacred-verbatim) memories are not
@@ -438,11 +463,11 @@ async function runConsolidationInner(
   // Step 4: Intelligent consolidation (single-pass or two-pass based on memory count)
   const useTwoPass = postPromotion.length > config.consolidationBatchThreshold;
 
-  if (useTwoPass) {
-    return await twoPassConsolidation(store, config, postPromotion, autoPruned, promotionCount, lastConsolidation, scopesToUpdate);
-  } else {
-    return await singlePassConsolidation(store, config, postPromotion, autoPruned, promotionCount, scopesToUpdate);
-  }
+  const finalResult = useTwoPass
+    ? await twoPassConsolidation(store, config, postPromotion, autoPruned, promotionCount, lastConsolidation, scopesToUpdate)
+    : await singlePassConsolidation(store, config, postPromotion, autoPruned, promotionCount, scopesToUpdate);
+  if (promotionFailure) finalResult.promotionFailure = promotionFailure;
+  return finalResult;
 }
 
 function formatMemoriesText(memories: Memory[]): string {
@@ -850,15 +875,17 @@ export async function applyConsolidation(
   // Apply prunes (only IDs that still exist, weren't already merged, and
   // aren't protected) — migrate to deep archive instead of deleting
   const pruneBatch: string[] = [];
+  const pruneSignals: Memory["salience"][] = [];
   for (const id of result.prune_ids) {
     if (memById.has(id) && !memById.get(id)!.protected) {
       const pruned = memById.get(id)!;
       pruneBatch.push(id);
-      await recordSignal(store, "prune", pruned.salience);
+      pruneSignals.push(pruned.salience);
       memById.delete(id);
       pruneCount++;
     }
   }
+  await recordSignals(store, "prune", pruneSignals);
   if (pruneBatch.length > 0) {
     await store.archiveMemories(pruneBatch);
   }

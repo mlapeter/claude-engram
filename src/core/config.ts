@@ -33,6 +33,9 @@ export interface EngramConfig {
   /** Model for gist compression — mechanical, and never-destroy makes its
    * mistakes recoverable (default: "claude-haiku-4-5") */
   gistModel: string;
+  /** Memories per gist-compression call — output must fit max_tokens or the
+   * JSON truncates mid-string and the chunk fails (default: 40) */
+  gistChunkSize: number;
   /** Model for briefing generation (default: "claude-opus-4-6") */
   briefingModel: string;
   /** Model for consolidation (default: "claude-sonnet-4-5") */
@@ -87,6 +90,7 @@ const DEFAULTS: EngramConfig = {
   archiveDecayRate: 0.001,
   extractionModel: "claude-sonnet-4-5",
   gistModel: "claude-haiku-4-5",
+  gistChunkSize: 40,
   briefingModel: "claude-opus-4-6",
   consolidationModel: "claude-sonnet-4-5",
   briefingMaxMemories: 60,

@@ -234,6 +234,90 @@ describe("gist promotion — sacred verbatim + never-destroy", () => {
   });
 });
 
+describe("gist promotion — chunking and partial failure", () => {
+  // gistChunkSize=1 → one API call per promotable memory, so chunk-failure
+  // isolation is observable with two memories
+  const useChunkSize1 = () => {
+    writeFileSync(join(tempDir, "config.json"), JSON.stringify({ memoryHistory: false, gistChunkSize: 1 }));
+    resetConfig();
+  };
+
+  it("splits promotable memories into chunks and promotes across all of them", async () => {
+    useChunkSize1();
+    const m1 = makeMemory({ id: "m_1_aaaa", content: "first old memory", created_at: daysAgo(10) });
+    const m2 = makeMemory({ id: "m_2_bbbb", content: "second old memory", created_at: daysAgo(10) });
+    await store.add([m1, m2]);
+
+    let gistCalls = 0;
+    mockCreate.mockImplementation(async (req: { system?: string; messages: Array<{ content: string }> }) => {
+      if ((req.system ?? "").includes("semantic gist")) {
+        gistCalls++;
+        const sent = JSON.parse(req.messages[0].content) as Array<{ id: string }>;
+        expect(sent).toHaveLength(1); // chunk size respected
+        return { content: [{ type: "text", text: JSON.stringify({ items: sent.map((s) => ({ id: s.id, gist: `gist of ${s.id}` })) }) }] };
+      }
+      return { content: [{ type: "text", text: JSON.stringify(emptyResult()) }] };
+    });
+
+    const result = await runConsolidation(store);
+    expect(gistCalls).toBe(2);
+    expect(result.promotionCount).toBe(2);
+    expect(result.promotionFailure).toBeUndefined();
+  });
+
+  it("lands successful chunks when another chunk fails, and surfaces the failure", async () => {
+    useChunkSize1();
+    const m1 = makeMemory({ id: "m_1_aaaa", content: "first old memory", created_at: daysAgo(10) });
+    const m2 = makeMemory({ id: "m_2_bbbb", content: "second old memory", created_at: daysAgo(10) });
+    await store.add([m1, m2]);
+
+    let gistCalls = 0;
+    mockCreate.mockImplementation(async (req: { system?: string; messages: Array<{ content: string }> }) => {
+      if ((req.system ?? "").includes("semantic gist")) {
+        gistCalls++;
+        if (gistCalls === 1) {
+          // truncated JSON — the historical failure mode
+          return { content: [{ type: "text", text: '{"items": [{"id": "m_1_aaaa", "gi' }] };
+        }
+        const sent = JSON.parse(req.messages[0].content) as Array<{ id: string }>;
+        return { content: [{ type: "text", text: JSON.stringify({ items: sent.map((s) => ({ id: s.id, gist: "the gist" })) }) }] };
+      }
+      return { content: [{ type: "text", text: JSON.stringify(emptyResult()) }] };
+    });
+
+    const result = await runConsolidation(store);
+    expect(result.promotionCount).toBe(1); // second chunk landed despite first failing
+    expect(result.promotionFailure).toContain("1 chunk(s) failed");
+    expect(result.promotionFailure).toContain("1/2 promoted");
+
+    // the failed chunk's memory is untouched — retried next run
+    const active = await store.loadAll();
+    expect(active.find((m) => m.id === "m_1_aaaa")!.content).toBe("first old memory");
+    expect(active.find((m) => m.id === "m_2_bbbb")!.content).toBe("the gist");
+  });
+
+  it("treats stop_reason max_tokens as a chunk failure even if the JSON parses", async () => {
+    useChunkSize1();
+    const m1 = makeMemory({ id: "m_1_aaaa", content: "old memory", created_at: daysAgo(10) });
+    await store.add([m1]);
+
+    mockCreate.mockImplementation(async (req: { system?: string }) => {
+      if ((req.system ?? "").includes("semantic gist")) {
+        return {
+          stop_reason: "max_tokens",
+          content: [{ type: "text", text: JSON.stringify({ items: [{ id: "m_1_aaaa", gist: "suspiciously complete" }] }) }],
+        };
+      }
+      return { content: [{ type: "text", text: JSON.stringify(emptyResult()) }] };
+    });
+
+    const result = await runConsolidation(store);
+    expect(result.promotionCount).toBe(0);
+    expect(result.promotionFailure).toContain("truncated at max_tokens");
+    expect((await store.loadAll()).find((m) => m.id === "m_1_aaaa")!.content).toBe("old memory");
+  });
+});
+
 describe("memory history — git snapshots", () => {
   const hasGit = spawnSync("git", ["--version"]).status === 0;
 

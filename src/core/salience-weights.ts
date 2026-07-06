@@ -43,10 +43,27 @@ export async function recordSignal(
   event: SalienceSignal["event"],
   salience: Salience,
 ): Promise<void> {
+  return recordSignals(store, event, [salience]);
+}
+
+/**
+ * Batch variant: one meta load/save (and one log line) for the whole batch.
+ * Consolidation prunes hundreds of memories per run — per-signal writes meant
+ * hundreds of sequential meta.json lock cycles and a wall of identical logs.
+ */
+export async function recordSignals(
+  store: MemoryStore,
+  event: SalienceSignal["event"],
+  saliences: Salience[],
+): Promise<void> {
+  if (saliences.length === 0) return;
   const meta = await store.loadMeta("global") as Meta & { salience_signals?: SalienceSignal[]; salience_weights_cache?: SalienceWeights };
   const signals = meta.salience_signals ?? [];
 
-  signals.push({ event, salience, timestamp: new Date().toISOString() });
+  const timestamp = new Date().toISOString();
+  for (const salience of saliences) {
+    signals.push({ event, salience, timestamp });
+  }
 
   // Ring buffer: keep last MAX_SIGNALS
   if (signals.length > MAX_SIGNALS) {
@@ -60,7 +77,7 @@ export async function recordSignal(
     salience_weights_cache: undefined,
   } as Meta);
 
-  log("info", `Salience signal: ${event} (n=${signals.length})`);
+  log("info", `Salience signal: ${event}${saliences.length > 1 ? ` ×${saliences.length}` : ""} (n=${signals.length})`);
 }
 
 /**

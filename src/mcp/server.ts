@@ -356,11 +356,12 @@ server.registerTool("consolidate", {
     `  Generalized: ${result.generalizeCount}`,
     `  Pruned: ${result.pruneCount}`,
     `  Episodic→Semantic: ${result.promotionCount}`,
+    ...(result.promotionFailure ? [`  ⚠ ${result.promotionFailure}`] : []),
     `  Notes: ${result.notes}`,
   ].join("\n");
 
   log("info", `MCP consolidate: done — ${result.mergeCount} merges, ${result.generalizeCount} generalizations, ${result.pruneCount} prunes`);
-  recordEvent({ event: "consolidate", project: projectName, project_hash: projHash, merges: result.mergeCount, prunes: result.pruneCount, generalizations: result.generalizeCount, count: after });
+  recordEvent({ event: "consolidate", project: projectName, project_hash: projHash, merges: result.mergeCount, prunes: result.pruneCount, generalizations: result.generalizeCount, count: after, ...(result.promotionFailure ? { error: result.promotionFailure } : {}) });
   if (result.identity) recordIdentityRewrite(result.identity, projectName, projHash);
   return { content: [{ type: "text" as const, text: msg }] };
 });

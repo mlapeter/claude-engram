@@ -45,6 +45,8 @@ async function main() {
         generalizations: result.generalizeCount,
         count: after,
         duration_ms: Date.now() - t0,
+        // Partial failures ride the same event so the self-check sees them
+        ...(result.promotionFailure ? { error: result.promotionFailure } : {}),
       });
     }
 
