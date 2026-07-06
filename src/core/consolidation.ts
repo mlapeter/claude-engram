@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { mkdirSync, writeFileSync, unlinkSync, statSync } from "node:fs";
+import { mkdirSync, writeFileSync, unlinkSync, statSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { z } from "zod";
 import type { Memory } from "./types.js";
@@ -7,7 +7,7 @@ import { sanitizeSalience, generateId, getDataDir } from "./types.js";
 import { loadConfig } from "./config.js";
 import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
-import { rewriteIdentity } from "./identity.js";
+import { rewriteIdentity, type IdentityRewriteResult } from "./identity.js";
 import type { MemoryStore } from "./store.js";
 import { tokenize, tokenOverlap } from "./store.js";
 import { recordSignal } from "./salience-weights.js";
@@ -33,6 +33,8 @@ export interface ConsolidationResult {
   pruneCount: number;
   promotionCount: number;
   notes: string;
+  /** Result of the identity rewrite step, when it ran (callers record the identity_rewrite event). */
+  identity?: IdentityRewriteResult;
 }
 
 // --- Zod schemas for API response validation ---
@@ -52,7 +54,7 @@ const MergeSchema = z.object({
   }),
 });
 
-const ConsolidationResponseSchema = z.object({
+export const ConsolidationResponseSchema = z.object({
   merge: z.array(MergeSchema),
   generalize: z.array(
     z.object({
@@ -177,6 +179,37 @@ function consolidationLockPath(): string {
   return join(getDataDir(), "consolidation.lock");
 }
 
+/** True if the process holding a PID is still alive (EPERM counts as alive). */
+export function isPidAlive(pid: number): boolean {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (err) {
+    return (err as NodeJS.ErrnoException).code === "EPERM";
+  }
+}
+
+/**
+ * Decide whether an existing consolidation lock is stale. PID-aware: a lock
+ * whose holder is dead is stale immediately (killed hook processes can't
+ * clean up); a lock whose holder is alive is respected regardless of age
+ * (long two-pass runs must not have the lock stolen mid-flight). Falls back
+ * to a 10-minute age check when the lock has no readable PID.
+ */
+export function isLockStale(lockPath: string, now: number = Date.now()): boolean {
+  try {
+    const raw = readFileSync(lockPath, "utf-8").trim();
+    const pid = Number.parseInt(raw, 10);
+    if (Number.isFinite(pid) && pid > 0) {
+      return !isPidAlive(pid);
+    }
+    const ageMs = now - statSync(lockPath).mtimeMs;
+    return ageMs > 10 * 60_000;
+  } catch {
+    return false; // can't read it — assume held
+  }
+}
+
 /**
  * Run a full consolidation cycle on a set of memories.
  * Uses Sonnet for intelligent merge/generalize/prune decisions.
@@ -192,12 +225,10 @@ export async function runConsolidation(
     mkdirSync(dirname(lockPath), { recursive: true });
     writeFileSync(lockPath, String(process.pid), { flag: "wx" }); // fails if exists
   } catch {
-    // Check if lock is stale (older than 10 minutes = stuck consolidation)
+    // Lock exists — steal it only if the holder is provably gone
     try {
-      const stat = statSync(lockPath);
-      const ageMs = Date.now() - stat.mtimeMs;
-      if (ageMs > 10 * 60_000) {
-        log("warn", `Consolidation: removing stale lock (${(ageMs / 60_000).toFixed(1)}min old)`);
+      if (isLockStale(lockPath)) {
+        log("warn", "Consolidation: removing stale lock (holder dead or lock aged out)");
         unlinkSync(lockPath);
         writeFileSync(lockPath, String(process.pid), { flag: "wx" });
       } else {
@@ -215,9 +246,11 @@ export async function runConsolidation(
     // Identity rewrite — fold pending deltas into identity documents ("sleep")
     try {
       const idn = await rewriteIdentity();
+      result.identity = idn;
       if (idn.rewritten) result.notes += ` Identity rewritten: ${idn.notes}`;
     } catch (err) {
       log("warn", `Identity rewrite failed (consolidation otherwise ok): ${err instanceof Error ? err.message : String(err)}`);
+      result.identity = { rewritten: false, notes: `failed: ${err instanceof Error ? err.message : String(err)}` };
     }
     return result;
   } finally {
@@ -675,8 +708,9 @@ async function twoPassConsolidation(
 
 /**
  * Apply the consolidation result to the store.
+ * Exported for tests — scope graduation and merge/prune mechanics live here.
  */
-async function applyConsolidation(
+export async function applyConsolidation(
   store: MemoryStore,
   memories: Memory[],
   result: z.infer<typeof ConsolidationResponseSchema>,

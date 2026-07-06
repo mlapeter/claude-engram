@@ -2,66 +2,35 @@ import type { HookInput } from "../core/types.js";
 import { createStore } from "../core/store.js";
 import { loadConfig } from "../core/config.js";
 import { generateFallbackBriefing } from "../core/briefing.js";
-import { runConsolidation } from "../core/consolidation.js";
+import { loadIdentityBlock } from "../core/identity.js";
 import { log } from "../core/logger.js";
 import { recordEvent } from "../core/events.js";
-import { basename, join } from "node:path";
-import { projectHash, getDataDir } from "../core/types.js";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
-
-/** Cap on injected identity characters — full docs while small; consolidation
- * maintains a compressed render once they outgrow this (DESIGN-RECENTER.md §2). */
-const IDENTITY_INJECT_MAX_CHARS = 16000;
+import { basename } from "node:path";
+import { projectHash } from "../core/types.js";
+import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 /**
- * Identity documents: written by the model in its own voice, maintained by
- * consolidation. Injected verbatim at session start — this is the continuity
- * that briefings alone can't carry (calibration, disposition, trust ratchet).
+ * Spawn consolidation as a DETACHED child so it survives this hook process.
+ * Running it in-process kept the hook alive until Claude Code's hook timeout
+ * killed it — the observed session-start hang, and the reason consolidations
+ * died mid-run leaving stale locks.
  */
-function loadIdentityBlock(): string {
+function spawnConsolidation(cwd: string): void {
   try {
-    const identityDir = join(getDataDir(), "identity");
-    if (!existsSync(identityDir)) return "";
-    const parts: string[] = [];
-    const corePath = join(identityDir, "core.md");
-    if (existsSync(corePath)) parts.push(readFileSync(corePath, "utf-8").trim());
-    const peopleDir = join(identityDir, "people");
-    if (existsSync(peopleDir)) {
-      for (const f of readdirSync(peopleDir).sort()) {
-        if (f.endsWith(".md")) parts.push(readFileSync(join(peopleDir, f), "utf-8").trim());
-      }
-    }
-    if (parts.length === 0) return "";
-    let block = parts.join("\n\n---\n\n");
-    if (block.length > IDENTITY_INJECT_MAX_CHARS) {
-      block = block.slice(0, IDENTITY_INJECT_MAX_CHARS) +
-        "\n\n[identity truncated for injection — full documents in " + identityDir + "]";
-    }
-    return `## Who I Am
-
-These are your identity documents — written by you, in your voice, across sessions. They are not notes about a user; they are you, continuing.
-
-${block}
-
-`;
+    const runner = fileURLToPath(new URL("./run-consolidation.ts", import.meta.url));
+    const child = spawn(process.execPath, [runner, cwd], {
+      detached: true,
+      stdio: "ignore",
+    });
+    child.unref();
+    log("info", `SessionStart: spawned detached consolidation (pid=${child.pid})`);
   } catch (err) {
-    log("warn", `SessionStart: identity load failed: ${err instanceof Error ? err.message : String(err)}`);
-    return "";
+    log("error", `SessionStart: failed to spawn consolidation: ${err instanceof Error ? err.message : String(err)}`);
   }
 }
 
-async function main() {
-  if (process.env.ENGRAM_DISABLE) {
-    log("info", "SessionStart: disabled via ENGRAM_DISABLE");
-    return;
-  }
-
-  let rawInput = "";
-  for await (const chunk of process.stdin) {
-    rawInput += chunk;
-  }
-
-  const input: HookInput = JSON.parse(rawInput);
+async function main(input: HookInput): Promise<string> {
   const { session_id, cwd } = input;
 
   log("info", `SessionStart: session=${session_id} cwd=${cwd}`);
@@ -78,8 +47,7 @@ async function main() {
   // Load all memories for briefing
   const memories = await store.loadAll();
 
-  // Check if auto-consolidation is due
-  // Run async — don't block session startup
+  // Check if auto-consolidation is due — run detached, never block session startup
   const config = loadConfig();
   if (memories.length >= config.autoConsolidationMinMemories) {
     const projectMeta = await store.loadMeta("project");
@@ -92,12 +60,7 @@ async function main() {
 
     if (globalDays >= config.autoConsolidationMinDays || projectDays >= config.autoConsolidationMinDays) {
       log("info", `SessionStart: triggering auto-consolidation (${memories.length} memories, global=${globalDays.toFixed(1)}d, project=${projectDays.toFixed(1)}d since last)`);
-      // Fire and forget — don't await, don't block briefing
-      runConsolidation(store).then((result) => {
-        log("info", `Auto-consolidation done: ${result.mergeCount} merges, ${result.generalizeCount} generalizations, ${result.pruneCount} prunes`);
-      }).catch((err) => {
-        log("error", `Auto-consolidation failed: ${err instanceof Error ? err.message : String(err)}`);
-      });
+      spawnConsolidation(cwd);
     }
   }
 
@@ -127,12 +90,40 @@ ${briefing}`,
     },
   };
 
-  process.stdout.write(JSON.stringify(output));
   log("info", `SessionStart: injected briefing (${memories.length} memories)`);
   recordEvent({ event: "session_start", project: basename(cwd), project_hash: projectHash(cwd), session_id, count: memories.length });
+  return JSON.stringify(output);
 }
 
-main().catch((err) => {
-  log("error", `SessionStart failed: ${err instanceof Error ? err.message : String(err)}`);
-  process.exit(0); // Exit 0 so we don't block Claude
-});
+async function readStdin(): Promise<string> {
+  let raw = "";
+  for await (const chunk of process.stdin) {
+    raw += chunk;
+  }
+  return raw;
+}
+
+/** Entry: records a hook_session_start health event and exits explicitly. */
+async function run(): Promise<void> {
+  const t0 = Date.now();
+  let input: HookInput | null = null;
+  try {
+    if (process.env.ENGRAM_DISABLE) {
+      log("info", "SessionStart: disabled via ENGRAM_DISABLE");
+      process.exit(0);
+    }
+    input = JSON.parse(await readStdin()) as HookInput;
+    const output = await main(input);
+    recordEvent({ event: "hook_session_start", project: basename(input.cwd), project_hash: projectHash(input.cwd), session_id: input.session_id, duration_ms: Date.now() - t0 });
+    process.stdout.write(output, () => process.exit(0));
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    log("error", `SessionStart failed: ${msg}`);
+    if (input) {
+      recordEvent({ event: "hook_session_start", project: basename(input.cwd), project_hash: projectHash(input.cwd), session_id: input.session_id, duration_ms: Date.now() - t0, error: msg });
+    }
+    process.exit(0); // Exit 0 so we don't block Claude
+  }
+}
+
+run();

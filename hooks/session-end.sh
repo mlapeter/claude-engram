@@ -2,11 +2,18 @@
 # Runs on SessionEnd. Final memory extraction safety net.
 set -e
 
-# Preserve ENGRAM_DISABLE across profile sourcing
+# Preserve ENGRAM_DISABLE across env loading
 _ENGRAM_DISABLE="$ENGRAM_DISABLE"
 
-# Source shell profile to get ANTHROPIC_API_KEY
-[ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc" 2>/dev/null || true
+# Load API keys: prefer the dedicated env file (fast, reliable under bash);
+# fall back to sourcing the shell profile for older installs.
+if [ -f "$HOME/.claude-engram/env" ]; then
+  set -a
+  . "$HOME/.claude-engram/env" 2>/dev/null || true
+  set +a
+else
+  [ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc" 2>/dev/null || true
+fi
 
 export ENGRAM_DISABLE="${_ENGRAM_DISABLE}"
 
