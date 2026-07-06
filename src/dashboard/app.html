@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>engram</title>
+<style>
+  :root { --bg:#0a0e14; --card:#0d1117; --hover:#111820; --border:#1c2430; --glow:#2a3548;
+    --ink:#c9d4e3; --dim:#6b7a90; --cyan:#56d4dd; --purple:#b78af7; --amber:#e0b45c;
+    --teal:#4fd6a8; --red:#e06c75; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;line-height:1.6}
+  .wrap{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+  h1{font-size:19px;color:var(--cyan)}
+  nav{display:flex;gap:2px}
+  nav a{color:var(--dim);text-decoration:none;font-size:12px;padding:5px 12px;border-radius:8px}
+  nav a:hover{color:var(--ink);background:var(--hover)}
+  nav a.on{color:var(--cyan);background:var(--hover)}
+  #q{background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--ink);
+    font:inherit;font-size:12px;padding:5px 12px;width:220px;outline:none}
+  #q:focus{border-color:var(--glow)}
+  .hright{margin-left:auto;display:flex;gap:12px;align-items:center}
+  .hright a{color:var(--dim);text-decoration:none;font-size:11px}
+  .hright a:hover{color:var(--cyan)}
+  .badge{font-size:9px;padding:1px 7px;border-radius:9px;border:1px solid var(--glow);color:var(--dim)}
+  .badge.critical{color:var(--amber);border-color:var(--amber)} .badge.high{color:var(--purple);border-color:var(--purple)}
+  .badge.ok{color:var(--teal);border-color:var(--teal)} .badge.fail{color:var(--red);border-color:var(--red)}
+
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--dim);margin:20px 0 10px}
+  h2 small{text-transform:none;letter-spacing:0;font-weight:400}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin-bottom:16px}
+  .tile{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+  .tile .n{font-size:22px;font-weight:600;color:var(--cyan)} .tile .l{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+  .tile.p .n{color:var(--purple)} .tile.a .n{color:var(--amber)} .tile.t .n{color:var(--teal)}
+  .cols{display:grid;grid-template-columns:1fr 1.2fr;gap:18px}
+  .cols3{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:980px){.cols,.cols3{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+  .pad{padding:14px 16px}
+
+  .bar{display:grid;grid-template-columns:80px 1fr 60px;gap:10px;align-items:center;margin:7px 0;font-size:11px}
+  .bar .track{height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+  .bar .fill{height:100%;border-radius:4px}
+
+  .feed{max-height:430px;overflow-y:auto}
+  .ev{display:grid;grid-template-columns:64px 100px 1fr;gap:10px;padding:7px 14px;border-bottom:1px solid var(--border);font-size:11px;cursor:pointer}
+  .ev:hover{background:var(--hover)} .ev .t{color:var(--dim)} .ev .k{font-weight:600}
+  .k.extract{color:var(--teal)} .k.episode_request{color:var(--purple)} .k.reinforce,.k.recall{color:var(--cyan)}
+  .k.dedup{color:var(--dim)} .k.session_start,.k.session_end{color:var(--amber)}
+  .k.consolidate{color:var(--purple)} .k.identity_rewrite{color:var(--amber)}
+  .k.store{color:var(--teal)} .k.forget{color:var(--red)}
+  .ev .s{color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .dhead{display:flex;gap:10px;align-items:center;padding:11px 14px;cursor:pointer;user-select:none;font-size:12px;font-weight:600}
+  .dhead:hover{background:var(--hover)} .dhead .chev{color:var(--dim);font-size:10px;transition:transform .15s}
+  .card.open .chev{transform:rotate(90deg)} .dbody{display:none;padding:4px 18px 16px;border-top:1px solid var(--border)}
+  .card.open .dbody{display:block}
+  .md{white-space:pre-wrap;font-size:12px}
+  .md-h{color:var(--cyan);font-weight:600} .md-hh{color:var(--purple);font-weight:600} .md-em{color:var(--amber)}
+  .empty{color:var(--dim);font-size:11px;padding:12px 14px;border:1px dashed var(--glow);border-radius:10px;margin-bottom:10px}
+
+  table{width:100%;border-collapse:collapse;font-size:11px}
+  th{text-align:left;color:var(--dim);font-weight:400;text-transform:uppercase;letter-spacing:1px;font-size:9px;padding:8px 14px;border-bottom:1px solid var(--border)}
+  td{padding:8px 14px;border-bottom:1px solid var(--border)}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--hover)}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  th.num{text-align:right}
+
+  .chart-box{position:relative;padding:14px 16px 10px}
+  .chart-box canvas{width:100%;height:260px;display:block}
+  .legend{display:flex;gap:14px;font-size:10px;color:var(--dim);padding:0 16px 10px}
+  .legend .chip{display:inline-block;width:8px;height:8px;border-radius:4px;margin-right:5px;vertical-align:-1px}
+  #tip{position:fixed;display:none;background:#060a10;border:1px solid var(--glow);border-radius:8px;
+    padding:7px 10px;font-size:11px;max-width:340px;pointer-events:none;z-index:60;color:var(--ink)}
+  #tip .dimline{color:var(--dim)}
+
+  .hbar{display:grid;grid-template-columns:110px 1fr 44px;gap:10px;align-items:center;margin:5px 0;font-size:11px}
+  .hbar .track{height:10px;background:var(--bg);border-radius:4px;overflow:hidden}
+  .hbar .fill{height:100%;border-radius:4px;background:var(--cyan)}
+  .hbar span:last-child{color:var(--dim);text-align:right;font-variant-numeric:tabular-nums}
+
+  svg text{font-family:inherit}
+  .logbox{max-height:340px;overflow-y:auto;padding:10px 14px;font-size:10.5px;line-height:1.55;color:var(--dim);white-space:pre-wrap}
+  .logbox .err{color:var(--red)} .logbox .warn{color:var(--amber)}
+
+  #overlay{position:fixed;inset:0;background:rgba(4,7,12,.75);display:none;z-index:50}
+  #overlay.show{display:flex;align-items:flex-start;justify-content:center;padding:5vh 16px}
+  #modal{background:var(--card);border:1px solid var(--glow);border-radius:12px;max-width:880px;width:100%;
+    max-height:88vh;overflow-y:auto;padding:20px 24px}
+  #modal h3{font-size:14px;color:var(--cyan);margin-bottom:4px}
+  #modal .sub{color:var(--dim);font-size:11px;margin-bottom:14px}
+  #modal .x{float:right;cursor:pointer;color:var(--dim);font-size:16px;padding:0 4px} #modal .x:hover{color:var(--ink)}
+  .mem{border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:12px}
+  .mem .mmeta{color:var(--dim);font-size:10px;margin-top:5px;display:flex;gap:10px;flex-wrap:wrap}
+  .tag{color:var(--purple)}
+  .diff{font-size:11.5px;white-space:pre-wrap;line-height:1.5}
+  .diff .add{background:rgba(79,214,168,.09);color:var(--teal);display:block}
+  .diff .del{background:rgba(224,108,117,.09);color:var(--red);display:block;text-decoration:line-through;text-decoration-color:rgba(224,108,117,.4)}
+  .diff .ctx{color:var(--dim);display:block}
+  .filetab{display:inline-block;padding:3px 10px;border:1px solid var(--border);border-radius:8px;margin:0 6px 10px 0;cursor:pointer;font-size:11px;color:var(--dim)}
+  .filetab.on{color:var(--cyan);border-color:var(--cyan)}
+
+  #results{position:absolute;top:44px;left:0;right:0;background:var(--card);border:1px solid var(--glow);
+    border-radius:10px;max-height:70vh;overflow-y:auto;z-index:40;display:none;padding:6px}
+  .searchwrap{position:relative}
+  .rgroup{color:var(--dim);font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:8px 10px 3px}
+  .rhit{padding:7px 10px;border-radius:8px;cursor:pointer;font-size:11.5px}
+  .rhit:hover{background:var(--hover)}
+  .rhit .rmeta{color:var(--dim);font-size:10px}
+  .spark{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>engram</h1>
+    <nav id="nav">
+      <a href="#overview">overview</a><a href="#memories">memories</a><a href="#mind">mind</a><a href="#health">health</a>
+    </nav>
+    <div class="searchwrap">
+      <input id="q" type="search" placeholder="search memories · episodes · identity" autocomplete="off">
+      <div id="results"></div>
+    </div>
+    <div class="hright"><a href="/classic">classic</a><span class="badge" id="upd">…</span></div>
+  </header>
+
+  <div id="tab-overview" class="tab">
+    <div class="tiles" id="tiles"></div>
+    <div class="cols">
+      <div>
+        <h2>Memory strength</h2>
+        <div class="card pad" id="bars"></div>
+        <h2>Live activity <small style="color:var(--purple)">— click any event for detail</small></h2>
+        <div class="card feed" id="feed"></div>
+      </div>
+      <div>
+        <h2>Who I am — identity</h2>
+        <div id="ov-identity"></div>
+        <h2>Pending deltas</h2>
+        <div id="ov-deltas"></div>
+        <h2>Recent episodes</h2>
+        <div id="ov-episodes"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-memories" class="tab" style="display:none">
+    <div class="cols3">
+      <div>
+        <h2>Constellation <small>— every memory: age × strength, size = retrievals</small></h2>
+        <div class="card chart-box"><canvas id="constellation"></canvas>
+          <div class="legend"><span><span class="chip" style="background:var(--cyan)"></span>global</span>
+            <span><span class="chip" style="background:var(--purple)"></span>project</span></div></div>
+        <h2>Strength distribution</h2>
+        <div class="card chart-box"><canvas id="hist" style="height:170px"></canvas>
+          <div class="legend"><span><span class="chip" style="background:var(--red)"></span>decaying</span>
+            <span><span class="chip" style="background:var(--amber)"></span>fading</span>
+            <span><span class="chip" style="background:var(--cyan)"></span>stable</span>
+            <span><span class="chip" style="background:var(--teal)"></span>strong</span></div></div>
+      </div>
+      <div>
+        <h2>30-day activity</h2>
+        <div class="card chart-box"><svg id="trends" style="width:100%;height:200px"></svg>
+          <div class="legend"><span><span class="chip" style="background:var(--cyan)"></span>memories created</span>
+            <span><span class="chip" style="background:var(--purple)"></span>recalls</span></div></div>
+        <h2>Tags</h2>
+        <div class="card pad" id="tags"></div>
+        <h2>Projects</h2>
+        <div class="card" id="projects"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-mind" class="tab" style="display:none">
+    <div class="cols">
+      <div>
+        <h2>Who I am — identity documents</h2>
+        <div id="mind-identity"></div>
+        <h2>Pending deltas <small>(consolidation folds these in)</small></h2>
+        <div id="mind-deltas"></div>
+        <h2>Identity history <small>— every rewrite, inspectable</small></h2>
+        <div class="card" id="mind-history"></div>
+      </div>
+      <div>
+        <h2>Episodes — what happened, in my voice</h2>
+        <div id="mind-episodes"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-health" class="tab" style="display:none">
+    <h2>Hooks — last 7 days <small>(durations in ms; sparkline = recent runs)</small></h2>
+    <div class="card"><table id="hooks">
+      <thead><tr><th>hook</th><th>last run</th><th class="num">24h</th><th class="num">7d</th>
+        <th class="num">fails</th><th class="num">p50</th><th class="num">p95</th><th style="width:180px">recent durations</th></tr></thead>
+      <tbody></tbody></table></div>
+    <div class="cols3">
+      <div>
+        <h2>Recent hook errors</h2>
+        <div class="card" id="herrors"></div>
+        <h2>Consolidations &amp; identity rewrites</h2>
+        <div class="card feed" id="consols"></div>
+      </div>
+      <div>
+        <h2>engram.log <small>— live tail</small></h2>
+        <div class="card logbox" id="logtail"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tip"></div>
+<div id="overlay"><div id="modal"></div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const md=s=>esc(s).replace(/^###? (.*)$/gm,'<span class="md-hh">$1</span>').replace(/^# (.*)$/gm,'<span class="md-h">$1</span>').replace(/\*\*([^*]+)\*\*/g,'<span class="md-em">$1</span>');
+const doc=(t,c,b,open)=>`<div class="card${open?' open':''}"><div class="dhead" onclick="this.parentElement.classList.toggle('open')"><span class="chev">▶</span>${esc(t)}${b?`<span class="badge ${b}" style="margin-left:auto">${b}</span>`:''}</div><div class="dbody"><div class="md">${md(c)}</div></div></div>`;
+const fm=c=>{const m=c.match(/^---\n([\s\S]*?)\n---/),o={};if(m)for(const l of m[1].split('\n')){const i=l.indexOf(':');if(i>0)o[l.slice(0,i).trim()]=l.slice(i+1).trim()}return o};
+async function j(u){return (await fetch(u)).json()}
+const CSS=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const ago=ts=>{if(!ts)return '—';const s=(Date.now()-new Date(ts).getTime())/1000;
+  if(s<90)return Math.round(s)+'s ago';if(s<5400)return Math.round(s/60)+'m ago';
+  if(s<129600)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago'};
+const ms=v=>v==null?'—':(v>=10000?(v/1000).toFixed(1)+'s':Math.round(v)+'ms');
+
+// ---------- tooltip ----------
+const tip=$('tip');
+function showTip(html,x,y){tip.innerHTML=html;tip.style.display='block';
+  const r=tip.getBoundingClientRect();
+  tip.style.left=Math.min(x+14,innerWidth-r.width-10)+'px';
+  tip.style.top=Math.min(y+14,innerHeight-r.height-10)+'px'}
+function hideTip(){tip.style.display='none'}
+
+// ---------- modal ----------
+function openModal(html){$('modal').innerHTML=`<span class="x" onclick="closeModal()">✕</span>`+html;$('overlay').classList.add('show')}
+function closeModal(){$('overlay').classList.remove('show')}
+$('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal()});
+addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();$('results').style.display='none'}});
+
+let EPISODES=[];
+
+// ---------- event click-through ----------
+async function openEvent(id){
+  openModal('<h3>loading…</h3>');
+  const d=await j('/api/event/'+id);
+  if(d.error){openModal('<h3>event</h3><div class="empty">'+esc(d.error)+'</div>');return}
+  const e=d.event;
+  let h=`<h3><span class="k ${esc(e.event)}">${esc(e.event)}</span> — ${esc(e.project||'')}</h3>
+    <div class="sub">${esc(e.ts||'')} · session ${esc((e.session_id||'').slice(0,8))}${e.duration_ms!=null?' · '+ms(e.duration_ms):''}</div>`;
+  if(e.error)h+=`<div class="empty" style="border-color:var(--red);color:var(--red)">error: ${esc(e.error)}</div>`;
+  if(e.event==='consolidate')h+=`<div class="pad" style="padding:0 0 12px">merges ${e.merges??0} · generalizations ${e.generalizations??0} · prunes ${e.prunes??0} · memories after: ${e.count??'—'}</div>`;
+  if(e.event==='identity_rewrite'){h+=`<div class="md" style="margin-bottom:12px">${md(e.content_snippet||'')}</div>`;
+    if(e.query)h+=`<div class="filetab on" onclick="openDiff('${esc(String(e.query).split('/').pop())}')">view before/after diff</div>`}
+  if(e.event==='episode_request'){
+    const mk=(e.session_id||'').slice(0,8);
+    const ep=EPISODES.find(x=>x.file.includes(mk));
+    h+=ep?`<h2 style="margin-top:6px">episode written</h2>`+doc(ep.file,ep.content,fm(ep.content).salience||null,true)
+        :`<div class="empty">no episode file found for session marker ${esc(mk)} — the model may not have written one</div>`;
+  }
+  if(d.memories&&d.memories.length){
+    h+=`<h2 style="margin-top:6px">memories stored this run (${d.memories.length})</h2>`+d.memories.map(m=>
+      `<div class="mem">${esc(m.content)}
+        <div class="mmeta"><span>${esc(m.scope)}</span><span>strength ${m._strength}</span>
+        <span>${m._state==='archived'?'<span class="badge critical">archived</span>':''}</span>
+        <span class="tag">${(m.tags||[]).map(esc).join(' · ')}</span></div></div>`).join('');
+  }
+  if(d.gone&&d.gone.length)h+=`<div class="empty">${d.gone.length} memor${d.gone.length>1?'ies':'y'} from this run since merged or pruned: ${d.gone.map(esc).join(', ')}</div>`;
+  const others=(d.runEvents||[]).filter(r=>r.id!==e.id&&r.event!=='extract');
+  if(others.length)h+=`<h2 style="margin-top:6px">same-session events</h2>`+others.map(r=>
+    `<div class="ev" onclick="openEvent(${r.id})"><span class="t">${esc((r.ts||'').slice(11,19))}</span><span class="k ${esc(r.event)}">${esc(r.event)}</span><span class="s">${esc(r.content_snippet||'')}</span></div>`).join('');
+  openModal(h);
+}
+
+// ---------- identity diff ----------
+function diffLines(a,b){ // simple LCS line diff
+  const A=a.split('\n'),B=b.split('\n'),n=A.length,m=B.length;
+  const L=Array.from({length:n+1},()=>new Uint16Array(m+1));
+  for(let i=n-1;i>=0;i--)for(let jj=m-1;jj>=0;jj--)
+    L[i][jj]=A[i]===B[jj]?L[i+1][jj+1]+1:Math.max(L[i+1][jj],L[i][jj+1]);
+  const out=[];let i=0,jj=0;
+  while(i<n&&jj<m){
+    if(A[i]===B[jj]){out.push(['ctx',A[i]]);i++;jj++}
+    else if(L[i+1][jj]>=L[i][jj+1]){out.push(['del',A[i]]);i++}
+    else{out.push(['add',B[jj]]);jj++}
+  }
+  while(i<n)out.push(['del',A[i++]]);
+  while(jj<m)out.push(['add',B[jj++]]);
+  return out;
+}
+function renderDiff(a,b){
+  const d=diffLines(a,b);
+  // collapse long unchanged runs
+  let h='',run=[];
+  const flush=()=>{if(run.length>6){h+=run.slice(0,2).map(l=>`<span class="ctx">${esc(l)||' '}</span>`).join('');
+      h+=`<span class="ctx" style="opacity:.5">··· ${run.length-4} unchanged lines ···</span>`;
+      h+=run.slice(-2).map(l=>`<span class="ctx">${esc(l)||' '}</span>`).join('')}
+    else h+=run.map(l=>`<span class="ctx">${esc(l)||' '}</span>`).join('');run=[]};
+  for(const[k,l]of d){if(k==='ctx')run.push(l);else{flush();h+=`<span class="${k}">${k==='add'?'+ ':'− '}${esc(l)||' '}</span>`}}
+  flush();return`<div class="diff">${h}</div>`;
+}
+async function openDiff(stamp){
+  openModal('<h3>loading diff…</h3>');
+  const[bk,cur]=await Promise.all([j('/api/identity/backup?stamp='+encodeURIComponent(stamp)),j('/api/identity')]);
+  if(bk.error){openModal('<h3>identity diff</h3><div class="empty">'+esc(bk.error)+'</div>');return}
+  const files={};
+  if(bk.files['core.md']!=null)files['core.md']=[bk.files['core.md'],cur.core||''];
+  for(const f of Object.keys(bk.files)){
+    const pm=f.match(/^people-(.*)\.md$/);
+    if(pm){const curP=(cur.people||[]).find(p=>p.name===pm[1]);files['people/'+pm[1]+'.md']=[bk.files[f],curP?curP.content:'']}
+  }
+  const names=Object.keys(files);
+  let h=`<h3>identity rewrite — ${esc(stamp)}</h3><div class="sub">backup (−) vs current (+). deltas folded in that run are at the bottom.</div>`;
+  h+=names.map((f,i)=>`<span class="filetab${i===0?' on':''}" onclick="showDiffFile(this,'${esc(f)}')">${esc(f)}</span>`).join('');
+  h+=`<div id="diffbody"></div>`;
+  if(bk.files['deltas.md'])h+=`<h2 style="margin-top:14px">deltas folded in this rewrite</h2><div class="md" style="font-size:11.5px">${md(bk.files['deltas.md'])}</div>`;
+  openModal(h);
+  window._difffiles=files;
+  if(names.length)$('diffbody').innerHTML=renderDiff(files[names[0]][0],files[names[0]][1]);
+  else $('diffbody').innerHTML='<div class="empty">no comparable files in this backup</div>';
+}
+function showDiffFile(el,f){
+  document.querySelectorAll('.filetab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
+  const[a,b]=window._difffiles[f];$('diffbody').innerHTML=renderDiff(a,b);
+}
+
+// ---------- overview ----------
+async function loadOverview(){
+  const h=await j('/api/health');
+  const tile=(n,l,c)=>`<div class="tile ${c||''}"><div class="n">${n}</div><div class="l">${l}</div></div>`;
+  $('tiles').innerHTML=tile(h.total.toLocaleString(),'memories')+tile(h.avgStrength,'avg strength','t')+
+    tile(h.semantic,'semantic','p')+tile(h.consolidated,'consolidated','p')+
+    tile(h.avgAge+'d','avg age','a')+tile(h.global.toLocaleString(),'global')+tile(h.project.toLocaleString(),'project');
+  const mx=Math.max(h.strong,h.stable,h.fading,h.decaying)||1;
+  const colors={strong:'var(--teal)',stable:'var(--cyan)',fading:'var(--amber)',decaying:'var(--red)'};
+  $('bars').innerHTML=['strong','stable','fading','decaying'].map(k=>
+    `<div class="bar"><span>${k}</span><div class="track"><div class="fill" style="width:${(h[k]/mx*100).toFixed(0)}%;background:${colors[k]}"></div></div><span>${h[k].toLocaleString()}</span></div>`).join('');
+  const evs=await j('/api/events?limit=200');
+  $('feed').innerHTML=evs.filter(e=>!e.event.startsWith('hook_')).slice(0,60).map(e=>
+    `<div class="ev" onclick="openEvent(${e.id})"><span class="t">${esc((e.ts||'').slice(11,19))}</span><span class="k ${esc(e.event)}">${esc(e.event)}</span><span class="s">${esc(e.project||'')}${e.content_snippet?' · '+esc(e.content_snippet):''}</span></div>`).join('')||'<div class="empty">no events</div>';
+  const idn=await j('/api/identity');
+  $('ov-identity').innerHTML=(idn.core?doc('core.md',idn.core,null,false):'')+(idn.people||[]).map(p=>doc('people/'+p.name+'.md',p.content,null,false)).join('')||'<div class="empty">none yet</div>';
+  $('ov-deltas').innerHTML=idn.deltas?doc('deltas.md — awaiting consolidation',idn.deltas,'high',true):'<div class="empty">none pending — identity is up to date</div>';
+  const eps=await j('/api/episodes');EPISODES=eps.episodes;
+  $('ov-episodes').innerHTML=eps.episodes.slice(0,6).map(e=>{const f=fm(e.content);return doc((f.when||e.file.slice(0,10))+' — with '+(f.with||'?'),e.content,f.salience||null,false)}).join('')||'<div class="empty">none yet — written at session end</div>';
+}
+
+// ---------- memories tab ----------
+let constellationPts=null;
+async function loadMemories(){
+  const pts=await j('/api/constellation');
+  drawConstellation(pts);
+  const hist=await j('/api/strength-distribution');
+  drawHist(hist);
+  const tr=await j('/api/trends?days=30');
+  drawTrends(tr);
+  const tags=await j('/api/tags');
+  const tmx=tags[0]?.count||1;
+  $('tags').innerHTML=tags.slice(0,16).map(t=>
+    `<div class="hbar"><span style="overflow:hidden;text-overflow:ellipsis">${esc(t.tag)}</span><div class="track"><div class="fill" style="width:${(t.count/tmx*100).toFixed(0)}%"></div></div><span>${t.count}</span></div>`).join('')||'<div class="empty">no tags</div>';
+  const projs=await j('/api/projects');
+  $('projects').innerHTML=`<table><thead><tr><th>project</th><th class="num">memories</th><th class="num">avg strength</th></tr></thead><tbody>`+
+    projs.sort((a,b)=>b.count-a.count).map(p=>`<tr><td>${esc(p.name)}</td><td class="num">${p.count}</td><td class="num">${p.avgStrength}</td></tr>`).join('')+`</tbody></table>`;
+}
+function setupCanvas(cv){
+  const r=cv.getBoundingClientRect(),dpr=devicePixelRatio||1;
+  cv.width=r.width*dpr;cv.height=r.height*dpr;
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  return[ctx,r.width,r.height];
+}
+function drawConstellation(pts){
+  const cv=$('constellation');const[ctx,W,H]=setupCanvas(cv);
+  ctx.clearRect(0,0,W,H);
+  const P={l:40,r:12,t:10,b:26};
+  const maxAge=Math.max(7,...pts.map(p=>p.age));
+  const x=a=>P.l+(1-a/maxAge)*(W-P.l-P.r); // newest right
+  const y=s=>P.t+(1-s)*(H-P.t-P.b);
+  ctx.strokeStyle='rgba(86,212,221,.06)';ctx.fillStyle=CSS('--dim');ctx.font='9px ui-monospace';
+  for(const s of[0,.25,.5,.75,1]){ctx.beginPath();ctx.moveTo(P.l,y(s));ctx.lineTo(W-P.r,y(s));ctx.stroke();ctx.fillText(s.toFixed(2),4,y(s)+3)}
+  ctx.textAlign='center';
+  for(const a of[0,Math.round(maxAge/2),Math.round(maxAge)]){ctx.fillText(a+'d',x(a),H-8)}
+  ctx.textAlign='left';
+  const drawn=[];
+  for(const p of pts){
+    const px=x(Math.min(p.age,maxAge)),py=y(Math.max(0,Math.min(1,p.strength)));
+    const rr=Math.max(2,Math.min(5.5,2+(p.access_count||0)*.5));
+    ctx.beginPath();ctx.arc(px,py,rr,0,7);
+    ctx.fillStyle=p.scope==='global'?'rgba(86,212,221,.34)':'rgba(183,138,247,.30)';
+    ctx.fill();
+    drawn.push({px,py,rr,p});
+  }
+  constellationPts=drawn;
+  cv.onmousemove=e=>{
+    const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+    let best=null,bd=144;
+    for(const d of constellationPts){const dd=(d.px-mx)**2+(d.py-my)**2;if(dd<bd){bd=dd;best=d}}
+    if(best){const p=best.p;showTip(`${esc(p.content)}…<div class="dimline">${esc(p.scope)} · ${esc(p.type)} · strength ${p.strength} · ${p.age}d old · ${p.access_count} retrievals<br>${(p.tags||[]).map(esc).join(' · ')}</div>`,e.clientX,e.clientY)}
+    else hideTip();
+  };
+  cv.onmouseleave=hideTip;
+}
+function bandColor(s){return s<0.15?CSS('--red'):s<0.4?CSS('--amber'):s<0.7?CSS('--cyan'):CSS('--teal')}
+function drawHist(buckets){
+  const cv=$('hist');const[ctx,W,H]=setupCanvas(cv);
+  ctx.clearRect(0,0,W,H);
+  const P={l:34,r:8,t:8,b:20};
+  const mx=Math.max(1,...buckets.map(b=>b.count));
+  const bw=(W-P.l-P.r)/buckets.length;
+  const rects=[];
+  ctx.fillStyle=CSS('--dim');ctx.font='9px ui-monospace';
+  buckets.forEach((b,i)=>{
+    const h=(H-P.t-P.b)*(b.count/mx);
+    const x0=P.l+i*bw+1,y0=H-P.b-h,w=bw-2; // 2px surface gap between bars
+    ctx.fillStyle=bandColor(i*0.05+0.025);
+    ctx.beginPath();ctx.roundRect(x0,y0,w,Math.max(h,b.count?2:0),[3,3,0,0]);ctx.fill();
+    rects.push({x0,y0,w,b,i});
+    ctx.fillStyle=CSS('--dim');
+  });
+  ctx.fillText(String(mx),4,P.t+8);ctx.fillText('0',4,H-P.b);
+  ctx.textAlign='center';
+  [0,0.5,1].forEach(v=>ctx.fillText(v.toFixed(1),P.l+v*(W-P.l-P.r),H-6));
+  ctx.textAlign='left';
+  cv.onmousemove=e=>{
+    const r=cv.getBoundingClientRect(),mx2=e.clientX-r.left;
+    const hit=rects.find(q=>mx2>=q.x0&&mx2<=q.x0+q.w);
+    if(hit)showTip(`strength ${hit.b.range}<div class="dimline">${hit.b.count} memories</div>`,e.clientX,e.clientY);else hideTip();
+  };
+  cv.onmouseleave=hideTip;
+}
+function drawTrends(rows){
+  const svg=$('trends');
+  const days={};
+  for(const r of rows){
+    if(!days[r.date])days[r.date]={created:0,recalls:0};
+    days[r.date].created+=r.memories_created||0;days[r.date].recalls+=r.recalls||0;
+  }
+  const ds=Object.keys(days).sort();
+  if(!ds.length){svg.outerHTML='<div class="empty" id="trends">no trend data yet</div>';return}
+  const W=svg.clientWidth||500,H=svg.clientHeight||200,P={l:34,r:10,t:10,b:20};
+  const mx=Math.max(1,...ds.map(d=>Math.max(days[d].created,days[d].recalls)));
+  const x=i=>P.l+i/(Math.max(ds.length-1,1))*(W-P.l-P.r);
+  const y=v=>P.t+(1-v/mx)*(H-P.t-P.b);
+  const line=(key,color)=>`<polyline fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" points="${ds.map((d,i)=>x(i)+','+y(days[d][key])).join(' ')}"/>`;
+  let h=`<line x1="${P.l}" y1="${y(0)}" x2="${W-P.r}" y2="${y(0)}" stroke="rgba(86,212,221,.12)"/>`;
+  h+=line('created',CSS('--cyan'))+line('recalls',CSS('--purple'));
+  h+=`<text x="4" y="${P.t+8}" fill="${CSS('--dim')}" font-size="9">${mx}</text>`;
+  h+=`<text x="${P.l}" y="${H-5}" fill="${CSS('--dim')}" font-size="9">${ds[0].slice(5)}</text>`;
+  h+=`<text x="${W-P.r}" y="${H-5}" fill="${CSS('--dim')}" font-size="9" text-anchor="end">${ds[ds.length-1].slice(5)}</text>`;
+  svg.innerHTML=h;
+  svg.onmousemove=e=>{
+    const r=svg.getBoundingClientRect();
+    const i=Math.round((e.clientX-r.left-P.l)/((W-P.l-P.r)/Math.max(ds.length-1,1)));
+    if(i>=0&&i<ds.length){const d=ds[i];
+      showTip(`${esc(d)}<div class="dimline">created ${days[d].created} · recalls ${days[d].recalls}</div>`,e.clientX,e.clientY)}
+    else hideTip();
+  };
+  svg.onmouseleave=hideTip;
+}
+
+// ---------- mind tab ----------
+async function loadMind(){
+  const idn=await j('/api/identity');
+  $('mind-identity').innerHTML=(idn.core?doc('core.md — who I am',idn.core,null,true):'')+(idn.people||[]).map(p=>doc('people/'+p.name+'.md',p.content,null,false)).join('')||'<div class="empty">No identity documents yet — the model writes its own core.md in its first substantial session.</div>';
+  $('mind-deltas').innerHTML=idn.deltas?doc('deltas.md — awaiting consolidation',idn.deltas,'high',true):'<div class="empty">No pending deltas — identity is up to date.</div>';
+  const hist=await j('/api/identity/history');
+  $('mind-history').innerHTML=(hist.snapshots||[]).length?`<table><thead><tr><th>rewrite</th><th>notes</th><th></th></tr></thead><tbody>`+
+    hist.snapshots.map(s=>`<tr><td style="white-space:nowrap">${esc(s.stamp.slice(0,16).replace('T',' '))}</td>
+      <td style="color:var(--dim)">${esc((s.rewrite?.notes||'').slice(0,140))||'—'}</td>
+      <td class="num"><span class="filetab" style="margin:0" onclick="openDiff('${esc(s.stamp)}')">diff</span></td></tr>`).join('')+`</tbody></table>`
+    :'<div class="empty" style="border:none">no rewrites yet — history appears after the first consolidation folds deltas</div>';
+  const eps=await j('/api/episodes');EPISODES=eps.episodes;
+  $('mind-episodes').innerHTML=eps.episodes.map(e=>{const f=fm(e.content);return doc((f.when||e.file.slice(0,10))+' — with '+(f.with||'?')+'  ('+e.file+')',e.content,f.salience||null,false)}).join('')||'<div class="empty">No episodes yet.</div>';
+}
+
+// ---------- health tab ----------
+function spark(recent){
+  if(!recent||!recent.length)return'';
+  const W=170,H=26,mx=Math.max(1,...recent.map(r=>r.ms||0));
+  const x=i=>2+i/(Math.max(recent.length-1,1))*(W-4);
+  const y=v=>H-3-(v/mx)*(H-8);
+  const pts=recent.map((r,i)=>x(i)+','+y(r.ms||0)).join(' ');
+  const errs=recent.map((r,i)=>r.err?`<circle cx="${x(i)}" cy="${y(r.ms||0)}" r="2.6" fill="${CSS('--red')}"/>`:'').join('');
+  return`<svg class="spark" width="${W}" height="${H}"><polyline fill="none" stroke="${CSS('--cyan')}" stroke-width="1.5" points="${pts}"/>${errs}</svg>`;
+}
+async function loadHealth(){
+  const d=await j('/api/hook-health');
+  const order=['session_start','stop','pre_compact','session_end'];
+  const hooks=(d.hooks||[]).sort((a,b)=>order.indexOf(a.hook)-order.indexOf(b.hook));
+  $('hooks').querySelector('tbody').innerHTML=hooks.length?hooks.map(hk=>
+    `<tr><td>${esc(hk.hook)}</td>
+      <td>${ago(hk.last?.ts)} <span class="badge ${hk.last?.error!=null?'fail':'ok'}">${hk.last?.error!=null?'fail':'ok'}</span></td>
+      <td class="num">${hk.runs24h}</td><td class="num">${hk.runs7d}</td>
+      <td class="num" style="color:${hk.failures7d?'var(--red)':'inherit'}">${hk.failures7d}</td>
+      <td class="num">${ms(hk.p50)}</td><td class="num">${ms(hk.p95)}</td>
+      <td>${spark(hk.recent)}</td></tr>`).join('')
+    :'<tr><td colspan="8" style="color:var(--dim)">no hook runs recorded yet — health events land here as sessions run</td></tr>';
+  $('herrors').innerHTML=(d.errors||[]).length?(d.errors||[]).map(e=>
+    `<div class="ev" style="grid-template-columns:130px 100px 1fr;cursor:default"><span class="t">${esc((e.ts||'').slice(5,19).replace('T',' '))}</span><span class="k" style="color:var(--red)">${esc(e.event.replace('hook_',''))}</span><span class="s" title="${esc(e.error)}">${esc(e.error)}</span></div>`).join('')
+    :'<div class="empty" style="border:none;margin:0">no hook failures in 7 days</div>';
+  const evs=await j('/api/events?limit=400');
+  const cons=evs.filter(e=>e.event==='consolidate'||e.event==='identity_rewrite').slice(0,30);
+  $('consols').innerHTML=cons.length?cons.map(e=>
+    `<div class="ev" style="grid-template-columns:130px 110px 1fr" onclick="openEvent(${e.id})"><span class="t">${esc((e.ts||'').slice(5,19).replace('T',' '))}</span><span class="k ${esc(e.event)}">${esc(e.event)}</span><span class="s">${e.event==='consolidate'?`${e.merges??0}m · ${e.generalizations??0}g · ${e.prunes??0}p${e.error?' · failed':''}`:esc((e.content_snippet||'').slice(0,90))}</span></div>`).join('')
+    :'<div class="empty" style="border:none;margin:0">none yet — consolidation runs on session start when due</div>';
+  const lg=await j('/api/log-tail?lines=150');
+  $('logtail').innerHTML=(lg.lines||[]).map(l=>{
+    const cls=l.includes('[ERROR]')?'err':l.includes('[WARN]')?'warn':'';
+    return`<span class="${cls}">${esc(l)}</span>`}).join('\n')||'no log yet';
+  $('logtail').scrollTop=$('logtail').scrollHeight;
+}
+
+// ---------- search ----------
+let qtimer=null;
+$('q').addEventListener('input',()=>{clearTimeout(qtimer);qtimer=setTimeout(runSearch,250)});
+$('q').addEventListener('focus',()=>{if($('results').innerHTML)$('results').style.display='block'});
+document.addEventListener('click',e=>{if(!e.target.closest('.searchwrap'))$('results').style.display='none'});
+async function runSearch(){
+  const q=$('q').value.trim();
+  const box=$('results');
+  if(q.length<2){box.style.display='none';box.innerHTML='';return}
+  const d=await j('/api/search?q='+encodeURIComponent(q));
+  let h='';
+  if(d.memories.length)h+='<div class="rgroup">memories</div>'+d.memories.slice(0,10).map(m=>
+    `<div class="rhit" onclick='showMemory(${JSON.stringify(m).replace(/'/g,"&#39;")})'>${esc(m.content.slice(0,110))}<div class="rmeta">${esc(m.scope)} · strength ${m._strength} · ${(m.tags||[]).map(esc).join(' · ')}</div></div>`).join('');
+  if(d.episodes.length)h+='<div class="rgroup">episodes</div>'+d.episodes.map(e=>
+    `<div class="rhit" onclick="showEpisode('${esc(e.file)}')">${esc(e.file)}<div class="rmeta">${esc(e.excerpt.slice(0,130))}</div></div>`).join('');
+  if(d.identity.length)h+='<div class="rgroup">identity</div>'+d.identity.map(i=>
+    `<div class="rhit" onclick="showIdentityDoc('${esc(i.doc)}')">${esc(i.doc)}<div class="rmeta">${esc(i.excerpt.slice(0,130))}</div></div>`).join('');
+  box.innerHTML=h||'<div class="rgroup">no matches</div>';
+  box.style.display='block';
+}
+function showMemory(m){
+  $('results').style.display='none';
+  openModal(`<h3>memory</h3><div class="sub">${esc(m.id)} · created ${esc((m.created_at||'').slice(0,10))}</div>
+    <div class="mem">${esc(m.content)}<div class="mmeta"><span>${esc(m.scope)}</span><span>strength ${m._strength}</span><span>retrieved ${m.access_count}×</span><span class="tag">${(m.tags||[]).map(esc).join(' · ')}</span></div></div>`);
+}
+async function showEpisode(file){
+  $('results').style.display='none';
+  if(!EPISODES.length)EPISODES=(await j('/api/episodes')).episodes;
+  const ep=EPISODES.find(e=>e.file===file);
+  if(ep)openModal(`<h3>${esc(file)}</h3>`+doc(file,ep.content,fm(ep.content).salience||null,true));
+}
+async function showIdentityDoc(name){
+  $('results').style.display='none';
+  const idn=await j('/api/identity');
+  let content='';
+  if(name==='core.md')content=idn.core||'';
+  else if(name.startsWith('people/'))content=(idn.people.find(p=>'people/'+p.name+'.md'===name)||{}).content||'';
+  else content=idn.deltas||'';
+  openModal(`<h3>${esc(name)}</h3><div class="md">${md(content)}</div>`);
+}
+
+// ---------- tabs & refresh ----------
+const LOADERS={overview:loadOverview,memories:loadMemories,mind:loadMind,health:loadHealth};
+let current='overview';
+function setTab(name){
+  if(!LOADERS[name])name='overview';
+  current=name;
+  closeModal();
+  document.querySelectorAll('.tab').forEach(t=>t.style.display='none');
+  $('tab-'+name).style.display='';
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.hash==='#'+name));
+  refresh();
+}
+async function refresh(){
+  try{await LOADERS[current]();$('upd').textContent='updated '+new Date().toTimeString().slice(0,8)}
+  catch(e){$('upd').textContent='refresh failed'}
+}
+addEventListener('hashchange',()=>setTab(location.hash.slice(1)));
+setTab(location.hash.slice(1)||'overview');
+setInterval(refresh,30000);
+</script>
+</body>
+</html>

@@ -181,7 +181,9 @@ export function rollupDailyStats(database?: Database): void {
       substr(ts, 1, 10) AS date,
       COALESCE(project, '_global') AS project,
       SUM(CASE WHEN event = 'extract' THEN 1 ELSE 0 END),
-      SUM(CASE WHEN event = 'extract' THEN COALESCE(count, 0) ELSE 0 END),
+      -- extract events are one-per-memory with count NULL; zero-memory runs
+      -- record an explicit count=0. So NULL counts as one memory created.
+      SUM(CASE WHEN event = 'extract' THEN COALESCE(count, 1) ELSE 0 END),
       SUM(CASE WHEN event = 'recall' THEN 1 ELSE 0 END),
       SUM(CASE WHEN event = 'store' THEN 1 ELSE 0 END),
       SUM(CASE WHEN event = 'reinforce' THEN 1 ELSE 0 END),

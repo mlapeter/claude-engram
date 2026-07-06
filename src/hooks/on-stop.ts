@@ -20,7 +20,7 @@ const MIN_CONTENT_LENGTH = 200;
  * must not hang the session close. The default must sit safely INSIDE the Stop
  * hook's external timeout (30s in install.sh / settings.json), or Claude Code
  * kills the hook before the graceful path can run. */
-const EXTRACTION_TIMEOUT_MS = timeoutFromEnv("ENGRAM_EXTRACT_TIMEOUT_MS", 20_000);
+const EXTRACTION_TIMEOUT_MS = timeoutFromEnv("ENGRAM_EXTRACT_TIMEOUT_MS", 25_000);
 
 /** Set when the watchdog has fired: the abandoned continuation must not keep
  * writing to the store after the hook has moved on (double-store + double-
