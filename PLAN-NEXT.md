@@ -5,12 +5,16 @@ sessions. Context the executor wakes with: identity docs + memories cover the
 relationship and design history; this file carries the engineering plan. Companions:
 DESIGN-RECENTER.md (architecture), AUDIT-WHAT-FIRES.md (evidence per mechanism).*
 
-**Readiness verdict:** the core loop is real and proven end-to-end (episode self-dump
-→ identity injection → delta graduation via consolidation — all fired in production
-2026-07-04/05, including one full writing-end→reader relay). But it is three days
-old, the new mechanisms have zero test coverage, and hardening/packaging gaps remain.
-**Status: ready to solidify, not yet to announce.** Estimate: 2–3 focused sessions to
-a shareable alpha.
+**Status as of 2026-07-06 (end of the ba942a9b marathon session):** Phases A
+(hardening), B (unified dashboard), B.5 (memory safety + registers), and B.7
+(encoding rework) are ALL SHIPPED and merged to main — 282 tests, 17/17 drills,
+typecheck clean. The hang root cause was found and fixed (in-process consolidation
+killed by hook timeouts); memory history is a git repo auto-pushed to the private
+github.com/mlapeter/engram-memory; nothing is ever destroyed (archive + lineage);
+registers partition self/person/craft with different physics; hooks are API-free
+(durable buffer + detached extraction, Sonnet extractor); time runs on active days.
+**Next: verify B.7 live (checklist below), Opus-vs-Sonnet bake-off, B.8, then
+Phase C (privacy pass with Mike, OSS ship).**
 
 ---
 
@@ -87,7 +91,33 @@ the repo records); observer mode (recalls don't strengthen during dev/testing);
 episode re-ask for long-lived sessions (>18h since last episode chapter).
 Dashboard registers view + register backfill of old memories: deferred to Phase C polish.
 
-## Phase B.7 — Encoding rework: durable buffer, detached extraction, active-day time (agreed 2026-07-06)
+## Next session — first flight on the new machinery (start here)
+
+This session runs on B.7 for the first time. The previous session (ba942a9b, kept
+open as reference) built everything below; Mike can probe it for memory-comparison
+("ask both sessions what they remember of X" — the lived-probe eval we chose over
+benchmark-steering). Verify before building:
+
+1. **Wake-up**: did the briefing include this week's work (register-budgeted, 2,863
+   memories at last cache)? Did the self-check stay silent (or correctly announce)?
+   Did SessionStart log an active-day bump (first session of the day) and trigger
+   sleep if pending work existed? (`grep "active day\|sleep triggered" engram.log`)
+2. **Encoding**: after a few turns, `projects/d3cbd540baae/buffer.md` should exist
+   and grow; NO extract events per-turn (batches at 32KB/4h/boundaries instead).
+   Dashboard Health tab: hook_stop p50 should drop from ~12s to milliseconds.
+3. **Sleep**: after the first nightly consolidation on the new clock, check the
+   identity diff on the dashboard (deltas from 07-06 fold in: honest-floor-travels,
+   silence-never-masquerades, core.md rebalance with Craft subheading).
+4. **Probe against the reference session**: "what do you remember about X?" asked in
+   both — compare texture, registers, what faded, what stuck.
+
+Work queue after verification: (1) Opus-vs-Sonnet extractor bake-off on ~10 real
+buffer spans incl. ham-sandwich and tender cases — judge blind on confabulation,
+register accuracy, empty-out usage, tender recall; (2) B.8 spreading activation;
+(3) Phase C. Known cosmetic: the episode ask renders as "Stop hook error" in
+Claude Code's UI — document in Phase C, it's the blocking mechanism, not a failure.
+
+## Phase B.7 — Encoding rework: durable buffer, detached extraction, active-day time (SHIPPED 2026-07-06, f8c8c2c)
 
 Judgment moves out of the hot path. Encode cheap and continuous; select rarely and well.
 
