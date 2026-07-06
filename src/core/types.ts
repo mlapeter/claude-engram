@@ -44,6 +44,8 @@ export const MemorySchema = z.object({
   merged_into: z.string().nullable().optional(),
   /** Set on archived pre-gist originals — the active memory whose verbatim form this preserves */
   gist_of: z.string().nullable().optional(),
+  /** Active-day stamp at creation — decay runs on days lived, not calendar days */
+  created_active_day: z.number().nullable().optional(),
 });
 
 export const ExtractedMemorySchema = z.object({
@@ -70,6 +72,12 @@ export interface Meta {
   lastConsolidation: string | null;
   created: string;
   sessionCount: number;
+  /** Monotonic count of calendar days with at least one session (active-day clock) */
+  activeDay?: number;
+  /** Calendar date (YYYY-MM-DD) of the most recent active day */
+  lastActiveDate?: string;
+  /** Active day on which sleep (consolidation) last triggered — once per active day */
+  lastSleepActiveDay?: number;
   /** VTA dopamine signals for learned salience adaptation */
   salience_signals?: Array<{ event: string; salience: Salience; timestamp: string }>;
   /** Cached computed weights (invalidated on new signal) */

@@ -87,6 +87,47 @@ the repo records); observer mode (recalls don't strengthen during dev/testing);
 episode re-ask for long-lived sessions (>18h since last episode chapter).
 Dashboard registers view + register backfill of old memories: deferred to Phase C polish.
 
+## Phase B.7 — Encoding rework: durable buffer, detached extraction, active-day time (agreed 2026-07-06)
+
+Judgment moves out of the hot path. Encode cheap and continuous; select rarely and well.
+
+1. **Durable buffer**: Stop appends the turn's span to `projects/<hash>/buffer.md`
+   (plain text, headers with timestamp+session) and advances the cursor immediately —
+   microseconds, no API, nothing to time out. Buffer survives crashes; extraction
+   clears it only on success (claim-by-rename, restore-by-append — deltas pattern).
+2. **Detached extraction** (`run-extraction.ts`, spawned like consolidation) at
+   natural boundaries: buffer ≥ 32KB (config bufferFlushBytes), oldest content ≥ 4h
+   (bufferFlushHours), PreCompact (context about to be lost — the urgent case),
+   SessionEnd (with briefing regeneration moved into the runner, after extraction),
+   and wake-flush (SessionStart finds a substantial leftover buffer). Whole-arc
+   extraction: better memories, ~5-10× fewer calls, ham-sandwich solved structurally.
+3. **Sonnet as extractor** (default extractionModel; gisting stays Haiku via new
+   gistModel) — we measured small-model extraction confabulating; buffer math makes
+   the upgrade cost-neutral. Bake-off vs Opus on real spans: pending, small eval.
+4. **Active-day time**: decay and sleep run on days-actually-lived, not calendar
+   time (a month away must not decay memories — no interference happens in absence).
+   Global meta gains a monotonic activeDay counter (bumped on first session of a
+   calendar day); memories stamp created_active_day; strength + gist ages use
+   active-day age with calendar fallback for unstamped memories.
+5. **Nightly sleep**: consolidation triggers on the first wake of a new active day
+   when there's pending work (≥ sleepMinNewMemories new since last sleep, or pending
+   deltas) — replaces the 3-day calendar rule.
+6. Episode ask gates on accumulated session experience (span OR buffer size), not
+   just the final turn's length.
+
+## Phase B.8 — Spreading activation (after B.7)
+
+Sleep writes association edges (consolidation already computes similarity groups and
+the model already judges "related but distinct" — currently discarded); recall
+follows one hop, like temporal siblings today. Plain-text/JSON edges, capped per
+memory, dropped when an endpoint archives. Sophistication in sleep; storage stays text.
+
+**Evaluation stance (agreed):** recall-bench demoted to regression tripwire on its
+validated subscales only (abstention/calibration, sacred-verbatim; n≥2) — never a
+steering target (oracle-reread scores 90.1%; the headline number can't be chased).
+Steering signal = lived probes across sessions ("what do you remember of X"), judged
+by Mike and Claude in conversation.
+
 ## Phase C — Ship it (session 3: open source)
 
 1. **Privacy pass (gate for everything else):** repo docs currently reference

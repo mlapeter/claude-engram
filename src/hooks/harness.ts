@@ -1,8 +1,26 @@
 import { basename } from "node:path";
+import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import type { HookInput } from "../core/types.js";
 import { projectHash } from "../core/types.js";
 import { log } from "../core/logger.js";
 import { recordEvent } from "../core/events.js";
+
+/**
+ * Spawn a sibling runner script DETACHED so it survives this hook process —
+ * expensive work (extraction, consolidation, briefing) must never live inside
+ * a hook's timeout. stdio ignored; the runner logs to engram.log.
+ */
+export function spawnDetached(runnerFile: string, args: string[]): void {
+  try {
+    const runner = fileURLToPath(new URL(`./${runnerFile}`, import.meta.url));
+    const child = spawn(process.execPath, [runner, ...args], { detached: true, stdio: "ignore" });
+    child.unref();
+    log("info", `Spawned detached ${runnerFile} (pid=${child.pid})`);
+  } catch (err) {
+    log("error", `Failed to spawn ${runnerFile}: ${err instanceof Error ? err.message : String(err)}`);
+  }
+}
 
 /**
  * Shared hook entrypoint harness. Owns the contract every hook must honor:

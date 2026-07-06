@@ -60,15 +60,22 @@ hook_input() { # <transcript-path>
     "$SESSION" "$1" "$(pwd)"
 }
 
-echo "=== Drill 1: Stop with no ANTHROPIC_API_KEY (extraction dies, episode ask survives) ==="
+echo "=== Drill 1: Stop keyless (encoding needs no API; episode ask fires) ==="
 DIR=$(mktemp -d "${TMPDIR:-/tmp}/engram-drill-1-XXXXXX")
 make_transcript "$DIR/transcript.jsonl" 12
 OUT=$(run_hook on-stop.ts "$DIR" "$(hook_input "$DIR/transcript.jsonl")")
 CODE=$?
 check_eq       "hook exits 0"                "$CODE" 0
-check_contains "episode block still emitted" "$OUT" '"decision":"block"'
-check_log      "extraction failure logged"   "$DIR" "Memory extraction failed"
+check_contains "episode block emitted"       "$OUT" '"decision":"block"'
+check_eq       "span landed in buffer"       "$(ls "$DIR"/projects/*/buffer.md >/dev/null 2>&1 && echo yes)" yes
 check_log      "episode ask logged"          "$DIR" "requested episode self-dump"
+
+echo "=== Drill 1b: extraction runner keyless (fails gracefully, buffer restored) ==="
+(cd "$DIR" && env -u ENGRAM_DISABLE ANTHROPIC_API_KEY="" VOYAGE_API_KEY="" \
+  ENGRAM_DATA_DIR="$DIR" "$BUN" run "$ROOT/src/hooks/run-extraction.ts" "$ROOT" >/dev/null 2>&1)
+BUFCOUNT=$(ls "$DIR"/projects/*/buffer.md 2>/dev/null | wc -l | tr -d " ")
+check_log      "extraction failure logged"   "$DIR" "Extraction failed (buffer restored)"
+check_eq       "buffer restored, nothing lost" "$BUFCOUNT" 1
 rm -rf "$DIR"
 
 echo "=== Drill 2: SessionEnd with no keys (briefing degrades, cursor still resets) ==="
@@ -90,9 +97,12 @@ EOF
 run_hook on-session-end.ts "$DIR" "$(hook_input "$DIR/transcript.jsonl")" >/dev/null
 CODE=$?
 check_eq  "hook exits 0"                     "$CODE" 0
+check_log "cursor still reset"               "$DIR" "cursor reset"
+# the slow work is detached now — run the runner directly, keyless
+(cd "$DIR" && env -u ENGRAM_DISABLE ANTHROPIC_API_KEY="" VOYAGE_API_KEY="" \
+  ENGRAM_DATA_DIR="$DIR" "$BUN" run "$ROOT/src/hooks/run-extraction.ts" "$(pwd)" --then-briefing >/dev/null 2>&1)
 check_log "briefing failure logged"          "$DIR" "Briefing generation failed"
 check_log "fallback briefing still cached"   "$DIR" "cached briefing"
-check_log "cursor still reset"               "$DIR" "cursor reset"
 rm -rf "$DIR"
 
 echo "=== Drill 3: SessionStart with empty data dir (valid fallback briefing) ==="
@@ -118,6 +128,7 @@ ELAPSED=$((SECONDS - START))
 check_eq       "hook exits 0"                          "$CODE" 0
 if [ "$ELAPSED" -lt 60 ]; then ok "bounded time (<60s, took ${ELAPSED}s)"; else bad "bounded time (<60s, took ${ELAPSED}s)"; fi
 check_contains "episode block still emitted"           "$OUT" '"decision":"block"'
+check_eq       "capped span buffered"                  "$(ls "$DIR"/projects/*/buffer.md >/dev/null 2>&1 && echo yes)" yes
 rm -rf "$DIR"
 
 echo

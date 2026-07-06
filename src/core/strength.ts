@@ -1,6 +1,7 @@
 import type { Memory } from "./types.js";
 import { registerOf } from "./types.js";
 import { loadConfig } from "./config.js";
+import { ageInDays } from "./active-day.js";
 
 // Re-export defaults for backward compatibility with tests
 export const DECAY_RATE = 0.035;
@@ -10,8 +11,8 @@ export const CONSOLIDATION_BONUS = 0.2;
 
 export function calculateStrength(memory: Memory): number {
   const config = loadConfig();
-  const rawAge = (Date.now() - new Date(memory.created_at).getTime()) / 86_400_000;
-  const ageInDays = Number.isFinite(rawAge) && rawAge >= 0 ? rawAge : 0;
+  // Active-day age when stamped (days lived, not calendar); calendar fallback
+  const age = ageInDays(memory);
 
   // Sanitize salience — prevents NaN propagation
   const n = Number(memory.salience?.novelty) || 0;
@@ -47,14 +48,14 @@ export function calculateStrength(memory: Memory): number {
   let decayPenalty: number;
   switch (config.decayModel) {
     case "linear":
-      decayPenalty = effectiveDecayRate * ageInDays;
+      decayPenalty = effectiveDecayRate * age;
       break;
     case "exponential":
-      decayPenalty = 1 - Math.exp(-effectiveDecayRate * ageInDays);
+      decayPenalty = 1 - Math.exp(-effectiveDecayRate * age);
       break;
     case "power-law":
     default:
-      decayPenalty = effectiveDecayRate * Math.sqrt(ageInDays);
+      decayPenalty = effectiveDecayRate * Math.sqrt(age);
       break;
   }
 

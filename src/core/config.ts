@@ -27,8 +27,12 @@ export interface EngramConfig {
   pruneThreshold: number;
   /** Decay rate for archived memories — substantially lower than active (default: 0.001 per day) */
   archiveDecayRate: number;
-  /** Model for memory extraction (default: "claude-haiku-4-5") */
+  /** Model for memory extraction — the front door to the world-store; small
+   * models measurably confabulate here (default: "claude-sonnet-4-5") */
   extractionModel: string;
+  /** Model for gist compression — mechanical, and never-destroy makes its
+   * mistakes recoverable (default: "claude-haiku-4-5") */
+  gistModel: string;
   /** Model for briefing generation (default: "claude-opus-4-6") */
   briefingModel: string;
   /** Model for consolidation (default: "claude-sonnet-4-5") */
@@ -62,6 +66,13 @@ export interface EngramConfig {
   /** Observer mode: recalls read without strengthening — flip on while developing/testing
    * the memory system itself so repeated handling doesn't over-strengthen core memories */
   observerMode: boolean;
+  /** Flush the encoding buffer when it exceeds this many bytes (default: 32768) */
+  bufferFlushBytes: number;
+  /** Flush the encoding buffer when its oldest content exceeds this age (default: 4h) */
+  bufferFlushHours: number;
+  /** Sleep (consolidation) triggers on a new active day once at least this many
+   * memories arrived since the last sleep — or any identity deltas are pending (default: 5) */
+  sleepMinNewMemories: number;
 }
 
 const DEFAULTS: EngramConfig = {
@@ -74,7 +85,8 @@ const DEFAULTS: EngramConfig = {
   autoConsolidationMinDays: 3,
   pruneThreshold: 0.03,
   archiveDecayRate: 0.001,
-  extractionModel: "claude-haiku-4-5",
+  extractionModel: "claude-sonnet-4-5",
+  gistModel: "claude-haiku-4-5",
   briefingModel: "claude-opus-4-6",
   consolidationModel: "claude-sonnet-4-5",
   briefingMaxMemories: 60,
@@ -92,6 +104,9 @@ const DEFAULTS: EngramConfig = {
   decayMultiplierPerson: 0.85,
   decayMultiplierSelf: 0.85,
   observerMode: false,
+  bufferFlushBytes: 32_768,
+  bufferFlushHours: 4,
+  sleepMinNewMemories: 5,
 };
 
 let cachedConfig: EngramConfig | null = null;

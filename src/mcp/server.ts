@@ -16,6 +16,7 @@ import { generateId, sanitizeSalience, scopeFromTags, getDataDir, projectHash } 
 import type { Memory } from "../core/types.js";
 import { log } from "../core/logger.js";
 import { isObserverMode } from "../core/config.js";
+import { getCurrentActiveDay } from "../core/active-day.js";
 import { runConsolidation } from "../core/consolidation.js";
 import { recordSignal } from "../core/salience-weights.js";
 import { recordEvent, recordIdentityRewrite } from "../core/events.js";
@@ -294,6 +295,7 @@ server.registerTool("store", {
     access_count: 0,
     last_accessed: null,
     created_at: new Date().toISOString(),
+    created_active_day: getCurrentActiveDay() > 0 ? getCurrentActiveDay() : null,
     consolidated: false,
     generalized: false,
     source_session: "mcp-store",

@@ -154,7 +154,10 @@ export async function extractMemories(
       updates: m.updates,
     }));
   } catch (error) {
+    // Rethrow — the caller (detached runner) restores the buffer on failure.
+    // Returning [] here would make an API outage indistinguishable from
+    // "nothing durable happened" and silently consume the buffered experience.
     log("error", `Memory extraction failed: ${error instanceof Error ? error.message : String(error)}`);
-    return [];
+    throw error;
   }
 }

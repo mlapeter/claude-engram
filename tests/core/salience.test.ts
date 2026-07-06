@@ -94,11 +94,10 @@ describe("extractMemories", () => {
     expect(mockCreate).not.toHaveBeenCalled();
   });
 
-  it("API error returns empty array gracefully", async () => {
+  it("API error THROWS — the runner must restore the buffer, not mistake outage for 'nothing durable'", async () => {
     mockCreate.mockRejectedValueOnce(new Error("API quota exceeded"));
 
-    const result = await extractMemories("some input", [], "transcript");
-    expect(result).toEqual([]);
+    await expect(extractMemories("some input", [], "transcript")).rejects.toThrow("API quota exceeded");
   });
 
   it("passes existing memories for contradiction detection", async () => {

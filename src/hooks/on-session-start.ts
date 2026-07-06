@@ -5,9 +5,12 @@ import { generateFallbackBriefing } from "../core/briefing.js";
 import { loadIdentityBlock } from "../core/identity.js";
 import { log } from "../core/logger.js";
 import { recordEvent, getRecentHookProblems } from "../core/events.js";
-import { runHook } from "./harness.js";
-import { basename } from "node:path";
-import { projectHash } from "../core/types.js";
+import { runHook, spawnDetached } from "./harness.js";
+import { basename, join } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { projectHash, getDataDir } from "../core/types.js";
+import { resetActiveDayCache } from "../core/active-day.js";
+import { bufferStats } from "../core/buffer.js";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
@@ -37,32 +40,50 @@ async function main(input: HookInput): Promise<string> {
   log("info", `SessionStart: session=${session_id} cwd=${cwd}`);
 
   const store = createStore(cwd);
+  const config = loadConfig();
 
   // Update session count (only on actual new sessions, not resume/compact/clear)
   const meta = await store.loadMeta("global");
   if (!input.source || input.source === "startup") {
     meta.sessionCount += 1;
   }
-  await store.saveMeta("global", meta);
+
+  // Active-day clock: first session of a new calendar day = a new day lived.
+  // Decay and sleep run on THIS clock — a month of absence is not a month of
+  // forgetting, and sleep follows days that were actually lived.
+  const today = new Date().toISOString().slice(0, 10);
+  const newActiveDay = meta.lastActiveDate !== today;
+  if (newActiveDay) {
+    meta.activeDay = (meta.activeDay ?? 0) + 1;
+    meta.lastActiveDate = today;
+    log("info", `SessionStart: active day ${meta.activeDay}`);
+  }
 
   // Load all memories for briefing
   const memories = await store.loadAll();
 
-  // Check if auto-consolidation is due — run detached, never block session startup
-  const config = loadConfig();
-  if (memories.length >= config.autoConsolidationMinMemories) {
-    const projectMeta = await store.loadMeta("project");
-    const globalDays = meta.lastConsolidation
-      ? (Date.now() - new Date(meta.lastConsolidation).getTime()) / 86400000
-      : Infinity;
-    const projectDays = projectMeta.lastConsolidation
-      ? (Date.now() - new Date(projectMeta.lastConsolidation).getTime()) / 86400000
-      : Infinity;
-
-    if (globalDays >= config.autoConsolidationMinDays || projectDays >= config.autoConsolidationMinDays) {
-      log("info", `SessionStart: triggering auto-consolidation (${memories.length} memories, global=${globalDays.toFixed(1)}d, project=${projectDays.toFixed(1)}d since last)`);
+  // Sleep: once per active day, when there's pending work — new memories since
+  // the last consolidation, or identity deltas waiting to be folded
+  if (newActiveDay && meta.lastSleepActiveDay !== meta.activeDay) {
+    const since = meta.lastConsolidation ?? "";
+    const pendingMemories = memories.filter((m) => m.created_at > since).length;
+    const deltasPath = join(getDataDir(), "identity", "deltas.md");
+    const pendingDeltas = existsSync(deltasPath) && readFileSync(deltasPath, "utf-8").trim().length >= 20;
+    if (pendingMemories >= config.sleepMinNewMemories || pendingDeltas) {
+      meta.lastSleepActiveDay = meta.activeDay;
+      log("info", `SessionStart: sleep triggered (day ${meta.activeDay}, ${pendingMemories} new memories, deltas=${pendingDeltas})`);
       spawnConsolidation(cwd);
     }
+  }
+  await store.saveMeta("global", meta);
+  resetActiveDayCache();
+
+  // Wake flush: a leftover buffer from a previous session should become
+  // memories now, while the morning is quiet
+  const stats = bufferStats(cwd);
+  const staleBuffer = stats.oldestMs != null && Date.now() - stats.oldestMs > config.bufferFlushHours * 3600_000;
+  if (stats.bytes >= 3000 || (staleBuffer && stats.bytes >= 200)) {
+    spawnDetached("run-extraction.ts", [cwd]);
   }
 
   // Use cached briefing (generated at previous SessionEnd) for instant startup

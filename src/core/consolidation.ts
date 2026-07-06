@@ -9,6 +9,7 @@ import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
 import { rewriteIdentity, type IdentityRewriteResult } from "./identity.js";
 import { commitMemorySnapshot } from "./snapshot.js";
+import { ageInDays } from "./active-day.js";
 import type { MemoryStore } from "./store.js";
 import { tokenize, tokenOverlap } from "./store.js";
 import { recordSignal } from "./salience-weights.js";
@@ -334,15 +335,13 @@ async function runConsolidationInner(
   // backlog exists from the era when consolidation died mid-run).
   const PROMOTION_AGE_DAYS: Record<string, number> = { craft: 7, person: 30, self: 30 };
   const MAX_PROMOTIONS_PER_RUN = 200;
-  const now = Date.now();
   const promotable = remaining.filter((m) => {
     const type = (m as Memory & { memory_type?: string }).memory_type ?? "episodic";
     if (type !== "episodic") return false;
     if (m.consolidated) return false; // already processed
     if (m.protected) return false;
     if (m.salience.emotional >= config.sacredEmotionalThreshold) return false;
-    const ageMs = now - new Date(m.created_at).getTime();
-    return ageMs > PROMOTION_AGE_DAYS[registerOf(m)] * 86_400_000;
+    return ageInDays(m) > PROMOTION_AGE_DAYS[registerOf(m)]; // active-day age
   })
     .sort((a, b) => a.created_at.localeCompare(b.created_at)) // oldest first
     .slice(0, MAX_PROMOTIONS_PER_RUN);
@@ -351,7 +350,7 @@ async function runConsolidationInner(
   if (promotable.length > 0) {
     try {
       const gistResponse = await getClient().messages.create({
-        model: config.extractionModel, // Haiku — cheap batch compression
+        model: config.gistModel, // Haiku — cheap batch compression, never-destroy makes errors recoverable
         max_tokens: 4000,
         system: "Compress each episodic memory to its semantic gist. Keep essential meaning, drop episodic detail (dates, exact sequences). Max 400 chars each. Return JSON array of {id, gist} objects.",
         messages: [{
