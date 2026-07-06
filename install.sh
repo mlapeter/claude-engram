@@ -71,7 +71,7 @@ HOOKS_JSON=$(cat <<HOOKEOF
         {
           "type": "command",
           "command": "$ENGRAM_DIR/hooks/stop.sh",
-          "timeout": 30
+          "timeout": 60
         }
       ]
     }

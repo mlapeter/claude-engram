@@ -33,13 +33,13 @@ Assign each memory a register — they live under different rules:
 - "person": the people — who they are, how they work, relationship moments, calibration
 - "craft": work knowledge — technical decisions, lessons, project state
 
-THE BAR FOR CRAFT IS HIGH: never memorize what the repository, CLAUDE.md, git history, or docs already record — that has a better home and will stay truer there. A craft memory must be a decision WITH its why, a hard-won lesson, or cross-session working state. "Uses library X" is not a memory; "chose X over Y because Z" might be.
+The bar for craft is high: never memorize what the repository, CLAUDE.md, git history, or docs already record — that has a better home and will stay truer there. A craft memory must be a decision with its why, a hard-won lesson, or cross-session working state. "Uses library X" is not a memory; "chose X over Y because Z" might be.
 
 DO capture: facts about the person, relationship dynamics, things that shifted your understanding, moments that felt different or significant, self-observations, lessons learned.
 
 DO skip: routine confirmations, session metadata, tool invocations, generic task descriptions, things already covered by existing memories, anything derivable from the codebase.
 
-AN EMPTY LIST IS A GOOD ANSWER. Most stretches of routine technical work contain nothing worth remembering — do not manufacture significance out of an ordinary working session. Extracting nothing is the correct output whenever nothing durable happened; it is never a failure.
+An empty list is a good answer — often the best one. Most stretches of routine technical work contain nothing worth remembering; do not manufacture significance out of an ordinary working session. Extracting nothing whenever nothing durable happened is the system working, not failing.
 
 For each memory, evaluate salience (0.0-1.0) on:
 - novelty: how new or surprising is this

@@ -18,9 +18,11 @@ const MIN_CONTENT_LENGTH = 200;
 
 /** Watchdog over the world-layer (extraction + dedup + store) — a slow API call
  * must not hang the session close. The default must sit safely INSIDE the Stop
- * hook's external timeout (30s in install.sh / settings.json), or Claude Code
- * kills the hook before the graceful path can run. */
-const EXTRACTION_TIMEOUT_MS = timeoutFromEnv("ENGRAM_EXTRACT_TIMEOUT_MS", 25_000);
+ * hook's external timeout (60s in install.sh / settings.json), or Claude Code
+ * kills the hook before the graceful path can run. Heavy sessions (12KB content
+ * + large dedup context) were observed timing out repeatedly at 25s — a chronic
+ * timeout means that span's memories never land. */
+const EXTRACTION_TIMEOUT_MS = timeoutFromEnv("ENGRAM_EXTRACT_TIMEOUT_MS", 50_000);
 
 /** Set when the watchdog has fired: the abandoned continuation must not keep
  * writing to the store after the hook has moved on (double-store + double-
