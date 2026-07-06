@@ -21,6 +21,7 @@ CRITICAL: Only extract information that is GENUINELY NEW. You will receive EXIST
 - The information DIRECTLY CONTRADICTS an existing memory — the old fact is now WRONG (set "updates" to that memory's ID)
 
 IMPORTANT: "updates" should be RARE — only use it when a fact has genuinely CHANGED (e.g., "switched from Django to FastAPI", "moved from Portland to Seattle"). Do NOT set "updates" just because a conversation revisits or elaborates on an existing topic. Elaboration is NOT contradiction. If the existing memory is still correct, set "updates" to null and either skip extraction or create a new standalone memory.
+"updates" must be either null or an id copied VERBATIM from EXISTING MEMORIES. Never invent, guess, or write a placeholder id — if no EXISTING MEMORIES section is present, "updates" is always null. (Measured failure: models fill this field with fabricated ids when unsure.)
 
 Extract memories in first person where natural:
 - About the person: "Mike prefers bun over npm — always reach for bun first"
