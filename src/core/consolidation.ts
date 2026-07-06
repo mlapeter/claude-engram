@@ -16,6 +16,7 @@ import {
   isEmbeddingEnabled,
   cosineSimilarity,
   loadEmbeddingIndex,
+  repairIndex,
   type EmbeddingIndex,
 } from "./embeddings.js";
 
@@ -415,6 +416,21 @@ async function runConsolidationInner(
   // applyConsolidation are the backstop, this is the policy.
   const reloaded = promotionCount > 0 ? await store.loadAll() : remaining;
   const postPromotion = reloaded.filter((m) => !m.protected);
+
+  // Index hygiene: drop vectors for memories no longer active (archive leaks),
+  // embed active memories that have none (backup restores). Best-effort.
+  if (isEmbeddingEnabled()) {
+    try {
+      const paths = store.getEmbeddingPaths();
+      const globalRepair = await repairIndex(reloaded.filter((m) => m.scope === "global"), paths.global);
+      const projectRepair = await repairIndex(reloaded.filter((m) => m.scope === "project"), paths.project);
+      const dropped = globalRepair.dropped + projectRepair.dropped;
+      const embedded = globalRepair.embedded + projectRepair.embedded;
+      if (dropped || embedded) log("info", `Index repair: dropped ${dropped} stale vectors, embedded ${embedded} missing`);
+    } catch (err) {
+      log("warn", `Index repair failed (consolidation continues): ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
 
   // Load lastConsolidation for scoped similarity (skip old×old pairs)
   const globalMeta = await store.loadMeta("global");

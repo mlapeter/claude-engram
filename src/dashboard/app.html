@@ -32,6 +32,8 @@
   .tile{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
   .tile .n{font-size:22px;font-weight:600;color:var(--cyan)} .tile .l{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
   .tile.p .n{color:var(--purple)} .tile.a .n{color:var(--amber)} .tile.t .n{color:var(--teal)}
+  .tile.bad{border-color:var(--red)} .tile.bad .n{color:var(--red)}
+  .tile.ok .n{color:var(--teal)}
   .cols{display:grid;grid-template-columns:1fr 1.2fr;gap:18px}
   .cols3{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   @media(max-width:980px){.cols,.cols3{grid-template-columns:1fr}}
@@ -330,7 +332,10 @@ function showDiffFile(el,f){
 async function loadOverview(){
   const h=await j('/api/health');
   const tile=(n,l,c)=>`<div class="tile ${c||''}"><div class="n">${n}</div><div class="l">${l}</div></div>`;
-  $('tiles').innerHTML=tile(h.total.toLocaleString(),'memories')+tile(h.avgStrength,'avg strength','t')+
+  const healthTile=h.problems24h>0
+    ?`<div class="tile bad" style="cursor:pointer" onclick="location.hash='health'"><div class="n">${h.problems24h} ⚠</div><div class="l">failures 24h — click</div></div>`
+    :`<div class="tile ok"><div class="n">✓</div><div class="l">machinery ok</div></div>`;
+  $('tiles').innerHTML=healthTile+tile(h.total.toLocaleString(),'memories')+tile(h.avgStrength,'avg strength','t')+
     tile(h.semantic,'semantic','p')+tile(h.consolidated,'consolidated','p')+
     tile(h.avgAge+'d','avg age','a')+tile(h.global.toLocaleString(),'global')+tile(h.project.toLocaleString(),'project');
   const mx=Math.max(h.strong,h.stable,h.fading,h.decaying)||1;

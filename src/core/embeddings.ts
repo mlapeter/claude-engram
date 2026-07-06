@@ -174,6 +174,37 @@ export async function removeFromIndex(ids: string[], embeddingsPath: string): Pr
   }
 }
 
+/**
+ * Index hygiene: reconcile the embedding index with the active store.
+ * Drops stale vectors (archived/removed memories that leaked into the index)
+ * and embeds active memories that have no vector (e.g. restored from backup).
+ * Returns counts for logging. Safe no-op when embeddings are disabled.
+ */
+export async function repairIndex(
+  activeMemories: Memory[],
+  embeddingsPath: string,
+): Promise<{ dropped: number; embedded: number }> {
+  const result = { dropped: 0, embedded: 0 };
+  if (!isEmbeddingEnabled()) return result;
+
+  const activeIds = new Set(activeMemories.map((m) => m.id));
+  const index = loadEmbeddingIndex(embeddingsPath);
+
+  const stale = Object.keys(index).filter((id) => !activeIds.has(id));
+  if (stale.length > 0) {
+    await removeFromIndex(stale, embeddingsPath);
+    result.dropped = stale.length;
+  }
+
+  const missing = activeMemories.filter((m) => !(m.id in index));
+  if (missing.length > 0) {
+    await embedAndStore(missing, embeddingsPath);
+    result.embedded = missing.length;
+  }
+
+  return result;
+}
+
 /** Vector search: embed query, score all memories, lazy-embed missing ones. */
 export async function vectorSearch(
   query: string,

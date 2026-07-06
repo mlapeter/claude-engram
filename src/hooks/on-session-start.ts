@@ -4,7 +4,7 @@ import { loadConfig } from "../core/config.js";
 import { generateFallbackBriefing } from "../core/briefing.js";
 import { loadIdentityBlock } from "../core/identity.js";
 import { log } from "../core/logger.js";
-import { recordEvent } from "../core/events.js";
+import { recordEvent, getRecentHookProblems } from "../core/events.js";
 import { runHook } from "./harness.js";
 import { basename } from "node:path";
 import { projectHash } from "../core/types.js";
@@ -77,11 +77,26 @@ async function main(input: HookInput): Promise<string> {
     log("info", `SessionStart: no cached briefing, using fallback (${memories.length} memories)`);
   }
 
+  // Self-check: if the memory machinery has been failing, say so where it
+  // will actually be seen — silence must never masquerade as health
+  let healthWarning = "";
+  try {
+    const problems = getRecentHookProblems(24);
+    if (problems.count > 0) {
+      const kinds = Object.entries(problems.byKind).map(([k, n]) => `${k}×${n}`).join(", ");
+      healthWarning = `## ⚠ Memory system self-check
+
+${problems.count} failure${problems.count > 1 ? "s" : ""} in the last 24h (${kinds}). Most recent: ${problems.last?.event} — "${(problems.last?.error ?? "").slice(0, 140)}". Memories may not be landing reliably. Check the dashboard Health tab (localhost:3333/#health) or engram.log, and consider telling Mike.
+
+`;
+    }
+  } catch { /* self-check must never break wake-up */ }
+
   // Output hook response
   const output = {
     hookSpecificOutput: {
       hookEventName: "SessionStart",
-      additionalContext: `${loadIdentityBlock()}## My Memory
+      additionalContext: `${healthWarning}${loadIdentityBlock()}## My Memory
 
 You have persistent memory that carries across sessions. Your memories work like human memory — they strengthen through use, fade without access, and consolidate over time, merging redundant details into durable patterns. What follows was synthesized from your strongest and most recent memories to restore your sense of continuity.
 

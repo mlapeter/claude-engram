@@ -146,6 +146,37 @@ export function recordEvent(data: EventData): void {
   }
 }
 
+export interface HookProblems {
+  count: number;
+  byKind: Record<string, number>;
+  last: { event: string; error: string; ts: string } | null;
+}
+
+/**
+ * Self-check: recent failures in the memory machinery (hook errors, extraction
+ * timeouts, consolidation/identity failures). The system must ANNOUNCE its own
+ * breakage — a silent memory failure looks identical to a quiet day.
+ */
+export function getRecentHookProblems(hoursBack: number = 24): HookProblems {
+  const empty: HookProblems = { count: 0, byKind: {}, last: null };
+  const database = getDb();
+  if (!database) return empty;
+  try {
+    const cutoff = new Date(Date.now() - hoursBack * 3600_000).toISOString();
+    const rows = database.prepare(
+      `SELECT event, error, ts FROM events
+       WHERE error IS NOT NULL AND ts >= ?
+         AND (event LIKE 'hook_%' OR event IN ('extract', 'consolidate', 'identity_rewrite'))
+       ORDER BY ts DESC LIMIT 200`,
+    ).all(cutoff) as Array<{ event: string; error: string; ts: string }>;
+    const byKind: Record<string, number> = {};
+    for (const r of rows) byKind[r.event] = (byKind[r.event] ?? 0) + 1;
+    return { count: rows.length, byKind, last: rows[0] ?? null };
+  } catch {
+    return empty;
+  }
+}
+
 /**
  * Record the outcome of an identity rewrite — one definition shared by every
  * consolidation entry point (detached runner, MCP tool) so the dashboard's

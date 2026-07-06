@@ -407,10 +407,26 @@ const server = Bun.serve({
       const episodic = all.filter((m) => (m.memory_type ?? "episodic") === "episodic").length;
       const semantic = all.filter((m) => m.memory_type === "semantic").length;
 
+      // Self-check: recent machinery failures (hook errors, extraction timeouts)
+      let problems24h = 0;
+      const pdb = getDb();
+      if (pdb) {
+        try {
+          const cutoff = new Date(Date.now() - 24 * 3600_000).toISOString();
+          const row = pdb.prepare(
+            `SELECT COUNT(*) AS n FROM events WHERE error IS NOT NULL AND ts >= ?
+             AND (event LIKE 'hook_%' OR event IN ('extract', 'consolidate', 'identity_rewrite'))`,
+          ).get(cutoff) as { n: number };
+          problems24h = row?.n ?? 0;
+        } catch { /* old schema */ }
+        pdb.close();
+      }
+
       return Response.json({
         total: all.length,
         global: globalCount,
         project: projectCount,
+        problems24h,
         strong,
         stable,
         fading,
