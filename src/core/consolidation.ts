@@ -54,7 +54,7 @@ const MergeSchema = z.object({
   }),
 });
 
-export const ConsolidationResponseSchema = z.object({
+const ConsolidationResponseSchema = z.object({
   merge: z.array(MergeSchema),
   generalize: z.array(
     z.object({
@@ -189,21 +189,29 @@ export function isPidAlive(pid: number): boolean {
   }
 }
 
+/** Live-looking holders are still evicted past this age: a recycled PID (or a
+ * root process behind EPERM) is indistinguishable from a real holder, and a
+ * wedged-but-alive runner must not block consolidation forever. Generous vs
+ * real runs (minutes) so legitimate two-pass consolidations are never stolen. */
+const LOCK_HARD_CAP_MS = 60 * 60_000;
+
 /**
  * Decide whether an existing consolidation lock is stale. PID-aware: a lock
  * whose holder is dead is stale immediately (killed hook processes can't
- * clean up); a lock whose holder is alive is respected regardless of age
- * (long two-pass runs must not have the lock stolen mid-flight). Falls back
- * to a 10-minute age check when the lock has no readable PID.
+ * clean up); a lock whose holder looks alive is respected up to LOCK_HARD_CAP_MS
+ * (long two-pass runs must not have the lock stolen mid-flight, but PID reuse
+ * after a reboot must not deadlock consolidation permanently). Falls back to
+ * a 10-minute age check when the lock has no readable PID.
  */
 export function isLockStale(lockPath: string, now: number = Date.now()): boolean {
   try {
+    const ageMs = now - statSync(lockPath).mtimeMs;
     const raw = readFileSync(lockPath, "utf-8").trim();
     const pid = Number.parseInt(raw, 10);
     if (Number.isFinite(pid) && pid > 0) {
-      return !isPidAlive(pid);
+      if (!isPidAlive(pid)) return true;
+      return ageMs > LOCK_HARD_CAP_MS;
     }
-    const ageMs = now - statSync(lockPath).mtimeMs;
     return ageMs > 10 * 60_000;
   } catch {
     return false; // can't read it — assume held

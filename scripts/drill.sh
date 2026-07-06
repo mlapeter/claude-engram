@@ -116,7 +116,7 @@ OUT=$(run_hook on-stop.ts "$DIR" "$(hook_input "$DIR/transcript.jsonl")")
 CODE=$?
 ELAPSED=$((SECONDS - START))
 check_eq       "hook exits 0"                          "$CODE" 0
-check_eq       "bounded time (<60s, took ${ELAPSED}s)" "$([ "$ELAPSED" -lt 60 ] && echo yes)" yes
+if [ "$ELAPSED" -lt 60 ]; then ok "bounded time (<60s, took ${ELAPSED}s)"; else bad "bounded time (<60s, took ${ELAPSED}s)"; fi
 check_contains "episode block still emitted"           "$OUT" '"decision":"block"'
 rm -rf "$DIR"
 

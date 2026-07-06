@@ -18,3 +18,11 @@ export function withTimeout<T>(promise: Promise<T>, ms: number, label: string): 
   });
   return Promise.race([promise, timeout]).finally(() => clearTimeout(timer!)) as Promise<T>;
 }
+
+/** Parse a positive-millisecond override from an env var; fall back otherwise.
+ * Guards the `Number(env) || default` trap where 0/negative/garbage silently
+ * misconfigure a watchdog (a negative value would time out every call instantly). */
+export function timeoutFromEnv(envVar: string, defaultMs: number): number {
+  const n = Number(process.env[envVar]);
+  return Number.isFinite(n) && n > 0 ? n : defaultMs;
+}

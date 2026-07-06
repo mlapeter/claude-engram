@@ -8,9 +8,10 @@
  * preserved ("not an artificially short snippet"); graduation, not accumulation.
  *
  * Safety: current documents are backed up to identity/.backups/<timestamp>/
- * before any write; processed deltas are archived, never deleted. Pending
- * deltas are claimed (renamed) before the model call so concurrent session
- * appends land in a fresh deltas.md; a failed rewrite restores the claim.
+ * before any write (rotated: the seed backup plus the most recent 20 are
+ * kept); processed deltas are archived, never deleted. Pending deltas are
+ * claimed (renamed) before the model call so concurrent session appends land
+ * in a fresh deltas.md; a failed rewrite restores the claim.
  */
 
 import Anthropic from "@anthropic-ai/sdk";
@@ -18,12 +19,12 @@ import {
   existsSync,
   readFileSync,
   writeFileSync,
+  appendFileSync,
   readdirSync,
   mkdirSync,
   renameSync,
   unlinkSync,
   rmSync,
-  statSync,
 } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
@@ -139,36 +140,40 @@ ${block}
  * model call — concurrent session appends land in a fresh deltas.md instead of
  * vanishing when the processed file is archived. A leftover processing file
  * from a crashed run is merged in rather than lost.
+ *
+ * Concurrency: rename is the atomic primitive — an append racing the claim
+ * either lands in the file pre-rename (travels with the claim; the fresh
+ * post-claim read picks it up) or creates a new deltas.md for the next cycle.
  * Returns the claimed text, or null if there is nothing substantial to fold.
  */
 function claimDeltas(deltasPath: string, processingPath: string): string | null {
-  const leftover = existsSync(processingPath) ? readFileSync(processingPath, "utf-8") : "";
-  const current = existsSync(deltasPath) ? readFileSync(deltasPath, "utf-8") : "";
-  const combined = [leftover.trim(), current.trim()].filter(Boolean).join("\n\n");
-  if (combined.length < 20) return null;
+  const leftoverLen = existsSync(processingPath) ? readFileSync(processingPath, "utf-8").trim().length : 0;
+  const currentLen = existsSync(deltasPath) ? readFileSync(deltasPath, "utf-8").trim().length : 0;
+  if (leftoverLen + currentLen < 20) return null; // nothing substantial — don't claim
 
-  if (current && leftover) {
-    writeFileSync(processingPath, combined);
-    unlinkSync(deltasPath);
-  } else if (current) {
-    renameSync(deltasPath, processingPath);
+  if (existsSync(deltasPath)) {
+    if (existsSync(processingPath)) {
+      // Crashed-run leftover: move current aside atomically, then append it
+      const claimTmp = deltasPath + ".claim";
+      renameSync(deltasPath, claimTmp);
+      appendFileSync(processingPath, "\n\n" + readFileSync(claimTmp, "utf-8"));
+      unlinkSync(claimTmp);
+    } else {
+      renameSync(deltasPath, processingPath);
+    }
   }
-  // leftover-only: processing file already holds the claim
-  return combined;
+  // Read the claim fresh — includes any append that raced the rename
+  return existsSync(processingPath) ? readFileSync(processingPath, "utf-8").trim() : null;
 }
 
-/** Put claimed deltas back after a failed rewrite, merging with any appends that arrived meanwhile. */
+/** Put claimed deltas back after a failed rewrite. O_APPEND (creates if
+ * missing) rather than read-merge-write, so a session appending concurrently
+ * can never be clobbered. */
 function restoreDeltas(deltasPath: string, processingPath: string): void {
   try {
     if (!existsSync(processingPath)) return;
-    if (existsSync(deltasPath)) {
-      const claimed = readFileSync(processingPath, "utf-8");
-      const newer = readFileSync(deltasPath, "utf-8");
-      writeFileSync(deltasPath, [claimed.trim(), newer.trim()].filter(Boolean).join("\n\n") + "\n");
-      unlinkSync(processingPath);
-    } else {
-      renameSync(processingPath, deltasPath);
-    }
+    appendFileSync(deltasPath, "\n\n" + readFileSync(processingPath, "utf-8"));
+    unlinkSync(processingPath);
   } catch (err) {
     log("error", `Identity rewrite: failed to restore claimed deltas (still in ${processingPath}): ${err instanceof Error ? err.message : String(err)}`);
   }
@@ -181,9 +186,9 @@ function restoreDeltas(deltasPath: string, processingPath: string): void {
 export function rotateIdentityBackups(backupsDir: string, keep: number = IDENTITY_BACKUPS_KEEP): void {
   try {
     if (!existsSync(backupsDir)) return;
-    const entries = readdirSync(backupsDir)
-      .filter((e) => /^\d{4}-\d{2}-\d{2}T/.test(e))
-      .filter((e) => statSync(join(backupsDir, e)).isDirectory())
+    const entries = readdirSync(backupsDir, { withFileTypes: true })
+      .filter((e) => e.isDirectory() && /^\d{4}-\d{2}-\d{2}T/.test(e.name))
+      .map((e) => e.name)
       .sort(); // timestamp names sort chronologically
     if (entries.length <= keep + 1) return;
     const keepSet = new Set(entries.slice(-keep));
@@ -251,8 +256,8 @@ export async function rewriteIdentity(): Promise<IdentityRewriteResult> {
 
     const textBlock = response.content.find(b => b.type === "text");
     if (!textBlock || textBlock.type !== "text") {
-      restoreDeltas(deltasPath, processingPath);
-      return { rewritten: false, notes: "no content in identity rewrite response" };
+      // throw so the single catch below owns delta restoration
+      throw new Error("no content in identity rewrite response");
     }
     const result = IdentityRewriteSchema.parse(JSON.parse(textBlock.text));
 

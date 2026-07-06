@@ -228,11 +228,10 @@ describe("rewriteIdentity — failure restores claimed deltas", () => {
     expect(existsSync(processingPath)).toBe(false);
   });
 
-  it("restores deltas when the response has no content", async () => {
+  it("restores deltas and throws when the response has no content", async () => {
     mockCreate.mockResolvedValue({ content: [] });
 
-    const result = await rewriteIdentity();
-    expect(result.rewritten).toBe(false);
+    await expect(rewriteIdentity()).rejects.toThrow("no content in identity rewrite response");
     expect(readFileSync(deltasPath, "utf-8")).toContain(DELTA);
     expect(existsSync(processingPath)).toBe(false);
   });

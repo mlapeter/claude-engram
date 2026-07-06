@@ -146,6 +146,29 @@ export function recordEvent(data: EventData): void {
   }
 }
 
+/**
+ * Record the outcome of an identity rewrite — one definition shared by every
+ * consolidation entry point (detached runner, MCP tool) so the dashboard's
+ * identity history can't diverge by code path. Notes go in content_snippet;
+ * the pre-write backup dir goes in `query` (the free text column) until the
+ * dashboard grows a dedicated view.
+ */
+export function recordIdentityRewrite(
+  idn: { rewritten: boolean; notes: string; backupPath?: string },
+  project: string,
+  project_hash: string,
+): void {
+  if (!idn.rewritten && !idn.notes.startsWith("failed:")) return; // no-op runs (no deltas) are not events
+  recordEvent({
+    event: "identity_rewrite",
+    project,
+    project_hash,
+    content_snippet: idn.notes.slice(0, 300),
+    query: idn.backupPath,
+    error: idn.rewritten ? undefined : idn.notes.slice(0, 300),
+  });
+}
+
 /** Roll up detailed events into daily_stats. Called by dashboard server. */
 export function rollupDailyStats(database?: Database): void {
   const db_ = database ?? getDb();

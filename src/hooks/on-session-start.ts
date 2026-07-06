@@ -5,6 +5,7 @@ import { generateFallbackBriefing } from "../core/briefing.js";
 import { loadIdentityBlock } from "../core/identity.js";
 import { log } from "../core/logger.js";
 import { recordEvent } from "../core/events.js";
+import { runHook } from "./harness.js";
 import { basename } from "node:path";
 import { projectHash } from "../core/types.js";
 import { spawn } from "node:child_process";
@@ -95,35 +96,4 @@ ${briefing}`,
   return JSON.stringify(output);
 }
 
-async function readStdin(): Promise<string> {
-  let raw = "";
-  for await (const chunk of process.stdin) {
-    raw += chunk;
-  }
-  return raw;
-}
-
-/** Entry: records a hook_session_start health event and exits explicitly. */
-async function run(): Promise<void> {
-  const t0 = Date.now();
-  let input: HookInput | null = null;
-  try {
-    if (process.env.ENGRAM_DISABLE) {
-      log("info", "SessionStart: disabled via ENGRAM_DISABLE");
-      process.exit(0);
-    }
-    input = JSON.parse(await readStdin()) as HookInput;
-    const output = await main(input);
-    recordEvent({ event: "hook_session_start", project: basename(input.cwd), project_hash: projectHash(input.cwd), session_id: input.session_id, duration_ms: Date.now() - t0 });
-    process.stdout.write(output, () => process.exit(0));
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    log("error", `SessionStart failed: ${msg}`);
-    if (input) {
-      recordEvent({ event: "hook_session_start", project: basename(input.cwd), project_hash: projectHash(input.cwd), session_id: input.session_id, duration_ms: Date.now() - t0, error: msg });
-    }
-    process.exit(0); // Exit 0 so we don't block Claude
-  }
-}
-
-run();
+runHook("session_start", main);

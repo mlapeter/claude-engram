@@ -17,7 +17,7 @@ import type { Memory } from "../core/types.js";
 import { log } from "../core/logger.js";
 import { runConsolidation } from "../core/consolidation.js";
 import { recordSignal } from "../core/salience-weights.js";
-import { recordEvent } from "../core/events.js";
+import { recordEvent, recordIdentityRewrite } from "../core/events.js";
 import { basename } from "node:path";
 
 const projectName = basename(process.cwd());
@@ -327,17 +327,7 @@ server.registerTool("consolidate", {
 
   log("info", `MCP consolidate: done — ${result.mergeCount} merges, ${result.generalizeCount} generalizations, ${result.pruneCount} prunes`);
   recordEvent({ event: "consolidate", project: projectName, project_hash: projHash, merges: result.mergeCount, prunes: result.pruneCount, generalizations: result.generalizeCount, count: after });
-  const idn = result.identity;
-  if (idn && (idn.rewritten || idn.notes.startsWith("failed:"))) {
-    recordEvent({
-      event: "identity_rewrite",
-      project: projectName,
-      project_hash: projHash,
-      content_snippet: idn.notes.slice(0, 300),
-      query: idn.backupPath,
-      error: idn.rewritten ? undefined : idn.notes.slice(0, 300),
-    });
-  }
+  if (result.identity) recordIdentityRewrite(result.identity, projectName, projHash);
   return { content: [{ type: "text" as const, text: msg }] };
 });
 

@@ -47,10 +47,16 @@ describe("isLockStale — PID-aware", () => {
     expect(isLockStale(lockPath)).toBe(true);
   });
 
-  it("a lock whose holder is alive is respected, even when old", () => {
+  it("a lock whose holder is alive is respected well past the old 10-minute bound", () => {
     writeFileSync(lockPath, String(process.pid));
-    ageFile(lockPath, 60);
+    ageFile(lockPath, 30);
     expect(isLockStale(lockPath)).toBe(false);
+  });
+
+  it("even a live-looking holder is evicted past the hard cap (PID reuse, wedged runner)", () => {
+    writeFileSync(lockPath, String(process.pid));
+    ageFile(lockPath, 90); // > 60min hard cap
+    expect(isLockStale(lockPath)).toBe(true);
   });
 
   it("falls back to age for locks without a readable pid: fresh is held", () => {
@@ -68,7 +74,7 @@ describe("isLockStale — PID-aware", () => {
 describe("runConsolidation lock behavior", () => {
   it("skips when a live process holds the lock, even an old one", async () => {
     writeFileSync(lockPath, String(process.pid));
-    ageFile(lockPath, 60); // pre-PID-awareness this would have been stolen
+    ageFile(lockPath, 30); // pre-PID-awareness this would have been stolen at 10min
 
     const store = createStore(process.cwd());
     const result = await runConsolidation(store);

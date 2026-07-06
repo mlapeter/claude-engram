@@ -130,10 +130,16 @@ const server = Bun.serve({
           }
         }
       }
+      // Pending = deltas.md plus any mid-rewrite claim file (deltas.processing.md
+      // survives a consolidation killed before folding; it must not look like zero)
+      const pendingParts = [
+        readIf(join(identityDir, "deltas.md")),
+        readIf(join(identityDir, "deltas.processing.md")),
+      ].filter((s): s is string => !!s && s.trim().length > 0);
       return Response.json({
         core: readIf(join(identityDir, "core.md")),
         people,
-        deltas: readIf(join(identityDir, "deltas.md")),
+        deltas: pendingParts.length > 0 ? pendingParts.join("\n\n") : null,
       });
     }
 

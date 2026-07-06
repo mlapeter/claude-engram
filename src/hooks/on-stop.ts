@@ -3,20 +3,31 @@ import { createStore, type MemoryStore } from "../core/store.js";
 import { readTranscriptFromCursor } from "../core/transcript.js";
 import { extractMemories } from "../core/salience.js";
 import { generateId, projectHash } from "../core/types.js";
+import type { TranscriptCursor } from "../core/types.js";
 import { applyInterference } from "../core/interference.js";
 import { getWeights, getWeightsPromptHint } from "../core/salience-weights.js";
 import { log } from "../core/logger.js";
 import { recordEvent } from "../core/events.js";
 import { loadConfig } from "../core/config.js";
 import { episodeBlockReason, EPISODE_MIN_CONTENT } from "../core/episodes.js";
-import { withTimeout, TimeoutError } from "../core/async.js";
+import { withTimeout, TimeoutError, timeoutFromEnv } from "../core/async.js";
+import { runHook } from "./harness.js";
 import { basename } from "node:path";
 
 const MIN_CONTENT_LENGTH = 200;
 
 /** Watchdog over the world-layer (extraction + dedup + store) — a slow API call
- * must not hang the session close. Overridable for drills/tests. */
-const EXTRACTION_TIMEOUT_MS = Number(process.env.ENGRAM_EXTRACT_TIMEOUT_MS) || 60_000;
+ * must not hang the session close. The default must sit safely INSIDE the Stop
+ * hook's external timeout (30s in install.sh / settings.json), or Claude Code
+ * kills the hook before the graceful path can run. */
+const EXTRACTION_TIMEOUT_MS = timeoutFromEnv("ENGRAM_EXTRACT_TIMEOUT_MS", 20_000);
+
+/** Set when the watchdog has fired: the abandoned continuation must not keep
+ * writing to the store after the hook has moved on (double-store + double-
+ * interference on the next Stop's re-extraction). */
+interface AbortToken {
+  expired: boolean;
+}
 
 /** World layer: extract memories from new transcript content and store them. */
 async function extractAndStore(
@@ -25,6 +36,8 @@ async function extractAndStore(
   session_id: string,
   projectName: string,
   projHash: string,
+  newCursor: TranscriptCursor,
+  token: AbortToken,
 ): Promise<void> {
   // Load bounded dedup window (recent + session + strongest) instead of all memories
   const existingMemories = await store.getRecentAndStrong(session_id);
@@ -73,7 +86,17 @@ async function extractAndStore(
     updated_from: isValidUpdate(m.updates) ? m.updates : null,
   }));
 
+  // Watchdog already fired? Don't write — the hook has recorded a failure and
+  // will re-extract this span next Stop; storing now would double it.
+  if (token.expired) return;
+
   await store.add(fullMemories);
+  // Cursor advances the moment memories are durably stored, BEFORE interference:
+  // if the watchdog fires during the remaining work, the next Stop must not
+  // re-extract a span whose memories already landed.
+  await store.saveCursor(newCursor);
+
+  if (token.expired) return;
   const weakened = await applyInterference(fullMemories, existingMemories, store);
   log("info", `Stop: stored ${fullMemories.length} memories${weakened > 0 ? `, weakened ${weakened} via interference` : ""}`);
 
@@ -94,6 +117,9 @@ async function extractAndStore(
 
 /** Returns the block-decision JSON to emit, or null for a normal passthrough. */
 async function main(input: HookInput): Promise<string | null> {
+  // Anti-loop: if stop hook is already active, pass through immediately
+  if (input.stop_hook_active) return null;
+
   const { session_id, transcript_path, cwd } = input;
 
   log("info", `Stop: session=${session_id}`);
@@ -119,17 +145,20 @@ async function main(input: HookInput): Promise<string | null> {
 
   // World layer: extraction failure or timeout must NOT take the episode ask
   // down with it — the self-layer must not die when the world-layer does.
+  const token: AbortToken = { expired: false };
   try {
     await withTimeout(
-      extractAndStore(store, content, session_id, projectName, projHash),
+      extractAndStore(store, content, session_id, projectName, projHash, newCursor, token),
       EXTRACTION_TIMEOUT_MS,
       "Stop extraction",
     );
     await store.saveCursor(newCursor);
   } catch (err) {
+    token.expired = true; // stop the abandoned continuation from writing
     const msg = err instanceof Error ? err.message : String(err);
     const kind = err instanceof TimeoutError ? "timed out" : "failed";
-    // Cursor intentionally not saved — this content is retried at the next Stop
+    // Cursor intentionally not saved (unless store.add already advanced it) —
+    // unstored content is retried at the next Stop
     log("error", `Stop: extraction ${kind}, episode ask still runs: ${msg}`);
     recordEvent({ event: "extract", project: projectName, project_hash: projHash, session_id, error: msg });
   }
@@ -154,52 +183,4 @@ async function main(input: HookInput): Promise<string | null> {
   return null;
 }
 
-async function readStdin(): Promise<string> {
-  let raw = "";
-  for await (const chunk of process.stdin) {
-    raw += chunk;
-  }
-  return raw;
-}
-
-/**
- * Entry: parses input, runs main, records a hook_stop health event with
- * duration + success/failure, and exits EXPLICITLY — a timed-out extraction
- * leaves dangling network promises that would otherwise keep the process
- * (and the session close) alive.
- */
-async function run(): Promise<void> {
-  const t0 = Date.now();
-  let input: HookInput | null = null;
-  try {
-    if (process.env.ENGRAM_DISABLE) {
-      process.exit(0);
-    }
-    input = JSON.parse(await readStdin()) as HookInput;
-    const project = basename(input.cwd);
-    const project_hash = projectHash(input.cwd);
-
-    // Anti-loop: if stop hook is already active, pass through immediately
-    if (input.stop_hook_active) {
-      recordEvent({ event: "hook_stop", project, project_hash, session_id: input.session_id, duration_ms: Date.now() - t0 });
-      process.exit(0);
-    }
-
-    const blockJson = await main(input);
-    recordEvent({ event: "hook_stop", project, project_hash, session_id: input.session_id, duration_ms: Date.now() - t0 });
-    if (blockJson) {
-      process.stdout.write(blockJson, () => process.exit(0));
-    } else {
-      process.exit(0);
-    }
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    log("error", `Stop failed: ${msg}`);
-    if (input) {
-      recordEvent({ event: "hook_stop", project: basename(input.cwd), project_hash: projectHash(input.cwd), session_id: input.session_id, duration_ms: Date.now() - t0, error: msg });
-    }
-    process.exit(0);
-  }
-}
-
-run();
+runHook("stop", main);

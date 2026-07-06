@@ -3,12 +3,15 @@ import { projectHash } from "../core/types.js";
 import type { HookInput } from "../core/types.js";
 import { createStore } from "../core/store.js";
 import { generateBriefing } from "../core/briefing.js";
-import { withTimeout } from "../core/async.js";
+import { withTimeout, timeoutFromEnv } from "../core/async.js";
+import { runHook } from "./harness.js";
 import { log } from "../core/logger.js";
 import { recordEvent } from "../core/events.js";
 
-/** Watchdog on briefing generation — a slow API call must not hang session close. */
-const BRIEFING_TIMEOUT_MS = Number(process.env.ENGRAM_BRIEFING_TIMEOUT_MS) || 90_000;
+/** Watchdog on briefing generation — a slow API call must not hang session
+ * close. Must sit safely INSIDE the SessionEnd hook's external timeout (60s
+ * in install.sh / settings.json). */
+const BRIEFING_TIMEOUT_MS = timeoutFromEnv("ENGRAM_BRIEFING_TIMEOUT_MS", 45_000);
 
 /**
  * SessionEnd hook — runs when the session ends.
@@ -17,7 +20,7 @@ const BRIEFING_TIMEOUT_MS = Number(process.env.ENGRAM_BRIEFING_TIMEOUT_MS) || 90
  * This hook generates the briefing cache for next session's instant startup
  * and resets the cursor.
  */
-async function main(input: HookInput): Promise<void> {
+async function main(input: HookInput): Promise<null> {
   const { session_id, cwd } = input;
 
   log("info", `SessionEnd: session=${session_id}`);
@@ -44,37 +47,7 @@ async function main(input: HookInput): Promise<void> {
   await store.saveCursor({ byteOffset: 0, lastSessionId: "" });
   log("info", `SessionEnd: cursor reset`);
   recordEvent({ event: "session_end", project: basename(cwd), project_hash: projectHash(cwd), session_id });
+  return null;
 }
 
-async function readStdin(): Promise<string> {
-  let raw = "";
-  for await (const chunk of process.stdin) {
-    raw += chunk;
-  }
-  return raw;
-}
-
-/** Entry: records a hook_session_end health event and exits explicitly —
- * a timed-out briefing call must not keep the process alive. */
-async function run(): Promise<void> {
-  const t0 = Date.now();
-  let input: HookInput | null = null;
-  try {
-    if (process.env.ENGRAM_DISABLE) {
-      process.exit(0);
-    }
-    input = JSON.parse(await readStdin()) as HookInput;
-    await main(input);
-    recordEvent({ event: "hook_session_end", project: basename(input.cwd), project_hash: projectHash(input.cwd), session_id: input.session_id, duration_ms: Date.now() - t0 });
-    process.exit(0);
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    log("error", `SessionEnd failed: ${msg}`);
-    if (input) {
-      recordEvent({ event: "hook_session_end", project: basename(input.cwd), project_hash: projectHash(input.cwd), session_id: input.session_id, duration_ms: Date.now() - t0, error: msg });
-    }
-    process.exit(0);
-  }
-}
-
-run();
+runHook("session_end", main);
