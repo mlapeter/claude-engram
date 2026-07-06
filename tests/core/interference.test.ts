@@ -41,10 +41,10 @@ afterEach(() => {
 describe("applyInterference", () => {
   it("weakens salience of superseded memory by interference factor", async () => {
     const store = createStore("/test");
-    const old = makeMemory({ id: "old1", salience: { novelty: 1.0, relevance: 1.0, emotional: 1.0, predictive: 1.0 } });
+    const old = makeMemory({ id: "old1", register: "person", salience: { novelty: 1.0, relevance: 1.0, emotional: 1.0, predictive: 1.0 } });
     await store.add([old]);
 
-    const newMem = makeMemory({ id: "new1", updated_from: "old1" });
+    const newMem = makeMemory({ id: "new1", register: "person", updated_from: "old1" });
     const count = await applyInterference([newMem], [old], store);
 
     expect(count).toBe(1);
@@ -52,6 +52,19 @@ describe("applyInterference", () => {
     const updated = loaded.find((m) => m.id === "old1")!;
     expect(updated.salience.novelty).toBeCloseTo(0.7);
     expect(updated.salience.relevance).toBeCloseTo(0.7);
+  });
+
+  it("never weakens across registers — a craft update can't damp a person memory", async () => {
+    const store = createStore("/test");
+    const old = makeMemory({ id: "old-person", register: "person", salience: { novelty: 1.0, relevance: 1.0, emotional: 1.0, predictive: 1.0 } });
+    await store.add([old]);
+
+    const newMem = makeMemory({ id: "new-craft", register: "craft", updated_from: "old-person" });
+    const count = await applyInterference([newMem], [old], store);
+
+    expect(count).toBe(0);
+    const loaded = await store.load("project");
+    expect(loaded.find((m) => m.id === "old-person")!.salience.novelty).toBe(1.0);
   });
 
   it("skips memories without updated_from", async () => {

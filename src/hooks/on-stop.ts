@@ -74,6 +74,7 @@ async function extractAndStore(
     id: generateId(),
     content: m.content,
     scope: m.scope,
+    register: m.register,
     memory_type: "episodic" as const,
     salience: m.salience,
     tags: m.tags,

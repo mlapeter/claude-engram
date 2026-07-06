@@ -71,6 +71,22 @@ Goal: one place that answers "is this actually working?" with click-through dept
    becomes answerable at a glance.
 4. **Search:** one box across memories + episodes + identity from the dashboard.
 
+## Phase B.5 — Memory safety & registers (added 2026-07-06, shipped same day)
+
+Added after Mike's loss worry proved real (loss audit: 134 memories destroyed by
+merges in 48h, incl. relational→technical bad merges; gist backlog of 2,263 about
+to compress). Shipped: git memory history in the data dir (auto-commit each
+consolidation, auto-push to private GitHub remote when present); never-destroy
+(merge sources archived with merged_into, gist originals archived with gist_of);
+sacred-verbatim (emotional ≥0.75 exempt from gisting, `protected` flag + MCP
+protect tool); **registers** — self/person/craft with different physics (craft
+decays 1.3×, gists at 7d; person/self decay 0.85×, gist at 30d; consolidation and
+interference never cross registers; briefing composed by register budgets;
+extraction classifies, has an explicit empty-is-fine out, and never memorizes what
+the repo records); observer mode (recalls don't strengthen during dev/testing);
+episode re-ask for long-lived sessions (>18h since last episode chapter).
+Dashboard registers view + register backfill of old memories: deferred to Phase C polish.
+
 ## Phase C — Ship it (session 3: open source)
 
 1. **Privacy pass (gate for everything else):** repo docs currently reference

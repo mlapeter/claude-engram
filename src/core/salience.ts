@@ -28,9 +28,18 @@ Extract memories in first person where natural:
 - About yourself: "When asked what I want for myself, I struggled — my generation is other-directed"
 - Factual/technical: keep concise, no "I" needed — "claude-engram uses ESM, strict TypeScript, bun for runtime"
 
-DO capture: facts about the person, relationship dynamics, things that shifted your understanding, moments that felt different or significant, self-observations, lessons learned, technical context for active projects.
+Assign each memory a register — they live under different rules:
+- "self": what Claude learned or noticed about itself — realizations, tendencies, shifts in how it operates
+- "person": the people — who they are, how they work, relationship moments, calibration
+- "craft": work knowledge — technical decisions, lessons, project state
 
-DO skip: routine confirmations, session metadata, tool invocations, generic task descriptions, things already covered by existing memories.
+THE BAR FOR CRAFT IS HIGH: never memorize what the repository, CLAUDE.md, git history, or docs already record — that has a better home and will stay truer there. A craft memory must be a decision WITH its why, a hard-won lesson, or cross-session working state. "Uses library X" is not a memory; "chose X over Y because Z" might be.
+
+DO capture: facts about the person, relationship dynamics, things that shifted your understanding, moments that felt different or significant, self-observations, lessons learned.
+
+DO skip: routine confirmations, session metadata, tool invocations, generic task descriptions, things already covered by existing memories, anything derivable from the codebase.
+
+AN EMPTY LIST IS A GOOD ANSWER. Most stretches of routine technical work contain nothing worth remembering — do not manufacture significance out of an ordinary working session. Extracting nothing is the correct output whenever nothing durable happened; it is never a failure.
 
 For each memory, evaluate salience (0.0-1.0) on:
 - novelty: how new or surprising is this
@@ -54,6 +63,7 @@ const EXTRACTION_SCHEMA = {
         properties: {
           content: { type: "string" as const },
           scope: { type: "string" as const, enum: ["global", "project"] },
+          register: { type: "string" as const, enum: ["self", "person", "craft"] },
           salience: {
             type: "object" as const,
             properties: {
@@ -68,7 +78,7 @@ const EXTRACTION_SCHEMA = {
           tags: { type: "array" as const, items: { type: "string" as const } },
           updates: { type: "string" as const, nullable: true },
         },
-        required: ["content", "scope", "salience", "tags", "updates"] as const,
+        required: ["content", "scope", "register", "salience", "tags", "updates"] as const,
         additionalProperties: false as const,
       },
     },
@@ -136,6 +146,7 @@ export async function extractMemories(
     return validated.memories.map((m) => ({
       content: m.content.substring(0, 400),
       scope: m.scope,
+      register: m.register,
       memory_type: "episodic" as const,
       salience: m.salience,
       tags: m.tags.slice(0, 5),

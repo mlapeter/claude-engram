@@ -3,7 +3,7 @@ import { mkdirSync, writeFileSync, unlinkSync, statSync, readFileSync } from "no
 import { dirname, join } from "node:path";
 import { z } from "zod";
 import type { Memory } from "./types.js";
-import { sanitizeSalience, generateId, getDataDir } from "./types.js";
+import { sanitizeSalience, generateId, getDataDir, registerOf } from "./types.js";
 import { loadConfig } from "./config.js";
 import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
@@ -147,6 +147,8 @@ Your tasks:
 4. **Flag for pruning** — Identify memories that are trivial, fully superseded by a merge, or no longer relevant.
 
 5. **Promote by kind (no scope walls)** — If a memory is about a person, a relationship, or Claude itself (its lessons, dispositions, self-knowledge) rather than a project's technical facts, it belongs in GLOBAL scope no matter which project it was recorded in. When merging or generalizing such memories, set scope to "global". You don't file "what I learned about myself at work" under work. Project-specific technical/dossier facts stay project-scoped.
+
+6. **Registers never mix** — Each memory is marked (self), (person), or (craft). NEVER merge memories from different registers, no matter how related they look: a technical lesson must not absorb a relationship moment or vice versa. Merge within a register only.
 
 Rules:
 - Merged content must be ≤400 characters
@@ -323,12 +325,13 @@ async function runConsolidationInner(
   }
 
   // Step 3: Episodic→Semantic promotion (Fuzzy Trace Theory)
-  // Episodic details fade to semantic gist after 7+ days.
+  // Episodic details fade to semantic gist over time — craft after 7 days,
+  // person/self only after 30 (their specifics ARE the value).
   // Sacred-verbatim: protected and high-emotional memories keep their exact
   // words forever — gist compression is for the mundane, not the tender.
   // Bounded per run so the batch always fits one model call (a months-deep
   // backlog exists from the era when consolidation died mid-run).
-  const PROMOTION_AGE_DAYS = 7;
+  const PROMOTION_AGE_DAYS: Record<string, number> = { craft: 7, person: 30, self: 30 };
   const MAX_PROMOTIONS_PER_RUN = 200;
   const now = Date.now();
   const promotable = remaining.filter((m) => {
@@ -338,7 +341,7 @@ async function runConsolidationInner(
     if (m.protected) return false;
     if (m.salience.emotional >= config.sacredEmotionalThreshold) return false;
     const ageMs = now - new Date(m.created_at).getTime();
-    return ageMs > PROMOTION_AGE_DAYS * 86_400_000;
+    return ageMs > PROMOTION_AGE_DAYS[registerOf(m)] * 86_400_000;
   })
     .sort((a, b) => a.created_at.localeCompare(b.created_at)) // oldest first
     .slice(0, MAX_PROMOTIONS_PER_RUN);
@@ -432,7 +435,7 @@ function formatMemoriesText(memories: Memory[]): string {
     .map((m) => {
       const strength = calculateStrength(m);
       const type = (m as Memory & { memory_type?: string }).memory_type ?? "episodic";
-      return `[${m.id}] (${m.scope}, ${type}, strength=${strength.toFixed(2)}) [${m.tags.join(",")}] ${m.content}`;
+      return `[${m.id}] (${m.scope}, ${registerOf(m)}, ${type}, strength=${strength.toFixed(2)}) [${m.tags.join(",")}] ${m.content}`;
     })
     .join("\n");
 }
@@ -516,12 +519,16 @@ function findSimilarGroups(
     if (!vecI) continue;
 
     const miRecent = isRecent(mi);
+    const miRegister = registerOf(mi);
 
     for (let j = i + 1; j < memories.length; j++) {
       const mj = memories[j];
 
       // Skip old×old pairs — already compared in previous consolidation
       if (lastConsolidation && !miRecent && !isRecent(mj)) continue;
+      // Registers never mix: a craft memory can't be a merge candidate for a
+      // person/self memory no matter how similar the embeddings look
+      if (registerOf(mj) !== miRegister) continue;
 
       const idxJ = mj.scope === "global" ? globalIndex : projectIndex;
       const vecJ = idxJ[mj.id];
@@ -577,6 +584,7 @@ function findSimilarGroupsByTokens(
     id: m.id,
     tokens: tokenize(m.content),
     recent: new Date(m.created_at).getTime() > cutoff,
+    register: registerOf(m),
   }));
 
   const adjacent = new Map<string, Set<string>>();
@@ -585,6 +593,8 @@ function findSimilarGroupsByTokens(
     for (let j = i + 1; j < tokenSets.length; j++) {
       // Skip old×old pairs — already compared in previous consolidation
       if (lastConsolidation && !tokenSets[i].recent && !tokenSets[j].recent) continue;
+      // Registers never mix
+      if (tokenSets[i].register !== tokenSets[j].register) continue;
 
       const overlap = tokenOverlap(tokenSets[i].tokens, tokenSets[j].tokens);
       if (overlap >= threshold) {
@@ -770,6 +780,16 @@ export async function applyConsolidation(
     const sourceIds = merge.ids.filter((id) => memById.has(id) && !memById.get(id)!.protected);
     if (sourceIds.length < 2) continue;
 
+    // Hard invariant: merges never cross registers. A person/self memory being
+    // absorbed into a craft memory (or vice versa) is the destruction class
+    // this system exists to prevent — refuse regardless of what the model said.
+    const registers = new Set(sourceIds.map((id) => registerOf(memById.get(id)!)));
+    if (registers.size > 1) {
+      log("warn", `Consolidation: refused cross-register merge (${[...registers].join("+")}: ${sourceIds.join(", ")})`);
+      continue;
+    }
+    const mergeRegister = [...registers][0];
+
     // Find the oldest created_at and highest access_count among sources
     const sources = sourceIds.map((id) => memById.get(id)!);
     const oldestCreated = sources.reduce((oldest, m) =>
@@ -785,6 +805,7 @@ export async function applyConsolidation(
       id: generateId(),
       content: merge.merged.content.slice(0, 400),
       scope,
+      register: mergeRegister,
       memory_type: "semantic", // Merged memories are always semantic
       salience: sanitizeSalience(merge.merged.salience),
       tags: merge.merged.tags.slice(0, 5),
@@ -833,6 +854,7 @@ export async function applyConsolidation(
       id: generateId(),
       content: gen.content.slice(0, 400),
       scope: "global", // patterns are typically global
+      register: registerOf({ tags: gen.tags, salience: gen.salience }),
       memory_type: "semantic", // Generalized memories are always semantic
       salience: sanitizeSalience(gen.salience),
       tags: gen.tags.slice(0, 5),

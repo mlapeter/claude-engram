@@ -8,6 +8,7 @@
  */
 
 import type { Memory } from "./types.js";
+import { registerOf } from "./types.js";
 import { loadConfig } from "./config.js";
 import { log } from "./logger.js";
 import type { MemoryStore } from "./store.js";
@@ -33,6 +34,9 @@ export async function applyInterference(
     const old = existingById.get(newMem.updated_from);
     if (!old) continue;
     if (old.protected) continue; // sacred-verbatim memories don't get weakened
+    // Registers never mix: a craft memory claiming to "update" a person/self
+    // memory must not weaken it — that's mislabeling, not supersession
+    if (registerOf(newMem) !== registerOf(old)) continue;
 
     // Floor of 0.1 prevents salience from spiraling to zero via compounding (0.7^n)
     const SALIENCE_FLOOR = 0.1;

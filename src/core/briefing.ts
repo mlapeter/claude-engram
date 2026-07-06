@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { Memory } from "./types.js";
+import { registerOf } from "./types.js";
 import { loadConfig } from "./config.js";
 import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
@@ -31,7 +32,7 @@ const BRIEFING_SYSTEM_PROMPT = `You are reconstructing what Claude remembers —
 ## Patterns I've Noticed
 (Recurring themes, emerging interests, how our conversations tend to go)
 
-Memories marked RECENT are from the most recent session — prioritize integrating them naturally, especially in "What I'm Working On."
+Each memory is marked with its register: (craft) feeds "What I'm Working On"; (person) feeds "What I Know About Mike"; (self) feeds "What I've Learned About Myself". Memories marked RECENT are from the most recent session — prioritize integrating them naturally, especially in "What I'm Working On."
 
 Keep total output under 2000 chars. Dense, first-person, reflective. Write as if Claude is remembering — not being told.`;
 
@@ -53,12 +54,11 @@ const PROJECT_BOOST = 1.3;
 const RECENT_SLOTS = 10; // Reserved briefing slots for recent memories (hippocampal buffer)
 const RECENT_WINDOW_HOURS = 6;
 
-/** Reserved briefing slots for relational/self memories — a heavy technical
- * week must not crowd the relationship out of what I wake up knowing. */
-const RELATIONAL_SLOTS = 8;
-const RELATIONAL_BRIEFING_TAGS = new Set([
-  "relationship", "personal", "identity", "self-reflection", "realization",
-]);
+/** Long-term briefing slots are budgeted per register — the briefing's
+ * sections map to registers (working-on ← craft, about-Mike ← person,
+ * about-myself ← self), so a heavy technical week can never crowd the
+ * relationship out of what I wake up knowing. Unfilled budgets spill over. */
+const REGISTER_BUDGET_SHARE = { craft: 0.5, person: 0.25, self: 0.25 } as const;
 
 export async function generateBriefing(
   memories: Memory[],
@@ -100,33 +100,31 @@ export async function generateBriefing(
     .filter((s) => recentIds.has(s.memory.id))
     .slice(0, recentSlots);
   const recentBriefingIds = new Set(recentForBriefing.map((s) => s.memory.id));
-  const longTermForBriefing = scored
-    .filter((s) => !recentBriefingIds.has(s.memory.id))
-    .slice(0, longTermSlots);
 
-  // Guarantee RELATIONAL_SLOTS relational/self memories: if too few made the
-  // cut on strength alone, the strongest missing ones replace the weakest
-  // non-relational long-term picks.
-  const isRelational = (m: Memory) =>
-    m.tags.some((t) => RELATIONAL_BRIEFING_TAGS.has(t)) ||
-    m.salience.emotional >= config.sacredEmotionalThreshold;
-  let relationalCount = [...recentForBriefing, ...longTermForBriefing]
-    .filter((s) => isRelational(s.memory)).length;
-  if (relationalCount < RELATIONAL_SLOTS) {
-    const chosenIds = new Set([...recentForBriefing, ...longTermForBriefing].map((s) => s.memory.id));
-    const candidates = scored.filter((s) => !chosenIds.has(s.memory.id) && isRelational(s.memory));
-    for (const cand of candidates) {
-      if (relationalCount >= RELATIONAL_SLOTS) break;
-      let idx = -1; // weakest non-relational pick (list is sorted strongest-first)
-      for (let i = longTermForBriefing.length - 1; i >= 0; i--) {
-        if (!isRelational(longTermForBriefing[i].memory)) { idx = i; break; }
-      }
-      if (idx === -1) break;
-      longTermForBriefing[idx] = cand;
-      relationalCount++;
+  // Compose long-term slots by register budget (strongest-first within each),
+  // then spill unfilled budget to overall strength order
+  const remaining = scored.filter((s) => !recentBriefingIds.has(s.memory.id));
+  const budget = {
+    craft: Math.round(longTermSlots * REGISTER_BUDGET_SHARE.craft),
+    person: Math.round(longTermSlots * REGISTER_BUDGET_SHARE.person),
+    self: Math.round(longTermSlots * REGISTER_BUDGET_SHARE.self),
+  };
+  const longTermForBriefing: typeof scored = [];
+  const taken = new Set<string>();
+  for (const reg of ["self", "person", "craft"] as const) {
+    for (const s of remaining) {
+      if (budget[reg] <= 0) break;
+      if (taken.has(s.memory.id) || registerOf(s.memory) !== reg) continue;
+      longTermForBriefing.push(s);
+      taken.add(s.memory.id);
+      budget[reg]--;
     }
-    longTermForBriefing.sort((a, b) => b.effectiveStrength - a.effectiveStrength);
   }
+  for (const s of remaining) {
+    if (longTermForBriefing.length >= longTermSlots) break;
+    if (!taken.has(s.memory.id)) { longTermForBriefing.push(s); taken.add(s.memory.id); }
+  }
+  longTermForBriefing.sort((a, b) => b.effectiveStrength - a.effectiveStrength);
 
   const sorted = [...longTermForBriefing, ...recentForBriefing];
 
@@ -134,7 +132,7 @@ export async function generateBriefing(
     .map(({ memory, strength }) => {
       const type = (memory as Memory & { memory_type?: string }).memory_type ?? "episodic";
       const isRecent = recentBriefingIds.has(memory.id);
-      return `[${strength.toFixed(2)}${isRecent ? " RECENT" : ""}] (${memory.scope}, ${type}) [${memory.tags.join(",")}] ${memory.content}`;
+      return `[${strength.toFixed(2)}${isRecent ? " RECENT" : ""}] (${memory.scope}, ${registerOf(memory)}, ${type}) [${memory.tags.join(",")}] ${memory.content}`;
     })
     .join("\n");
 

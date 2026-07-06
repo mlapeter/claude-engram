@@ -66,6 +66,7 @@ export function commitMemorySnapshot(message: string): boolean {
     const commit = git(["commit", "-q", "-m", message], dir);
     if (commit.ok) {
       log("info", `Memory history: snapshot — ${message.split("\n")[0].slice(0, 100)}`);
+      pushIfRemote(dir);
       return true;
     }
     if (/nothing to commit/i.test(commit.out)) return false;
@@ -75,4 +76,23 @@ export function commitMemorySnapshot(message: string): boolean {
     log("warn", `Memory history: snapshot failed: ${err instanceof Error ? err.message : String(err)}`);
     return false;
   }
+}
+
+/**
+ * Off-machine backup: if the user has wired a remote named origin (e.g. a
+ * private GitHub repo), push after each snapshot. Best-effort — an offline
+ * machine or auth hiccup logs a warning and never blocks consolidation.
+ * The presence of the remote IS the opt-in; no config needed.
+ */
+function pushIfRemote(dir: string): void {
+  try {
+    const remotes = git(["remote"], dir);
+    if (!remotes.ok || !remotes.out.split("\n").includes("origin")) return;
+    const push = git(["push", "-q", "origin", "HEAD"], dir);
+    if (push.ok) {
+      log("info", "Memory history: pushed snapshot to origin");
+    } else {
+      log("warn", `Memory history: push to origin failed (will retry next snapshot): ${push.out.slice(0, 150)}`);
+    }
+  } catch { /* never let backup break the snapshot */ }
 }

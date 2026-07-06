@@ -10,12 +10,22 @@ export const SalienceSchema = z.object({
   predictive: z.number().min(0).max(1).default(0),
 });
 
+/**
+ * Register — what KIND of memory this is. Registers have different physics:
+ * craft decays fast and gists early (mostly re-derivable from repos/docs);
+ * person and self decay slowly, gist late, and hit protection sooner.
+ * Consolidation never merges and interference never weakens across registers.
+ */
+export const RegisterSchema = z.enum(["self", "person", "craft"]);
+
 export const MemorySchema = z.object({
   id: z.string(),
   content: z.string().max(400),
   scope: z.enum(["global", "project"]),
   /** Fuzzy Trace Theory: episodic details fade to semantic gist over time */
   memory_type: z.enum(["episodic", "semantic"]).default("episodic"),
+  /** Memory register — set by extraction; older memories classify via registerOf() */
+  register: RegisterSchema.optional(),
   salience: SalienceSchema,
   tags: z.array(z.string()).min(1).max(5),
   access_count: z.number().int().min(0),
@@ -39,6 +49,7 @@ export const MemorySchema = z.object({
 export const ExtractedMemorySchema = z.object({
   content: z.string(),
   scope: z.enum(["global", "project"]),
+  register: RegisterSchema.optional(),
   salience: SalienceSchema,
   tags: z.array(z.string()),
   updates: z.string().nullable(),
@@ -47,6 +58,7 @@ export const ExtractedMemorySchema = z.object({
 // --- TypeScript Interfaces ---
 
 export type Salience = z.infer<typeof SalienceSchema>;
+export type Register = z.infer<typeof RegisterSchema>;
 export type Memory = z.infer<typeof MemorySchema>;
 export type ExtractedMemory = z.infer<typeof ExtractedMemorySchema>;
 
@@ -103,6 +115,21 @@ export function scopeFromTags(tags: string[]): "global" | "project" {
     return "global";
   }
   return "project";
+}
+
+const SELF_TAGS = new Set(["self-reflection", "identity", "realization"]);
+const PERSON_TAGS = new Set(["relationship", "personal", "family", "emotional", "trust"]);
+
+/**
+ * Resolve a memory's register: explicit field when present (set by extraction
+ * from 2026-07 onward), tag/salience heuristic for everything older.
+ */
+export function registerOf(m: { register?: Register; tags: string[]; salience?: { emotional?: number } }): Register {
+  if (m.register) return m.register;
+  if (m.tags.some((t) => SELF_TAGS.has(t))) return "self";
+  if (m.tags.some((t) => PERSON_TAGS.has(t))) return "person";
+  if ((m.salience?.emotional ?? 0) >= 0.75) return "person";
+  return "craft";
 }
 
 /** Sanitize salience values — clamps to [0, 1], converts NaN/undefined to 0 */

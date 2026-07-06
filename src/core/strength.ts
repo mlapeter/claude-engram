@@ -1,4 +1,5 @@
 import type { Memory } from "./types.js";
+import { registerOf } from "./types.js";
 import { loadConfig } from "./config.js";
 
 // Re-export defaults for backward compatibility with tests
@@ -31,8 +32,17 @@ export function calculateStrength(memory: Memory): number {
   // Archived memories use a substantially lower decay rate, modeling the
   // distinction between retrieval failure (trace exists) and true forgetting.
   // √30 ≈ 5.48 → decay of 0.192 at 30 days for power-law with rate=0.035
+  //
+  // Register physics: craft knowledge decays faster (it's mostly re-derivable
+  // from repos and docs); person/self memories decay slower — forgetting is a
+  // feature, but it isn't register-blind.
   const isArchived = memory.archived === true;
-  const effectiveDecayRate = isArchived ? config.archiveDecayRate : config.decayRate;
+  const registerMultiplier = isArchived ? 1 : {
+    craft: config.decayMultiplierCraft,
+    person: config.decayMultiplierPerson,
+    self: config.decayMultiplierSelf,
+  }[registerOf(memory)];
+  const effectiveDecayRate = (isArchived ? config.archiveDecayRate : config.decayRate) * registerMultiplier;
 
   let decayPenalty: number;
   switch (config.decayModel) {

@@ -15,6 +15,7 @@ import { calculateStrength } from "../core/strength.js";
 import { generateId, sanitizeSalience, scopeFromTags, getDataDir, projectHash } from "../core/types.js";
 import type { Memory } from "../core/types.js";
 import { log } from "../core/logger.js";
+import { isObserverMode } from "../core/config.js";
 import { runConsolidation } from "../core/consolidation.js";
 import { recordSignal } from "../core/salience-weights.js";
 import { recordEvent, recordIdentityRewrite } from "../core/events.js";
@@ -97,12 +98,16 @@ server.registerTool("recall", {
   const results = await store.search(query, limit! + 10); // over-fetch to filter
   const filtered = results.filter((m) => calculateStrength(m) >= min_strength!).slice(0, limit);
 
-  // Hebbian reinforcement: accessed memories get stronger
-  for (const m of filtered) {
-    await store.update(m.id, {
-      access_count: m.access_count + 1,
-      last_accessed: new Date().toISOString(),
-    });
+  // Hebbian reinforcement: accessed memories get stronger — unless we're in
+  // observer mode (developing/testing the memory system itself must not
+  // over-strengthen whatever memories we keep handling)
+  if (!isObserverMode()) {
+    for (const m of filtered) {
+      await store.update(m.id, {
+        access_count: m.access_count + 1,
+        last_accessed: new Date().toISOString(),
+      });
+    }
   }
 
   const output = filtered.map((m) => ({
@@ -152,12 +157,14 @@ server.registerTool("search_by_tag", {
 }, async ({ tags, limit }) => {
   const results = await store.searchByTag(tags, limit);
 
-  // Hebbian reinforcement
-  for (const m of results) {
-    await store.update(m.id, {
-      access_count: m.access_count + 1,
-      last_accessed: new Date().toISOString(),
-    });
+  // Hebbian reinforcement — skipped in observer mode
+  if (!isObserverMode()) {
+    for (const m of results) {
+      await store.update(m.id, {
+        access_count: m.access_count + 1,
+        last_accessed: new Date().toISOString(),
+      });
+    }
   }
 
   const output = results.map((m) => ({

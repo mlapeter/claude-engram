@@ -55,6 +55,13 @@ export interface EngramConfig {
   memoryHistory: boolean;
   /** Memories with emotional salience at/above this are exempt from gist compression (default: 0.75) */
   sacredEmotionalThreshold: number;
+  /** Register physics: craft (work knowledge, re-derivable) decays faster than person/self */
+  decayMultiplierCraft: number;
+  decayMultiplierPerson: number;
+  decayMultiplierSelf: number;
+  /** Observer mode: recalls read without strengthening — flip on while developing/testing
+   * the memory system itself so repeated handling doesn't over-strengthen core memories */
+  observerMode: boolean;
 }
 
 const DEFAULTS: EngramConfig = {
@@ -81,6 +88,10 @@ const DEFAULTS: EngramConfig = {
   identityModel: "claude-opus-4-6",
   memoryHistory: true,
   sacredEmotionalThreshold: 0.75,
+  decayMultiplierCraft: 1.3,
+  decayMultiplierPerson: 0.85,
+  decayMultiplierSelf: 0.85,
+  observerMode: false,
 };
 
 let cachedConfig: EngramConfig | null = null;
@@ -104,4 +115,20 @@ export function loadConfig(): EngramConfig {
 /** Reset cached config (useful for testing). */
 export function resetConfig(): void {
   cachedConfig = null;
+}
+
+/**
+ * Observer mode check — read FRESH each call (bypasses the config cache) so a
+ * long-lived MCP server honors a config flip without restart, and hooks honor
+ * the ENGRAM_OBSERVER env var per-session. In observer mode, recalls read
+ * without strengthening: no access bumps, no salience signals.
+ */
+export function isObserverMode(): boolean {
+  if (process.env.ENGRAM_OBSERVER) return true;
+  try {
+    const raw = readFileSync(join(getDataDir(), "config.json"), "utf-8");
+    return JSON.parse(raw).observerMode === true;
+  } catch {
+    return false;
+  }
 }
