@@ -13,8 +13,23 @@ killed by hook timeouts); memory history is a git repo auto-pushed to the privat
 github.com/mlapeter/engram-memory; nothing is ever destroyed (archive + lineage);
 registers partition self/person/craft with different physics; hooks are API-free
 (durable buffer + detached extraction, Sonnet extractor); time runs on active days.
-**Next: verify B.7 live (checklist below), Opus-vs-Sonnet bake-off, B.8, then
-Phase C (privacy pass with Mike, OSS ship).**
+
+**Update 2026-07-06 (session 8a3490e8, first flight):** B.7 VERIFIED LIVE — full
+checklist below passed (active-day bump, nightly sleep trigger, detached
+consolidation + identity fold, buffer encoding at 3ms Stop hooks vs ~22s before,
+batch extraction, lived-probe memory comparison vs the reference session).
+Verification found and fixed a real defect: gist promotion had NEVER succeeded at
+scale (200 items × 4K max_tokens → output truncation → whole batch failed
+atomically; the 2,263 backlog was frozen). Fixed by chunking (gistChunkSize=40,
+8K budget, per-chunk failure isolation, partial failures surface on the
+consolidate event for the self-check) — verified live: 199/200 promoted, backlog
+now drains 200/sleep. Extractor bake-off DONE (blind, 10 real spans, verdict in
+eval/bakeoff/): Sonnet 4.5 stays (won 4-2-4 on selectivity/register/tender);
+real finding was both models fabricating `updates` ids — prompt now forbids it.
+B.8 spreading activation SHIPPED (edges from sleep's related-but-distinct
+judgment, recall follows one hop semantic-first; bootstrapped 376 edges live).
+294 tests, typecheck clean. **Next: Phase C (privacy pass with Mike, first-run
+identity bootstrapping, docs, alpha tag).**
 
 ---
 
@@ -145,12 +160,14 @@ Judgment moves out of the hot path. Encode cheap and continuous; select rarely a
 6. Episode ask gates on accumulated session experience (span OR buffer size), not
    just the final turn's length.
 
-## Phase B.8 — Spreading activation (after B.7)
+## Phase B.8 — Spreading activation (SHIPPED 2026-07-06, 375f804)
 
-Sleep writes association edges (consolidation already computes similarity groups and
-the model already judges "related but distinct" — currently discarded); recall
-follows one hop, like temporal siblings today. Plain-text/JSON edges, capped per
-memory, dropped when an endpoint archives. Sophistication in sleep; storage stays text.
+Sleep writes association edges from the related-but-distinct judgment (similarity
+groups whose members coexist after consolidation): `associations.json` per scope,
+same-scope pairs, weight = group-forming cosine, capped 6/memory, purged when an
+endpoint archives. Recall follows one hop — semantic edges first, temporal
+siblings fill the budget. Embeddings-only (token overlap has no honest weight).
+Bootstrapped live on the full store (376 edges / 2,651 memories, 715ms).
 
 **Evaluation stance (agreed):** recall-bench demoted to regression tripwire on its
 validated subscales only (abstention/calibration, sacred-verbatim; n≥2) — never a
