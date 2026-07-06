@@ -32,6 +32,7 @@ export async function applyInterference(
 
     const old = existingById.get(newMem.updated_from);
     if (!old) continue;
+    if (old.protected) continue; // sacred-verbatim memories don't get weakened
 
     // Floor of 0.1 prevents salience from spiraling to zero via compounding (0.7^n)
     const SALIENCE_FLOOR = 0.1;

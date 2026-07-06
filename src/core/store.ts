@@ -73,8 +73,11 @@ export interface MemoryStore {
   getEmbeddingPaths(): { global: string; project: string };
   /** Deep archive: load all archived memories for a scope */
   loadArchive(scope: "global" | "project"): Promise<Memory[]>;
-  /** Deep archive: migrate active memories to the archive (preserves them with archived flag) */
-  archiveMemories(ids: string[]): Promise<number>;
+  /** Deep archive: migrate active memories to the archive (preserves them with archived flag).
+   * Optional per-id annotations (e.g. merged_into) are stamped onto the archived copies. */
+  archiveMemories(ids: string[], annotations?: Record<string, Partial<Memory>>): Promise<number>;
+  /** Deep archive: append pre-built copies directly (e.g. pre-gist originals) without touching the active store */
+  archiveCopies(memories: Memory[]): Promise<number>;
   /** Deep archive: reactivate an archived memory, moving it back to active store with refreshed access */
   reactivateMemory(id: string): Promise<Memory | null>;
   /** Deep archive: high-specificity search over archived memories only */
@@ -509,7 +512,7 @@ export function createStore(projectCwd: string): MemoryStore {
       return readJsonFile<Memory[]>(archivePath(scope), []);
     },
 
-    async archiveMemories(ids) {
+    async archiveMemories(ids, annotations) {
       if (ids.length === 0) return 0;
       const idSet = new Set(ids);
       const now = new Date().toISOString();
@@ -528,7 +531,7 @@ export function createStore(projectCwd: string): MemoryStore {
           const remaining: Memory[] = [];
           for (const m of memories) {
             if (idSet.has(m.id)) {
-              archivedHere.push({ ...m, archived: true, archived_at: now });
+              archivedHere.push({ ...m, ...(annotations?.[m.id] ?? {}), archived: true, archived_at: now });
             } else {
               remaining.push(m);
             }
@@ -549,6 +552,26 @@ export function createStore(projectCwd: string): MemoryStore {
       }
 
       invalidateCache();
+      return total;
+    },
+
+    async archiveCopies(memories) {
+      if (memories.length === 0) return 0;
+      const now = new Date().toISOString();
+      let total = 0;
+      for (const scope of ["global", "project"] as const) {
+        const copies = memories
+          .filter((m) => m.scope === scope)
+          .map((m) => ({ ...m, archived: true, archived_at: m.archived_at ?? now }));
+        if (copies.length === 0) continue;
+        const archPath = archivePath(scope);
+        try { readFileSync(archPath); } catch { writeJsonFile(archPath, []); }
+        await withLock(archPath, async () => {
+          const existing = readJsonFile<Memory[]>(archPath, []);
+          writeJsonFile(archPath, [...existing, ...copies]);
+        });
+        total += copies.length;
+      }
       return total;
     },
 

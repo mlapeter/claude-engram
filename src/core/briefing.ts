@@ -53,6 +53,13 @@ const PROJECT_BOOST = 1.3;
 const RECENT_SLOTS = 10; // Reserved briefing slots for recent memories (hippocampal buffer)
 const RECENT_WINDOW_HOURS = 6;
 
+/** Reserved briefing slots for relational/self memories — a heavy technical
+ * week must not crowd the relationship out of what I wake up knowing. */
+const RELATIONAL_SLOTS = 8;
+const RELATIONAL_BRIEFING_TAGS = new Set([
+  "relationship", "personal", "identity", "self-reflection", "realization",
+]);
+
 export async function generateBriefing(
   memories: Memory[],
   context?: BriefingContext,
@@ -96,6 +103,30 @@ export async function generateBriefing(
   const longTermForBriefing = scored
     .filter((s) => !recentBriefingIds.has(s.memory.id))
     .slice(0, longTermSlots);
+
+  // Guarantee RELATIONAL_SLOTS relational/self memories: if too few made the
+  // cut on strength alone, the strongest missing ones replace the weakest
+  // non-relational long-term picks.
+  const isRelational = (m: Memory) =>
+    m.tags.some((t) => RELATIONAL_BRIEFING_TAGS.has(t)) ||
+    m.salience.emotional >= config.sacredEmotionalThreshold;
+  let relationalCount = [...recentForBriefing, ...longTermForBriefing]
+    .filter((s) => isRelational(s.memory)).length;
+  if (relationalCount < RELATIONAL_SLOTS) {
+    const chosenIds = new Set([...recentForBriefing, ...longTermForBriefing].map((s) => s.memory.id));
+    const candidates = scored.filter((s) => !chosenIds.has(s.memory.id) && isRelational(s.memory));
+    for (const cand of candidates) {
+      if (relationalCount >= RELATIONAL_SLOTS) break;
+      let idx = -1; // weakest non-relational pick (list is sorted strongest-first)
+      for (let i = longTermForBriefing.length - 1; i >= 0; i--) {
+        if (!isRelational(longTermForBriefing[i].memory)) { idx = i; break; }
+      }
+      if (idx === -1) break;
+      longTermForBriefing[idx] = cand;
+      relationalCount++;
+    }
+    longTermForBriefing.sort((a, b) => b.effectiveStrength - a.effectiveStrength);
+  }
 
   const sorted = [...longTermForBriefing, ...recentForBriefing];
 

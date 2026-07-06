@@ -8,6 +8,7 @@ import { loadConfig } from "./config.js";
 import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
 import { rewriteIdentity, type IdentityRewriteResult } from "./identity.js";
+import { commitMemorySnapshot } from "./snapshot.js";
 import type { MemoryStore } from "./store.js";
 import { tokenize, tokenOverlap } from "./store.js";
 import { recordSignal } from "./salience-weights.js";
@@ -250,6 +251,11 @@ export async function runConsolidation(
   }
 
   try {
+    // Memory history: freeze the pre-mutation state — consolidation is the
+    // only process that destroys/rewrites memories, so this is the moment
+    // that must always be recoverable.
+    commitMemorySnapshot("pre-consolidation snapshot");
+
     const result = await runConsolidationInner(store);
     // Identity rewrite — fold pending deltas into identity documents ("sleep")
     try {
@@ -260,6 +266,10 @@ export async function runConsolidation(
       log("warn", `Identity rewrite failed (consolidation otherwise ok): ${err instanceof Error ? err.message : String(err)}`);
       result.identity = { rewritten: false, notes: `failed: ${err instanceof Error ? err.message : String(err)}` };
     }
+
+    commitMemorySnapshot(
+      `consolidation: ${result.mergeCount} merges, ${result.generalizeCount} generalizations, ${result.pruneCount} prunes, ${result.promotionCount} promotions\n\n${result.notes.slice(0, 800)}`,
+    );
     return result;
   } finally {
     // Always release lock
@@ -290,8 +300,10 @@ async function runConsolidationInner(
 
   // Step 2: Auto-prune below threshold — migrate to deep archive instead of deleting,
   // modeling retrieval-failure vs true-forgetting distinction in cognitive science.
+  // Protected (sacred-verbatim) memories are exempt.
   const toArchive: string[] = [];
   for (const m of all) {
+    if (m.protected) continue;
     if (calculateStrength(m) < config.pruneThreshold) {
       toArchive.push(m.id);
       await recordSignal(store, "prune", m.salience);
@@ -311,16 +323,25 @@ async function runConsolidationInner(
   }
 
   // Step 3: Episodic→Semantic promotion (Fuzzy Trace Theory)
-  // Episodic details fade to semantic gist after 7+ days
+  // Episodic details fade to semantic gist after 7+ days.
+  // Sacred-verbatim: protected and high-emotional memories keep their exact
+  // words forever — gist compression is for the mundane, not the tender.
+  // Bounded per run so the batch always fits one model call (a months-deep
+  // backlog exists from the era when consolidation died mid-run).
   const PROMOTION_AGE_DAYS = 7;
+  const MAX_PROMOTIONS_PER_RUN = 200;
   const now = Date.now();
   const promotable = remaining.filter((m) => {
     const type = (m as Memory & { memory_type?: string }).memory_type ?? "episodic";
     if (type !== "episodic") return false;
     if (m.consolidated) return false; // already processed
+    if (m.protected) return false;
+    if (m.salience.emotional >= config.sacredEmotionalThreshold) return false;
     const ageMs = now - new Date(m.created_at).getTime();
     return ageMs > PROMOTION_AGE_DAYS * 86_400_000;
-  });
+  })
+    .sort((a, b) => a.created_at.localeCompare(b.created_at)) // oldest first
+    .slice(0, MAX_PROMOTIONS_PER_RUN);
 
   let promotionCount = 0;
   if (promotable.length > 0) {
@@ -362,22 +383,35 @@ async function runConsolidationInner(
       const gistBlock = gistResponse.content.find((b) => b.type === "text");
       if (gistBlock && gistBlock.type === "text") {
         const gistResult = JSON.parse(gistBlock.text) as { items: Array<{ id: string; gist: string }> };
+        const promotableById = new Map(promotable.map((m) => [m.id, m]));
+        // Never-destroy: the verbatim originals go to the deep archive
+        // (fresh ids, gist_of pointer) before compression overwrites them.
+        const originals: Memory[] = [];
+        for (const { id } of gistResult.items) {
+          const orig = promotableById.get(id);
+          if (orig) originals.push({ ...orig, id: generateId(), gist_of: orig.id });
+        }
+        await store.archiveCopies(originals);
         for (const { id, gist } of gistResult.items) {
+          if (!promotableById.has(id)) continue; // hallucinated id — never touch memories outside the batch
           await store.update(id, {
             content: gist.slice(0, 400),
             memory_type: "semantic",
           } as Partial<Memory>);
           promotionCount++;
         }
-        log("info", `Promoted ${promotionCount} episodic→semantic memories`);
+        log("info", `Promoted ${promotionCount} episodic→semantic memories (verbatim originals archived)`);
       }
     } catch (err) {
       log("warn", `Episodic→semantic promotion failed: ${err instanceof Error ? err.message : String(err)}`);
     }
   }
 
-  // Reload after promotions
-  const postPromotion = promotionCount > 0 ? await store.loadAll() : remaining;
+  // Reload after promotions. Protected (sacred-verbatim) memories are not
+  // offered to the model as merge/prune candidates at all — the guards in
+  // applyConsolidation are the backstop, this is the policy.
+  const reloaded = promotionCount > 0 ? await store.loadAll() : remaining;
+  const postPromotion = reloaded.filter((m) => !m.protected);
 
   // Load lastConsolidation for scoped similarity (skip old×old pairs)
   const globalMeta = await store.loadMeta("global");
@@ -732,7 +766,8 @@ export async function applyConsolidation(
 
   // Apply merges
   for (const merge of result.merge) {
-    const sourceIds = merge.ids.filter((id) => memById.has(id));
+    // Protected memories are never merged away, even if the model suggests it
+    const sourceIds = merge.ids.filter((id) => memById.has(id) && !memById.get(id)!.protected);
     if (sourceIds.length < 2) continue;
 
     // Find the oldest created_at and highest access_count among sources
@@ -762,9 +797,13 @@ export async function applyConsolidation(
       updated_from: sourceIds[0],
     };
 
-    // Remove source memories
+    // Never-destroy: merge sources go to the deep archive with a lineage
+    // pointer to their consolidated successor, not to deletion
+    await store.archiveMemories(
+      sourceIds,
+      Object.fromEntries(sourceIds.map((id) => [id, { merged_into: merged.id }])),
+    );
     for (const id of sourceIds) {
-      await store.remove(id);
       memById.delete(id);
     }
 
@@ -772,11 +811,11 @@ export async function applyConsolidation(
     mergeCount++;
   }
 
-  // Apply prunes (only IDs that still exist and weren't already merged) —
-  // migrate to deep archive instead of deleting
+  // Apply prunes (only IDs that still exist, weren't already merged, and
+  // aren't protected) — migrate to deep archive instead of deleting
   const pruneBatch: string[] = [];
   for (const id of result.prune_ids) {
-    if (memById.has(id)) {
+    if (memById.has(id) && !memById.get(id)!.protected) {
       const pruned = memById.get(id)!;
       pruneBatch.push(id);
       await recordSignal(store, "prune", pruned.salience);

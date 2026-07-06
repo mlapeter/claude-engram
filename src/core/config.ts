@@ -51,6 +51,10 @@ export interface EngramConfig {
   episodeSelfDump: boolean;
   /** Model that rewrites identity documents at consolidation — highest-stakes text in the system (default: "claude-opus-4-6") */
   identityModel: string;
+  /** Keep full memory history as git commits in the data dir (default: true) */
+  memoryHistory: boolean;
+  /** Memories with emotional salience at/above this are exempt from gist compression (default: 0.75) */
+  sacredEmotionalThreshold: number;
 }
 
 const DEFAULTS: EngramConfig = {
@@ -75,6 +79,8 @@ const DEFAULTS: EngramConfig = {
   hybridVectorWeight: 0.4,
   episodeSelfDump: true,
   identityModel: "claude-opus-4-6",
+  memoryHistory: true,
+  sacredEmotionalThreshold: 0.75,
 };
 
 let cachedConfig: EngramConfig | null = null;

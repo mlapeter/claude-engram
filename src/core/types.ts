@@ -28,6 +28,12 @@ export const MemorySchema = z.object({
   /** Deep archive: memories below prune threshold are migrated here instead of deleted */
   archived: z.boolean().optional(),
   archived_at: z.string().nullable().optional(),
+  /** Sacred-verbatim: protected memories are never merged, pruned, gist-compressed, or weakened */
+  protected: z.boolean().optional(),
+  /** Set on archived merge sources — the consolidated memory that absorbed this one */
+  merged_into: z.string().nullable().optional(),
+  /** Set on archived pre-gist originals — the active memory whose verbatim form this preserves */
+  gist_of: z.string().nullable().optional(),
 });
 
 export const ExtractedMemorySchema = z.object({

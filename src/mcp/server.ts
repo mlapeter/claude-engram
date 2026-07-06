@@ -237,6 +237,31 @@ server.registerTool("reinforce", {
   };
 });
 
+// --- Tool: protect ---
+server.registerTool("protect", {
+  title: "Protect Memory (Sacred Verbatim)",
+  description: "Mark a memory as sacred-verbatim: it will never be merged away, pruned, gist-compressed, or weakened by interference. Its exact words persist. Use sparingly — for memories whose specific wording matters (standing intentions, moments that shouldn't be summarized). Forgetting is a feature; protection is for the exceptions.",
+  inputSchema: {
+    memory_id: z.string().describe("ID of the memory to protect"),
+    unprotect: z.boolean().optional().default(false).describe("Set true to remove protection instead"),
+  },
+}, async ({ memory_id, unprotect }) => {
+  const all = await store.loadAll();
+  const mem = all.find((m) => m.id === memory_id);
+  if (!mem) {
+    return { content: [{ type: "text" as const, text: `Memory ${memory_id} not found.` }], isError: true };
+  }
+  await store.update(memory_id, { protected: !unprotect });
+  log("info", `MCP protect: ${memory_id} protected=${!unprotect} — "${mem.content.slice(0, 60)}"`);
+  recordEvent({ event: "protect", project: projectName, project_hash: projHash, memory_id, content_snippet: mem.content.slice(0, 80), count: unprotect ? 0 : 1 });
+  return {
+    content: [{
+      type: "text" as const,
+      text: `${unprotect ? "Unprotected" : "Protected (sacred-verbatim)"}: "${mem.content.slice(0, 80)}..."`,
+    }],
+  };
+});
+
 // --- Tool: store ---
 server.registerTool("store", {
   title: "Store Memory",
