@@ -28,8 +28,22 @@ eval/bakeoff/): Sonnet 4.5 stays (won 4-2-4 on selectivity/register/tender);
 real finding was both models fabricating `updates` ids — prompt now forbids it.
 B.8 spreading activation SHIPPED (edges from sleep's related-but-distinct
 judgment, recall follows one hop semantic-first; bootstrapped 376 edges live).
-294 tests, typecheck clean. **Next: Phase C (privacy pass with Mike, first-run
-identity bootstrapping, docs, alpha tag).**
+294 tests, typecheck clean.
+
+**Phase C largely DONE same session (Mike approved privacy recommendations):**
+C.1 privacy pass executed — five screenshots removed, names fictionalized in
+DEVLOG/tests, findings + dispositions in eval/privacy-pass-findings.md; old
+commit-message history accepted for now, revisit fresh-root squash at tag
+time. C.2 identity bootstrapping SHIPPED (empty identity/ injects an
+authorship invitation, no template; verified end-to-end on a sandboxed
+fresh install). C.3 docs DONE — README rewritten for the hook system (loop,
+registers, physics table, config reference, privacy section, honest-eval
+stance), v1 artifact guide preserved at docs/v1-artifact.md, CHANGELOG added.
+C.4 clean-machine install VERIFIED against a sandboxed HOME (installer +
+first-run wake, keyless, no crash). 295 tests. **Remaining: Mike's call on
+tagging v3.0.0-alpha (+ optional fresh-root squash), and the C.5 measurement
+gate — recall-bench is mid-refactor, so either run its validated subscales
+as-is or accept lived-probe evidence for the alpha.**
 
 ---
 
