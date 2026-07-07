@@ -1,6 +1,6 @@
 # Changelog
 
-## v3.0.0-alpha — the hook-based system (unreleased)
+## v3.0.0-alpha — the hook-based system (2026-07-07)
 
 The rewrite that turned a paste-in artifact into an autonomous memory loop
 for Claude Code. Everything below is live and verified in production use.
