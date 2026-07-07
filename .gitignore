@@ -8,3 +8,7 @@ PATENT-PRIOR-ART.md
 
 # Real conversation transcripts + answer keys — never publish
 eval/
+
+# Local tooling artifacts
+.claude/
+.playwright-mcp/

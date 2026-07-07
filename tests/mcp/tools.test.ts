@@ -75,7 +75,7 @@ describe("status tool", () => {
 describe("recall tool", () => {
   it("finds memories by text search", async () => {
     await store.add([
-      makeMemory({ content: "Mike lives in Montana" }),
+      makeMemory({ content: "Sam lives in Oregon" }),
       makeMemory({ content: "The project uses TypeScript" }),
       makeMemory({ content: "Mike prefers bun over npm" }),
     ]);
@@ -183,18 +183,18 @@ describe("reinforce tool", () => {
   });
 
   it("updates content when new_content is provided (reconsolidation)", async () => {
-    const mem = makeMemory({ content: "Mike has one son named Miles" });
+    const mem = makeMemory({ content: "Sam has one kid named Ada" });
     await store.add([mem]);
 
     // Simulate reconsolidation — update content while reinforcing
     await store.update(mem.id, {
       access_count: mem.access_count + 1,
       last_accessed: new Date().toISOString(),
-      content: "Mike has two sons: Miles and Macklin",
+      content: "Sam has two kids: Ada and Grace",
     });
 
     const updated = (await store.loadAll()).find((m) => m.id === mem.id)!;
-    expect(updated.content).toBe("Mike has two sons: Miles and Macklin");
+    expect(updated.content).toBe("Sam has two kids: Ada and Grace");
     expect(updated.access_count).toBe(1);
   });
 

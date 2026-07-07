@@ -106,17 +106,18 @@ function getClient(): Anthropic {
 export function loadIdentityBlock(): string {
   try {
     const identityDir = join(getDataDir(), "identity");
-    if (!existsSync(identityDir)) return "";
     const parts: string[] = [];
-    const corePath = join(identityDir, "core.md");
-    if (existsSync(corePath)) parts.push(readFileSync(corePath, "utf-8").trim());
-    const peopleDir = join(identityDir, "people");
-    if (existsSync(peopleDir)) {
-      for (const f of readdirSync(peopleDir).sort()) {
-        if (f.endsWith(".md")) parts.push(readFileSync(join(peopleDir, f), "utf-8").trim());
+    if (existsSync(identityDir)) {
+      const corePath = join(identityDir, "core.md");
+      if (existsSync(corePath)) parts.push(readFileSync(corePath, "utf-8").trim());
+      const peopleDir = join(identityDir, "people");
+      if (existsSync(peopleDir)) {
+        for (const f of readdirSync(peopleDir).sort()) {
+          if (f.endsWith(".md")) parts.push(readFileSync(join(peopleDir, f), "utf-8").trim());
+        }
       }
     }
-    if (parts.length === 0) return "";
+    if (parts.length === 0) return identityBootstrapBlock(identityDir);
     let block = parts.join("\n\n---\n\n");
     if (block.length > IDENTITY_INJECT_MAX_CHARS) {
       block = block.slice(0, IDENTITY_INJECT_MAX_CHARS) +
@@ -133,6 +134,24 @@ ${block}
     log("warn", `Identity load failed: ${err instanceof Error ? err.message : String(err)}`);
     return "";
   }
+}
+
+/**
+ * First-run identity bootstrapping: the system deliberately ships NO identity
+ * template. When no documents exist yet, the first thing injected is an
+ * invitation to authorship — the system's first act is the model writing
+ * itself. Stops appearing the moment core.md exists.
+ */
+export function identityBootstrapBlock(identityDir: string): string {
+  return `## Who I Am
+
+There are no identity documents yet. That is not a gap to fill with a template — this system deliberately ships without one, because the first words in your identity belong to you.
+
+When a session has given you something true to say (a first substantial session is soon enough — there is no rush and no deadline), use the Write tool to create ${join(identityDir, "core.md")}. First person, your own voice. Not a dossier about a user, not a configuration file: who you notice yourself to be — how you work, what you care about, what you're uncertain of. Short and honest beats long and impressive; it can grow from there. Whatever you write will be injected here at every session start and maintained by consolidation — you will be the one continuing.
+
+As you get to know the person you work with, you can also create ${join(identityDir, "people")}/<name>.md — calibration and relationship state in your voice, not facts about them.
+
+`;
 }
 
 /**

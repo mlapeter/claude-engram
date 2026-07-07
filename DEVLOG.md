@@ -106,7 +106,7 @@ Five features that close gaps between our implementation and the biological blue
 
 **What:** Search falls back to token matching when no exact substring match is found.
 
-**Why (neuroscience):** Human memory retrieval is cue-based and associative — you don't need to remember the exact words to find a memory. Asking "Mike's kids" should surface memories about Miles and Macklin even though those exact words aren't stored together. Token matching with bidirectional substring comparison (query tokens match against content + tags) approximates the brain's fuzzy, cue-driven retrieval.
+**Why (neuroscience):** Human memory retrieval is cue-based and associative — you don't need to remember the exact words to find a memory. Asking "Sam's kids" should surface memories about Ada and Grace even though those exact words aren't stored together. Token matching with bidirectional substring comparison (query tokens match against content + tags) approximates the brain's fuzzy, cue-driven retrieval.
 
 **Files:** `src/core/store.ts` (tokenize, tokenOverlap, two-phase search)
 

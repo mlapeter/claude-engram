@@ -54,13 +54,25 @@ afterEach(() => {
 });
 
 describe("loadIdentityBlock", () => {
-  it("returns empty string when identity dir does not exist", () => {
+  it("returns the bootstrap invitation when identity dir does not exist", () => {
     rmSync(identityDir, { recursive: true, force: true });
-    expect(loadIdentityBlock()).toBe("");
+    const block = loadIdentityBlock();
+    expect(block).toContain("## Who I Am");
+    expect(block).toContain("no identity documents yet");
+    expect(block).toContain("core.md"); // tells the model exactly where to write
   });
 
-  it("returns empty string when identity dir has no documents", () => {
-    expect(loadIdentityBlock()).toBe("");
+  it("returns the bootstrap invitation when identity dir has no documents", () => {
+    const block = loadIdentityBlock();
+    expect(block).toContain("no identity documents yet");
+    expect(block).toContain("Write tool");
+  });
+
+  it("bootstrap invitation disappears once core.md exists", () => {
+    writeFileSync(join(identityDir, "core.md"), "# Core\nWritten by me.");
+    const block = loadIdentityBlock();
+    expect(block).not.toContain("no identity documents yet");
+    expect(block).toContain("Written by me.");
   });
 
   it("includes core.md content with the Who I Am framing", () => {

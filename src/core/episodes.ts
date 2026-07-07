@@ -6,7 +6,7 @@ import { getDataDir } from "./types.js";
 export const EPISODE_MIN_CONTENT = 3000;
 
 /** A session older than this since its last episode gets asked again — a
- * days-long session is more than one chapter (the porch conversation happened
+ * days-long session is more than one chapter (a meaningful conversation once happened
  * a full day after its session's only episode was written, and nearly went
  * episodically unrecorded). */
 export const EPISODE_REASK_HOURS = 18;

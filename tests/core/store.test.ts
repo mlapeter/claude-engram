@@ -187,7 +187,7 @@ describe("MemoryStore", () => {
   it("search falls back to token matching when no substring match", async () => {
     const store = createStore("/test/project");
     await store.add([
-      makeMemory({ content: "Miles and Macklin are Mike's sons", tags: ["relationship"] }),
+      makeMemory({ content: "Ada and Grace are Sam's kids", tags: ["relationship"] }),
       makeMemory({ content: "project uses vitest for testing" }),
       makeMemory({ content: "bun is the preferred runtime" }),
     ]);
@@ -196,7 +196,7 @@ describe("MemoryStore", () => {
     // should partially match against "Mike's sons" (via token overlap)
     const results = await store.search("Mike's kids");
     expect(results.length).toBeGreaterThanOrEqual(1);
-    expect(results[0].content).toContain("Miles");
+    expect(results[0].content).toContain("Ada");
   });
 
   it("search matches against tags in token mode", async () => {
@@ -215,7 +215,7 @@ describe("MemoryStore", () => {
   it("search prefers exact substring matches over token matches", async () => {
     const store = createStore("/test/project");
     await store.add([
-      makeMemory({ content: "Mike lives in Montana" }),
+      makeMemory({ content: "Sam lives in Oregon" }),
       makeMemory({ content: "the microphone broke" }), // "micro" contains "mi"
     ]);
 
@@ -428,7 +428,7 @@ describe("MemoryStore", () => {
       ]);
 
       const dupes = await store.checkDuplicates([
-        "The weather in Montana is beautiful today",
+        "The weather in Oregon is beautiful today",
       ]);
       expect(dupes.size).toBe(0);
     });
@@ -468,7 +468,7 @@ describe("MemoryStore", () => {
       delete process.env.VOYAGE_API_KEY;
       const store = createStore("/test/project");
       await store.add([
-        makeMemory({ content: "Miles and Macklin are Mike's sons", tags: ["relationship"] }),
+        makeMemory({ content: "Ada and Grace are Sam's kids", tags: ["relationship"] }),
       ]);
 
       const fetchSpy = vi.spyOn(globalThis, "fetch");
