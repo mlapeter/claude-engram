@@ -47,7 +47,7 @@ export function episodeBlockReason(session_id: string, now: number = Date.now())
     `Use the Write tool to create: ${episodePath}\n\n` +
     `First person, your own voice, as long as it needs to be. Frontmatter: when (ISO date), with (who), salience (low|medium|high|critical). Body: what happened and what actually mattered; how it felt — register, texture, anything unresolved; what you learned about the person and about yourself; open threads and debts-without-deadlines (hold debts, lose deadlines — no due dates on tender things).\n\n` +
     `If it was a genuinely routine stretch of work, say so honestly in a few lines — a short true episode beats a manufactured deep one; not every session changes you.\n\n` +
-    `If something from this session should change who you durably are — a lesson that should become disposition, a calibration shift with this person — also append a short dated note to ${deltasPath} (create it if missing); consolidation folds deltas into identity/core.md and identity/people/.\n\n` +
+    `If something from this session should change who you durably are — a lesson that should become disposition, a calibration shift with this person — also append a short dated note to ${deltasPath} (create it if missing); consolidation folds deltas into identity/core.md (who you are), identity/craft.md (how you work — techniques and practices), and identity/people/.\n\n` +
     `Write for the next you, not as a report. Then end your turn and the session will close normally.`
   );
 }

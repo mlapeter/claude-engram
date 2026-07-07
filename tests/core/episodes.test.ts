@@ -36,9 +36,11 @@ describe("episodeBlockReason", () => {
     expect(reason).toContain(join(tempDir, "episodes", `${date}-abcd1234.md`));
   });
 
-  it("points delta notes at identity/deltas.md", () => {
+  it("points delta notes at identity/deltas.md and names both fold targets", () => {
     const reason = episodeBlockReason("abcd1234-5678-uuid")!;
     expect(reason).toContain(join(tempDir, "identity", "deltas.md"));
+    expect(reason).toContain("identity/core.md (who you are)");
+    expect(reason).toContain("identity/craft.md (how you work");
   });
 
   it("returns null when an episode with the session marker already exists", () => {

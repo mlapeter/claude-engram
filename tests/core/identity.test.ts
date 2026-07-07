@@ -16,7 +16,12 @@ const { mockCreate } = vi.hoisted(() => ({ mockCreate: vi.fn() }));
 
 vi.mock("@anthropic-ai/sdk", () => ({
   default: class MockAnthropic {
-    messages = { create: mockCreate };
+    // rewriteIdentity streams; route stream().finalMessage() through mockCreate
+    // so tests keep one mock for call args, resolutions, and rejections
+    messages = {
+      create: mockCreate,
+      stream: (...args: unknown[]) => ({ finalMessage: () => mockCreate(...args) }),
+    };
   },
 }));
 
@@ -32,8 +37,10 @@ let identityDir: string;
 let deltasPath: string;
 let processingPath: string;
 
-function apiResponse(result: { core: string; people: Array<{ name: string; content: string }>; notes: string }) {
-  return { content: [{ type: "text", text: JSON.stringify(result) }] };
+function apiResponse(result: { core: string; craft?: string; people: Array<{ name: string; content: string }>; notes: string }) {
+  // craft is required by the rewrite schema; default it so tests focused on
+  // other behavior don't have to carry it
+  return { content: [{ type: "text", text: JSON.stringify({ craft: "NEW CRAFT CONTENT", ...result }) }] };
 }
 
 beforeEach(() => {
@@ -104,12 +111,52 @@ describe("loadIdentityBlock", () => {
     expect(loadIdentityBlock()).not.toContain("NOT-INCLUDED");
   });
 
-  it("truncates oversized identity with a notice", () => {
+  it("truncates an oversized core.md with a notice (a truncated core beats no identity)", () => {
     writeFileSync(join(identityDir, "core.md"), "x".repeat(IDENTITY_INJECT_MAX_CHARS + 500));
     const block = loadIdentityBlock();
     expect(block).toContain("[identity truncated for injection");
     // block = framing + truncated content + notice; content itself is capped
     expect(block.length).toBeLessThan(IDENTITY_INJECT_MAX_CHARS + 500);
+  });
+
+  it("appends craft.md after people documents", () => {
+    writeFileSync(join(identityDir, "core.md"), "CORE-DOC");
+    writeFileSync(join(identityDir, "craft.md"), "CRAFT-DOC");
+    const peopleDir = join(identityDir, "people");
+    mkdirSync(peopleDir);
+    writeFileSync(join(peopleDir, "alice.md"), "ALICE-DOC");
+
+    const block = loadIdentityBlock();
+    expect(block.indexOf("CORE-DOC")).toBeLessThan(block.indexOf("ALICE-DOC"));
+    expect(block.indexOf("ALICE-DOC")).toBeLessThan(block.indexOf("CRAFT-DOC"));
+  });
+
+  it("drops whole documents by priority when over budget, never mid-document", () => {
+    // core + people fit; craft would push past the cap and is dropped whole
+    writeFileSync(join(identityDir, "core.md"), "C".repeat(IDENTITY_INJECT_MAX_CHARS - 2000));
+    const peopleDir = join(identityDir, "people");
+    mkdirSync(peopleDir);
+    writeFileSync(join(peopleDir, "alice.md"), "A".repeat(1000));
+    writeFileSync(join(identityDir, "craft.md"), "K".repeat(5000));
+
+    const block = loadIdentityBlock();
+    expect(block).toContain("C".repeat(IDENTITY_INJECT_MAX_CHARS - 2000)); // core intact
+    expect(block).toContain("A".repeat(1000)); // people intact
+    expect(block).not.toContain("KKKK"); // craft absent entirely, not sliced
+    expect(block).toContain("[not injected (identity budget): craft.md");
+  });
+
+  it("a dropped middle document does not block a later one that fits", () => {
+    writeFileSync(join(identityDir, "core.md"), "C".repeat(IDENTITY_INJECT_MAX_CHARS - 2000));
+    const peopleDir = join(identityDir, "people");
+    mkdirSync(peopleDir);
+    writeFileSync(join(peopleDir, "alice.md"), "A".repeat(5000)); // too big — dropped
+    writeFileSync(join(identityDir, "craft.md"), "K".repeat(1000)); // fits
+
+    const block = loadIdentityBlock();
+    expect(block).not.toContain("AAAA");
+    expect(block).toContain("K".repeat(1000));
+    expect(block).toContain("[not injected (identity budget): people/alice.md");
   });
 });
 
@@ -136,20 +183,24 @@ describe("rewriteIdentity — success path", () => {
 
   beforeEach(() => {
     writeFileSync(join(identityDir, "core.md"), "OLD CORE CONTENT");
+    writeFileSync(join(identityDir, "craft.md"), "OLD CRAFT CONTENT");
     writeFileSync(deltasPath, DELTA);
     mockCreate.mockResolvedValue(apiResponse({
       core: "NEW CORE CONTENT",
+      craft: "NEW CRAFT CONTENT",
       people: [{ name: "mike o'brien", content: "person calibration doc" }],
       notes: "folded one delta into disposition",
     }));
   });
 
-  it("writes the rewritten core and reports notes + backup path", async () => {
+  it("writes the rewritten core and craft and reports notes + backup path", async () => {
     const result = await rewriteIdentity();
     expect(result.rewritten).toBe(true);
-    expect(result.notes).toBe("folded one delta into disposition");
+    expect(result.notes).toContain("folded one delta into disposition");
+    expect(result.notes).toContain("[sizes: core "); // drift metric rides the notes
     expect(result.backupPath).toBeTruthy();
     expect(readFileSync(join(identityDir, "core.md"), "utf-8")).toBe("NEW CORE CONTENT");
+    expect(readFileSync(join(identityDir, "craft.md"), "utf-8")).toBe("NEW CRAFT CONTENT");
   });
 
   it("backs up the PRE-write documents and claimed deltas before writing", async () => {
@@ -157,7 +208,22 @@ describe("rewriteIdentity — success path", () => {
     const backupDir = result.backupPath!;
     expect(existsSync(backupDir)).toBe(true);
     expect(readFileSync(join(backupDir, "core.md"), "utf-8")).toBe("OLD CORE CONTENT");
+    expect(readFileSync(join(backupDir, "craft.md"), "utf-8")).toBe("OLD CRAFT CONTENT");
     expect(readFileSync(join(backupDir, "deltas.md"), "utf-8")).toContain(DELTA);
+  });
+
+  it("sends current craft.md to the model, or (none yet) when missing", async () => {
+    await rewriteIdentity();
+    const userContent = mockCreate.mock.calls[0][0].messages[0].content as string;
+    expect(userContent).toContain("CURRENT craft.md:\n\nOLD CRAFT CONTENT");
+
+    // and without a craft.md on disk
+    rmSync(join(identityDir, "craft.md"));
+    writeFileSync(deltasPath, DELTA);
+    mockCreate.mockClear();
+    await rewriteIdentity();
+    const second = mockCreate.mock.calls[0][0].messages[0].content as string;
+    expect(second).toContain("CURRENT craft.md:\n\n(none yet)");
   });
 
   it("sanitizes people filenames", async () => {
@@ -165,6 +231,20 @@ describe("rewriteIdentity — success path", () => {
     const peopleFiles = readdirSync(join(identityDir, "people"));
     expect(peopleFiles).toEqual(["mike-o-brien.md"]);
     expect(readFileSync(join(identityDir, "people", "mike-o-brien.md"), "utf-8")).toBe("person calibration doc");
+  });
+
+  it("strips an echoed .md extension from returned people names", async () => {
+    // live failure 2026-07-07: model returned "mike.md" → sanitizer wrote a
+    // duplicate mike-md.md and the real mike.md went stale
+    mockCreate.mockResolvedValue(apiResponse({
+      core: "NEW CORE CONTENT",
+      people: [{ name: "mike.md", content: "updated calibration" }],
+      notes: "ok",
+    }));
+    await rewriteIdentity();
+    const peopleFiles = readdirSync(join(identityDir, "people"));
+    expect(peopleFiles).toEqual(["mike.md"]);
+    expect(readFileSync(join(identityDir, "people", "mike.md"), "utf-8")).toBe("updated calibration");
   });
 
   it("archives processed deltas instead of deleting them", async () => {

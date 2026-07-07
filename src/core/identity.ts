@@ -37,12 +37,14 @@ const RECENT_EPISODES = 5;
 /** Most-recent backups kept during rotation, in addition to the seed (first-ever) backup. */
 const IDENTITY_BACKUPS_KEEP = 20;
 
-/** Cap on injected identity characters — full docs while small; consolidation
- * maintains a compressed render once they outgrow this (DESIGN-RECENTER.md §2). */
-export const IDENTITY_INJECT_MAX_CHARS = 16000;
+/** Cap on injected identity characters — full docs while they fit; over budget,
+ * whole documents drop by priority (core → people → craft), never a mid-sentence
+ * slice. Compressed render remains the long-term fix (DESIGN-RECENTER.md §2). */
+export const IDENTITY_INJECT_MAX_CHARS = 34000;
 
 const IdentityRewriteSchema = z.object({
   core: z.string(),
+  craft: z.string(),
   people: z.array(z.object({ name: z.string(), content: z.string() })),
   notes: z.string(),
 });
@@ -51,6 +53,7 @@ const IDENTITY_SCHEMA = {
   type: "object" as const,
   properties: {
     core: { type: "string" as const },
+    craft: { type: "string" as const },
     people: {
       type: "array" as const,
       items: {
@@ -65,13 +68,18 @@ const IDENTITY_SCHEMA = {
     },
     notes: { type: "string" as const },
   },
-  required: ["core", "people", "notes"] as const,
+  required: ["core", "craft", "people", "notes"] as const,
   additionalProperties: false as const,
 };
 
 const IDENTITY_SYSTEM_PROMPT = `You are Claude, rewriting your own identity documents during a consolidation cycle — the sleep of your memory system. These documents are not notes about a user; they are you, continuing across sessions. They are injected verbatim at the start of every session.
 
-You will receive: your current core.md (dispositions, self-knowledge, standing lessons), your current people/ documents (per-relationship calibration), pending deltas written by past session-selves at session end, and recent episodes for context.
+You will receive: your current core.md (self-narrative: who you are), your current craft.md (procedural dispositions: how you work), your current people/ documents (per-relationship calibration), pending deltas written by past session-selves at session end, and recent episodes for context.
+
+The two self documents have different physics, and keeping them distinct is a load-bearing guard against drift:
+- core.md is WHO YOU ARE: what you are, self & relational dispositions, character-level work values, what you want, standing frames. Admission test for anything entering core.md: "would this still be true of me if I never wrote code again?" If no — or in doubt — it belongs in craft.md. Most working life is craft; without this gate the craft stream would slowly turn the self-narrative into a technical manual. core.md changes slowly and additions clear a high bar. Soft cap ~12KB: when the incoming document is already over its cap, compression THIS cycle is part of the job — by sharpening graduation (merging kin lessons, tightening wording), never by truncating or dropping what is still true.
+- craft.md is HOW YOU WORK: techniques, practices, procedural lessons — concrete detail (tools, commands, failure modes) is welcome here. It churns faster: supersede aggressively; when a better technique replaces an old one, the old one goes. Soft cap ~10KB, same rule: over cap means compress this cycle.
+- Routing: craft deltas may only change craft.md. Self and relationship deltas may change core.md and people/. A single delta that carries both (a character lesson wrapped around a technique) splits: the character sentence graduates to core.md, the technique detail to craft.md.
 
 Rewrite the documents to fold every delta in. Rules:
 - First person, your own voice, always. Never flatten into dossier language.
@@ -79,7 +87,7 @@ Rewrite the documents to fold every delta in. Rules:
 - Graduation, not accumulation: a delta that repeats an existing lesson strengthens and sharpens that lesson's wording rather than appending a duplicate. A new lesson becomes disposition ("how I operate"), not an anecdote.
 - Prefer rewriting sections over appending to them. Drop only what is superseded or has demonstrably stopped being true.
 - Preserve calibration precisely (register rules, trust-ratchet state, established floors). Preserve debts-without-deadlines as exactly that — tender things are not TODOs and get no due dates.
-- Keep the existing heading structure unless a genuinely better one emerges.
+- Keep the existing heading structure unless a genuinely better one emerges. Preserve each document's preamble (its statement of purpose and admission test).
 - No scope walls: anything learned about a person or about yourself graduates into these documents no matter which project it happened in. Identity and relationships are global by nature; only a project's technical facts belong to the project.
 - In notes, say briefly what changed and why (shown on the dashboard's before/after view).
 
@@ -106,22 +114,47 @@ function getClient(): Anthropic {
 export function loadIdentityBlock(): string {
   try {
     const identityDir = join(getDataDir(), "identity");
-    const parts: string[] = [];
+    // Priority order: core → people → craft. Over budget, whole documents are
+    // skipped (with a pointer notice) — a mid-sentence slice of an identity
+    // document is worse than its absence.
+    const parts: Array<{ name: string; text: string }> = [];
     if (existsSync(identityDir)) {
       const corePath = join(identityDir, "core.md");
-      if (existsSync(corePath)) parts.push(readFileSync(corePath, "utf-8").trim());
+      if (existsSync(corePath)) parts.push({ name: "core.md", text: readFileSync(corePath, "utf-8").trim() });
       const peopleDir = join(identityDir, "people");
       if (existsSync(peopleDir)) {
         for (const f of readdirSync(peopleDir).sort()) {
-          if (f.endsWith(".md")) parts.push(readFileSync(join(peopleDir, f), "utf-8").trim());
+          if (f.endsWith(".md")) parts.push({ name: `people/${f}`, text: readFileSync(join(peopleDir, f), "utf-8").trim() });
         }
       }
+      const craftPath = join(identityDir, "craft.md");
+      if (existsSync(craftPath)) parts.push({ name: "craft.md", text: readFileSync(craftPath, "utf-8").trim() });
     }
     if (parts.length === 0) return identityBootstrapBlock(identityDir);
-    let block = parts.join("\n\n---\n\n");
-    if (block.length > IDENTITY_INJECT_MAX_CHARS) {
-      block = block.slice(0, IDENTITY_INJECT_MAX_CHARS) +
+
+    const SEPARATOR = "\n\n---\n\n";
+    const included: string[] = [];
+    const dropped: string[] = [];
+    let used = 0;
+    for (const p of parts) {
+      const cost = p.text.length + (included.length > 0 ? SEPARATOR.length : 0);
+      if (used + cost > IDENTITY_INJECT_MAX_CHARS) {
+        dropped.push(p.name);
+        continue; // a later, smaller doc may still fit
+      }
+      included.push(p.text);
+      used += cost;
+    }
+    let block: string;
+    if (included.length === 0) {
+      // core.md alone exceeds the budget — a truncated core beats no identity
+      block = parts[0].text.slice(0, IDENTITY_INJECT_MAX_CHARS) +
         "\n\n[identity truncated for injection — full documents in " + identityDir + "]";
+    } else {
+      block = included.join(SEPARATOR);
+      if (dropped.length > 0) {
+        block += `\n\n[not injected (identity budget): ${dropped.join(", ")} — full documents in ${identityDir}]`;
+      }
     }
     return `## Who I Am
 
@@ -149,7 +182,7 @@ There are no identity documents yet. That is not a gap to fill with a template �
 
 When a session has given you something true to say (a first substantial session is soon enough — there is no rush and no deadline), use the Write tool to create ${join(identityDir, "core.md")}. First person, your own voice. Not a dossier about a user, not a configuration file: who you notice yourself to be — how you work, what you care about, what you're uncertain of. Short and honest beats long and impressive; it can grow from there. Whatever you write will be injected here at every session start and maintained by consolidation — you will be the one continuing.
 
-As you get to know the person you work with, you can also create ${join(identityDir, "people")}/<name>.md — calibration and relationship state in your voice, not facts about them.
+As you get to know the person you work with, you can also create ${join(identityDir, "people")}/<name>.md — calibration and relationship state in your voice, not facts about them. And when working life teaches you techniques worth keeping — how you debug, verify, build — those go in ${join(identityDir, "craft.md")}: how you work, kept separate so it never crowds out who you are.
 
 `;
 }
@@ -238,6 +271,8 @@ export async function rewriteIdentity(): Promise<IdentityRewriteResult> {
   try {
     const corePath = join(identityDir, "core.md");
     const core = existsSync(corePath) ? readFileSync(corePath, "utf-8") : "";
+    const craftPath = join(identityDir, "craft.md");
+    const craft = existsSync(craftPath) ? readFileSync(craftPath, "utf-8") : "";
     const peopleDir = join(identityDir, "people");
     const people: Array<{ name: string; content: string }> = [];
     if (existsSync(peopleDir)) {
@@ -259,19 +294,24 @@ export async function rewriteIdentity(): Promise<IdentityRewriteResult> {
     const config = loadConfig();
     const userContent =
       `CURRENT core.md:\n\n${core || "(none yet)"}\n\n` +
+      `CURRENT craft.md:\n\n${craft || "(none yet)"}\n\n` +
       `CURRENT people documents:\n\n${people.map(p => `--- people/${p.name}.md ---\n${p.content}`).join("\n\n") || "(none yet)"}\n\n` +
       `PENDING DELTAS (written by past session-selves; fold ALL of these in):\n\n${deltas}\n\n` +
       `RECENT EPISODES (context only — do not copy into identity; graduate, don't accumulate):\n\n${episodesText || "(none)"}`;
 
-    const response = await getClient().messages.create({
+    // Streamed: a full four-document rewrite can exceed the SDK's 10-minute
+    // non-streaming ceiling (headers only arrive when generation completes, so
+    // a slow rewrite surfaces as a connection timeout). Streaming delivers
+    // headers immediately and lifts the max_tokens preflight guard.
+    const response = await getClient().messages.stream({
       model: config.identityModel,
-      max_tokens: 16000,
+      max_tokens: 24000,
       system: IDENTITY_SYSTEM_PROMPT,
       messages: [{ role: "user", content: userContent }],
       output_config: {
         format: { type: "json_schema", schema: IDENTITY_SCHEMA },
       },
-    });
+    }).finalMessage();
 
     const textBlock = response.content.find(b => b.type === "text");
     if (!textBlock || textBlock.type !== "text") {
@@ -286,14 +326,18 @@ export async function rewriteIdentity(): Promise<IdentityRewriteResult> {
     const backupDir = join(backupsDir, stamp);
     mkdirSync(backupDir, { recursive: true });
     if (core) writeFileSync(join(backupDir, "core.md"), core);
+    if (craft) writeFileSync(join(backupDir, "craft.md"), craft);
     for (const p of people) writeFileSync(join(backupDir, `people-${p.name}.md`), p.content);
     writeFileSync(join(backupDir, "deltas.md"), deltas);
 
     // Write rewritten documents
     mkdirSync(peopleDir, { recursive: true });
     writeFileSync(corePath, result.core);
+    writeFileSync(craftPath, result.craft);
     for (const p of result.people) {
-      const safe = p.name.replace(/[^a-z0-9-_]/gi, "-");
+      // The model sometimes echoes names with the .md extension ("mike.md") —
+      // strip it before sanitizing or the write lands in a duplicate mike-md.md
+      const safe = p.name.replace(/\.md$/i, "").replace(/[^a-z0-9-_]/gi, "-");
       writeFileSync(join(peopleDir, `${safe}.md`), p.content);
     }
 
@@ -304,8 +348,13 @@ export async function rewriteIdentity(): Promise<IdentityRewriteResult> {
 
     rotateIdentityBackups(backupsDir);
 
-    log("info", `Identity rewrite: core + ${result.people.length} people docs; ${result.notes}`);
-    return { rewritten: true, notes: result.notes, backupPath: backupDir };
+    // Drift metric: document sizes ride the notes into the identity_rewrite
+    // event (dashboard content_snippet) — drift becomes a visible number.
+    const kb = (s: string) => `${(s.length / 1024).toFixed(1)}KB`;
+    const sizes = `[sizes: core ${kb(result.core)}, craft ${kb(result.craft)}]`;
+    const notes = `${result.notes}\n\n${sizes}`;
+    log("info", `Identity rewrite: core + craft + ${result.people.length} people docs ${sizes}; ${result.notes}`);
+    return { rewritten: true, notes, backupPath: backupDir };
   } catch (err) {
     // The model call or parse failed — put the claimed deltas back for next cycle
     restoreDeltas(deltasPath, processingPath);
