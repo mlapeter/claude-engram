@@ -77,12 +77,12 @@ describe("recall tool", () => {
     await store.add([
       makeMemory({ content: "Sam lives in Oregon" }),
       makeMemory({ content: "The project uses TypeScript" }),
-      makeMemory({ content: "Mike prefers bun over npm" }),
+      makeMemory({ content: "Sam prefers bun over npm" }),
     ]);
 
-    const results = await store.search("Mike", 10);
+    const results = await store.search("Sam", 10);
     expect(results).toHaveLength(2);
-    expect(results.every((m) => m.content.includes("Mike"))).toBe(true);
+    expect(results.every((m) => m.content.includes("Sam"))).toBe(true);
   });
 
   it("respects limit parameter", async () => {
