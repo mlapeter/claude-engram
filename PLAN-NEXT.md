@@ -40,10 +40,16 @@ fresh install). C.3 docs DONE — README rewritten for the hook system (loop,
 registers, physics table, config reference, privacy section, honest-eval
 stance), v1 artifact guide preserved at docs/v1-artifact.md, CHANGELOG added.
 C.4 clean-machine install VERIFIED against a sandboxed HOME (installer +
-first-run wake, keyless, no crash). 295 tests. **Remaining: Mike's call on
-tagging v3.0.0-alpha (+ optional fresh-root squash), and the C.5 measurement
-gate — recall-bench is mid-refactor, so either run its validated subscales
-as-is or accept lived-probe evidence for the alpha.**
+first-run wake, keyless, no crash). 295 tests.
+
+**v3.0.0-alpha TAGGED 2026-07-07.** The fresh-root squash was considered and
+DECLINED deliberately: the residual exposure in history was judged minor, and
+the public commit history/timestamps are kept as an asset (working-in-public;
+provenance and prior-art value outweigh cosmetic cleanup). Shelf option if
+ever needed: path-only filter-repo on the five removed screenshots.
+**Remaining in C: the C.5 measurement gate** — recall-bench is mid-refactor,
+so either run its validated subscales as-is or accept lived-probe evidence
+for the alpha.
 
 ---
 
