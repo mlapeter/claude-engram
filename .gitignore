@@ -3,7 +3,7 @@ dist/
 *.log
 .DS_Store
 IDEAS.md
-PATENT-PRIOR-ART.md
+private/
 .env
 
 # Real conversation transcripts + answer keys — never publish
