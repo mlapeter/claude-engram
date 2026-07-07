@@ -121,9 +121,27 @@ server.registerTool("recall", {
     created_at: m.created_at,
   }));
 
-  // Temporal contiguity: gather associated memories formed in the same session
+  // Spreading activation (one hop): semantic edges written by sleep come
+  // first — they carry the model's related-but-distinct judgment. Temporal
+  // contiguity (same-session siblings) fills the remaining budget.
   const directIds = new Set(filtered.map((m) => m.id));
   const associations: Array<{ id: string; content: string; strength: number; associated_with: string; association_type: string }> = [];
+  for (const m of filtered) {
+    if (associations.length >= 6) break;
+    const linked = await store.getAssociatedMemories(m.id, 2);
+    for (const { memory: s } of linked) {
+      if (directIds.has(s.id)) continue;
+      if (associations.some((a) => a.id === s.id)) continue;
+      if (associations.length >= 6) break;
+      associations.push({
+        id: s.id,
+        content: s.content,
+        strength: round(calculateStrength(s)),
+        associated_with: m.id,
+        association_type: "semantic",
+      });
+    }
+  }
   for (const m of filtered) {
     if (associations.length >= 6) break;
     const siblings = await store.getTemporalSiblings(m.source_session, m.id, 2);

@@ -59,6 +59,11 @@ export interface MemoryStore {
   backup(): Promise<string>;
   /** Temporal contiguity: find memories formed in the same session */
   getTemporalSiblings(sessionId: string, excludeId: string, limit?: number): Promise<Memory[]>;
+  /** Spreading activation: persist related-but-distinct edges from sleep.
+   * Same-scope pairs only; symmetric; capped per memory (weakest evicted). */
+  addAssociationEdges(pairs: Array<{ a: string; b: string; w: number }>): Promise<number>;
+  /** Spreading activation: one-hop neighbors of a memory, strongest first */
+  getAssociatedMemories(id: string, limit?: number): Promise<Array<{ memory: Memory; w: number }>>;
   /** Bounded dedup window: recent + current session + top strongest */
   getRecentAndStrong(sessionId: string, opts?: { recentHours?: number; topStrongest?: number; maxTotal?: number }): Promise<Memory[]>;
   loadCursor(): Promise<TranscriptCursor>;
@@ -145,6 +150,54 @@ export function createStore(projectCwd: string): MemoryStore {
     return join(scope === "global" ? globalDir : projectDir, "deep_archive.json");
   }
 
+  function associationsPath(scope: "global" | "project"): string {
+    return join(scope === "global" ? globalDir : projectDir, "associations.json");
+  }
+
+  // Spreading-activation edge map: memory id → strongest neighbors.
+  // Plain JSON on purpose — sophistication lives in sleep, storage stays text.
+  type EdgeMap = Record<string, Array<{ id: string; w: number }>>;
+  const MAX_ASSOC_EDGES = 6;
+
+  function insertEdge(edges: EdgeMap, from: string, to: string, w: number): void {
+    const list = edges[from] ?? [];
+    const existing = list.find((e) => e.id === to);
+    if (existing) {
+      existing.w = Math.max(existing.w, w);
+    } else {
+      list.push({ id: to, w });
+    }
+    list.sort((x, y) => y.w - x.w);
+    edges[from] = list.slice(0, MAX_ASSOC_EDGES);
+  }
+
+  /** Drop every edge that touches an id that is no longer active. */
+  async function purgeAssociationEdges(ids: string[]): Promise<void> {
+    if (ids.length === 0) return;
+    const idSet = new Set(ids);
+    for (const scope of ["global", "project"] as const) {
+      const path = associationsPath(scope);
+      const edges = readJsonFile<EdgeMap>(path, {});
+      let changed = false;
+      for (const key of Object.keys(edges)) {
+        if (idSet.has(key)) {
+          delete edges[key];
+          changed = true;
+          continue;
+        }
+        const filtered = edges[key].filter((e) => !idSet.has(e.id));
+        if (filtered.length !== edges[key].length) {
+          edges[key] = filtered;
+          changed = true;
+        }
+      }
+      if (changed) {
+        try { readFileSync(path); } catch { writeJsonFile(path, {}); } // lockfile needs the file to exist
+        await withLock(path, async () => writeJsonFile(path, edges));
+      }
+    }
+  }
+
   ensureDataDir();
 
   // Ensure files exist for proper-lockfile (it needs a real file to lock)
@@ -224,6 +277,7 @@ export function createStore(projectCwd: string): MemoryStore {
         });
         await removeFromIndex([id], embeddingsPath(scope));
       }
+      await purgeAssociationEdges([id]);
       invalidateCache();
     },
 
@@ -395,6 +449,42 @@ export function createStore(projectCwd: string): MemoryStore {
         .slice(0, limit);
     },
 
+    async addAssociationEdges(pairs) {
+      if (pairs.length === 0) return 0;
+      let written = 0;
+      for (const scope of ["global", "project"] as const) {
+        const activeIds = new Set((await store.load(scope)).map((m) => m.id));
+        const scopePairs = pairs.filter((p) => activeIds.has(p.a) && activeIds.has(p.b) && p.a !== p.b);
+        if (scopePairs.length === 0) continue;
+        const path = associationsPath(scope);
+        try { readFileSync(path); } catch { writeJsonFile(path, {}); } // lockfile needs the file to exist
+        await withLock(path, async () => {
+          const edges = readJsonFile<EdgeMap>(path, {});
+          for (const { a, b, w } of scopePairs) {
+            insertEdge(edges, a, b, w);
+            insertEdge(edges, b, a, w);
+            written++;
+          }
+          writeJsonFile(path, edges);
+        });
+      }
+      return written;
+    },
+
+    async getAssociatedMemories(id, limit = MAX_ASSOC_EDGES) {
+      const out: Array<{ memory: Memory; w: number }> = [];
+      const all = await store.loadAll();
+      const byId = new Map(all.map((m) => [m.id, m]));
+      for (const scope of ["global", "project"] as const) {
+        const edges = readJsonFile<EdgeMap>(associationsPath(scope), {});
+        for (const e of edges[id] ?? []) {
+          const memory = byId.get(e.id);
+          if (memory) out.push({ memory, w: e.w }); // archived endpoints are purged at write; skip stragglers
+        }
+      }
+      return out.sort((x, y) => y.w - x.w).slice(0, limit);
+    },
+
     async getRecentAndStrong(sessionId, opts = {}) {
       const { recentHours = 48, topStrongest = 30, maxTotal = 100 } = opts;
       const all = await store.loadAll();
@@ -551,6 +641,9 @@ export function createStore(projectCwd: string): MemoryStore {
         }
       }
 
+      // Association edges die with their endpoints — an edge into the archive
+      // would resurface as a dangling neighbor at recall time
+      await purgeAssociationEdges(ids);
       invalidateCache();
       return total;
     },

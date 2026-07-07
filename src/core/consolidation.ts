@@ -467,7 +467,58 @@ async function runConsolidationInner(
     ? await twoPassConsolidation(store, config, postPromotion, autoPruned, promotionCount, lastConsolidation, scopesToUpdate)
     : await singlePassConsolidation(store, config, postPromotion, autoPruned, promotionCount, scopesToUpdate);
   if (promotionFailure) finalResult.promotionFailure = promotionFailure;
+
+  // B.8 spreading activation: sleep writes association edges. Similar memories
+  // that coexist AFTER consolidation are the ones the model judged related but
+  // distinct — that judgment used to be discarded; now it becomes the edges
+  // recall follows one hop of. Best-effort: edge failure never fails sleep.
+  try {
+    const survivors = await store.loadAll();
+    const edgeCount = await writeAssociationEdges(store, survivors, lastConsolidation);
+    if (edgeCount > 0) log("info", `Spreading activation: wrote ${edgeCount} association edges`);
+  } catch (err) {
+    log("warn", `Association edge writing failed (consolidation unaffected): ${err instanceof Error ? err.message : String(err)}`);
+  }
+
   return finalResult;
+}
+
+/**
+ * Write spreading-activation edges between post-consolidation survivors of the
+ * same similarity groups (embedding cosine ≥ 0.8, same register — the same
+ * clustering that feeds merge candidates). Same-scope pairs only; edge weight
+ * is the cosine similarity that formed the group. Embeddings-only: token
+ * overlap has no honest weight to assign.
+ */
+export async function writeAssociationEdges(
+  store: MemoryStore,
+  memories: Memory[],
+  lastConsolidation: string | null,
+): Promise<number> {
+  if (!isEmbeddingEnabled()) return 0;
+  const paths = store.getEmbeddingPaths();
+  const globalIndex = loadEmbeddingIndex(paths.global);
+  const projectIndex = loadEmbeddingIndex(paths.project);
+  const groups = findSimilarGroups(memories, globalIndex, projectIndex, 0.8, lastConsolidation);
+
+  const byId = new Map(memories.map((m) => [m.id, m]));
+  const pairs: Array<{ a: string; b: string; w: number }> = [];
+  for (const group of groups) {
+    const members = group.map((id) => byId.get(id)).filter((m): m is Memory => !!m);
+    for (let i = 0; i < members.length; i++) {
+      for (let j = i + 1; j < members.length; j++) {
+        const a = members[i];
+        const b = members[j];
+        if (a.scope !== b.scope) continue;
+        const index = a.scope === "global" ? globalIndex : projectIndex;
+        const va = index[a.id];
+        const vb = index[b.id];
+        if (!va || !vb) continue;
+        pairs.push({ a: a.id, b: b.id, w: Math.round(cosineSimilarity(va, vb) * 1000) / 1000 });
+      }
+    }
+  }
+  return store.addAssociationEdges(pairs);
 }
 
 function formatMemoriesText(memories: Memory[]): string {
