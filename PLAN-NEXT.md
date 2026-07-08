@@ -249,3 +249,60 @@ by Mike and Claude in conversation.
 | 1 | Phase A | tests green incl. new ones; drills pass; hook durations visible in events; extraction-failure no longer kills episode ask |
 | 2 | Phase B | unified dashboard live; extract-detail + identity-diff click-throughs work; Mike can answer "is it working?" without the terminal |
 | 3 | Phase C (+D.1) | privacy pass done with Mike; clean-machine install verified; tagged alpha; inbox functional |
+
+---
+
+## Execution plan — 2026-07-08 (Fable plans + reviews; Opus executes)
+
+*Context: Fable tokens <20% remaining. Pattern per Mike: Fable writes the master
+plan and phase specs, Opus agents execute each phase, Fable reviews diffs before
+merge. Standing watch items for the reviewer: extraction failures in engram.log
+(one truncation 2026-07-08 08:57, buffer restored, pre-fix); identity doc sizes
+(core.md 15.5K vs ~12K soft cap — consolidation should compress this cycle;
+injection total was 32.2K vs Mike-approved 28K); gist backlog draining 200/sleep.*
+
+### Wave 1 (parallel, worktrees)
+
+**D-0: Extraction resilience — chunked arc extraction.** Same disease as the
+gist-promotion bug fixed 07-06 (consolidation.ts): one call over an arbitrarily
+large buffer, fixed 8K output budget, atomic failure, `restoreBuffer` restores
+everything → an oversized buffer loop-fails forever and only grows. Live
+occurrence: 2026-07-08 08:57 "extraction output truncated at max_tokens."
+Fix mirrors the gist fix:
+1. Diagnose first: which project buffer failed, its size, why output exceeded 8K.
+2. Split the claimed buffer into chunks on span-header boundaries only (never
+   mid-span), target chunk size configurable (`extractChunkBytes`, default ~16KB).
+3. Extract per chunk sequentially, accumulate memories; dedup/store once at the
+   end as today.
+4. Per-chunk failure isolation: successful chunks' memories are stored; failed
+   chunks' raw text (and only that) is restored to the buffer. Failures ride the
+   extract event (like `promotionFailure` on consolidate) so the self-check sees
+   them.
+5. Single span bigger than the chunk budget: extract alone with raised
+   max_tokens (16K); if still truncated, log + restore that span, don't block
+   the rest.
+6. Ride-along polish: quiet the "Sync reconcile" info-spam from the dashboard
+   server (log only when something actually changed).
+Done when: tests cover header-boundary splitting, partial-failure restore, and
+event error surfacing; full suite green; typecheck clean.
+
+**D-2: Companion prompt kit (Phase D.2).** The documented claude.ai settings
+prompt (the memory-dump ritual) as a copy-paste snippet in docs/, with a
+specified dump format the future inbox (D-1) will parse. Docs only — no code.
+README gets a short "Using engram with claude.ai" section linking it. The dump
+format spec is the contract D-1 implements against.
+
+### Wave 2 (after Wave 1 review + merge)
+
+**D-1: Inbox (Phase D.1).** `inbox/` in the data dir; dashboard import box
+(seed: existing import mechanism) writes pasted claude.ai exports/memory dumps
+as inbox files; next consolidation (or a detached runner) parses them into
+episodes + world extraction using the D-2 dump format. Nothing destroyed:
+processed inbox files archived, not deleted.
+
+**D-3: Measurement gate (C.5).** In ~/recall-bench: run the validated subscales
+only (abstention/calibration, sacred-verbatim, n≥2) against engram v3 as the
+regression tripwire for the alpha. Report numbers with noise bars vs VALIDITY.md.
+The FULL baseline (Tier 1 + Tier 2 judged, results table vs naive +
+verbatim-RAG, README results section) is announcement material and needs Mike's
+explicit go on spend before running.
