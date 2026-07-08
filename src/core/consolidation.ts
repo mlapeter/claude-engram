@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { mkdirSync, writeFileSync, unlinkSync, statSync, readFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, unlinkSync, statSync, readFileSync, existsSync, readdirSync, renameSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { z } from "zod";
 import type { Memory } from "./types.js";
@@ -9,7 +9,9 @@ import { calculateStrength } from "./strength.js";
 import { log } from "./logger.js";
 import { rewriteIdentity, type IdentityRewriteResult } from "./identity.js";
 import { commitMemorySnapshot } from "./snapshot.js";
-import { ageInDays } from "./active-day.js";
+import { ageInDays, getCurrentActiveDay } from "./active-day.js";
+import { applyInterference } from "./interference.js";
+import { parseDumps, isEmptyDump, salienceForFact, inboxFactScope, type ParsedDump } from "./inbox.js";
 import type { MemoryStore } from "./store.js";
 import { tokenize, tokenOverlap } from "./store.js";
 import { recordSignals } from "./salience-weights.js";
@@ -41,6 +43,11 @@ export interface ConsolidationResult {
   /** Set when gist-promotion chunks failed — callers surface it as an event
    * error so the self-check sees it (silence must never masquerade as health). */
   promotionFailure?: string;
+  /** Inbox drain summary (claude.ai dumps folded in this cycle), when any file was present. */
+  inbox?: { files: number; episodes: number; facts: number };
+  /** Set when an inbox file failed to parse — surfaced as an event error like
+   * promotionFailure. The offending file is left in place, never discarded. */
+  inboxFailure?: string;
 }
 
 // --- Zod schemas for API response validation ---
@@ -287,6 +294,21 @@ export async function runConsolidation(
 async function runConsolidationInner(
   store: MemoryStore,
 ): Promise<ConsolidationResult> {
+  // Step 0: Drain the claude.ai inbox FIRST — new episodes land in the episode
+  // store, durable facts become candidate world memories in the store. Running
+  // before loadAll() means those candidates flow through this same cycle's
+  // dedup/supersession/merge/promotion like any freshly extracted memory.
+  const inboxResult = await drainInbox(store);
+  const attachInbox = (r: ConsolidationResult): ConsolidationResult => {
+    if (inboxResult.files > 0) {
+      r.inbox = { files: inboxResult.files, episodes: inboxResult.episodes, facts: inboxResult.facts };
+    }
+    if (inboxResult.failures.length > 0) {
+      r.inboxFailure = `inbox: ${inboxResult.failures.length} file(s) failed to parse (left in place); first: ${inboxResult.failures[0]}`;
+    }
+    return r;
+  };
+
   const all = await store.loadAll();
 
   // Determine which scopes have memories — only update timestamps for those
@@ -296,7 +318,7 @@ async function runConsolidationInner(
   if (all.length === 0) {
     // No memories at all — update both to prevent re-triggering
     await updateConsolidationTimestamp(store);
-    return { mergeCount: 0, generalizeCount: 0, pruneCount: 0, promotionCount: 0, notes: "No memories to consolidate." };
+    return attachInbox({ mergeCount: 0, generalizeCount: 0, pruneCount: 0, promotionCount: 0, notes: "No memories to consolidate." });
   }
 
   // Step 1: Backup before consolidation
@@ -328,7 +350,7 @@ async function runConsolidationInner(
   const remaining = await store.loadAll();
   if (remaining.length === 0) {
     await updateConsolidationTimestamp(store, scopesToUpdate);
-    return { mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount: 0, notes: "All memories pruned due to decay." };
+    return attachInbox({ mergeCount: 0, generalizeCount: 0, pruneCount: autoPruned, promotionCount: 0, notes: "All memories pruned due to decay." });
   }
 
   // Step 3: Episodic→Semantic promotion (Fuzzy Trace Theory)
@@ -480,7 +502,155 @@ async function runConsolidationInner(
     log("warn", `Association edge writing failed (consolidation unaffected): ${err instanceof Error ? err.message : String(err)}`);
   }
 
-  return finalResult;
+  return attachInbox(finalResult);
+}
+
+interface InboxDrainResult {
+  /** Files processed and archived. */
+  files: number;
+  episodes: number;
+  facts: number;
+  /** Per-file parse/process failures — the file is left in place, never discarded. */
+  failures: string[];
+}
+
+/**
+ * Drain the claude.ai inbox: parse each pasted dump file, fold its episode into
+ * the episode store and its durable facts into the world store as CANDIDATES
+ * (re-judged through the normal dedup/supersession/salience path), then archive
+ * the raw paste. Never-destroy governs the whole flow: a malformed file (no
+ * sentinel block) or one that throws is left in place and surfaced, not lost; a
+ * processed file moves to `inbox/processed/` rather than being deleted.
+ * Idempotent: an episode whose content hash already exists is not re-written, so
+ * re-pasting the same dump doesn't double-encode it (facts always dedup).
+ *
+ * Exported for tests — the fold path is API-free, so it exercises independently
+ * of the LLM merge/promote steps.
+ */
+export async function drainInbox(store: MemoryStore): Promise<InboxDrainResult> {
+  const result: InboxDrainResult = { files: 0, episodes: 0, facts: 0, failures: [] };
+  const dataDir = getDataDir();
+  const inboxDir = join(dataDir, "inbox");
+  if (!existsSync(inboxDir)) return result;
+
+  const entries = readdirSync(inboxDir, { withFileTypes: true })
+    .filter((e) => e.isFile() && !e.name.startsWith("."));
+  if (entries.length === 0) return result;
+
+  const processedDir = join(inboxDir, "processed");
+  const episodesDir = join(dataDir, "episodes");
+  mkdirSync(processedDir, { recursive: true });
+  mkdirSync(episodesDir, { recursive: true });
+
+  for (const entry of entries) {
+    const path = join(inboxDir, entry.name);
+    try {
+      const raw = readFileSync(path, "utf-8");
+      const dumps = parseDumps(raw);
+      if (dumps.length === 0) {
+        // No sentinel block at all — malformed. Never discard: leave in place,
+        // surface it, let a future consolidation retry (a partial paste may be
+        // completed later).
+        result.failures.push(`${entry.name}: no ENGRAM DUMP block found`);
+        continue;
+      }
+      const fileDate = new Date(statSync(path).mtimeMs).toISOString().slice(0, 10);
+      for (const dump of dumps) {
+        if (isEmptyDump(dump)) continue; // well-formed but empty — nothing to fold
+        await foldDump(store, dump, episodesDir, fileDate, result);
+      }
+      // Never-destroy: the raw paste is archived, not deleted.
+      renameSync(path, join(processedDir, entry.name));
+      result.files++;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      result.failures.push(`${entry.name}: ${msg}`);
+      log("warn", `Inbox: failed to process ${entry.name} (left in place): ${msg}`);
+    }
+  }
+
+  if (result.files > 0 || result.failures.length > 0) {
+    log("info", `Inbox drain: ${result.episodes} episode(s), ${result.facts} fact(s) from ${result.files} file(s)${result.failures.length ? `, ${result.failures.length} left in place` : ""}`);
+  }
+  return result;
+}
+
+/** Fold one parsed dump: episode → episode file (idempotent), facts → candidate memories. */
+async function foldDump(
+  store: MemoryStore,
+  dump: ParsedDump,
+  episodesDir: string,
+  fileDate: string,
+  result: InboxDrainResult,
+): Promise<void> {
+  const when = dump.when ?? fileDate;
+  // Synthetic session id: claude.ai episodes have no session_id, so provenance
+  // rides a stable synthetic one (recommendation D-1 #3). The hash makes it
+  // idempotent across re-pastes.
+  const synthSession = `claudeai-${when}-${dump.hash}`;
+
+  // Episode — idempotent by the content hash embedded in the filename.
+  if (dump.episode) {
+    const epPath = join(episodesDir, `${when}-claudeai-${dump.hash}.md`);
+    if (!existsSync(epPath)) {
+      writeFileSync(epPath, renderEpisode(dump, when, synthSession));
+      result.episodes++;
+    }
+  }
+
+  // Durable facts → candidate world memories through the NORMAL judgment path:
+  // dedup against existing (and within-batch), salience from the coarse header,
+  // interference. Supersession/merge happen in the same consolidation cycle
+  // because the drain runs before loadAll().
+  if (dump.facts.length > 0) {
+    const contents = dump.facts.map((f) => f.content.slice(0, 400));
+    const dupIndices = await store.checkDuplicates(contents);
+    const activeDay = getCurrentActiveDay();
+    const now = new Date().toISOString();
+    const existing = await store.getRecentAndStrong(synthSession);
+    const candidates: Memory[] = [];
+    dump.facts.forEach((f, i) => {
+      if (dupIndices.has(i)) return;
+      candidates.push({
+        id: generateId(),
+        content: f.content.slice(0, 400),
+        scope: inboxFactScope(f.tags),
+        register: f.register,
+        memory_type: "episodic",
+        salience: salienceForFact(dump.salience, f.register),
+        tags: f.tags,
+        access_count: 0,
+        last_accessed: null,
+        created_at: now,
+        created_active_day: activeDay > 0 ? activeDay : null,
+        consolidated: false,
+        generalized: false,
+        source_session: synthSession,
+        updated_from: null,
+      });
+    });
+    if (candidates.length > 0) {
+      await store.add(candidates);
+      await applyInterference(candidates, existing, store);
+      result.facts += candidates.length;
+    }
+  }
+}
+
+/** Render an inbox episode file — frontmatter the dashboard/fm() reads, then the body. */
+function renderEpisode(dump: ParsedDump, when: string, synthSession: string): string {
+  const oneLine = (s: string) => s.replace(/\r?\n/g, " ").trim();
+  const fm = [
+    "---",
+    `when: ${when}`,
+    `with: ${dump.with ? oneLine(dump.with) : "me"}`,
+    `salience: ${dump.salience ?? "medium"}`,
+    `surface: ${dump.surface ?? "claude.ai"}`,
+    `source: ${synthSession}`,
+  ];
+  if (dump.title) fm.push(`title: ${oneLine(dump.title)}`);
+  fm.push("---", "");
+  return fm.join("\n") + dump.episode + "\n";
 }
 
 /**

@@ -31,6 +31,11 @@ async function main() {
   try {
     const result = await runConsolidation(store);
     log("info", `Auto-consolidation done: ${result.mergeCount} merges, ${result.generalizeCount} generalizations, ${result.pruneCount} prunes`);
+    if (result.inbox) log("info", `Inbox folded: ${result.inbox.episodes} episode(s), ${result.inbox.facts} fact(s) from ${result.inbox.files} file(s)`);
+
+    // Partial failures (gist promotion, inbox parse) ride the consolidate event
+    // so the session-start self-check surfaces them — silence must never mask breakage.
+    const failure = [result.promotionFailure, result.inboxFailure].filter(Boolean).join(" | ") || undefined;
 
     // A run that lost the lock race did no work — logging it as a consolidate
     // event would inflate the dashboard with phantom runs
@@ -45,8 +50,7 @@ async function main() {
         generalizations: result.generalizeCount,
         count: after,
         duration_ms: Date.now() - t0,
-        // Partial failures ride the same event so the self-check sees them
-        ...(result.promotionFailure ? { error: result.promotionFailure } : {}),
+        ...(failure ? { error: failure } : {}),
       });
     }
 

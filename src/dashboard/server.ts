@@ -5,8 +5,9 @@
  */
 
 import { Database } from "bun:sqlite";
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { createHash } from "node:crypto";
 import { getDataDir } from "../core/types.js";
 import { calculateStrength } from "../core/strength.js";
 import { rollupDailyStats, pruneOldEvents } from "../core/events.js";
@@ -17,7 +18,7 @@ import { applySync, exportV4AsV1, type SimilarResolution } from "../sync/apply.j
 import { isValidV1Backup, type V1Memory, type V1Backup } from "../sync/schema.js";
 import type { Memory } from "../core/types.js";
 
-const PORT = 3333;
+const PORT = Number(process.env.ENGRAM_DASHBOARD_PORT) || 3333;
 const DATA_DIR = getDataDir();
 const DB_PATH = join(DATA_DIR, "dashboard.db");
 
@@ -605,7 +606,29 @@ const server = Bun.serve({
         pruned: result.pruneCount,
         promoted: result.promotionCount,
         notes: result.notes,
+        ...(result.inbox ? { inbox: result.inbox } : {}),
+        ...(result.inboxFailure ? { inboxFailure: result.inboxFailure } : {}),
       });
+    }
+
+    // Inbox ingest — write a pasted claude.ai dump to inbox/ VERBATIM. No
+    // parsing here: ingest is instantaneous and lossless; the inbox parser folds
+    // it into episodes + world memories at the next consolidation (see
+    // docs/claude-ai-companion.md §3). Never lose the paste.
+    if (url.pathname === "/api/inbox" && req.method === "POST") {
+      const raw = await req.text();
+      if (!raw || raw.trim().length === 0) {
+        return Response.json({ error: "empty paste" }, { status: 400 });
+      }
+      const inboxDir = join(DATA_DIR, "inbox");
+      mkdirSync(inboxDir, { recursive: true });
+      const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+      const short = createHash("sha256").update(raw).digest("hex").slice(0, 8);
+      const filename = `paste-${stamp}-${short}.txt`;
+      writeFileSync(join(inboxDir, filename), raw, "utf-8");
+      // Cheap, non-authoritative hint for the UI (the parser is the authority).
+      const blocks = (raw.match(/^===ENGRAM DUMP v\d+===/gm) ?? []).length;
+      return Response.json({ filename, bytes: Buffer.byteLength(raw, "utf-8"), blocks });
     }
 
     // Manual backup + download

@@ -215,8 +215,9 @@ An empty conversation produces **no block at all** — that is the expected, com
 
 ## 3. What happens after you paste
 
-> **Status:** the import box and inbox parser ship in Phase D-1. Until that lands, this
-> section describes the intended flow — the format spec above is stable either way.
+> **Status:** shipped in Phase D-1. The dashboard's **Mind** tab has an import box that
+> writes your paste verbatim to `inbox/`; the inbox parser folds it into episodes + world
+> memories at the next consolidation. The flow below is live.
 
 1. **Where it goes.** The dashboard import box writes the pasted text to a file in
    `~/.claude-engram/inbox/`. That's the whole ingest — instantaneous and lossless.
@@ -242,9 +243,9 @@ An empty conversation produces **no block at all** — that is the expected, com
 - **"The format looks slightly off."** The parser only truly needs the two sentinel lines
   and the `v1` tag; headers and brackets degrade gracefully (missing tags default,
   bracket-less bullets still capture). If the sentinels are intact, it will ingest.
-- **"I pasted the same conversation twice."** Duplicate facts dedup at consolidation.
-  (Exact idempotency of re-pasted dumps is a parser detail — see the open questions
-  below.)
+- **"I pasted the same conversation twice."** Safe. Duplicate facts dedup at
+  consolidation, and each dump carries a content hash so re-pasting the same one does not
+  re-write its episode (idempotent by design).
 - **Privacy.** A dump is as personal as an episode. Everything stays local in
   `~/.claude-engram/`; never paste a dump anywhere public, and keep the data dir out of
   public repos (see the README's Privacy section).
