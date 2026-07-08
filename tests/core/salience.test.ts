@@ -100,6 +100,28 @@ describe("extractMemories", () => {
     await expect(extractMemories("some input", [], "transcript")).rejects.toThrow("API quota exceeded");
   });
 
+  it("truncated output (stop_reason max_tokens) THROWS — a mid-string JSON cutoff must fail loudly so the chunk restores", async () => {
+    mockCreate.mockResolvedValueOnce({
+      stop_reason: "max_tokens",
+      content: [{ type: "text", text: '{"memories":[{"content":"half a memo' }],
+    });
+
+    await expect(extractMemories("a very long arc", [], "transcript")).rejects.toThrow("truncated at max_tokens");
+  });
+
+  it("uses an 8000-token output budget by default and honors an override for oversized spans", async () => {
+    const ok = {
+      content: [{ type: "text", text: JSON.stringify({ memories: [] }) }],
+    };
+    mockCreate.mockResolvedValueOnce(ok);
+    await extractMemories("input", [], "transcript");
+    expect(mockCreate.mock.calls[0][0].max_tokens).toBe(8000);
+
+    mockCreate.mockResolvedValueOnce(ok);
+    await extractMemories("oversized single span", [], "transcript", null, 16000);
+    expect(mockCreate.mock.calls[1][0].max_tokens).toBe(16000);
+  });
+
   it("passes existing memories for contradiction detection", async () => {
     mockCreate.mockResolvedValueOnce({
       content: [

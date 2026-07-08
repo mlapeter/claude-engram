@@ -55,8 +55,6 @@ export async function reconcile(
   const useEmbeddings = isEmbeddingEnabled();
   const method = useEmbeddings ? "embeddings" : "token-overlap";
 
-  log("info", `Sync reconcile: ${v1Memories.length} v1, ${v4GlobalMemories.length} v4 global (method: ${method})`);
-
   // Convert v1 to v4 format for comparison
   const v1Converted = v1Memories.map((v1) => ({ v1, asV4: v1ToV4(v1) }));
 
@@ -104,7 +102,11 @@ export async function reconcile(
     }
   }
 
-  log("info", `Sync reconcile: ${plan.newFromV1.length} new from v1, ${plan.newFromV4.length} new from v4, ${plan.similar.length} similar, ${plan.duplicates.length} duplicates`);
+  // Only log when reconciliation actually found something to do — the dashboard
+  // calls this on view, and an all-zero plan was pure spam in engram.log.
+  if (plan.newFromV1.length + plan.similar.length + plan.duplicates.length > 0) {
+    log("info", `Sync reconcile (${method}): ${plan.newFromV1.length} new from v1, ${plan.newFromV4.length} new from v4, ${plan.similar.length} similar, ${plan.duplicates.length} duplicates`);
+  }
   return plan;
 }
 

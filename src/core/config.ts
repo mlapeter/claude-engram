@@ -71,6 +71,12 @@ export interface EngramConfig {
   observerMode: boolean;
   /** Flush the encoding buffer when it exceeds this many bytes (default: 32768) */
   bufferFlushBytes: number;
+  /** Extraction splits a claimed buffer into chunks of at most this many bytes,
+   * on span-header boundaries only, so each call's OUTPUT fits max_tokens — an
+   * arbitrarily large arc used to overflow the fixed 8K budget, truncate the
+   * JSON mid-string, and fail atomically (the whole buffer looped back and only
+   * grew). Chunks extract and fail independently (default: 16384) */
+  extractChunkBytes: number;
   /** Flush the encoding buffer when its oldest content exceeds this age (default: 4h) */
   bufferFlushHours: number;
   /** Sleep (consolidation) triggers on a new active day once at least this many
@@ -109,6 +115,7 @@ const DEFAULTS: EngramConfig = {
   decayMultiplierSelf: 0.85,
   observerMode: false,
   bufferFlushBytes: 32_768,
+  extractChunkBytes: 16_384,
   bufferFlushHours: 4,
   sleepMinNewMemories: 5,
 };

@@ -97,6 +97,7 @@ export async function extractMemories(
   existingMemories: Memory[],
   mode: "summary" | "transcript",
   weightsHint?: string | null,
+  maxTokens: number = 8000,
 ): Promise<NewMemory[]> {
   if (!input.trim()) return [];
 
@@ -116,7 +117,7 @@ export async function extractMemories(
       : EXTRACTION_SYSTEM_PROMPT;
     const response = await getClient().messages.create({
       model: config.extractionModel,
-      max_tokens: 8000,
+      max_tokens: maxTokens,
       system: systemPrompt,
       messages: [{ role: "user", content: userContent }],
       output_config: {
