@@ -556,16 +556,36 @@ export function createStore(projectCwd: string): MemoryStore {
               break;
             }
           }
+          if (duplicates.has(i)) continue;
+          // Within-batch dedup: chunked extraction can emit the same fact from
+          // two chunks of one arc — keep the first occurrence, mark the rest.
+          for (let j = 0; j < i; j++) {
+            if (duplicates.has(j)) continue;
+            if (cosineSimilarity(newVecs[i], newVecs[j]) >= threshold) {
+              duplicates.add(i);
+              break;
+            }
+          }
         }
       } else {
         // Token overlap fallback
         const all = await store.loadAll();
         const existingTokenSets = all.map((m) => tokenize(m.content));
+        const newTokenSets = contents.map(tokenize);
 
         for (let i = 0; i < contents.length; i++) {
-          const newTokens = tokenize(contents[i]);
+          const newTokens = newTokenSets[i];
           for (const et of existingTokenSets) {
             if (tokenOverlap(newTokens, et) > 0.8) {
+              duplicates.add(i);
+              break;
+            }
+          }
+          if (duplicates.has(i)) continue;
+          // Within-batch dedup (see embedding branch above).
+          for (let j = 0; j < i; j++) {
+            if (duplicates.has(j)) continue;
+            if (tokenOverlap(newTokens, newTokenSets[j]) > 0.8) {
               duplicates.add(i);
               break;
             }
