@@ -431,6 +431,21 @@ describe("MemoryStore", () => {
       ]);
       expect(dupes.size).toBe(0);
     });
+
+    it("marks within-batch duplicates, keeping the first occurrence", async () => {
+      // Chunked extraction can emit the same fact from two chunks of one arc —
+      // nothing in the store yet, the duplicate is internal to the batch.
+      const store = createStore("/test/project");
+
+      const dupes = await store.checkDuplicates([
+        "Mike prefers bun over npm for running scripts",
+        "TypeScript is the language of choice",
+        "Mike prefers bun over npm for running scripts",
+      ]);
+      expect(dupes.has(0)).toBe(false); // first occurrence kept
+      expect(dupes.has(1)).toBe(false);
+      expect(dupes.has(2)).toBe(true); // within-batch duplicate marked
+    });
   });
 
   describe("briefing cache", () => {

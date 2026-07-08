@@ -108,6 +108,77 @@ export function restoreBuffer(cwd: string): void {
   }
 }
 
+/**
+ * Partial-failure restore — return specific raw span text to the buffer while
+ * the successful chunks' memories are kept. The text is verbatim buffer slices
+ * (headers included), so it is appended as-is; the caller clears the claim after.
+ * Append (never truncate) so spans that arrived during extraction survive.
+ */
+export function restoreBufferText(cwd: string, text: string): void {
+  if (!text) return;
+  const path = bufferPath(cwd);
+  try {
+    mkdirSync(dirname(path), { recursive: true });
+    appendFileSync(path, text);
+  } catch (err) {
+    log("error", `Partial buffer restore failed: ${err instanceof Error ? err.message : String(err)}`);
+  }
+}
+
+const SPAN_HEADER = /^--- \S+ session \S+ ---$/gm;
+
+/** Number of span headers in a slice of buffer text (a chunk of exactly one
+ * span is the oversized-single-span case — it gets a raised output budget). */
+export function countSpanHeaders(text: string): number {
+  return (text.match(SPAN_HEADER) ?? []).length;
+}
+
+/**
+ * Split a claimed buffer into chunks of at most `chunkBytes`, on span-header
+ * boundaries ONLY — spans (a turn's transcript, headed by timestamp+session)
+ * are never split mid-span, because a truncated span extracts to garbage. Whole
+ * spans are packed greedily; a single span larger than the budget becomes its
+ * own (oversized) chunk rather than being dropped. Lossless: the chunks
+ * concatenate back to the exact input, so failed chunks restore verbatim.
+ */
+export function splitBufferIntoChunks(content: string, chunkBytes: number): string[] {
+  if (!content) return [];
+
+  // Span boundaries = header start offsets. Any leading text before the first
+  // header (malformed, but never to be lost) rides in the first slice.
+  const starts: number[] = [];
+  for (const m of content.matchAll(SPAN_HEADER)) {
+    if (m.index !== undefined) starts.push(m.index);
+  }
+  if (starts.length === 0 || starts[0] !== 0) starts.unshift(0);
+
+  // Slice into whole spans (contiguous, covering the entire input).
+  const spans: string[] = [];
+  for (let i = 0; i < starts.length; i++) {
+    spans.push(content.slice(starts[i], i + 1 < starts.length ? starts[i + 1] : undefined));
+  }
+
+  // Greedily pack whole spans up to the byte budget. A span that alone exceeds
+  // the budget flushes any pending chunk and stands as its own chunk.
+  const chunks: string[] = [];
+  let current = "";
+  for (const span of spans) {
+    const spanBytes = Buffer.byteLength(span, "utf-8");
+    if (spanBytes > chunkBytes) {
+      if (current) { chunks.push(current); current = ""; }
+      chunks.push(span);
+      continue;
+    }
+    if (current && Buffer.byteLength(current, "utf-8") + spanBytes > chunkBytes) {
+      chunks.push(current);
+      current = "";
+    }
+    current += span;
+  }
+  if (current) chunks.push(current);
+  return chunks;
+}
+
 /** The most recent session id mentioned in buffered content (for dedup windows). */
 export function lastSessionInBuffer(content: string): string | null {
   const matches = [...content.matchAll(/^--- \S+ session (\S+) ---$/gm)];

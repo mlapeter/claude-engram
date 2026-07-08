@@ -4,7 +4,8 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import {
   appendToBuffer, bufferStats, claimBuffer, clearClaim, restoreBuffer,
-  lastSessionInBuffer, bufferPath,
+  restoreBufferText, lastSessionInBuffer, bufferPath,
+  splitBufferIntoChunks, countSpanHeaders,
 } from "../../src/core/buffer.js";
 import { ageInDays, getCurrentActiveDay, resetActiveDayCache } from "../../src/core/active-day.js";
 
@@ -82,6 +83,95 @@ describe("buffer — durable encoding", () => {
 
   it("claims nothing when no buffer exists", () => {
     expect(claimBuffer(CWD)).toBeNull();
+  });
+});
+
+// A span exactly as appendToBuffer writes it: header line + body + blank line.
+const span = (session: string, body: string) =>
+  `--- 2026-07-08T00:00:00.000Z session ${session} ---\n${body}\n\n`;
+
+describe("splitBufferIntoChunks — header-boundary chunking", () => {
+  it("packs whole spans up to the byte budget, never splitting mid-span", () => {
+    const s1 = span("aaaa", "x".repeat(100));
+    const s2 = span("bbbb", "y".repeat(100));
+    const s3 = span("cccc", "z".repeat(100));
+    const s4 = span("dddd", "w".repeat(100));
+    const content = s1 + s2 + s3 + s4;
+
+    const chunks = splitBufferIntoChunks(content, 320); // ~2 spans per chunk
+
+    // Every chunk begins on a span header (no mid-span split) and holds whole spans.
+    for (const c of chunks) {
+      expect(c.startsWith("--- ")).toBe(true);
+      expect(countSpanHeaders(c)).toBeGreaterThanOrEqual(1);
+      expect(Buffer.byteLength(c, "utf-8")).toBeLessThanOrEqual(320);
+    }
+    expect(chunks.length).toBeGreaterThan(1);
+    // Lossless: the chunks reconstruct the exact input, so failed chunks restore verbatim.
+    expect(chunks.join("")).toBe(content);
+    // Every span survives exactly once.
+    expect(countSpanHeaders(chunks.join(""))).toBe(4);
+  });
+
+  it("keeps a span whole even when it alone exceeds the budget (oversized single-span chunk)", () => {
+    const small = span("aaaa", "x".repeat(50));
+    const huge = span("bbbb", "y".repeat(2000));
+    const content = small + huge;
+
+    const chunks = splitBufferIntoChunks(content, 500);
+
+    // The huge span is its own chunk — never dropped, never split.
+    const oversized = chunks.filter((c) => Buffer.byteLength(c, "utf-8") > 500);
+    expect(oversized).toHaveLength(1);
+    expect(countSpanHeaders(oversized[0])).toBe(1);
+    expect(oversized[0]).toContain("y".repeat(2000));
+    expect(chunks.join("")).toBe(content); // still lossless
+  });
+
+  it("returns a single chunk when everything fits, and nothing for empty input", () => {
+    const content = span("aaaa", "small") + span("bbbb", "also small");
+    expect(splitBufferIntoChunks(content, 32768)).toEqual([content]);
+    expect(splitBufferIntoChunks("", 1000)).toEqual([]);
+  });
+
+  it("countSpanHeaders counts the session headers in a slice", () => {
+    expect(countSpanHeaders(span("a", "one") + span("b", "two"))).toBe(2);
+    expect(countSpanHeaders(span("a", "one"))).toBe(1);
+    expect(countSpanHeaders("no headers here")).toBe(0);
+  });
+});
+
+describe("partial-failure restore", () => {
+  it("returns only the failed chunk's text; successful chunks stay consumed", () => {
+    appendToBuffer(CWD, "sess-1111", "a".repeat(300));
+    appendToBuffer(CWD, "sess-2222", "b".repeat(300));
+    appendToBuffer(CWD, "sess-3333", "c".repeat(300));
+
+    const claimed = claimBuffer(CWD)!;
+    const chunks = splitBufferIntoChunks(claimed, 400); // one span per chunk
+
+    // Simulate the runner: chunk 1 fails, chunks 0 and 2 succeed (memories stored).
+    restoreBufferText(CWD, chunks[1]);
+    clearClaim(CWD);
+
+    const restored = readFileSync(bufferPath(CWD), "utf-8");
+    expect(restored).toContain("b".repeat(300)); // failed span is back for a retry
+    expect(restored).not.toContain("a".repeat(300)); // succeeded spans are gone
+    expect(restored).not.toContain("c".repeat(300));
+    expect(countSpanHeaders(restored)).toBe(1);
+  });
+
+  it("restored failed text coexists with spans that arrived during extraction", () => {
+    appendToBuffer(CWD, "sess-1111", "a".repeat(300));
+    const claimed = claimBuffer(CWD)!;
+    appendToBuffer(CWD, "sess-2222", "arrived mid-extraction");
+
+    restoreBufferText(CWD, claimed); // whole claim failed
+    clearClaim(CWD);
+
+    const restored = readFileSync(bufferPath(CWD), "utf-8");
+    expect(restored).toContain("a".repeat(300));
+    expect(restored).toContain("arrived mid-extraction");
   });
 });
 
