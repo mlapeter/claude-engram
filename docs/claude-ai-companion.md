@@ -205,7 +205,7 @@ feature survives that principle at all. I think it shouldn't.
 ## Durable facts
 - [craft] [project, technical] Robin's field-notes app is named "Ebb"; it logs outdoor walks and observations.
 - [person] [relationship, preference] Robin distrusts apps that nag; a tool that "demands everything gets ignored" resonated strongly.
-- [self] [realization, insight] The "forgettable on purpose" principle from memory design generalizes — I reach for it across unrelated domains now.
+- [self] [insight, pattern] The "forgettable on purpose" principle from memory design generalizes — I reach for it across unrelated domains now.
 ===END ENGRAM DUMP v1===
 ```
 
@@ -214,6 +214,9 @@ An empty conversation produces **no block at all** — that is the expected, com
 ---
 
 ## 3. What happens after you paste
+
+> **Status:** the import box and inbox parser ship in Phase D-1. Until that lands, this
+> section describes the intended flow — the format spec above is stable either way.
 
 1. **Where it goes.** The dashboard import box writes the pasted text to a file in
    `~/.claude-engram/inbox/`. That's the whole ingest — instantaneous and lossless.
