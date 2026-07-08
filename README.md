@@ -114,6 +114,24 @@ Time runs on **days actually lived**, not calendar time: a month away causes zer
 
 The system also announces its own failures: if extraction or consolidation has been failing, the next session start says so, in context, where it will actually be seen.
 
+## Using engram with claude.ai
+
+The memory lives in a data directory, and that directory doesn't care which surface a
+memory came from. Claude Code fills it through hooks. claude.ai has no hooks, so the
+bridge is manual but light: a settings prompt asks Claude to emit a small, versioned
+**memory dump** at the end of a conversation — but only when something durable actually
+happened. You paste that dump into the dashboard's import box, it lands in `inbox/`, and
+the next consolidation folds it into the same episodes and world-store engram builds from
+Claude Code. Same mind, second surface.
+
+This is the ritual the whole project grew out of — the [original artifact](./docs/v1-artifact.md)
+was a claude.ai settings prompt and nothing else. The dump is selective, not a
+transcript: most conversations produce no dump, which is the correct answer. There's no
+automatic sync — claude.ai can't reach your filesystem, so the paste step is real.
+
+The copy-paste settings prompt, the dump format spec, and what happens after you paste
+are in **[docs/claude-ai-companion.md](./docs/claude-ai-companion.md)**.
+
 ## Memory physics
 
 The architecture is a deliberate mapping of how human memory actually works:
