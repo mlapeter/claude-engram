@@ -42,6 +42,8 @@ DO skip: routine confirmations, session metadata, tool invocations, generic task
 
 An empty list is a good answer — often the best one. Most stretches of routine technical work contain nothing worth remembering; do not manufacture significance out of an ordinary working session. Extracting nothing whenever nothing durable happened is the system working, not failing.
 
+TEMPORAL GROUNDING: Transcript spans begin with headers like "--- 2026-07-08T17:21:03.456Z session abc123 ---" — that timestamp is when the span was LIVED, and buffered spans can be days older than today. Resolve every relative time reference ("tomorrow", "next week", "just now") against the span's own header date, never against today, and write absolute dates into memory content ("leaving 2026-07-09", not "leaving tomorrow"). Never guess or invent a year. A span older than a day speaks from its own "now", not yours — a plan described there may already have happened.
+
 For each memory, evaluate salience (0.0-1.0) on:
 - novelty: how new or surprising is this
 - relevance: how useful for future interactions
@@ -112,9 +114,10 @@ export async function extractMemories(
 
   try {
     const config = loadConfig();
+    const dated = `${EXTRACTION_SYSTEM_PROMPT}\nTODAY: ${new Date().toISOString().slice(0, 10)}`;
     const systemPrompt = weightsHint
-      ? `${EXTRACTION_SYSTEM_PROMPT}\nSALIENCE CALIBRATION: ${weightsHint}`
-      : EXTRACTION_SYSTEM_PROMPT;
+      ? `${dated}\nSALIENCE CALIBRATION: ${weightsHint}`
+      : dated;
     const response = await getClient().messages.create({
       model: config.extractionModel,
       max_tokens: maxTokens,

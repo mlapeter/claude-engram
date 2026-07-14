@@ -7,7 +7,7 @@ import { generateId, registerOf } from "../../src/core/types.js";
 import type { Memory } from "../../src/core/types.js";
 import { resetConfig, isObserverMode } from "../../src/core/config.js";
 import { calculateStrength } from "../../src/core/strength.js";
-import { applyConsolidation } from "../../src/core/consolidation.js";
+import { applyConsolidation, mergedSalience } from "../../src/core/consolidation.js";
 import { episodeBlockReason, EPISODE_REASK_HOURS } from "../../src/core/episodes.js";
 
 vi.mock("@anthropic-ai/sdk", () => ({ default: class { messages = { create: vi.fn() }; } }));
@@ -108,6 +108,46 @@ describe("consolidation — registers never mix", () => {
 
     const merged = (await store.loadAll()).find((m) => m.consolidated)!;
     expect(merged.register).toBe("person");
+  });
+});
+
+describe("merge salience conservation (2026-07-14 river-trip regression)", () => {
+  it("merged salience is the component-wise max of sources — the model's re-score is ignored", async () => {
+    const a = makeMemory({
+      id: "m_1_srca", register: "person",
+      salience: { novelty: 0.6, relevance: 0.85, emotional: 0.55, predictive: 0.75 },
+    });
+    const b = makeMemory({
+      id: "m_2_srcb", register: "person",
+      salience: { novelty: 0.5, relevance: 0.8, emotional: 0.6, predictive: 0.75 },
+    });
+    await store.add([a, b]);
+
+    await applyConsolidation(store, [a, b], {
+      ...emptyResult(),
+      merge: [{
+        ids: ["m_1_srca", "m_2_srcb"],
+        // The model tries to re-judge the pair down to ~0.375 — the exact slash
+        // that buried the trip memory. Deduplication must never make a memory
+        // matter less.
+        merged: {
+          content: "merged trip memory",
+          salience: { novelty: 0.3, relevance: 0.5, emotional: 0.4, predictive: 0.3 },
+          tags: ["relationship"],
+        },
+      }],
+    }, 0, 0);
+
+    const merged = (await store.loadAll()).find((m) => m.consolidated)!;
+    expect(merged.salience).toEqual({ novelty: 0.6, relevance: 0.85, emotional: 0.6, predictive: 0.75 });
+  });
+
+  it("mergedSalience survives missing and NaN components", () => {
+    const broken = [
+      { salience: { novelty: NaN, relevance: 0.4 } },
+      { salience: undefined },
+    ] as unknown as Memory[];
+    expect(mergedSalience(broken)).toEqual({ novelty: 0, relevance: 0.4, emotional: 0, predictive: 0 });
   });
 });
 

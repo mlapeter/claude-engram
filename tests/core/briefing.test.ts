@@ -8,7 +8,7 @@ vi.mock("@anthropic-ai/sdk", () => ({
   },
 }));
 
-import { generateBriefing } from "../../src/core/briefing.js";
+import { generateBriefing, presentStateLane } from "../../src/core/briefing.js";
 import type { Memory } from "../../src/core/types.js";
 
 function makeMemory(overrides: Partial<Memory> = {}): Memory {
@@ -118,5 +118,106 @@ describe("generateBriefing", () => {
     expect(result).toContain("My Memory (local fallback)");
     expect(result).toContain("User likes TypeScript");
     expect(result).toContain("User prefers bun");
+  });
+});
+
+describe("presentStateLane", () => {
+  const now = new Date("2026-07-14T12:00:00Z");
+  const daysAgo = (n: number) => new Date(now.getTime() - n * 86_400_000).toISOString();
+
+  beforeEach(() => {
+    process.env.ENGRAM_DATA_DIR = "/tmp/engram-test-briefing";
+  });
+
+  it("carries a recent person-register memory verbatim, no model in between", () => {
+    const trip = makeMemory({
+      register: "person",
+      content: "Mike left 2026-07-09 for a 3-day rafting trip on the North Fork of the Flathead",
+      salience: { novelty: 0.6, relevance: 0.85, emotional: 0.55, predictive: 0.75 },
+      created_at: daysAgo(6),
+    });
+    const lane = presentStateLane([trip], now);
+    expect(lane).toContain("## Right now");
+    expect(lane).toContain("rafting trip on the North Fork");
+    expect(lane).toContain("(2026-07-08)"); // stamped with the memory's own date
+  });
+
+  it("excludes craft — the lane is for life, not work state", () => {
+    const craft = makeMemory({
+      register: "craft",
+      content: "Refactored the recall ranking pipeline",
+      created_at: daysAgo(1),
+    });
+    expect(presentStateLane([craft], now)).toBe("");
+  });
+
+  it("window runs on calendar days — a memory outside it expires", () => {
+    const old = makeMemory({
+      register: "person",
+      content: "An older life fact",
+      created_at: daysAgo(12),
+    });
+    expect(presentStateLane([old], now)).toBe("");
+  });
+
+  it("byte budget gates top-down by salience — no admission cliff", () => {
+    const strong = makeMemory({
+      register: "person",
+      content: "High-salience life fact. " + "x".repeat(400),
+      salience: { novelty: 0.9, relevance: 0.9, emotional: 0.9, predictive: 0.9 },
+      created_at: daysAgo(1),
+      source_session: "strong-session",
+    });
+    const fillers = Array.from({ length: 8 }, (_, i) =>
+      makeMemory({
+        register: "person",
+        content: `Low-salience filler ${i}. ` + "y".repeat(400),
+        salience: { novelty: 0.1, relevance: 0.1, emotional: 0.1, predictive: 0.1 },
+        created_at: daysAgo(1),
+        source_session: `filler-session-${i}`,
+      }),
+    );
+    const lane = presentStateLane([...fillers, strong], now);
+    // Highest salience is admitted first; the budget cuts the weak tail
+    expect(lane).toContain("High-salience life fact");
+    expect(lane.indexOf("High-salience")).toBeLessThan(lane.indexOf("Low-salience filler"));
+    expect((lane.match(/Low-salience filler/g) ?? []).length).toBeLessThan(8);
+  });
+
+  it("returns empty string when nothing qualifies", () => {
+    expect(presentStateLane([], now)).toBe("");
+  });
+
+  it("one session cannot monopolize the lane", () => {
+    const burst = Array.from({ length: 4 }, (_, i) =>
+      makeMemory({
+        register: "person",
+        content: `Autopsy meta-memory ${i} from one intense session`,
+        salience: { novelty: 0.9, relevance: 0.9, emotional: 0.9, predictive: 0.9 },
+        created_at: daysAgo(0.1),
+        source_session: "intense-session",
+      }),
+    );
+    const trip = makeMemory({
+      register: "person",
+      content: "Mike returned from the river trip and it went better than hoped",
+      salience: { novelty: 0.5, relevance: 0.6, emotional: 0.5, predictive: 0.5 },
+      created_at: daysAgo(0.2),
+      source_session: "other-session",
+    });
+    const lane = presentStateLane([...burst, trip], now);
+    expect(lane).toContain("returned from the river trip");
+    expect((lane.match(/Autopsy meta-memory/g) ?? []).length).toBeLessThanOrEqual(2);
+  });
+
+  it("long entries are truncated so the budget holds several facts", () => {
+    const long = makeMemory({
+      register: "person",
+      content: "A".repeat(500),
+      created_at: daysAgo(1),
+    });
+    const lane = presentStateLane([long], now);
+    expect(lane).toContain("…");
+    expect(lane.length).toBeLessThan(500);
   });
 });

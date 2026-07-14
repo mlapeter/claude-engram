@@ -29,15 +29,28 @@ export function tokenize(text: string): string[] {
 }
 
 /**
+ * Two tokens match if they are equal, or one contains the other AND the
+ * contained token is a real word stem (≥4 chars). The length guard is
+ * load-bearing: without it "flathead" matches "the", "rafting" matches "in",
+ * and "north" matches "or" — every English memory scores ~0.5 against any
+ * multi-word query, and the noise drowns the honest relevance signal
+ * (the 2026-07-14 river-trip recall miss).
+ */
+export function tokensMatch(a: string, b: string): boolean {
+  if (a === b) return true;
+  const [short, long] = a.length <= b.length ? [a, b] : [b, a];
+  return short.length >= 4 && long.includes(short);
+}
+
+/**
  * Score how well query tokens match against target tokens.
- * Returns 0-1: fraction of query tokens that appear in (or are substrings of) target tokens.
+ * Returns 0-1: fraction of query tokens that match a target token.
  */
 export function tokenOverlap(queryTokens: string[], targetTokens: string[]): number {
   if (queryTokens.length === 0) return 0;
   let matches = 0;
   for (const qt of queryTokens) {
-    // Check if any target token contains the query token or vice versa
-    if (targetTokens.some((tt) => tt.includes(qt) || qt.includes(tt))) {
+    if (targetTokens.some((tt) => tokensMatch(qt, tt))) {
       matches++;
     }
   }
@@ -366,10 +379,18 @@ export function createStore(projectCwd: string): MemoryStore {
           }
           const memory = memById.get(id)!;
           const strength = calculateStrength(memory);
-          // Recency boost: 2x at 0 hours, 1.5x at 1 hour, ~1.04x at 24 hours
+          // Strength gates spontaneous availability (briefing, associations),
+          // not cued retrieval: a strong cue should always reach a live memory.
+          // Compressed to [floor, 1] so the strongest memory outranks the
+          // weakest by at most 1/floor — relevance stays the dominant signal
+          // instead of a ~50-deep strength-1.0 oligarchy eating every query.
+          const strengthFactor =
+            config.recallStrengthFloor + (1 - config.recallStrengthFloor) * strength;
+          // Recency boost, capped: freshness breaks ties among comparably
+          // relevant memories; it must not carry an irrelevant one to the top
           const ageHours = (now - new Date(memory.created_at).getTime()) / 3_600_000;
-          const recencyBoost = 1 + 1 / (1 + ageHours);
-          return { memory, rank: hybridScore * strength * recencyBoost };
+          const recencyBoost = Math.min(1 + 1 / (1 + ageHours), config.recallRecencyCap);
+          return { memory, rank: hybridScore * strengthFactor * recencyBoost };
         })
         .sort((a, b) => b.rank - a.rank)
         .slice(0, limit)

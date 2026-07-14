@@ -54,6 +54,23 @@ export interface EngramConfig {
   embeddingModel: string;
   /** Weight of vector score in hybrid search, 0=token only, 1=vector only (default: 0.4) */
   hybridVectorWeight: number;
+  /** Recall ranking: strength is compressed to [floor, 1] before multiplying
+   * relevance, so cued retrieval can always reach a live memory — the
+   * strongest memory outranks the weakest by at most 1/floor (default: 0.3) */
+  recallStrengthFloor: number;
+  /** Recall ranking: cap on the freshness multiplier — recency breaks ties,
+   * it must not carry an irrelevant memory to the top (default: 1.5) */
+  recallRecencyCap: number;
+  /** Merge candidacy for person/self registers needs a higher embedding
+   * similarity bar than craft: near-duplicate craft is redundancy, but two
+   * life memories that merely share context are not the same memory (default: 0.9) */
+  mergeThresholdPersonSelf: number;
+  /** "Right now" briefing lane: person/self memories from the last N CALENDAR
+   * days (life runs on world time, not active days) injected verbatim at
+   * session start with no model judgment in between (default: 10) */
+  presentStateWindowDays: number;
+  /** Byte budget for the "Right now" lane (default: 1500) */
+  presentStateMaxBytes: number;
   /** At Stop, ask the session model itself to write a first-person episode (default: true) */
   episodeSelfDump: boolean;
   /** Model that rewrites identity documents at consolidation — highest-stakes text in the system (default: "claude-opus-4-6") */
@@ -106,6 +123,11 @@ const DEFAULTS: EngramConfig = {
   embeddingsEnabled: true,
   embeddingModel: "voyage-3-lite",
   hybridVectorWeight: 0.4,
+  recallStrengthFloor: 0.3,
+  recallRecencyCap: 1.5,
+  mergeThresholdPersonSelf: 0.9,
+  presentStateWindowDays: 10,
+  presentStateMaxBytes: 1500,
   episodeSelfDump: true,
   identityModel: "claude-opus-4-6",
   memoryHistory: true,
