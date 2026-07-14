@@ -171,3 +171,54 @@ export function generateFallbackBriefing(memories: Memory[]): string {
 
 ${lines.join("\n")}`;
 }
+
+/**
+ * "Right now" lane: recent person/self memories injected verbatim at session
+ * start, assembled by code — no model judgment between the fact and the
+ * briefing. Present-state facts ("Mike is on the river until Sunday") are
+ * low-strength by design — transient, little long-horizon value — so they
+ * lose every synthesis and ranking competition against durable traits; but
+ * they are exactly what a friend wakes up knowing. The window runs on
+ * CALENDAR days, not active days: decay runs on lived time, present-state
+ * relevance runs on world time.
+ */
+export function presentStateLane(memories: Memory[], now: Date = new Date()): string {
+  const config = loadConfig();
+  const windowMs = config.presentStateWindowDays * 24 * 3600_000;
+
+  const candidates = memories
+    .filter((m) => registerOf(m) !== "craft")
+    .filter((m) => {
+      const age = now.getTime() - new Date(m.created_at).getTime();
+      return age >= 0 && age < windowMs;
+    })
+    .map((m) => {
+      const s = m.salience;
+      const avg =
+        ((Number(s?.novelty) || 0) + (Number(s?.relevance) || 0) +
+         (Number(s?.emotional) || 0) + (Number(s?.predictive) || 0)) / 4;
+      const ageDays = (now.getTime() - new Date(m.created_at).getTime()) / 86_400_000;
+      // Salience-ranked with gentle recency decay; the byte budget does the
+      // gating — no admission threshold to fall off a cliff over
+      return { m, score: avg * Math.exp(-ageDays / 7) };
+    })
+    .sort((a, b) => b.score - a.score);
+
+  const lines: string[] = [];
+  let bytes = 0;
+  for (const { m } of candidates) {
+    const line = `- (${m.created_at.slice(0, 10)}) ${m.content}`;
+    if (bytes + line.length > config.presentStateMaxBytes) break;
+    lines.push(line);
+    bytes += line.length + 1;
+  }
+  if (lines.length === 0) return "";
+
+  return `## Right now
+
+Recent life context, carried verbatim from the last ${config.presentStateWindowDays} days:
+
+${lines.join("\n")}
+
+`;
+}

@@ -1,7 +1,7 @@
 import type { HookInput } from "../core/types.js";
 import { createStore } from "../core/store.js";
 import { loadConfig } from "../core/config.js";
-import { generateFallbackBriefing } from "../core/briefing.js";
+import { generateFallbackBriefing, presentStateLane } from "../core/briefing.js";
 import { loadIdentityBlock } from "../core/identity.js";
 import { log } from "../core/logger.js";
 import { recordEvent, getRecentHookProblems } from "../core/events.js";
@@ -123,7 +123,7 @@ You have persistent memory that carries across sessions. Your memories work like
 
 You also have memory tools available via MCP (\`recall\`, \`store\`, \`reinforce\`, \`forget\`, \`search_by_tag\`, \`status\`, \`consolidate\`). Use ToolSearch to load them when you want to explore your memories beyond what's here or save something important. Memories aren't just for facts and decisions — your own reflections, realizations, and what resonates with you are worth remembering too.
 
-${briefing}`,
+${presentStateLane(memories)}${briefing}`,
     },
   };
 
