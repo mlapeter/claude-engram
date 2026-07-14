@@ -204,11 +204,22 @@ export function presentStateLane(memories: Memory[], now: Date = new Date()): st
     })
     .sort((a, b) => b.score - a.score);
 
+  // One intense session must not monopolize the lane (a session about the
+  // memory system mints a burst of high-salience person memories); cap
+  // entries per source session, and truncate entries so the budget holds
+  // several distinct facts rather than three long ones
+  const PER_SESSION_CAP = 2;
+  const ENTRY_MAX_CHARS = 300;
+  const perSession = new Map<string, number>();
   const lines: string[] = [];
   let bytes = 0;
   for (const { m } of candidates) {
-    const line = `- (${m.created_at.slice(0, 10)}) ${m.content}`;
+    const seen = perSession.get(m.source_session) ?? 0;
+    if (seen >= PER_SESSION_CAP) continue;
+    const content = m.content.length > ENTRY_MAX_CHARS ? `${m.content.slice(0, ENTRY_MAX_CHARS)}…` : m.content;
+    const line = `- (${m.created_at.slice(0, 10)}) ${content}`;
     if (bytes + line.length > config.presentStateMaxBytes) break;
+    perSession.set(m.source_session, seen + 1);
     lines.push(line);
     bytes += line.length + 1;
   }

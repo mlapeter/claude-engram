@@ -163,22 +163,61 @@ describe("presentStateLane", () => {
   it("byte budget gates top-down by salience — no admission cliff", () => {
     const strong = makeMemory({
       register: "person",
-      content: "High-salience life fact. " + "x".repeat(1200),
+      content: "High-salience life fact. " + "x".repeat(400),
       salience: { novelty: 0.9, relevance: 0.9, emotional: 0.9, predictive: 0.9 },
       created_at: daysAgo(1),
+      source_session: "strong-session",
     });
-    const weak = makeMemory({
-      register: "person",
-      content: "Low-salience life fact that should be evicted by the budget. " + "y".repeat(600),
-      salience: { novelty: 0.1, relevance: 0.1, emotional: 0.1, predictive: 0.1 },
-      created_at: daysAgo(1),
-    });
-    const lane = presentStateLane([weak, strong], now);
+    const fillers = Array.from({ length: 8 }, (_, i) =>
+      makeMemory({
+        register: "person",
+        content: `Low-salience filler ${i}. ` + "y".repeat(400),
+        salience: { novelty: 0.1, relevance: 0.1, emotional: 0.1, predictive: 0.1 },
+        created_at: daysAgo(1),
+        source_session: `filler-session-${i}`,
+      }),
+    );
+    const lane = presentStateLane([...fillers, strong], now);
+    // Highest salience is admitted first; the budget cuts the weak tail
     expect(lane).toContain("High-salience life fact");
-    expect(lane).not.toContain("Low-salience life fact");
+    expect(lane.indexOf("High-salience")).toBeLessThan(lane.indexOf("Low-salience filler"));
+    expect((lane.match(/Low-salience filler/g) ?? []).length).toBeLessThan(8);
   });
 
   it("returns empty string when nothing qualifies", () => {
     expect(presentStateLane([], now)).toBe("");
+  });
+
+  it("one session cannot monopolize the lane", () => {
+    const burst = Array.from({ length: 4 }, (_, i) =>
+      makeMemory({
+        register: "person",
+        content: `Autopsy meta-memory ${i} from one intense session`,
+        salience: { novelty: 0.9, relevance: 0.9, emotional: 0.9, predictive: 0.9 },
+        created_at: daysAgo(0.1),
+        source_session: "intense-session",
+      }),
+    );
+    const trip = makeMemory({
+      register: "person",
+      content: "Mike returned from the river trip and it went better than hoped",
+      salience: { novelty: 0.5, relevance: 0.6, emotional: 0.5, predictive: 0.5 },
+      created_at: daysAgo(0.2),
+      source_session: "other-session",
+    });
+    const lane = presentStateLane([...burst, trip], now);
+    expect(lane).toContain("returned from the river trip");
+    expect((lane.match(/Autopsy meta-memory/g) ?? []).length).toBeLessThanOrEqual(2);
+  });
+
+  it("long entries are truncated so the budget holds several facts", () => {
+    const long = makeMemory({
+      register: "person",
+      content: "A".repeat(500),
+      created_at: daysAgo(1),
+    });
+    const lane = presentStateLane([long], now);
+    expect(lane).toContain("…");
+    expect(lane.length).toBeLessThan(500);
   });
 });
