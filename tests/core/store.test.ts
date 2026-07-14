@@ -93,7 +93,7 @@ describe("tokensMatch length guard (2026-07-14 river-trip regression)", () => {
     expect(tokensMatch("rafting", "in")).toBe(false);
     expect(tokensMatch("north", "or")).toBe(false);
     expect(tokensMatch("north", "no")).toBe(false);
-    expect(tokensMatch("katie", "at")).toBe(false);
+    expect(tokensMatch("gates", "at")).toBe(false);
     expect(tokensMatch("fork", "for")).toBe(false);
   });
 
@@ -103,7 +103,7 @@ describe("tokensMatch length guard (2026-07-14 river-trip regression)", () => {
   });
 
   it("an unrelated memory no longer half-matches an entity-heavy query", () => {
-    const query = tokenize("Mike rafting trip North Fork Flathead river Katie family");
+    const query = tokenize("Mike rafting trip North Fork Flathead river camping family");
     const generic = tokenize(
       "Mike's test for whether memory actually works: not whether it recites facts, but whether something shifts in the engagement",
     );
@@ -117,7 +117,7 @@ describe("search ranking — cued retrieval reaches weak memories", () => {
     // The 2026-07-14 miss, miniaturized: an on-point memory with merge-slashed
     // salience and six days of decay...
     const trip = makeMemory({
-      content: "Mike left for a rafting trip on the North Fork of the Flathead with Katie's brother",
+      content: "Mike left for a rafting and camping trip on the North Fork of the Flathead river with family",
       salience: { novelty: 0.3, relevance: 0.5, emotional: 0.4, predictive: 0.3 },
       created_at: new Date(Date.now() - 6 * 86_400_000).toISOString(),
     });
@@ -132,9 +132,9 @@ describe("search ranking — cued retrieval reaches weak memories", () => {
     );
     await store.add([trip, ...generics]);
 
-    const results = await store.search("Mike rafting trip North Fork Flathead river Katie family", 5);
+    const results = await store.search("Mike rafting trip North Fork Flathead river camping family", 5);
     expect(results.length).toBeGreaterThan(0);
-    expect(results[0].content).toContain("rafting trip");
+    expect(results[0].content).toContain("rafting and camping trip");
   });
 });
 
