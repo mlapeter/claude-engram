@@ -119,6 +119,9 @@ server.registerTool("recall", {
     tags: m.tags,
     strength: round(calculateStrength(m)),
     created_at: m.created_at,
+    // Compression must stay reachable, not just archived: a consolidated
+    // memory is a lossy merge — flag it so a strong cue knows to dig deeper
+    ...(m.consolidated ? { consolidated: true as const, note: "compressed merge — deep_recall can recover the verbatim originals" } : {}),
   }));
 
   // Spreading activation (one hop): semantic edges written by sleep come
