@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { createStore, tokenize, tokenOverlap } from "../../src/core/store.js";
+import { createStore, tokenize, tokenOverlap, tokensMatch } from "../../src/core/store.js";
 import type { Memory } from "../../src/core/types.js";
 import { generateId } from "../../src/core/types.js";
 import { resetConfig } from "../../src/core/config.js";
@@ -76,6 +76,65 @@ describe("tokenOverlap", () => {
   it("matches substrings bidirectionally", () => {
     // "type" is substring of "typescript"
     expect(tokenOverlap(["type"], ["typescript", "project"])).toBe(1.0);
+  });
+});
+
+describe("tokensMatch length guard (2026-07-14 river-trip regression)", () => {
+  it("matches real stems in either direction", () => {
+    expect(tokensMatch("raft", "rafting")).toBe(true);
+    expect(tokensMatch("rafting", "raft")).toBe(true);
+    expect(tokensMatch("typescript", "type")).toBe(true);
+  });
+
+  it("rejects short-token shrapnel inside long words", () => {
+    // Pre-fix, every English memory scored ~0.5 against any multi-word query
+    // via exactly these pairs — the honest relevance signal drowned in noise
+    expect(tokensMatch("flathead", "the")).toBe(false);
+    expect(tokensMatch("rafting", "in")).toBe(false);
+    expect(tokensMatch("north", "or")).toBe(false);
+    expect(tokensMatch("north", "no")).toBe(false);
+    expect(tokensMatch("katie", "at")).toBe(false);
+    expect(tokensMatch("fork", "for")).toBe(false);
+  });
+
+  it("exact short tokens still match", () => {
+    expect(tokensMatch("the", "the")).toBe(true);
+    expect(tokensMatch("api", "api")).toBe(true);
+  });
+
+  it("an unrelated memory no longer half-matches an entity-heavy query", () => {
+    const query = tokenize("Mike rafting trip North Fork Flathead river Katie family");
+    const generic = tokenize(
+      "Mike's test for whether memory actually works: not whether it recites facts, but whether something shifts in the engagement",
+    );
+    expect(tokenOverlap(query, generic)).toBeLessThan(0.2); // was ~0.5 pre-fix
+  });
+});
+
+describe("search ranking — cued retrieval reaches weak memories", () => {
+  it("a directly-relevant low-strength memory outranks fresh strength-1.0 generics", async () => {
+    const store = createStore("/test/project");
+    // The 2026-07-14 miss, miniaturized: an on-point memory with merge-slashed
+    // salience and six days of decay...
+    const trip = makeMemory({
+      content: "Mike left for a rafting trip on the North Fork of the Flathead with Katie's brother",
+      salience: { novelty: 0.3, relevance: 0.5, emotional: 0.4, predictive: 0.3 },
+      created_at: new Date(Date.now() - 6 * 86_400_000).toISOString(),
+    });
+    // ...versus a wall of fresh, maximally-strong memories about the same
+    // person whose only honest token match is the name
+    const generics = Array.from({ length: 8 }, (_, i) =>
+      makeMemory({
+        content: `Mike's test number ${i} for whether memory actually works: not whether it recites facts, but whether something shifts in the engagement`,
+        salience: { novelty: 1, relevance: 1, emotional: 1, predictive: 1 },
+        access_count: 5,
+      }),
+    );
+    await store.add([trip, ...generics]);
+
+    const results = await store.search("Mike rafting trip North Fork Flathead river Katie family", 5);
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].content).toContain("rafting trip");
   });
 });
 
