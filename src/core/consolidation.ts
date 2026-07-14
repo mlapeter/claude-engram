@@ -162,13 +162,15 @@ Your tasks:
 
 6. **Registers never mix** — Each memory is marked (self), (person), or (craft). NEVER merge memories from different registers, no matter how related they look: a technical lesson must not absorb a relationship moment or vice versa. Merge within a register only.
 
+7. **In (person) and (self) merges, the life event is the payload** — preserve who, what, when, and felt detail; drop project references, file names, and logistics first. Never compress away the human fact to keep the work fact.
+
 Rules:
 - Merged content must be ≤400 characters
 - Generalized content must be ≤400 characters
 - Only prune memories that are truly redundant or trivial — err on the side of keeping
 - Each memory ID can appear in at most ONE merge group
 - Do NOT prune memories that are still uniquely informative
-- Salience scores should reflect the consolidated importance (0.0-1.0)
+- Salience for GENERALIZED memories should reflect the pattern's importance (0.0-1.0); merged memories keep their sources' salience automatically, so focus merge effort on content quality
 - Assign 1-5 tags from: identity, goal, preference, project, relationship, skill, insight, contradiction, pattern, context, technical, personal, business, creative`;
 
 /**
@@ -271,14 +273,29 @@ export async function runConsolidation(
     commitMemorySnapshot("pre-consolidation snapshot");
 
     const result = await runConsolidationInner(store);
-    // Identity rewrite — fold pending deltas into identity documents ("sleep")
-    try {
-      const idn = await rewriteIdentity();
-      result.identity = idn;
-      if (idn.rewritten) result.notes += ` Identity rewritten: ${idn.notes}`;
-    } catch (err) {
-      log("warn", `Identity rewrite failed (consolidation otherwise ok): ${err instanceof Error ? err.message : String(err)}`);
-      result.identity = { rewritten: false, notes: `failed: ${err instanceof Error ? err.message : String(err)}` };
+    // Identity rewrite — fold pending deltas into identity documents ("sleep").
+    // One same-cycle retry: the constrained-decoding grammar compiler can time
+    // out transiently (observed 2026-07-14, "Grammar compilation timed out");
+    // deltas survive a failure, but retrying now beats waiting a whole sleep —
+    // failed rewrites let deltas pile up, which makes the next rewrite bigger
+    // and likelier to fail again.
+    let idnErr: unknown;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        if (attempt > 1) await new Promise((r) => setTimeout(r, 5000));
+        const idn = await rewriteIdentity();
+        result.identity = idn;
+        if (idn.rewritten) result.notes += ` Identity rewritten: ${idn.notes}`;
+        idnErr = undefined;
+        break;
+      } catch (err) {
+        idnErr = err;
+        log("warn", `Identity rewrite attempt ${attempt}/2 failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
+    }
+    if (idnErr) {
+      log("warn", "Identity rewrite failed after retry (consolidation otherwise ok)");
+      result.identity = { rewritten: false, notes: `failed: ${idnErr instanceof Error ? idnErr.message : String(idnErr)}` };
     }
 
     commitMemorySnapshot(
@@ -795,7 +812,14 @@ function findSimilarGroups(
       const vecJ = idxJ[mj.id];
       if (!vecJ) continue;
 
-      if (cosineSimilarity(vecI, vecJ) >= threshold) {
+      // Merge eagerness is register physics: craft near-duplicates are
+      // redundancy, but two life memories that merely share context ("Mike is
+      // going on a trip" / "I wrote the handoff because Mike is leaving") are
+      // not the same memory — person/self candidacy needs a higher bar
+      const pairThreshold = miRegister === "craft"
+        ? threshold
+        : Math.max(threshold, loadConfig().mergeThresholdPersonSelf);
+      if (cosineSimilarity(vecI, vecJ) >= pairThreshold) {
         if (!adjacent.has(mi.id)) adjacent.set(mi.id, new Set());
         if (!adjacent.has(mj.id)) adjacent.set(mj.id, new Set());
         adjacent.get(mi.id)!.add(mj.id);
@@ -857,8 +881,13 @@ function findSimilarGroupsByTokens(
       // Registers never mix
       if (tokenSets[i].register !== tokenSets[j].register) continue;
 
+      // Same register physics as the embedding path: person/self candidacy
+      // needs a higher bar than craft (see findSimilarGroups)
+      const pairThreshold = tokenSets[i].register === "craft"
+        ? threshold
+        : Math.min(threshold + 0.1, 0.95);
       const overlap = tokenOverlap(tokenSets[i].tokens, tokenSets[j].tokens);
-      if (overlap >= threshold) {
+      if (overlap >= pairThreshold) {
         const idI = tokenSets[i].id;
         const idJ = tokenSets[j].id;
         if (!adjacent.has(idI)) adjacent.set(idI, new Set());
@@ -1020,6 +1049,24 @@ async function twoPassConsolidation(
 }
 
 /**
+ * Salience for a merge product: component-wise max of the sources. Merging is
+ * compression, not re-evaluation — the one importance judgment happened at
+ * encoding, with full context. Over-retention is the cheap error here (decay
+ * corrects it); a merge quietly demoting what mattered is the expensive one.
+ * Exported for tests.
+ */
+export function mergedSalience(sources: Memory[]): Memory["salience"] {
+  const max = (key: keyof Memory["salience"]) =>
+    Math.max(...sources.map((m) => Number(m.salience?.[key]) || 0));
+  return sanitizeSalience({
+    novelty: max("novelty"),
+    relevance: max("relevance"),
+    emotional: max("emotional"),
+    predictive: max("predictive"),
+  });
+}
+
+/**
  * Apply the consolidation result to the store.
  * Exported for tests — scope graduation and merge/prune mechanics live here.
  */
@@ -1068,7 +1115,12 @@ export async function applyConsolidation(
       scope,
       register: mergeRegister,
       memory_type: "semantic", // Merged memories are always semantic
-      salience: sanitizeSalience(merge.merged.salience),
+      // Conservation: merging is compression, not re-evaluation. The model
+      // writes the merged content but does not re-score importance — salience
+      // is the component-wise max of the sources. (2026-07-14: a person-register
+      // trip memory was re-judged 0.69 → 0.375 at merge and buried; deduplication
+      // must never make a memory matter less.)
+      salience: mergedSalience(sources),
       tags: merge.merged.tags.slice(0, 5),
       access_count: totalAccess,
       last_accessed: new Date().toISOString(),
