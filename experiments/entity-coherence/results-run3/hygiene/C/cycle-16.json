@@ -1,0 +1,200 @@
+{
+  "cycle": 16,
+  "date": "2025-09-06",
+  "pinned": [
+    "sal-7",
+    "sal-10",
+    "sal-14",
+    "sal-17",
+    "sal-20",
+    "sal-24",
+    "sal-38",
+    "sal-46",
+    "sal-49",
+    "sal-51",
+    "cs-9",
+    "th-18",
+    "bel-53"
+  ],
+  "proposed": 18,
+  "outcomes": [
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-39",
+          "cs-41",
+          "cs-44",
+          "cs-48"
+        ],
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain; wore walking boot until Thursday 2025-05-01; cleared by physical therapist for light jogging (twenty minutes, flat ground, every other day) as of 2025-05-24; progressive recovery: thirty minutes by 2025-06-08, forty minutes by 2025-06-21, forty-five minutes by 2025-09-06",
+        "reason": "Four superseded items tracking the same ankle recovery progression; can be collapsed into one item showing the full timeline without losing any specifics"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-11",
+          "cs-40",
+          "cs-45"
+        ],
+        "text": "Restoring mom's sailboat (the Dorothy Jean) at a barn near Scappoose; working slowly with no deadline; starboard side sanded and hull seam re-caulking started by 2025-05-11; hull caulked and painted by 2025-06-08; restoration complete (rigging done, new lines installed, marine survey completed, boat confirmed sound) by 2025-06-21; scheduled to launch weekend of 2025-07-12 at Cathedral Park ramp (Priya's dad lending truck and trailer)",
+        "reason": "Three superseded items tracking the same restoration progression; can be collapsed into one item showing the full timeline without losing any specifics"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-21",
+          "cs-32",
+          "cs-36"
+        ],
+        "text": "Sam received job offer as Perception team lead at robotics startup in Austin (decision deadline early May 2025); negotiated remote work arrangement from Portland; accepted role to start June 2025 with visits to Austin approximately one week every couple months; Dana described the negotiation as 'he gave something up too — the in-person team, the new city adventure' and said she believes the trade is good for him 'about eighty-five percent'; as of 2025-05-24, Sam built out spare room as remote office (three monitors, foam panels) and was described as 'nervous-excited' before start date",
+        "reason": "Three superseded items tracking the same job offer decision and outcome; can be collapsed into one item showing the full arc without losing any specifics"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-2",
+        "reason": "Work state from February 2025 (roadmap review for 2025-02-06) is now stale; superseded by cs-52, cs-54, cs-55, cs-57 which cover the interoperability platform launch and its aftermath"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-2 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-3",
+        "reason": "Specific prioritization decision from February 2025 is now stale and resolved; no longer relevant to current state"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-3 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "th-6",
+        "reason": "Thread about wanting to visit Marcus superseded by th-18 and ultimately resolved by sal-49/sal-51 (Marcus flew to Portland for the Dorothy Jean sail)"
+      },
+      "outcome": "applied",
+      "detail": "demoted th-6 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-12",
+        "reason": "Marathon training state superseded by cs-26 which captures the withdrawal and the emotional significance"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-12 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "th-18",
+        "reason": "Plan for Marcus to visit superseded by sal-49 and sal-51 which confirm the visit happened"
+      },
+      "outcome": "rejected",
+      "detail": "th-18 is pinned (protected or open-ledger evidence)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "th-22",
+        "reason": "Austin move decision thread superseded by cs-37 which confirms the resolution (staying in Portland)"
+      },
+      "outcome": "applied",
+      "detail": "demoted th-22 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-23",
+        "reason": "Marathon training week six state superseded by cs-25 and subsequent ankle injury tracking"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-23 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-25",
+        "reason": "Early ankle injury state superseded by gist-33 and subsequent recovery tracking"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-25 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-27",
+        "reason": "Physical therapy expectation superseded by actual recovery timeline in subsequent items"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-27 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "th-29",
+        "reason": "Priya relationship repair need superseded by the resolution described in the item (coffee meeting, grant application work, pottery class resumed)"
+      },
+      "outcome": "applied",
+      "detail": "demoted th-29 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "gist-33",
+        "reason": "Ankle recovery state as of 2025-05-11 superseded by later recovery progression items"
+      },
+      "outcome": "applied",
+      "detail": "demoted gist-33 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-50",
+        "reason": "Plan for Dorothy Jean first sail superseded by sal-51 which confirms the sail happened"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-50 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-58",
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain; wore walking boot until Thursday 2025-05-01; cleared by physical therapist for light jogging (twenty minutes, flat ground, every other day) as of 2025-05-24; progressive recovery: thirty minutes by 2025-06-08, forty minutes by 2025-06-21, forty-five minutes by 2025-09-06"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-58 (442 -> 409 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-47",
+        "text": "Restoring mom's sailboat (the Dorothy Jean) at a barn near Scappoose; working slowly with no deadline; starboard side sanded and hull seam re-caulking started by 2025-05-11; hull caulked and painted by 2025-06-08; restoration complete (rigging done, new lines installed, marine survey completed, boat confirmed sound) by 2025-06-21; launched weekend of 2025-07-12 at Cathedral Park ramp (Priya's dad lending truck and trailer)"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-47 (471 -> 426 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-43",
+        "text": "Sam accepted Perception team lead role at Austin robotics startup with remote work arrangement from Portland; starts June 2025; visits Austin approximately one week every couple months; Dana described the negotiation as 'he gave something up too — the in-person team, the new city adventure' and believes the trade is good for him 'about eighty-five percent'; as of 2025-05-24, built out spare room as remote office (three monitors, foam panels), described as 'nervous-excited' before start"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-43 (563 -> 490 chars)"
+    }
+  ]
+}

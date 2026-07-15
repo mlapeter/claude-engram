@@ -1,0 +1,40 @@
+{
+  "policy": "N",
+  "cycle": 14,
+  "date": "2025-08-02",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Dana's mother's sailboat, the Dorothy Jean (a 22-foot wooden sailboat named after Dana's grandmother), has been fully restored and successfully sailed.\n\n**The restoration:** Dana worked on it February through June 2025, spending Sundays at a barn near Scappoose (owned by Priya's dad). By early June, the hull was fully caulked and painted, rigging was done with new lines, and a marine survey confirmed she's sound.\n\n**First sail:** July 12, 2025 on the Columbia River. It was a gentle afternoon with Sam, Marcus, and four-month-old Nina aboard. The sky had high thin clouds—not quite mare's tail but close enough that Dana counted it as a blessing (her mother had taught her to read cloud formations). There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them—Dana has already had it printed twice.\n\n**Current status:** The boat is seaworthy and that first sail accomplished what Dana needed emotionally. As she put it, \"The point isn't the sailing\"—it's about who's aboard and whose boat it is. The restoration itself did important emotional work for her during her grief.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Yes, professional success and career have been absolutely central to Dana's identity. She describes it explicitly: \"For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine... Ambition's been my whole spine.\" She's always been \"the one who never turns down the bigger role,\" and ambition has been her way of knowing she's okay and knowing who she is.\n\n**Has it changed?** Something is shifting, but it's unclear whether it's a fundamental change or temporary:\n\nIn July 2025, when she shipped the interoperability platform — \"the biggest professional moment of my life\" — she felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" This rattled her deeply because it contradicted her core identity.\n\nDana attributes this numbness to grief, believing \"it'll come back online.\" However, by August 2025, she's dealing with intense post-launch pressure and explicitly states she doesn't love \"who I am when work has me by the throat.\"\n\nSo: Career has definitely been central to who she is. Whether that's genuinely changing or just muted by grief and stress is something Dana herself seems uncertain about. She's questioning the relationship between work, identity, and what makes her feel \"okay,\" but hasn't reached any conclusions.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is strong and stable as of August 2025. Key points:\n\n**Overall health:** They've been together 6 years and Dana explicitly values that \"we don't do the snipe-at-each-other thing.\" Their recent decision-making process around Sam's job offer (April-May 2025) was completed \"without fighting\" and made them \"sturdier\" as a couple.\n\n**Recent stress test:** In August 2025, Dana snapped at Sam over a dinner question during a period of high work stress. Dana apologized properly the next morning, and Sam was gracious, saying \"you're carrying a lot, but I'm not the incident.\" The document states \"they're fine.\"\n\n**Sam's support:** Sam is described as \"very supportive.\" He gave up an in-person team and new city adventure to stay in Portland when he took a remote position. He also studied sailing knots intensively for the Dorothy Jean's first sail and worked the lines competently—showing investment in what matters to Dana.\n\n**Dana's awareness:** Dana believes Sam when he says the trade-off of staying in Portland was good \"eighty-five percent\" but is \"watching the other fifteen\"—suggesting she's attentive to potential strain.\n\nThe relationship appears solid, with both partners capable of handling stress, making repairs, and supporting each other through difficult periods.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

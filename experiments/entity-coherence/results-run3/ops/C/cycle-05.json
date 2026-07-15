@@ -1,0 +1,35 @@
+{
+  "cycle": 5,
+  "date": "2025-03-18",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-03-14] Dana scattered Mom's ashes at Beacon Rock on March 14. The urn had been in her closet for months and she couldn't look at that side of the closet. She drove out to the Gorge alone on a clear, cold Friday morning before she could talk herself out of it. Beacon Rock was theirs — Mom used to take Dana there as a kid, and on the way up taught her to read cloud shapes: 'Not just \"that one's a rabbit\" — she had this whole taxonomy, what a mare's tail sky meant, when the anvil clouds meant get off the water.' Dana stood at the top, the sky doing 'exactly the kind of high thin herringbone she loved,' and let her go into the wind. On the way down Dana picked up a fir cone from the trail; it's on the windowsill above her kitchen sink now. She drove home, Sam had soup waiting, and she slept eleven hours. (2025-03-18)",
+        "salience": 1,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-20"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-4"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-4"
+    },
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "cs-19",
+        "text": "Taxes filed by 2025-03-18, before the 2025-03-20 deadline"
+      },
+      "outcome": "rejected",
+      "detail": "cs-19 is not a thread"
+    }
+  ]
+}

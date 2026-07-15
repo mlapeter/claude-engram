@@ -1,0 +1,40 @@
+{
+  "cycle": 22,
+  "date": "2025-12-06",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-12-06] Dana returned to Beacon Rock on Sunday (shortly before 2025-12-06) for the first time since scattering Mom's ashes there in March 2025. It was cold and clear. She went up the trail slowly and read the sky out loud using the cloud taxonomy Mom taught her — mare's tails, anvil clouds, when to get off the water — the first time she'd said it out loud since she was a kid on the boat with Mom. The sky was 'a proper mare's tail sky, those high thin herringbone streaks, the exact kind she loved.' Dana said: 'Nine months ago that trail nearly broke me. Sunday I stood up there reading cloud shapes and felt close to her instead of hollowed out by her. I think tending the boat, and the barn, and the garden — keeping her places — has been quietly doing the grief work I couldn't do by sitting still.' The fir cone from March is still on her windowsill.",
+        "salience": 0.95,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-71"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-12-06] The Dorothy Jean is hauled out and winterized for the season, shrink-wrapped in the barn near Scappoose that Dana is rebuilding",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-72"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-12-06] Nina (Marcus and Elena's daughter) took her first steps the week before 2025-12-06; Marcus described as 'beside himself'",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-73"
+    }
+  ]
+}

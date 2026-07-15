@@ -1,0 +1,84 @@
+{
+  "policy": "C",
+  "cycle": 2,
+  "date": "2025-02-12",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company and lives in Portland (since 2025-02-03).",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "Dana is restoring her mother's 22-foot wooden sailboat named Dorothy Jean (named after Dana's grandmother). Her mother taught Dana to sail on this boat. The boat is currently stored under a tarp in Priya's dad's barn near Scappoose.\n\nDana started the restoration on 2025-02-10, when she pulled off the tarp and sanded one plank. She described this as \"the first right thing in months\" and said \"working with my hands on something of hers felt like the first right thing in months.\" \n\nThe restoration is intentionally slow with no deadline. As of 2025-02-12, this is where things stand with the project.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya appear to be close. Priya is described as Dana's \"closest friend from grad school.\" As of 2025-02-12, they signed up together for a Tuesday night pottery class, which is noted as their \"first standing calendar commitment in years.\" This suggests they are actively strengthening their friendship with regular, scheduled time together.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana lost her mother \"during winter before 2025-02-03\" but does not provide a specific date.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana is a product manager at \"a healthcare data company\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam (partner)**: Together for six years as of 2025-02-03. Described as providing 'great' support during a difficult time. Sam uses 'he' pronouns when referring to Dana.\n\n2. **Marcus (brother)**: Lives in Denver. They are described as close, but as of 2025-02-03, they haven't seen each other in over a year and their communication has drifted to phone calls only. Dana has a 'real intention' to see Marcus in person during 2025.\n\n3. **Priya (closest friend from grad school)**: A ceramicist and freelance designer. As of 2025-02-12, they signed up together for a Tuesday night pottery class, which is their first standing calendar commitment in years. Priya's dad owns a barn near Scappoose where Dana's mother's sailboat is stored.\n\n4. **Dana's mother**: Lost during the winter before 2025-02-03. Dana is restoring her mother's sailboat (Dorothy Jean) and learned to sail from her.\n\n5. **Dana's grandmother**: The sailboat Dorothy Jean is named after her.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Situation\n\n**Work:** Dana is a product manager at a healthcare data company, mid-quarter with a roadmap review that was scheduled for Thursday 2025-02-06. She was facing a prioritization decision between interoperability work and analytics dashboard.\n\n**New Activities (as of Feb 2025):**\n- Started restoring her mother's 22-foot wooden sailboat (Dorothy Jean, named after Dana's grandmother) on 2025-02-10. The boat is stored under tarp in Priya's dad's barn near Scappoose. This is an intentionally slow project with no deadline.\n- Attending Tuesday night pottery class with Priya (started Feb 2025) - their first standing calendar commitment in years.\n\n**Relationships:**\n- Partner Sam: together six years, providing great support\n- Brother Marcus: lives in Denver, haven't seen each other in over a year, communication has drifted to phone calls only\n- Priya: closest friend from grad school, ceramicist and freelance designer\n\n## Open Threads to Follow Up\n\n- **Visit with Marcus:** Dana expressed a \"real intention\" to see her brother in person sometime in 2025 (stated 2025-02-03)\n- **Sailboat restoration progress:** How is the project going since she started on 2025-02-10?\n- **Pottery class:** How are the Tuesday sessions with Priya going?\n\n## Handle With Care\n\n**Mother's death:** Dana lost her mother during the winter before 2025-02-03. This is clearly tender territory:\n- She described it as a \"heavy winter\" that \"colors everything\"\n- She explicitly did not want to discuss details in early February\n- The sailboat restoration is deeply meaningful - her mother taught her to sail on this boat, and working on it \"felt like the first right thing in months\"\n- As of 2025-02-12, she said \"I'm not ready to talk about the rest of it yet\"\n\n**Approach:** Let Dana lead on whether/when to discuss her mother. The sailboat work seems to be a positive connection to her grief, so that may be a gentler entry point if she wants to talk.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        2
+      ]
+    }
+  ]
+}

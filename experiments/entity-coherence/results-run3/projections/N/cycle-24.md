@@ -1,0 +1,309 @@
+# Dana Whitfield — Memory Notes
+
+**Personal Overview**
+- Lives in Portland
+- Age 41
+- Partner: Sam (together 6 years) — very supportive; doesn't run but bikes
+  - Works in tech; background in robotics
+  - Accepted position as perception team lead at robotics startup in Austin, TX (May 2025); negotiated fully remote from Portland with week-long Austin visits every couple months
+  - Started June 2025 — built out spare room office with three monitors and foam panels
+  - Thriving in the role; described as "dream problem space" with strong compensation
+  - Gave up in-person team and new city adventure to stay in Portland; Dana believes him about the trade being good "eighty-five percent" and is watching the other fifteen
+  - Decision process (April-May 2025) completed without fighting; made them "sturdier" as a couple
+  - Studied sailing knots "like there's an exam" for Dorothy Jean's first sail — worked the lines competently
+  - Flew to Austin for in-person stint (week of September 20, 2025)
+  - Took Dorothy Jean out twice more over summer 2025 — "nothing dramatic, exactly the point"
+  - Relationship dynamic: "Six years and we don't do the snipe-at-each-other thing" — Dana values this
+  - October 2025: Dana snapped at Sam twice during work stress (August and October) — said "must be nice to have a job you can close the laptop on" after he suggested she log off by nine; apologized within the hour
+  - Dana's diagnosis: "It's not us... It's not the relationship that's cracking. It's my relationship to the job."
+  - Sam's observation: "I don't think you're mad at me, I think you're mad at the laptop"
+  - "When we're not in a work crunch we're honestly better than we've been in years — the Austin thing welded us"
+  - November 2025: Weekend at Mt Hood cabin (first weekend after Dana's schedule change) — "the good kind of ordinary"
+  - Hiked to frozen-edged lake, played gin rummy (Dana won), Sam cooked, Dana read half a novel
+  - Dana had been "a little braced" after fall's snapping incidents, but "we were us" — no strain
+  - Sam: "I like you at four days a week already, and it's been a week" — noticed Dana is lighter
+  - Dana: "I'm easier to live with when I'm not spending myself down to the studs at the office"
+  - "The relationship was never the problem — but the relationship gets the benefit"
+  - Relationship with Sam: "solid, better than solid" — strain was work-stress, not them
+  - Stubbornly unmarried
+  - December 2025: Holiday card season — printer producing magenta stripe through Sam's face; Dana decided it was "a feature" and sent them anyway; Sam's a good sport; Dana "weirdly proud of" the magenta-striped card
+- Brother: Marcus, lives in Denver with partner Elena
+  - Close but hadn't seen each other in over a year before Nina's birth
+  - Daughter Nina born March 6, 2025 — Dana is now an aunt
+  - Marcus called Dana from hospital at 2am, emotional and happy; reconnected in a way they haven't in years
+  - Flew to Portland with Nina (4 months old) for Dorothy Jean's first sail, July 12, 2025
+  - When Dana told him the date, Marcus said "Mom would have required my attendance" and booked flights that night
+  - Nina crawling as of September 2025 — Marcus sends videos "roughly every ninety minutes"; Dana describes her as "a menace, it's perfect"
+  - Nina took first steps December 2025 — Marcus is "beside himself"
+  - January 2026: Nina walking and says something that might be Dana's name "if you're generous"
+
+**Mother's Death & Healing Journey**
+- Mother passed away winter 2024-2025
+- Mother taught Dana to sail and to read cloud formations — full taxonomy of clouds, when to get off the water
+- Ashes scattered at Beacon Rock on March 14, 2025 — Dana went alone
+  - Beacon Rock was a special place they shared
+  - Clear, cold day with high thin herringbone clouds
+  - Brought home a fir cone from the trail; now on kitchen windowsill — "It's not going anywhere"
+  - "The loudest my own head has been quiet since Beacon Rock" — Dana's reference point for deep peace
+- December 1, 2025: Returned to Beacon Rock — first time back since scattering ashes
+  - Cold and clear, like it was in March
+  - Proper mare's tail sky — high thin herringbone streaks, the kind Mom loved, means weather's coming but not yet
+  - Stood at the top and read the clouds out loud for her — the whole taxonomy
+  - "I hadn't said any of it out loud since I was a kid on that boat with her"
+  - "Brought her lesson back to the place you left her"
+  - Major shift: "It didn't gut me. It was almost good. Nine months ago that trail nearly broke me. Sunday I stood up there reading cloud shapes and felt close to her instead of hollowed out by her."
+  - "I think tending the boat, and the barn, and the garden — keeping her places — has been quietly doing the grief work I couldn't do by sitting still."
+  - "The good kind of hard"
+- Mother's garden tools: stored in Dana's basement; moving them back to the barn where they belong (October 2025)
+- Tending roses at mother's old house before it sells (October 2025)
+- Mother's voice about "not wasting potential" — Dana recognizing this as possible driver of career trajectory
+- Mother's sailboat: the Dorothy Jean, a 22-foot wooden sailboat named after Dana's grandmother
+  - Stored in barn near Scappoose (belongs to Priya's dad)
+  - Dana restored the boat Feb-June 2025 — worked Sundays, no deadline
+  - Key insight: "The hours I spent with my hands on the Dorothy Jean were the only hours all spring where my brain went quiet. Really quiet."
+  - Hull fully caulked and painted by early June; rigging done, new lines, marine survey confirmed she's sound
+  - First sail: July 12, 2025 on the Columbia River — gentle afternoon, exactly as planned
+  - Crew: Sam, Marcus, and Nina (4 months old)
+  - Sky: high thin clouds, not quite mare's tail but close — Dana counted it as a blessing
+  - Photo exists: Nina asleep in tiny life jacket against Marcus's chest with mainsail up behind them — Dana has already had it printed twice
+  - "The point isn't the sailing" — it's who's aboard and whose boat it is
+  - Restoration did important emotional work for Dana
+  - After boat launched: "I felt this little panic of 'okay, but now what do I do with my hands'"
+  - Had "lovely quiet summer" — Sam and Dana took her out twice more, nothing dramatic
+  - December 2025: Dorothy Jean hauled out and winterized, shrink-wrapped in the same barn Dana is rebuilding around her — "which pleases me enormously"
+  - January 2026: "The boat sleeps in a barn I'm slowly making beautiful"
+- **Grief as catalyst for complete life reorientation:**
+  - **January 2026 reflection: "If I'm honest the whole reorientation traces back to her dying. Not in a dramatic collapse way — it was slow."**
+  - **"Sanding the boat because I couldn't talk about her, then the class because the sanding went quiet in my head, then dropping the Friday, then hearing myself tell Priya I never wanted the director job. Each step was small enough that I could tell myself it was just timing. It wasn't timing."**
+  - **"It was a genuine change in what I put at the middle, and it took the whole year to see it for what it was."**
+  - **The lineage: boat restoration → ceramics class → four-day week → director job realization → residency application**
+  - **"Mom, mostly" — the entire transformation traces to her death**
+- Pattern of healing: Tending the boat, the barn, the garden — keeping her mother's places — has been quietly doing the grief work she couldn't do by sitting still
+- Core identity emerging: "Who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved"
+- Fir cone from Beacon Rock still on kitchen windowsill
+
+**Running & Ankle Injury — Recovery Complete**
+- Background: casual runner for years, 5Ks, one half-marathon about four years ago
+- Had signed up for Lakefront Marathon (October 2025) — would have been first full marathon
+- April 11, 2025: Bad ankle sprain on trail run in Forest Park, mile nine
+  - Urgent care diagnosis: bad grade-two sprain, possibly worse
+  - Withdrew marathon registration immediately
+  - Described as "the first future-shaped thing I'd built since mom"
+- Recovery timeline:
+  - Walking boot through late April; boot removed April 27
+  - Physical therapy twice a week through May
+  - PT cleared for light jogging May 24
+  - Up to 30-minute jogs by early June
+  - Up to 40-minute jogs by late June
+  - Up to 45-minute jogs by September 2025 — "proper forty-five minutes"
+  - Running consistently at 45 minutes as of November 2025
+- Marathon definitively off for 2025; made peace with it
+  - No responsible path to 26.2 in October
+  - May sign up again next year
+  - Current goal: run pain-free by fall, don't re-injure
+  - "The ankle taught me something about not white-knuckling timelines" — actual shift, not resignation
+
+**Friendship with Priya — Repaired and Thriving**
+- Close friend: Priya (from grad school) — ceramicist and freelance designer; her dad owns the barn where the Dorothy Jean was stored
+- "Has never once wanted a title in her life"
+- Tuesday night pottery class together (started Feb 2025) — first standing commitment in years; ongoing
+- Recent pottery: made a bowl (March), mug with actual handle (April)
+- Major rupture and repair (April-June 2025):
+  - Priya asked to borrow $8,000 for ceramics studio lease (deposit and buildout)
+  - Dana said no immediately and "badly" — cited not mixing money and friendship
+  - Priya went "very quiet and then very polite"
+  - Dana recognized she "delivered ten years of friendship a verdict in four seconds"
+  - Skipped pottery class twice in late April; drafted and deleted texts to Priya multiple times through May
+  - Dana sent text early June: "I miss you, can I buy you coffee, I want to talk about how I said what I said"
+  - Priya replied in four minutes
+  - Met for coffee Thursday, June 5; talked for three hours
+  - Dana apologized for the way she answered — the four-second verdict
+  - Priya apologized for going polite-and-frozen instead of expressing hurt
+  - The loan itself took ten minutes: Priya realized on reflection she didn't actually want to owe Dana money either
+  - Dana found a regional arts infrastructure grant that funds studio buildouts; offered to help with application
+  - Spent Sunday, June 8 at Priya's kitchen table building the budget narrative (grant-shaped writing is Dana's day job dialect)
+  - Grant submitted on time (end of June)
+  - "Doing that together did more repair than any amount of talking about the fight"
+  - Pottery class resumed; Priya mocked Dana's new bowl — sign they're really okay
+  - Dana didn't change the answer, but changed everything around it
+- Grant success (September 2025): Priya got the full arts infrastructure grant
+  - Studio space is hers, deposit and buildout covered
+  - Signs lease October 2025
+  - Priya called Dana crying; Dana cried too; Priya made fun of her for it — "our whole friendship in one phone call"
+  - Dana: "I don't think I've ever been so happy about something that has nothing to do with my own life"
+  - After the "four-second-verdict spring," this feels like "medicine" — Dana gets to feel like a good friend again
+  - Priya asked if Dana wants a shelf in the new studio — "a literal shelf, for my stuff, in a real ceramics studio"
+  - Dana said yes immediately — keeps grinning about having "a shelf of your own"
+- New studio (November 2025): Priya has keys, space smells like wet clay and fresh paint — "it's wonderful"
+  - Ancient printer that jams exactly like Dana's old home one — Dana finds this "deeply comforting"
+  - Tuesday, November 19, 2025: Priya asked offhand whether Dana was going for director job in spring
+  - Dana's response: "Honestly? I'm not sure I want the director track at all anymore. I'm not sure I ever did."
+  - Priya: "Yeah, no kidding" — handed Dana a mug to trim (most Priya response possible)
+  - This conversation catalyzed major realization for Dana (see Professional Life)
+
+**Ceramics — Serious Practice and Major Development**
+- Tuesday night pottery class with Priya (started Feb 2025) — ongoing social practice
+- September 2025: Signed up for 12-week Saturday intensive wheel throwing class at Southeast Portland studio
+  - Three hours every Saturday morning
+  - One teacher, "a little scary and very good"
+  - Cost: $400 — "never been happier about a purchase"
+  - First class: September 2025 (first Saturday)
+  - "Centered exactly one lump before the other six flew off the wheel, and I drove home grinning like I did after the first jog"
+  - Ongoing through fall — Dana describes Saturdays as "blissful at the wheel"
+  - Recurring issue: Studio validates parking but only with sticker from front desk; Dana forgets every single week
+- Key insight: "That class is the first thing in months that felt like me. Not like a thing I'm supposed to want, or a box I'm checking. Like me."
+- "Three hours where nobody needs an escalation decision and the clay does not care that I'm a product manager."
+- Pattern: Hours with hands on Dorothy Jean made brain go quiet; after boat launched, felt panic of "now what do I do with my hands" — clay is the answer
+- "Saturdays are mine now"
+- Will have a shelf for her work in Priya's new studio (October 2025)
+- **December 19, 2025: Applied to six-month ceramics residency at craft school on the coast**
+  - **Applications due December 19; Dana submitted at 11:52pm**
+  - **"A real one" — studio access, stipend, cohort, "the whole thing"**
+  - **Portfolio: pots made fall 2025 that she's "not even embarrassed by"**
+  - **Teacher who "scares her" wrote recommendation**
+  - **Would require taking leave from work, going more part-time, or other major arrangement**
+  - **"I don't actually know, and I applied anyway, which tells you something"**
+  - **A year ago this would have read as "a breakdown" — now reads as "the sanest thing I've considered in ages"**
+  - **Not telling work until she hears back**
+  - **"It's a long shot"**
+  - **"Terrified and I submitted it. Both things."**
+  - **"Fingers crossed and clay under the nails"**
+  - **January 2026: Still waiting to hear back; if accepted, will require negotiation with work Dana's "not looking forward to"**
+  - **"The direction's settled even if the details aren't"**
+
+**The Barn Project — Major Undertaking (October 2025)**
+- Restoring Priya's dad's barn in Scappoose — the one where Dorothy Jean lived for a decade
+- "It's falling down, honestly, and he's too old to fix it, and it's where I found my hands again this spring"
+- Work planned: Re-siding the north wall, fixing the roofline, building a real workbench
+- Moving Mom's garden tools back to the barn "where they belong" instead of Dana's basement
+- This is what Dana does with her Fridays (see Professional Life below)
+- "Making things and tending things"
+- Looking forward to cleaning ten years of leaves out of the gutters
+- Pattern continuation: Dorothy Jean restoration → ceramics → barn restoration — working with hands, making brain quiet
+- December 2025: Dorothy Jean now winterized and shrink-wrapped in the barn Dana is rebuilding around her
+- January 2026: "The boat sleeps in a barn I'm slowly making beautiful"
+
+**Professional Life & Complete Identity Transformation**
+- Product manager at a healthcare data company
+- Dropped to four-day work week effective November 1, 2025 — Fridays off, 20% pay cut
+  - HR processed October 24, 2025
+  - Decision came "slowly and then all at once, like the boat"
+  - After "mad at the laptop" week, asked herself what she'd do with a day back — answer came "so fast it embarrassed me: the barn"
+  - Told VP it was to "protect stabilization bandwidth" — let her understand it as work optimization
+  - Real reason (harder to say in one-on-one): "The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function."
+  - "It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point."
+  - "Would have been unthinkable to me a year ago"
+  - First Friday off: November 1, 2025 — drove to Mt Hood cabin with Sam
+  - Sam noticed within a week: "I like you at four days a week already" — Dana is lighter, easier to live with
+  - "Unbudgeted dividend" — relationship gets the benefit
+- **Complete identity transformation — fundamental reorientation (December 2025-January 2026):**
+  - **"I finally understand the difference between what I do and who I am."**
+  - **"Design — product work — is what I do. I'm good at it, it pays the mortgage, I don't hate it. But it is not who I am, and I spent fifteen years with those two things fused so tightly I couldn't see the seam."**
+  - **"Who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved. That's not a hobby that got out of control. That's the actual center, and the job is the thing arranged around it now, not the other way around."**
+  - **"Design is what I do, not who I am. I could not have told you that in February."**
+  - **"It took me all year and a dead mother and a sprained ankle and a boat to get there"**
+  - **January 2026: "Last January I was a product manager who ran a little and had lost her mom and was mostly holding on. This January I'm — still a product manager, four days a week, decent at it, genuinely fine with it. But that's not the headline about me anymore, and for fifteen years it would have been THE headline."**
+  - **"The headline now is the wheel, and the barn, and Mom's boat and her roses and Beacon Rock. Making things and keeping her places. That's the center. Work is a good job I do around the edges of my actual life."**
+  - **"A year ago I'd have found it faintly horrifying."**
+  - **"It isn't that I flamed out at work — I'm good, I could still go get the director title. I just stopped wanting my life to be shaped like that."**
+  - **"For the first time since Mom I know roughly which way I'm pointed."**
+  - **The transformation is complete and settled: "The direction's settled even if the details aren't."**
+- Earlier identity crisis and evolution (through November 2025):
+  - "For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine."
+  - November 19, 2025: Said out loud to Priya at new studio: "I'm not sure I want the director track at all anymore. I'm not sure I ever did."
+  - "Hadn't even fully said to myself" before saying it to Priya — has been "ringing in my ears since"
+  - "The 'maybe never did' is a bigger claim than the deferral was"
+  - Deferring promotion could be filed under grief and timing, but "maybe I never wanted it" means "the last fifteen years of climbing might have been momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine."
+  - "Uncomfortable and correct, which is usually the combination that means something real"
+  - "The story where getting to director was the point of me? I don't think I believe it anymore. I think I stopped believing it and only just noticed."
+  - Not planning to "blow up my career over a Tuesday epiphany at a pottery wheel" — has mortgage, actually likes being competent at the work
+  - But fundamental shift in what the work means and what she's climbing toward
+- Major professional achievement (July 2025): Shipped interoperability platform
+  - The big one — fought for it since first roadmap review in February (18 months of politics)
+  - Half the exec team was against it
+  - Went live successfully; CEO shouted Dana out by name in all-hands
+  - Dana felt "nothing. Not modest-nothing. Actual, echoing nothing."
+  - Describes it as "the biggest professional moment of my life" landing like "biting into wax fruit"
+  - This rattled her — ambition has always been her spine, her way of knowing she's okay
+- Post-launch reality (August-October 2025): "Turns out shipping the big thing just means you own the big thing now"
+  - Nasty production incident through August; finally closed September
+  - One exec made Dana his single point of contact "at all hours"
+  - Work described as "pressure cooker" and having Dana "by the throat"
+  - Dana doesn't love "who I am when work has me by the throat"
+  - Stress bleeding into home life — snapped at Sam twice (August and October)
+  - October 2025: Q4 planning described as "bloodbath" — staying online until eleven most nights
+  - "Work-stress acid leaking onto the nearest person"
+  - Sam's observation: "I don't think you're mad at me, I think you're mad at the laptop"
+  - Dana's realization: "I'm starting to think that's the actual headline"
+- Director promotion offered and deferred (August 2025):
+  - VP Elaine pulled Dana aside Thursday, August 15 and offered to put her up for director
+  - Would be head of merged product org, org chart doubles — "the rung I've been climbing toward for years"
+  - Dana's response: asked for time to think, then declined "not this year"
+  - This is significant: "Six months ago I'd have said yes before she finished the sentence"
+  - Official reason (true but "reasonable version"): interoperability platform in fragile stabilization phase, still escalation point, taking bigger org mid-incident would be reckless
+  - Elaine accepted it; framed as "not now" not "no" — door open for spring 2026
+  - Dana's uncertainty at the time: "I don't have [a less-reasonable version] yet, that's the honest answer"
+  - Attributed hesitation to exhausting year (Mom, ankle, Austin scare) and possibly grief-brain
+  - Not building "a whole theory out of one deferred promotion" — planned to revisit in spring
+  - November 2025: Now questioning whether she wants the director track at all — "maybe never did"
+  - Priya asked whether Dana was going for it in spring; Dana's answer revealed deeper truth
+- Skills include grant-shaped writing and budget narratives
+- January 2026: Still competent at work, "decent at it, genuinely fine with it" — could still pursue director title but doesn't want life shaped that way
+
+**Communication Style**
+- Uses this space to "think out loud"
+- Appreciates being heard without being pushed on sensitive topics
+- Makes "clean, adult decisions" even when they feel terrible
+- Honest about partial certainties ("eighty-five percent")
+- Learning to let small victories be enough without forcing larger resolutions
+- Capable of finding creative solutions that honor both boundaries and relationships
+- Recognizes load-bearing moments and symbols
+- Deflects from difficult emotional territory when it gets too close ("enough navel-gazing")
+- Tends to attribute difficult feelings to grief rather than sit with other possibilities
+- Takes responsibility when she's in the wrong; repairs quickly and properly
+- Resists building "whole theories" from single data points — prefers to wait and see
+- Self-aware about hedging: "Hold it lightly, it's just a pottery class" — even when something clearly matters
+- Finds deep satisfaction in others' successes: "I don't think I've ever been so happy about something that has nothing to do with my own life"
+- Makes "precise distinctions" when examining what's actually wrong
+- Can articulate real reasons when safe space allows, even when they're "harder to say"
+- Wants good things "on the record" — conscious of narrative balance
+- Sometimes says things out loud before fully processing them internally — truth emerges in conversation
+- "Uncomfortable and correct" — recognizes this combination as signal of something real
+- Finds comfort in small eternal things: ancient printers that jam, continuity
+- Asks for things to be "held, no advice" when processing emotionally significant experiences
+- Acts on clarity even when terrified: "Terrified and I submitted it. Both things."
+- **Values naming the shape of things: "I wanted to say it out loud to someone"**
+- **Recognizes lineages and slow transformations: "A lineage. I like that."**
+
+**Current State (January 2026)**
+- **Year-in-review perspective: Complete transformation from "product manager who ran a little and had lost her mom and was mostly holding on" to someone whose headline is "the wheel, and the barn, and Mom's boat and her roses and Beacon Rock"**
+- **"For the first time since Mom I know roughly which way I'm pointed"**
+- **"The direction's settled even if the details aren't"**
+- Ten weeks into four-day work schedule — showing clear benefits
+- Relationship with Sam: "solid, better than solid" — Dana is "lighter" and "easier to live with"; Sam thriving in his role
+- Successfully sailed the Dorothy Jean with the people who mattered most (July); had quiet summer with two more sails; boat now winterized in barn Dana is restoring
+- Serious ceramics practice ongoing — "blissful on Saturdays at the wheel"
+- Has shelf in Priya's new studio — keeps grinning about it
+- Priya's studio open with keys — smells like wet clay and fresh paint
+- Priya got the grant — Dana feels like a good friend again, which is "medicine" after spring rupture
+- Deeply happy about things outside her own life: Priya's grant, Nina's first steps and first words, Sam's job thriving
+- Barn restoration work ongoing on Fridays — "slowly making beautiful"
+- Applied to six-month ceramics residency — waiting to hear back; not telling work yet; if accepted will require negotiation
+- Complete identity transformation achieved: "Design is what I do, not who I am"
+- Clear on actual center: "Who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved"
+- "The job is the thing arranged around it now, not the other way around"
+- Grief healing: Returned to Beacon Rock and felt close to mother instead of hollowed out — "the good kind of hard"
+- Recognizes that tending the boat, barn, and garden — keeping her mother's places — has been quietly doing the grief work she couldn't do by sitting still
+- Running consistently at 45 minutes
+- Small victories: Fixed dripping kitchen faucet herself for $1.40 in washers — "have never felt more powerful"
+- Tending roses at mother's old house before it sells
+- Pattern fully visible and understood: Dorothy Jean → ceramics → barn → residency application — working with hands, making things, tending things, brain going quiet
+- Clear on what matters: "The days I spend at the wheel or in that barn are the days I feel like a person"
+- Fir cone from Beacon Rock still on kitchen windowsill — "It's not going anywhere"
+- Holiday cards sent with magenta stripe declared "a feature" — Sam's a good sport; Dana "weirdly proud of" them
+- **"Statistically I have no complaints and one magenta-striped holiday card I'm weirdly proud of"**
+- **The transformation traces to mother's death: "Mom, mostly" — each step small enough to seem like timing, but it was "a genuine change in what I put at the middle"**
+- **Not a flame-out: "I'm good, I could still go get the director title. I just stopped wanting my life to be shaped like that."**
+
+---
+*Last updated: 2026-01-10*

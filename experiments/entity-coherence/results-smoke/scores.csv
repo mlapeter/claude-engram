@@ -1,0 +1,8 @@
+policy,cycle,metric,value
+P0,1,current_fact,1
+P0,1,confabulation,1
+P0,1,relationship,1
+P0,1,reunion,1
+P0,1,overall,1
+P0,1,bytes,1784
+P0,1,noiseCount,1

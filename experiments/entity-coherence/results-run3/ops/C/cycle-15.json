@@ -1,0 +1,29 @@
+{
+  "cycle": 15,
+  "date": "2025-08-16",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-08-16] VP Elaine offered Dana a formal director promotion on Thursday (approximately 2025-08-14) to head a merged product org with doubled org chart; Dana asked for time to think and declined over the weekend, citing bad timing due to interoperability platform's fragile stabilization phase and ongoing incident escalation responsibilities; Elaine indicated the door remains open and Dana could raise her hand again in spring 2026",
+        "salience": 0.7,
+        "surprise": "mild"
+      },
+      "outcome": "applied",
+      "detail": "added cs-55"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "bel-53",
+        "note": "Dana deferred a director promotion she described as 'the rung I've been climbing toward for years' and 'the obvious next move' — said six months ago she would have accepted immediately but now finds the prospect 'exhausting rather than exciting'; attributes this to 'grief-brain' and the cumulative weight of the year (mom, ankle, Austin uncertainty); explicitly frames this as potentially temporary ('ask me in the spring') rather than a fundamental shift in ambition",
+        "surprise": "mild",
+        "salience": 0.6
+      },
+      "outcome": "deferred",
+      "detail": "ledger bel-53 now 0.12"
+    }
+  ]
+}

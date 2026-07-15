@@ -1,0 +1,51 @@
+{
+  "cycle": 2,
+  "date": "2025-02-12",
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Priya (closest friend from grad school); ceramicist and freelance designer; as of 2025-02-12, signed up together for Tuesday night pottery class — first standing calendar commitment in years",
+        "salience": 0.6,
+        "surprise": "none",
+        "entity": "Priya"
+      },
+      "outcome": "applied",
+      "detail": "added rel-7"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Started restoring mother's wooden sailboat (22-foot sailboat named Dorothy Jean, after Dana's grandmother) on 2025-02-10; boat stored under tarp in Priya's dad's barn near Scappoose; mother taught Dana to sail on this boat; restoration is intentionally slow with no deadline",
+        "salience": 0.9,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-8"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-02-10, pulled tarp off mother's sailboat Dorothy Jean and sanded one plank — described as 'the first right thing in months'; said 'working with my hands on something of hers felt like the first right thing in months' and 'I'm not ready to talk about the rest of it yet' (2025-02-12)",
+        "salience": 0.95,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-9"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Attends Tuesday night pottery class with Priya starting 2025-02 (new standing commitment as of 2025-02-12)",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-10"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "cycle": 11,
+  "date": "2025-06-08",
+  "threshold": 3,
+  "snapshot": [
+    {
+      "key": "cs-9",
+      "targetText": "[as of 2025-02-12] Taking a Tuesday night pottery class with friend Priya; described as 'the first standing thing we've had on the calendar in years'",
+      "targetSection": "current",
+      "total": 0.18,
+      "entries": 1,
+      "hasPendingRevision": false
+    },
+    {
+      "key": "th-18",
+      "targetText": "Plans to visit Marcus, Elena, and new niece Nina in Denver before summer 2025; Marcus offered 'the guest room is yours'; Dana described this as 'a thing I owe now, and I want to owe it'",
+      "targetSection": "thread",
+      "total": 0.12000000000000002,
+      "entries": 1,
+      "hasPendingRevision": false
+    }
+  ],
+  "accommodatedThisCycle": [],
+  "hygieneRan": false
+}

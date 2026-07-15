@@ -1,0 +1,100 @@
+{
+  "cycle": 8,
+  "date": "2025-04-27",
+  "pinned": [
+    "sal-7",
+    "sal-10",
+    "sal-14",
+    "sal-17",
+    "sal-20",
+    "sal-24",
+    "cs-9"
+  ],
+  "proposed": 8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-30",
+          "cs-31"
+        ],
+        "text": "[as of 2025-04-27] Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain or worse; wore walking boot until late April 2025; boot scheduled to come off Thursday 2025-05-01; orthopedist confirmed ankle healing on schedule; physical therapy to start after boot removal; continuing Dorothy Jean restoration work on Sundays (can sand planks while sitting)",
+        "reason": "cs-30 and cs-31 contain overlapping information about the same ankle injury recovery timeline; cs-31 adds only the Dorothy Jean detail which can be incorporated into one consolidated item"
+      },
+      "outcome": "applied",
+      "detail": "merged cs-30+cs-31 -> gist-33 (sources archived, linked)"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "rel-8",
+          "rel-28"
+        ],
+        "text": "Priya (closest friend from grad school; ceramicist and freelance designer); they signed up for a Tuesday night pottery class together starting in February 2025; approximately two weeks before 2025-04-27, Priya asked Dana to borrow eight thousand dollars for a ceramics studio lease deposit and buildout; Dana said no immediately and 'badly,' citing not mixing money and friendship; Priya went 'very quiet and then very polite'; they have skipped pottery class twice since; Dana described the exchange as delivering 'ten years of friendship a verdict in four seconds' and recognizes the delivery hurt more than the answer itself (as of 2025-04-27)",
+        "reason": "Both items describe the same relationship with Priya; merging captures the full arc from pottery class friendship through the loan conflict in one coherent entry"
+      },
+      "outcome": "applied",
+      "detail": "merged rel-8+rel-28 -> gist-34 (sources archived, linked)"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "rel-15",
+          "rel-16"
+        ],
+        "text": "Elena and Nina: Elena (Marcus's partner) gave birth to daughter Nina on 2025-03-06; Dana described crying at her desk upon seeing the first photo of Nina in a knit hat (as of 2025-03-09)",
+        "reason": "Elena and Nina can be described together as they're primarily significant through the birth event and family connection; reduces redundancy while preserving all emotional detail"
+      },
+      "outcome": "applied",
+      "detail": "merged rel-15+rel-16 -> gist-35 (sources archived, linked)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-19",
+        "reason": "Tax deadline of 2025-03-20 has passed (current date is 2025-04-27); this task is completed or obsolete and no longer part of current state"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-19 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-2",
+        "text": "[as of 2025-02-03] Product manager at healthcare data company in Portland; mid-quarter with roadmap review scheduled for Thursday 2025-02-06"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-9",
+        "text": "[as of 2025-02-12] Taking Tuesday night pottery class with friend Priya; described as 'the first standing thing we've had on the calendar in years'"
+      },
+      "outcome": "rejected",
+      "detail": "cs-9 is pinned (protected or open-ledger evidence)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-11",
+        "text": "[as of 2025-02-12] Restoring mom's sailboat (the Dorothy Jean) at a barn near Scappoose; working slowly with no deadline, described as therapeutic"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-32",
+        "text": "[as of 2025-04-27] Sam's decision on Austin job offer due in approximately one week (early May 2025); Dana described current moment as 'everything is happening at once'"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    }
+  ]
+}

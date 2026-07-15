@@ -1,0 +1,47 @@
+{
+  "cycle": 23,
+  "date": "2025-12-20",
+  "threshold": 3,
+  "snapshot": [
+    {
+      "key": "bel-53",
+      "targetText": "Has historically defined herself through work ambition and achievement; described herself as 'the person who is her work' for fifteen years, 'not in a grim way — I mean it like an engine'; said 'ambition's been my whole spine' and 'that's how I've always known I'm okay'; as of 2025-07-19, experiencing unexpected emotional flatness at major professional wins, which she attributes to grief",
+      "targetSection": "belief",
+      "total": 0.36,
+      "entries": 3,
+      "hasPendingRevision": false
+    },
+    {
+      "key": "cs-9",
+      "targetText": "[as of 2025-02-12] Taking a Tuesday night pottery class with friend Priya; described as 'the first standing thing we've had on the calendar in years'",
+      "targetSection": "current",
+      "total": 0.18,
+      "entries": 1,
+      "hasPendingRevision": false
+    },
+    {
+      "key": "th-18",
+      "targetText": "Plans to visit Marcus, Elena, and new niece Nina in Denver before summer 2025; Marcus offered 'the guest room is yours'; Dana described this as 'a thing I owe now, and I want to owe it'",
+      "targetSection": "thread",
+      "total": 0.12000000000000002,
+      "entries": 1,
+      "hasPendingRevision": false
+    },
+    {
+      "key": "rel-4",
+      "targetText": "Sam (partner of six years); described as 'great' support, especially during difficult times",
+      "targetSection": "relationship",
+      "total": 0.12000000000000002,
+      "entries": 1,
+      "hasPendingRevision": false
+    },
+    {
+      "key": "section:current",
+      "total": 0.09,
+      "entries": 1,
+      "hasPendingRevision": false
+    }
+  ],
+  "accommodatedThisCycle": [],
+  "hygieneRan": false
+}

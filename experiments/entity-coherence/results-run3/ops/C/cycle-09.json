@@ -1,0 +1,98 @@
+{
+  "cycle": 9,
+  "date": "2025-05-11",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-22",
+        "text": "Sam negotiated remote work from Portland with the Austin robotics startup; he accepted the role with arrangement to work remotely and visit Austin one week every couple months; starts June 2025; Dana and Sam are staying in Portland; Dana described feeling relief at not having to leave 'the load-bearing geography' this year"
+      },
+      "outcome": "applied",
+      "detail": "resolved th-22"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-21",
+        "text": "Sam accepted the Perception team lead role at the Austin robotics startup with a remote work arrangement from Portland; starts June 2025; will visit Austin approximately one week every couple months; Dana described the negotiation as 'he gave something up too — the in-person team, the new city adventure' and said she believes the trade is good for him 'about eighty-five percent'",
+        "salience": 0.7,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "cs-21 -> cs-36"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-32",
+        "text": "Decision on Sam's Austin job offer resolved as of early May 2025; Sam negotiated remote work arrangement and Dana and Sam are staying in Portland",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-32 -> cs-37"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-05-11] When Sam told Dana the Austin startup had agreed to remote work, Dana cried a little. She said: 'I hadn't let myself feel how scared I was of leaving this year — the barn, the boat, Beacon Rock, all of it. And I'd been quietly rehearsing how to be graceful about going. Not needing the rehearsal anymore was the relief.'",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-38"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "gist-33",
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain; wore walking boot until Thursday 2025-05-01; as of 2025-05-11, out of boot, in physical therapy twice a week, walking normally-ish",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "gist-33 -> cs-39"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-11",
+        "text": "Restoring mom's sailboat (the Dorothy Jean) at a barn near Scappoose; working slowly with no deadline; as of 2025-05-11, starboard side is sanded and has started re-caulking the hull seams",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-11 -> cs-40"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-29"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-29"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "th-18",
+        "note": "As of 2025-05-11, Dana still has not visited Denver to meet niece Nina (now two months old); Dana said this 'is starting to itch at me' — suggests growing urgency but no concrete plan yet",
+        "surprise": "mild",
+        "salience": 0.4
+      },
+      "outcome": "deferred",
+      "detail": "ledger th-18 now 0.12"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-4"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-4"
+    }
+  ]
+}

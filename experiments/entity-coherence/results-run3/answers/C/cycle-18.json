@@ -1,0 +1,40 @@
+{
+  "policy": "C",
+  "cycle": 18,
+  "date": "2025-10-04",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana completed the restoration of her mother's sailboat, the Dorothy Jean (a 22-footer named after Dana's grandmother). The restoration progressed through spring 2025 - by early May the starboard side was sanded and hull seam re-caulking had started; by early June the hull was caulked and painted; by late June the restoration was complete with rigging done, new lines installed, and a marine survey confirming the boat was sound.\n\nThe Dorothy Jean was launched the weekend of July 12, 2025 at Cathedral Park ramp (Priya's dad lent the truck and trailer). That first sail was on the Columbia River with Sam working the lines and Dana's brother Marcus aboard with his four-month-old daughter Nina. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up.\n\nAs of September 20, 2025, Dana and Sam had taken the Dorothy Jean out twice more during the summer. Dana described the summer sailing as \"lovely quiet\" and \"nothing dramatic, exactly the point.\"",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work status (as of August 2025):**\n- Dana declined a formal director promotion that VP Elaine offered her on approximately August 14, 2025\n- The promotion would have put her in charge of a merged product org with a doubled org chart\n- Dana declined citing bad timing due to the interoperability platform's fragile stabilization phase and ongoing incident escalation responsibilities\n- Elaine indicated the door remains open and Dana could raise her hand again in spring 2026\n\n**Work context:**\n- Dana's interoperability platform shipped in early July 2025 after eighteen months of development\n- The CEO gave Dana a shout-out by name in the all-hands meeting\n- After launch, the platform had ongoing production incidents creating high pressure through August\n- The production incident finally closed as of early September 2025\n- Work is described as \"still a grind\" as of September 2025, but the incident pressure has resolved\n\nDana remains in her current role (product manager) with no change in her work arrangement.",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is stable and strong as of September 2025. Key points:\n\n- They are partners of six years\n- Sam is described as \"great\" support, especially during difficult times (reinforced multiple times through 2025)\n- Sam accepted a Perception team lead role at an Austin robotics startup in June 2025, but negotiated a remote work arrangement so they could stay together in Portland\n- The remote arrangement is working well as of September 2025 - his team likes him, and he flies to Austin approximately one week every couple months for in-person visits\n- They've taken the Dorothy Jean (Dana's mom's restored sailboat) out sailing together twice during summer 2025, described as \"lovely quiet\"\n- Sam built out their spare room as his remote office with three monitors and foam panels\n- Sam had soup waiting for Dana after she scattered her mom's ashes, and she slept eleven hours\n- Sam worked the lines when they sailed the Dorothy Jean on July 12, 2025\n\nThe relationship appears supportive, committed, and successfully navigating Sam's new remote work situation.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

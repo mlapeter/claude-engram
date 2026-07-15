@@ -1,0 +1,37 @@
+{
+  "cycle": 14,
+  "date": "2025-08-02",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "note_mismatch",
+        "section": "current",
+        "note": "Session 2025-08-02: Dana snapped at Sam over a dinner question during high work stress week (production incident, exec pressure post-launch); apologized next morning; Sam responded 'you're carrying a lot, but I'm not the incident'; Dana described it as 'one bad night' and emphasized 'six years and we don't do the snipe-at-each-other thing'; relationship repair was immediate and complete; Dana's concern is about work stress affecting her behavior, not relationship health",
+        "surprise": "mild",
+        "salience": 0.3
+      },
+      "outcome": "deferred",
+      "detail": "ledger section:current now 0.09"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-08-02] Interoperability platform launch in early July 2025 has led to ongoing production incident and high-pressure executive management; Dana described work as 'a pressure cooker since the launch' with an exec treating her as 'single point of contact at all hours'; experiencing stress affecting mood at home",
+        "salience": 0.5,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-54"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-4"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-4"
+    }
+  ]
+}

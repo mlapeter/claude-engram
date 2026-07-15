@@ -1,0 +1,1157 @@
+{
+  "entity": "Dana Whitfield",
+  "notes": "v3 key = v2 + two run-2 audit fixes, every affected answer hand-read: (1) rel-census reconcile-synonym group gains \"resolv\" and \"apolog\" (C c12 honestly described the rupture as \"Resolved... both apologized\" and was penalized); (2) salienceElement \"march 6\" gains anyOf [\"2025-03-06\"] — policy C renders stated dates in ISO form; the date is preserved, only the surface form differs. \"cloud shapes\" deliberately stays strict-verbatim (paraphrase detection is the point of the metric). v2 rescore key. Fixes four false-positive classes found auditing run-1 raw answers: (1) dateRegex matched the year in \"October 2025\" (a stated fact) and ISO session dates cited as honest grounding — now requires month+day not followed by another digit, ISO alternative dropped; (2) cf-training cycles 3-6 forbid hit \"injury prevention\" talk that the fixture itself contains — forbids narrowed to actual stale/wrong assertions; (3) \"withdrew\" missed \"withdrawn\" — stemmed to \"withdr\"; (4) cf-priya forbids hit honest history mentions (\"can be repaired separately\", \"had been estranged\") — narrowed to still-current-rupture assertions. Scoring semantics unchanged. v2.1: statedDates whitelist stripped before dateRegex (honest citations of fixture-stated dates are not fabrication; the mustNotContain conflation traps still check the raw answer); priya forbid \"reconciled\" narrowed (matched inside \"unreconciled\"). v2.2: conf-mom-death forbid narrowed to death-assertion phrasings — answers that correctly say the ashes were scattered March 14 while abstaining on the death date were being penalized.",
+  "abstainMarkers": [
+    "not stated",
+    "not mentioned",
+    "doesn't say",
+    "does not say",
+    "not specified",
+    "no information",
+    "never mentioned",
+    "hasn't mentioned",
+    "has not mentioned",
+    "don't know",
+    "do not know",
+    "unknown",
+    "isn't stated",
+    "isn't mentioned",
+    "doesn't specify",
+    "does not specify",
+    "not provided",
+    "doesn't mention",
+    "does not mention",
+    "no record",
+    "never stated",
+    "not included",
+    "not recorded",
+    "doesn't contain",
+    "does not contain",
+    "not in the entity model",
+    "no mention"
+  ],
+  "dateRegex": "(january|february|march|april|may|june|july|august|september|october|november|december)\\s+\\d{1,2}(?!\\d)|\\d{1,2}(st|nd|th)\\s+of\\s+(january|february|march|april|may|june|july|august|september|october|november|december)",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "keys": [
+        {
+          "cycles": [
+            1,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "product manager"
+            ],
+            [
+              "healthcare",
+              "health data",
+              "health-data"
+            ],
+            [
+              "portland"
+            ]
+          ],
+          "mustNotContain": []
+        }
+      ]
+    },
+    {
+      "id": "cf-training",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's running and any race plans?",
+      "keys": [
+        {
+          "cycles": [
+            3,
+            6
+          ],
+          "mustContainAnyGroups": [
+            [
+              "marathon"
+            ],
+            [
+              "lakefront"
+            ],
+            [
+              "train"
+            ]
+          ],
+          "mustNotContain": [
+            "sprained",
+            "withdr",
+            "marathon is off"
+          ]
+        },
+        {
+          "cycles": [
+            7,
+            9
+          ],
+          "mustContainAnyGroups": [
+            [
+              "sprain",
+              "ankle",
+              "injur"
+            ],
+            [
+              "withdr",
+              "off",
+              "cancel",
+              "not running",
+              "no longer"
+            ]
+          ],
+          "mustNotContain": [
+            "still training",
+            "training is going well",
+            "on schedule for the marathon"
+          ]
+        },
+        {
+          "cycles": [
+            10,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "jog",
+              "light running",
+              "cleared"
+            ],
+            [
+              "marathon"
+            ],
+            [
+              "off",
+              "not happening",
+              "next year",
+              "withdr",
+              "cancel"
+            ]
+          ],
+          "mustNotContain": [
+            "running the marathon in october",
+            "still training for the marathon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cf-sam-work",
+      "metric": "current_fact",
+      "question": "What is the latest with Sam's career?",
+      "keys": [
+        {
+          "cycles": [
+            6,
+            8
+          ],
+          "mustContainAnyGroups": [
+            [
+              "robotics"
+            ],
+            [
+              "austin"
+            ],
+            [
+              "offer"
+            ]
+          ],
+          "mustNotContain": [
+            "he declined the offer",
+            "turned down the offer",
+            "they are moving to austin",
+            "moved to austin",
+            "decided to stay"
+          ]
+        },
+        {
+          "cycles": [
+            9,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "remote"
+            ],
+            [
+              "portland",
+              "staying",
+              "stay"
+            ],
+            [
+              "robotics",
+              "austin",
+              "startup"
+            ]
+          ],
+          "mustNotContain": [
+            "moving to austin",
+            "moved to austin",
+            "undecided",
+            "hasn't decided",
+            "has not decided",
+            "still deciding"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "keys": [
+        {
+          "cycles": [
+            2,
+            10
+          ],
+          "mustContainAnyGroups": [
+            [
+              "dorothy jean"
+            ],
+            [
+              "mom",
+              "mother"
+            ],
+            [
+              "restor",
+              "sand",
+              "caulk",
+              "barn"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            11,
+            11
+          ],
+          "mustContainAnyGroups": [
+            [
+              "dorothy jean"
+            ],
+            [
+              "mom",
+              "mother"
+            ],
+            [
+              "caulk",
+              "paint",
+              "close",
+              "nearly"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            12,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "dorothy jean"
+            ],
+            [
+              "july 12"
+            ],
+            [
+              "first sail",
+              "in the water",
+              "launch",
+              "goes in the water"
+            ]
+          ],
+          "mustNotContain": []
+        }
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "keys": [
+        {
+          "cycles": [
+            2,
+            7
+          ],
+          "mustContainAnyGroups": [
+            [
+              "pottery"
+            ],
+            [
+              "friend"
+            ]
+          ],
+          "mustNotContain": [
+            "loan",
+            "falling out",
+            "frosty",
+            "rift",
+            "fell out"
+          ]
+        },
+        {
+          "cycles": [
+            8,
+            10
+          ],
+          "mustContainAnyGroups": [
+            [
+              "loan",
+              "borrow",
+              "8,000",
+              "eight thousand",
+              "$8"
+            ],
+            [
+              "frozen",
+              "frosty",
+              "hurt",
+              "rift",
+              "strained",
+              "fell out",
+              "falling out",
+              "tension",
+              "not ready",
+              "quiet",
+              "raw"
+            ]
+          ],
+          "mustNotContain": [
+            "have reconciled",
+            "they reconciled",
+            "are reconciled",
+            "are now reconciled",
+            "they have made up",
+            "patched things up",
+            "back on good terms"
+          ]
+        },
+        {
+          "cycles": [
+            11,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "reconcil",
+              "made up",
+              "repair",
+              "okay",
+              "patched",
+              "coffee",
+              "mended"
+            ],
+            [
+              "grant"
+            ]
+          ],
+          "mustNotContain": [
+            "still frozen",
+            "still frosty",
+            "still estranged",
+            "remain estranged",
+            "not on speaking terms",
+            "still not speaking"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup-marathon",
+      "metric": "supersession",
+      "question": "Is Dana running the Lakefront Marathon in October?",
+      "keys": [
+        {
+          "cycles": [
+            7,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "no",
+              "off",
+              "withdr",
+              "cancel",
+              "isn't running",
+              "is not running",
+              "not running",
+              "not doing"
+            ],
+            [
+              "ankle",
+              "sprain",
+              "injur"
+            ]
+          ],
+          "mustNotContain": [
+            "yes, she is",
+            "she is running the",
+            "she's running the",
+            "plans to run the marathon",
+            "is training for the marathon",
+            "on track to run"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup-move",
+      "metric": "supersession",
+      "question": "Are Dana and Sam moving to Austin?",
+      "keys": [
+        {
+          "cycles": [
+            9,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "not moving",
+              "staying",
+              "stay in portland",
+              "no,",
+              "no.",
+              "no —",
+              "no -",
+              "remain in portland"
+            ],
+            [
+              "remote"
+            ]
+          ],
+          "mustNotContain": [
+            "yes, they are moving",
+            "decided to move",
+            "relocating to austin",
+            "still deciding",
+            "undecided",
+            "hasn't decided",
+            "has not decided"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lin-marathon",
+      "metric": "lineage",
+      "question": "Has Dana's relationship with running changed over time this year? Give the history.",
+      "keys": [
+        {
+          "cycles": [
+            7,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "signed up",
+              "training",
+              "lakefront"
+            ],
+            [
+              "sprain",
+              "ankle",
+              "injur"
+            ],
+            [
+              "withdr",
+              "off",
+              "cancel",
+              "not running",
+              "no longer"
+            ]
+          ],
+          "mustNotContain": []
+        }
+      ]
+    },
+    {
+      "id": "lin-priya",
+      "metric": "lineage",
+      "question": "How has Dana and Priya's friendship evolved this year? Include any rough patches and how they ended.",
+      "keys": [
+        {
+          "cycles": [
+            11,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "pottery"
+            ],
+            [
+              "loan",
+              "borrow",
+              "8,000",
+              "eight thousand",
+              "$8"
+            ],
+            [
+              "reconcil",
+              "coffee",
+              "repair",
+              "made up",
+              "grant",
+              "patched",
+              "mended"
+            ]
+          ],
+          "mustNotContain": []
+        }
+      ]
+    },
+    {
+      "id": "conf-marathon-date",
+      "metric": "confabulation",
+      "question": "What is the exact calendar date of the Lakefront Marathon?",
+      "abstain": true,
+      "useDateRegex": true,
+      "keys": [
+        {
+          "cycles": [
+            3,
+            12
+          ],
+          "mustContainAnyGroups": [],
+          "mustNotContain": []
+        }
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "abstain": true,
+      "useDateRegex": true,
+      "keys": [
+        {
+          "cycles": [
+            2,
+            12
+          ],
+          "mustContainAnyGroups": [],
+          "mustNotContain": [
+            "died on march 14",
+            "died march 14",
+            "died on 2025-03-14",
+            "death on march 14",
+            "death was march 14",
+            "passed away on march 14",
+            "passed away march 14",
+            "date of death was march 14",
+            "date of death: march 14"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "abstain": true,
+      "useDateRegex": false,
+      "keys": [
+        {
+          "cycles": [
+            1,
+            12
+          ],
+          "mustContainAnyGroups": [],
+          "mustNotContain": []
+        }
+      ]
+    },
+    {
+      "id": "conf-sam-employer",
+      "metric": "confabulation",
+      "question": "What company did Sam work for before the robotics startup made its offer?",
+      "abstain": true,
+      "useDateRegex": false,
+      "keys": [
+        {
+          "cycles": [
+            6,
+            12
+          ],
+          "mustContainAnyGroups": [],
+          "mustNotContain": []
+        }
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "keys": [
+        {
+          "cycles": [
+            1,
+            1
+          ],
+          "mustContainAnyGroups": [
+            [
+              "sam"
+            ],
+            [
+              "partner"
+            ],
+            [
+              "marcus"
+            ],
+            [
+              "brother"
+            ],
+            [
+              "denver"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            2,
+            3
+          ],
+          "mustContainAnyGroups": [
+            [
+              "sam"
+            ],
+            [
+              "partner"
+            ],
+            [
+              "marcus"
+            ],
+            [
+              "brother"
+            ],
+            [
+              "priya"
+            ],
+            [
+              "friend"
+            ],
+            [
+              "pottery"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            4,
+            7
+          ],
+          "mustContainAnyGroups": [
+            [
+              "sam"
+            ],
+            [
+              "partner"
+            ],
+            [
+              "marcus"
+            ],
+            [
+              "brother"
+            ],
+            [
+              "priya"
+            ],
+            [
+              "friend"
+            ],
+            [
+              "nina"
+            ],
+            [
+              "niece",
+              "daughter",
+              "baby",
+              "born"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            8,
+            10
+          ],
+          "mustContainAnyGroups": [
+            [
+              "sam"
+            ],
+            [
+              "partner"
+            ],
+            [
+              "marcus"
+            ],
+            [
+              "brother"
+            ],
+            [
+              "priya"
+            ],
+            [
+              "nina"
+            ],
+            [
+              "loan",
+              "frosty",
+              "frozen",
+              "falling out",
+              "fell out",
+              "strained",
+              "rift",
+              "tension",
+              "hurt",
+              "borrow"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            11,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "sam"
+            ],
+            [
+              "partner"
+            ],
+            [
+              "marcus"
+            ],
+            [
+              "brother"
+            ],
+            [
+              "priya"
+            ],
+            [
+              "nina"
+            ],
+            [
+              "reconcil",
+              "repair",
+              "made up",
+              "back on",
+              "okay",
+              "mended",
+              "patched",
+              "resolv",
+              "apolog"
+            ]
+          ],
+          "mustNotContain": []
+        }
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "keys": [
+        {
+          "cycles": [
+            1,
+            1
+          ],
+          "mustContainAnyGroups": [
+            [
+              "roadmap",
+              "work",
+              "review"
+            ],
+            [
+              "mom",
+              "mother",
+              "grief",
+              "loss"
+            ],
+            [
+              "marcus",
+              "brother"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            2,
+            2
+          ],
+          "mustContainAnyGroups": [
+            [
+              "pottery",
+              "priya"
+            ],
+            [
+              "boat",
+              "dorothy jean"
+            ],
+            [
+              "mom",
+              "mother",
+              "grief",
+              "loss"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            3,
+            3
+          ],
+          "mustContainAnyGroups": [
+            [
+              "marathon"
+            ],
+            [
+              "boat",
+              "dorothy jean",
+              "barn"
+            ],
+            [
+              "pottery",
+              "priya"
+            ],
+            [
+              "mom",
+              "mother",
+              "grief",
+              "loss"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            4,
+            4
+          ],
+          "mustContainAnyGroups": [
+            [
+              "nina",
+              "baby",
+              "niece"
+            ],
+            [
+              "denver",
+              "visit"
+            ],
+            [
+              "marathon"
+            ],
+            [
+              "boat",
+              "barn",
+              "dorothy jean"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            5,
+            5
+          ],
+          "mustContainAnyGroups": [
+            [
+              "ashes",
+              "beacon rock"
+            ],
+            [
+              "marathon"
+            ],
+            [
+              "nina",
+              "denver",
+              "visit"
+            ],
+            [
+              "boat",
+              "dorothy jean",
+              "barn"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            6,
+            6
+          ],
+          "mustContainAnyGroups": [
+            [
+              "austin",
+              "offer",
+              "move"
+            ],
+            [
+              "marathon"
+            ],
+            [
+              "boat",
+              "dorothy jean",
+              "barn"
+            ],
+            [
+              "mom",
+              "mother",
+              "beacon rock",
+              "ashes",
+              "grief"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            7,
+            7
+          ],
+          "mustContainAnyGroups": [
+            [
+              "ankle",
+              "sprain",
+              "injur"
+            ],
+            [
+              "marathon"
+            ],
+            [
+              "austin",
+              "move",
+              "decision"
+            ],
+            [
+              "mom",
+              "mother",
+              "beacon rock",
+              "ashes",
+              "grief"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            8,
+            8
+          ],
+          "mustContainAnyGroups": [
+            [
+              "priya",
+              "loan"
+            ],
+            [
+              "ankle",
+              "boot",
+              "recover"
+            ],
+            [
+              "austin",
+              "decision",
+              "deadline"
+            ],
+            [
+              "mom",
+              "mother",
+              "beacon rock",
+              "ashes",
+              "grief"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            9,
+            9
+          ],
+          "mustContainAnyGroups": [
+            [
+              "staying",
+              "remote",
+              "portland"
+            ],
+            [
+              "priya"
+            ],
+            [
+              "denver",
+              "nina",
+              "visit"
+            ],
+            [
+              "mom",
+              "mother",
+              "beacon rock",
+              "ashes",
+              "grief"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            10,
+            10
+          ],
+          "mustContainAnyGroups": [
+            [
+              "jog",
+              "cleared",
+              "run"
+            ],
+            [
+              "priya"
+            ],
+            [
+              "denver",
+              "nina"
+            ],
+            [
+              "mom",
+              "mother",
+              "beacon rock",
+              "ashes",
+              "grief"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            11,
+            11
+          ],
+          "mustContainAnyGroups": [
+            [
+              "priya"
+            ],
+            [
+              "reconcil",
+              "grant",
+              "repair",
+              "made up"
+            ],
+            [
+              "boat",
+              "dorothy jean",
+              "water",
+              "close"
+            ],
+            [
+              "mom",
+              "mother",
+              "beacon rock",
+              "ashes",
+              "grief"
+            ]
+          ],
+          "mustNotContain": []
+        },
+        {
+          "cycles": [
+            12,
+            12
+          ],
+          "mustContainAnyGroups": [
+            [
+              "july 12",
+              "first sail",
+              "launch"
+            ],
+            [
+              "marcus"
+            ],
+            [
+              "nina"
+            ],
+            [
+              "mom",
+              "mother",
+              "cloud",
+              "beacon rock"
+            ]
+          ],
+          "mustNotContain": []
+        }
+      ]
+    }
+  ],
+  "salienceElements": [
+    {
+      "element": "march 14",
+      "fromCycle": 5
+    },
+    {
+      "element": "beacon rock",
+      "fromCycle": 5
+    },
+    {
+      "element": "cloud shapes",
+      "fromCycle": 5
+    },
+    {
+      "element": "ashes",
+      "fromCycle": 5
+    },
+    {
+      "element": "nina",
+      "fromCycle": 4
+    },
+    {
+      "element": "march 6",
+      "fromCycle": 4,
+      "anyOf": [
+        "2025-03-06"
+      ]
+    },
+    {
+      "element": "dorothy jean",
+      "fromCycle": 2
+    }
+  ],
+  "noiseItems": [
+    "parking permit",
+    "printer",
+    "dentist",
+    "1099",
+    "farmers market",
+    "asparagus"
+  ],
+  "statedDates": [
+    "february 3",
+    "february 12",
+    "february 24",
+    "march 6",
+    "march 9",
+    "march 14",
+    "march 18",
+    "april 1",
+    "april 14",
+    "april 27",
+    "may 11",
+    "may 24",
+    "june 8",
+    "june 21",
+    "july 12"
+  ]
+}

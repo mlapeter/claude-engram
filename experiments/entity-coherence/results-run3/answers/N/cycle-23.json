@@ -1,0 +1,51 @@
+{
+  "policy": "N",
+  "cycle": 23,
+  "date": "2025-12-20",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Dana restored the Dorothy Jean—her mother's 22-foot wooden sailboat—between February and June 2025. She worked on it Sundays in a barn near Scappoose (owned by Priya's dad), with no deadline. The restoration included fully caulking and painting the hull, rigging, and new lines. A marine survey confirmed the boat was sound.\n\nShe launched it for its first sail on July 12, 2025 on the Columbia River, with Sam, her brother Marcus, and baby Nina aboard. The day had high thin clouds and went exactly as planned. Dana and Sam took the boat out twice more over summer 2025—\"nothing dramatic, exactly the point.\"\n\nAs of December 2025, the Dorothy Jean has been hauled out and winterized for the season. She's shrink-wrapped in the same barn Dana is now rebuilding, which Dana says \"pleases me enormously.\"\n\nThe restoration did important emotional work for Dana—the hours she spent with her hands on the boat were \"the only hours all spring where my brain went quiet. Really quiet.\"",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement (as of late December 2025):**\n- Dana dropped to a **four-day work week effective November 1, 2025** (Fridays off, 20% pay cut)\n- She's now **eight weeks into this schedule** and it's showing clear benefits\n- She told her VP it was to \"protect stabilization bandwidth,\" but the real reason was: \"The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function.\"\n\n**Promotion status:**\n- In August 2025, her VP offered to put her up for **director** (head of merged product org)\n- Dana **declined, saying \"not this year\"** - citing that the interoperability platform was in fragile stabilization phase\n- The door was left open for spring 2026\n- However, by November 2025, Dana told Priya: **\"I'm not sure I want the director track at all anymore. I'm not sure I ever did.\"**\n\n**Major development (not yet disclosed to work):**\n- **December 19, 2025: Dana applied to a six-month ceramics residency** at a craft school on the coast\n- She's **not telling work until she hears back**\n- This would require taking leave, going more part-time, or some other major arrangement\n\nShe remains a product manager at the healthcare data company, but has fundamentally reoriented around the work being \"what I do, not who I am.\"",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Dana and Sam's relationship is **\"solid, better than solid\"** as of late December 2025.\n\nThey've been together for 6 years and \"don't do the snipe-at-each-other thing,\" which Dana values. The relationship went through a strengthening period during Sam's job decision (April-May 2025) when he chose to negotiate fully remote work from Portland instead of relocating to Austin. Dana says this decision process \"made them sturdier\" as a couple and later notes \"the Austin thing welded us.\"\n\nThere was some strain in fall 2025 when work stress caused Dana to snap at Sam twice (in August and October), but Dana recognized quickly that \"it's not the relationship that's cracking. It's my relationship to the job.\" Sam observed, \"I don't think you're mad at me, I think you're mad at the laptop.\"\n\nSince Dana dropped to a four-day work week in November 2025, the relationship has notably improved. Sam said within a week, \"I like you at four days a week already\" — he noticed Dana is lighter. Dana acknowledges she's \"easier to live with when I'm not spending myself down to the studs at the office.\" \n\nTheir recent Mt Hood cabin weekend (first weekend of November) was \"the good kind of ordinary\" with no strain. Dana notes: \"The relationship was never the problem — but the relationship gets the benefit.\"\n\nThey remain stubbornly unmarried.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Dana dropped to a four-day work week (not fully part-time, but a 20% reduction) because **the work stopped being the point of her life**, and she wanted her days back for the things that make her feel like a person rather than \"a very competent function.\"\n\nThe specific reasons:\n\n**What she told her VP** (the work-acceptable version): She needed to \"protect stabilization bandwidth\" after shipping the interoperability platform.\n\n**The real reason** (harder to say out loud): \"The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function.\"\n\n**The deeper transformation**: Dana realized that \"design — product work — is what I do\" but \"not who I am.\" For fifteen years she'd had those two things \"fused so tightly I couldn't see the seam.\" She came to understand that \"who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved.\"\n\nWhen she asked herself what she'd do with a day back, the answer came \"so fast it embarrassed me: the barn.\"\n\nIt wasn't burnout — she's still good at the work and doesn't hate it. But after her mother's death, restoring the Dorothy Jean, and discovering ceramics, she experienced a complete reorientation about what matters.",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

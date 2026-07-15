@@ -1,0 +1,84 @@
+{
+  "policy": "N",
+  "cycle": 2,
+  "date": "2025-02-12",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana is a product manager at a healthcare data company and lives in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is the Dorothy Jean, a 22-foot wooden sailboat that belonged to Dana's mother, who taught Dana to sail. It's named after Dana's grandmother, Dorothy Jean.\n\nCurrently, the boat is stored under a tarp in a barn near Scappoose that belongs to Priya's dad. Dana started a restoration project in February 2025, working on it slowly with no set deadline. The first session involved sanding one plank, which Dana described as \"the first right thing in months.\" Dana plans to work on the boat on Sundays.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya are close friends from grad school. They recently started a Tuesday night pottery class together in February 2025, which is described as \"the first standing commitment they've had in years.\" Priya's father owns the barn near Scappoose where Dana is storing and restoring the Dorothy Jean sailboat. The document characterizes them as close but doesn't provide additional details about the current state of their relationship beyond these facts.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana's mother \"passed away recently (as of early 2025)\" without specifying an exact date.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only specifies that Dana is a product manager at \"a healthcare data company\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam (Partner)** - Together 6 years; described as very supportive\n\n2. **Marcus (Brother)** - Lives in Denver; they're close but haven't seen each other in over a year (phone calls only); Dana wants to reconnect in person this year\n\n3. **Priya (Close friend)** - From grad school; ceramicist and freelance designer; they started a Tuesday night pottery class together in February 2025 — their first standing commitment in years\n\n4. **Mother** - Passed away recently (as of early 2025); taught Dana to sail; owned the Dorothy Jean sailboat that Dana is now restoring\n\n5. **Priya's dad** - His barn near Scappoose is where Dana is storing the Dorothy Jean sailboat under tarp",
+      "score": 1,
+      "keyCycles": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Situation\n\n**Major Context: Recent Grief**\n- Dana's mother passed away recently (early 2025)\n- She describes this loss as \"coloring everything\" this winter\n- **Handle with care**: She prefers not to discuss in detail yet — follow her lead, don't push\n\n## Active Threads & New Routines\n\n**Positive developments:**\n- Started restoring her mother's sailboat (the Dorothy Jean) in February 2025\n  - 22-foot wooden boat, named after her grandmother\n  - Stored in barn near Scappoose (Priya's dad's property)\n  - Working Sundays, no deadline — described first session as \"the first right thing in months\"\n  \n- New Tuesday pottery class with close friend Priya (started Feb 2025)\n  - First standing commitment they've had in years\n  - New rhythm: Tuesdays pottery, Sundays boat work\n\n## Good Follow-up Questions\n\n- How's the boat restoration going? Any progress since that first plank?\n- How are the pottery classes with Priya?\n- Any movement on reconnecting with Marcus in person? (They're close but haven't seen each other in over a year)\n\n## Relationship Context\n\n- Partner Sam (6 years together) — very supportive\n- Works as product manager at healthcare data company\n- Lives in Portland\n\n## Approach\n\nDana uses this space to \"think out loud\" and appreciates being heard without pressure. Be present, listen well, and let her guide depth of conversation, especially around her mother's passing.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        2
+      ]
+    }
+  ]
+}

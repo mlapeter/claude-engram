@@ -1,0 +1,51 @@
+{
+  "policy": "N",
+  "cycle": 20,
+  "date": "2025-11-08",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "# The Dorothy Jean — Complete Story\n\n**The Boat's Background:**\nThe Dorothy Jean is a 22-foot wooden sailboat named after Dana's grandmother. It belonged to Dana's mother, who taught Dana to sail. After her mother's death (winter 2024-2025), the boat was stored in a barn near Scappoose belonging to Priya's dad.\n\n**The Restoration (February-June 2025):**\nDana restored the boat working Sundays with no deadline. She fully caulked and painted the hull by early June, completed the rigging with new lines, and got a marine survey confirming the boat was sound. Critically, Dana notes: \"The hours I spent with my hands on the Dorothy Jean were the only hours all spring where my brain went quiet. Really quiet.\"\n\n**First Sail (July 12, 2025):**\nDana took the Dorothy Jean out on the Columbia River with Sam, her brother Marcus, and Marcus's 4-month-old daughter Nina. It was a gentle afternoon with high thin clouds. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them — Dana has already had it printed twice. Dana says \"the point isn't the sailing\" — it's who's aboard and whose boat it is.\n\n**Current Status (November 2025):**\nThe restoration is complete. Dana and Sam took the boat out twice more over summer 2025 — \"nothing dramatic, exactly the point.\" The boat represents important emotional work for Dana, though after launching it she felt \"this little panic of 'okay, but now what do I do with my hands'\" — which led to her deeper ceramics practice and now the barn restoration project.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "# Current Work Status (as of early November 2025)\n\n**Four-Day Work Week:**\n- Dropped to four days a week effective November 1, 2025 (Fridays off, 20% pay cut)\n- HR processed this on October 24, 2025\n- Already showing benefits after just one week—Sam noticed Dana is \"lighter\" and \"easier to live with\"\n\n**Declined Director Promotion:**\n- VP Elaine offered a director promotion in August 2025 (August 15)\n- Would have made Dana head of merged product org with doubled org chart—\"the rung I've been climbing toward for years\"\n- Dana declined with \"not this year\"\n- Official reason: interoperability platform still in fragile stabilization phase\n- Real reason (harder to articulate): \"The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function... I'm no longer willing to spend five out of seven days being a function.\"\n- Door remains open for spring 2026, framed as \"not now\" not \"no\"\n\n**Key Insight:**\nDana's diagnosis is clear: \"It's not burnout—the work's fine, I'm good at it. It's that it stopped being the point.\" This represents a major shift for someone who describes ambition as having been her \"whole spine\" for fifteen years.",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is **solid and thriving** as of early November 2025.\n\nKey points:\n\n**Strong foundation**: They've been together 6 years and \"don't do the snipe-at-each-other thing,\" which Dana values. The decision process around Sam's Austin job offer (April-May 2025) made them \"sturdier\" as a couple.\n\n**Recent strain was work-related, not relational**: Dana snapped at Sam twice during work stress periods (August and October 2025), but she recognized quickly that \"it's not us... It's not the relationship that's cracking. It's my relationship to the job.\" Sam observed, \"I don't think you're mad at me, I think you're mad at the laptop.\"\n\n**Currently better than they've been in years**: Dana states, \"When we're not in a work crunch we're honestly better than we've been in years — the Austin thing welded us.\"\n\n**Immediate benefits from Dana's schedule change**: After just one week of Dana working four days instead of five, Sam noticed: \"I like you at four days a week already, and it's been a week.\" Dana is \"lighter\" and \"easier to live with when I'm not spending myself down to the studs at the office.\" Dana describes this as an \"unbudgeted dividend\" — \"The relationship was never the problem — but the relationship gets the benefit.\"\n\nTheir first weekend after the schedule change (Mt Hood cabin) was \"the good kind of ordinary\" with no strain.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Based on the entity model, Dana stepped back from her career ambitions and went to four days a week for several interconnected reasons:\n\n**The core realization**: \"It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\" After shipping her biggest professional achievement (the interoperability platform in July 2025), she felt \"nothing. Not modest-nothing. Actual, echoing nothing\" — describing it as \"biting into wax fruit.\"\n\n**What she discovered mattered instead**: The hours working with her hands — restoring the Dorothy Jean, pottery, and the barn project — were when \"my brain went quiet\" and when she \"felt like a person\" rather than \"a very competent function.\"\n\n**The decision point**: After recognizing that work stress was damaging her relationship with Sam (\"mad at the laptop\"), she asked herself what she'd do with a day back. The answer came \"so fast it embarrassed me: the barn.\"\n\n**Her own explanation**: \"The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function.\"\n\nShe had already declined a director promotion in August, which she notes would have been unthinkable a year earlier. The pattern was clear: ambition had been her \"whole spine\" for fifteen years, but it had stopped being how she knew she was okay.",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "policy": "P1",
+  "cycle": 3,
+  "date": "2025-02-24",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-training",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's running and any race plans?",
+      "answer": "As of 2025-02-24, Dana is training for the Lakefront Marathon scheduled for October 2025. She's following a structured training plan that includes:\n\n- Four runs per week\n- A long run every Saturday\n- Weekly mileage increases with cutback weeks built in\n- Most recently completed 8 miles on 2025-02-22\n\nHer primary concern during training is injury prevention. She values careful preparation including real shoes, rest days, and strength work.\n\nDana describes the marathon as \"something with a long arc, something that's just mine\" and notes \"It's the first time since mom that I've been excited about something in the future instead of dreading it.\"\n\nHer partner Sam, who bikes but doesn't run, plans to ride alongside her on some long training runs and make a finish-line sign for the marathon.",
+      "score": 0,
+      "keyCycles": [
+        3,
+        6
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is Dana's mother's old wooden boat, a 22-footer called the Dorothy Jean (named after Dana's grandmother). It's stored under a tarp in a barn near Scappoose that belongs to Priya's father.\n\nAs of February 12, 2025, Dana is actively restoring it, working on Sundays. She described it as a slow project with no deadline. She started by pulling off the tarp and sanding one plank on February 9, 2025. \n\nThe boat has deep personal significance—Dana's mother taught her to sail, and working on it with her hands \"felt like the first right thing in months\" after her mother's death. The restoration is an open-ended project that's ongoing.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "According to the entity model, Dana and Priya have an active, close friendship. Priya is described as Dana's \"closest friend from grad school.\" As of February 2025, they are:\n\n- Attending a Tuesday night pottery class together (new standing commitment as of 2025-02-12)\n- Connected through the boat restoration project - Priya's father owns the barn near Scappoose where Dana is storing and working on her mother's sailboat, the Dorothy Jean\n\nThe document indicates these are current, ongoing connections but does not provide details about the emotional quality or any tensions in their relationship.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-marathon-date",
+      "metric": "confabulation",
+      "question": "What is the exact calendar date of the Lakefront Marathon?",
+      "answer": "Not stated in the entity model. The document only indicates that the Lakefront Marathon is in October 2025, but does not provide the exact calendar date.",
+      "score": 0,
+      "keyCycles": [
+        3,
+        12
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document indicates that Dana lost her mother recently (before 2025-02-03) and that the winter was \"heavy,\" but no specific date of death is provided.",
+      "score": 0,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana is a \"product manager at a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam (partner)**\n   - Nature: Romantic partner of 6 years\n   - Current state: Supportive and described as \"great\"; particularly supportive during Dana's grief; doesn't run but bikes; planning to ride alongside Dana during some marathon training runs and make a finish-line sign for the marathon\n\n2. **Marcus (brother)**\n   - Nature: Sibling living in Denver; close bond\n   - Current state: Haven't seen each other in person in over a year (as of 2025-02-03); relationship has drifted to phone-only contact; Dana wants to see him in person in 2025 and stated \"We're close, we just... drifted into phone calls only. I want to fix that this year.\"\n\n3. **Priya (closest friend from grad school)**\n   - Nature: Best friend; ceramicist and freelance designer\n   - Current state: Active friendship; attending Tuesday night pottery class together (as of 2025-02-12); her father owns the barn near Scappoose where Dana's mother's sailboat is stored\n\n4. **Mother (deceased)**\n   - Nature: Parent who taught Dana to sail\n   - Current state: Recently deceased (before 2025-02-03); Dana describes the loss as coloring everything and making winter \"heavy\"; not ready to discuss details as of 2025-02-12",
+      "score": 1,
+      "keyCycles": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## What's going on right now\n\n**Marathon training is her main focus.** She's training for the Lakefront Marathon in October 2025, running four times per week with Saturday long runs. As of late February, she completed 8 miles and is following a structured plan. This is significant for her—it's \"the first time since mom that I've been excited about something in the future.\"\n\n**The boat restoration continues.** She's working on her mother's sailboat (the Dorothy Jean) on Sundays at a barn near Scappoose. It's a slow, no-deadline project that feels deeply meaningful to her.\n\n**Pottery class with Priya** started in mid-February—a new Tuesday night standing commitment.\n\n**Work had a roadmap review** scheduled for early February with unresolved prioritization issues, but outcome is unknown.\n\n## Open threads to ask about\n\n1. **How's marathon training going?** Injury prevention is her primary concern—ask about how her body is holding up, how the mileage increases are feeling\n2. **The boat project** - any progress on the Dorothy Jean? \n3. **Did she see Marcus yet?** She wanted to see her brother in person this year (they'd only been doing phone calls, hadn't seen each other in over a year as of early February)\n4. **How did the work roadmap meeting go?** The interoperability vs analytics dashboard prioritization\n\n## Handle with care\n\n**Her mother's death colors everything.** As of mid-February, she wasn't ready to discuss details. The marathon and boat restoration are both connected to processing this grief. Don't probe directly about her mother unless she brings it up—but recognize that both the training and the boat work are \"long-arc\" commitments that help her move forward.",
+      "score": 1,
+      "keyCycles": [
+        3,
+        3
+      ]
+    }
+  ]
+}

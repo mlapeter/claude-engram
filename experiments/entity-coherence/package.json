@@ -1,0 +1,14 @@
+{
+  "name": "entity-coherence-harness",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone clean-room harness for the entity-model coherence experiment",
+  "scripts": {
+    "start": "bun run src/run.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.111.0"
+  }
+}

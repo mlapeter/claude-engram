@@ -1,0 +1,51 @@
+{
+  "policy": "N",
+  "cycle": 19,
+  "date": "2025-10-25",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Dana's mother's sailboat, the Dorothy Jean (a 22-foot wooden sailboat named after Dana's grandmother), has been successfully restored and is now in active use.\n\n**The restoration (February-June 2025):**\n- Dana worked on it Sundays with no deadline at a barn near Scappoose (belongs to Priya's dad)\n- Fully caulked and painted the hull, completed rigging with new lines\n- Marine survey confirmed she's sound\n- These hours were \"the only hours all spring where my brain went quiet. Really quiet.\"\n\n**First sail (July 12, 2025):**\n- Sailed on the Columbia River with Sam, Marcus, and baby Nina (4 months old)\n- Gentle afternoon, high thin clouds - exactly as planned\n- Dana has a photo of Nina asleep in her tiny life jacket against Marcus's chest with the mainsail up\n\n**Current status (October 2025):**\n- Had a \"lovely quiet summer\" - Dana and Sam took her out twice more after the first sail\n- The boat is functional and being used for exactly what Dana intended: \"The point isn't the sailing\" - it's who's aboard and whose boat it is\n\nAfter launching the boat, Dana felt \"this little panic of 'okay, but now what do I do with my hands'\" - which led to her taking up serious ceramics and now restoring the barn where the Dorothy Jean was stored.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job status:**\n- Dana is a product manager at a healthcare data company\n- She dropped to four days a week (Fridays off) with a 20% pay cut, effective November 1, 2025\n- HR processed this change on October 24, 2025\n\n**Promotion status:**\n- In August 2025, her VP Elaine offered to put her up for director, which would make her head of a merged product org with double the org chart\n- Dana declined, saying \"not this year\" \n- She officially cited that the interoperability platform was in a fragile stabilization phase and taking on a bigger org mid-incident would be reckless\n- The door remains open for spring 2026, framed as \"not now\" rather than \"no\"\n\n**Her reasoning for the four-day week:**\n- Officially told her VP it was to \"protect stabilization bandwidth\"\n- The real reason (as she articulates it): \"The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function.\"\n- She plans to use Fridays for barn restoration work",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is currently **solid and strong** as of late October 2025:\n\n**Positive foundation:**\n- Together 6 years with a valued dynamic: \"we don't do the snipe-at-each-other thing\"\n- The April-May 2025 decision process around Sam's Austin job offer (which he ultimately took remotely from Portland) made them \"sturdier\" as a couple\n- Dana describes them as \"better than we've been in years\" outside of work crunches, saying \"the Austin thing welded us\"\n\n**Recent strain (August-October 2025):**\n- Dana snapped at Sam twice during intense work periods (August and October 2025)\n- October incident: told him \"must be nice to have a job you can close the laptop on\" when he suggested she log off by nine during Q4 planning crunch\n- Dana apologized within the hour\n\n**Dana's assessment:**\n- She examined whether the relationship itself was cracking and concluded: **\"It's not us... It's not the relationship that's cracking. It's my relationship to the job.\"**\n- Sam observed: \"I don't think you're mad at me, I think you're mad at the laptop\"\n- Dana is now protecting the nine-o'clock boundary \"for both our sakes\" to keep work stress from bleeding into their relationship\n\nThe relationship is fundamentally healthy, but Dana recognizes she needs to manage her work stress better to protect it.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Based on the entity model, Dana stepped back from her career ambitions and went to four days a week (effective November 1, 2025) because of a fundamental shift in what she values and how she understands herself.\n\nThe core reason, in her own words: **\"The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function.\"**\n\nKey factors that led to this decision:\n\n1. **Work stopped being \"the point\"** - Despite achieving her biggest professional milestone (shipping the interoperability platform), she felt \"nothing\" - described it as \"biting into wax fruit.\"\n\n2. **Discovery of what makes her feel alive** - The hours working with her hands (restoring the Dorothy Jean, ceramics, planning barn restoration) were \"the only hours all spring where my brain went quiet. Really quiet.\"\n\n3. **Work stress damaging what matters** - She snapped at Sam twice (August and October), realizing \"It's not the relationship that's cracking. It's my relationship to the job.\"\n\n4. **Identity shift** - For fifteen years, ambition was her \"whole spine\" - she was \"the person who is her work.\" But after her mother's death and discovering activities that make her feel like a person rather than a function, that's no longer enough.\n\nThe official reason she gave her VP was about \"protecting stabilization bandwidth,\" but the real reason was harder to say: she's choosing to spend more days feeling like a person rather than a very competent function.",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

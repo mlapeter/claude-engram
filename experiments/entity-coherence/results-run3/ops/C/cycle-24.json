@@ -1,0 +1,53 @@
+{
+  "cycle": 24,
+  "date": "2026-01-10",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "bel-66"
+      },
+      "outcome": "applied",
+      "detail": "reinforced bel-66"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "sal-75"
+      },
+      "outcome": "applied",
+      "detail": "reinforced sal-75"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2026-01-10] Reflecting on the year, Dana said: 'Last January I was a product manager who ran a little and had lost her mom and was mostly holding on. This January I'm — still a product manager, four days a week, decent at it, genuinely fine with it. But that's not the headline about me anymore, and for fifteen years it would have been THE headline. The headline now is the wheel, and the barn, and Mom's boat and her roses and Beacon Rock. Making things and keeping her places. That's the center. Work is a good job I do around the edges of my actual life.' She described the reorientation as tracing back to Mom's death: 'Sanding the boat because I couldn't talk about her, then the class because the sanding went quiet in my head, then dropping the Friday, then hearing myself tell Priya I never wanted the director job. Each step was small enough that I could tell myself it was just timing. It wasn't timing. It was a genuine change in what I put at the middle, and it took the whole year to see it for what it was.' She said: 'For the first time since Mom I know roughly which way I'm pointed.'",
+        "salience": 0.95,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-76"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-4"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-4"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2026-01-10] Nina (Marcus and Elena's daughter, born 2025-03-06) is walking and says something that might be Dana's name",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-77"
+    }
+  ]
+}

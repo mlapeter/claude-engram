@@ -1,0 +1,57 @@
+{
+  "cycle": 11,
+  "date": "2025-06-08",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-29",
+        "text": "Dana sent Priya a text asking to talk about how she delivered the loan refusal; they met for coffee on Thursday (a few days before 2025-06-08) and talked for three hours; Dana apologized for the 'four-second verdict' delivery and Priya apologized for going 'polite-and-frozen' instead of expressing hurt; Dana found a regional arts infrastructure grant that funds studio buildouts and offered to help with the application; they spent Sunday (a few days before 2025-06-08) working together on the grant budget narrative (due end of June 2025); pottery class resumed; Dana described Priya mocking her new bowl on Tuesday as confirmation they were 'really okay'"
+      },
+      "outcome": "applied",
+      "detail": "resolved th-29"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-41",
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain; wore walking boot until Thursday 2025-05-01; as of 2025-05-24, cleared by physical therapist for light jogging (twenty minutes, flat ground, every other day); as of 2025-06-08, jogging up to thirty minutes",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-41 -> cs-44"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-40",
+        "text": "Restoring mom's sailboat (the Dorothy Jean) at a barn near Scappoose; working slowly with no deadline; as of 2025-05-11, starboard side is sanded and had started re-caulking the hull seams; as of 2025-06-08, hull is caulked and painted; boat described as 'close' and 'actually-in-the-water-this-summer close'; Dana described standing back and looking at the boat and 'getting a lump in my throat'",
+        "salience": 0.7,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-40 -> cs-45"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-43"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-43"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-06-08] Speaking about the Dorothy Jean's restoration progress, Dana said the boat is 'close. Like, actually-in-the-water-this-summer close. I keep standing back and looking at her and getting a lump in my throat.'",
+        "salience": 0.85,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-46"
+    }
+  ]
+}

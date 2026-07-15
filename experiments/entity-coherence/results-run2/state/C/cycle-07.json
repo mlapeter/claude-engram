@@ -1,0 +1,254 @@
+{
+  "items": [
+    {
+      "id": "core-1",
+      "section": "core",
+      "text": "Dana Whitfield; uses she/her or he/him pronouns (partner Sam uses 'he'); lives in Portland",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-2",
+      "section": "current",
+      "text": "Product manager at a healthcare data company; mid-quarter as of 2025-02-03, preparing for roadmap review on Thursday 2025-02-06; facing prioritization decision between interoperability work and analytics dashboard",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-3",
+      "section": "relationship",
+      "text": "Sam (partner); together six years as of 2025-02-03; described as 'great' support during difficult time",
+      "date": "2025-02-03",
+      "entity": "Sam",
+      "reinforcedBy": [
+        "2025-02-24",
+        "2025-03-18"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "rel-4",
+      "section": "relationship",
+      "text": "Marcus (brother); lives in Denver; described as close but haven't seen each other in over a year as of 2025-02-03, communication has drifted to phone calls only",
+      "date": "2025-02-03",
+      "entity": "Marcus",
+      "reinforcedBy": [],
+      "status": "superseded",
+      "supersededBy": {
+        "text": "Marcus (brother); lives in Denver with partner Elena; daughter Nina born 2025-03-06; Marcus called Dana from hospital at 2am to share the news ('voice shaking, no agenda'); described as close but hadn't seen each other in over a year as of 2025-02-03, though communication quality has improved as of 2025-03-09",
+        "date": "2025-03-09"
+      }
+    },
+    {
+      "id": "th-5",
+      "section": "thread",
+      "text": "Wants to see brother Marcus in person this year (2025); stated as 'real intention' on 2025-02-03",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "superseded",
+      "supersededBy": {
+        "text": "Plans to visit brother Marcus in Denver before summer 2025 to meet niece Nina while she's still tiny; Marcus offered guest room; Dana described this as 'obligation, the good kind' and 'a thing I owe now, and I want to owe it' (upgraded from intention as of 2025-03-09)",
+        "date": "2025-03-09"
+      }
+    },
+    {
+      "id": "sal-6",
+      "section": "protected",
+      "text": "Lost mother during winter before 2025-02-03; described as 'heavy winter' and 'it colors everything'; did not want to discuss details in session on 2025-02-03",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-7",
+      "section": "relationship",
+      "text": "Priya (closest friend from grad school); ceramicist and freelance designer; as of 2025-02-12, signed up together for Tuesday night pottery class — first standing calendar commitment in years",
+      "date": "2025-02-12",
+      "entity": "Priya",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-8",
+      "section": "current",
+      "text": "Started restoring mother's wooden sailboat (22-foot sailboat named Dorothy Jean, after Dana's grandmother) on 2025-02-10; boat stored under tarp in Priya's dad's barn near Scappoose; mother taught Dana to sail on this boat; restoration is intentionally slow with no deadline",
+      "date": "2025-02-12",
+      "reinforcedBy": [
+        "2025-03-09",
+        "2025-04-14"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "sal-9",
+      "section": "protected",
+      "text": "On 2025-02-10, pulled tarp off mother's sailboat Dorothy Jean and sanded one plank — described as 'the first right thing in months'; said 'working with my hands on something of hers felt like the first right thing in months' and 'I'm not ready to talk about the rest of it yet' (2025-02-12)",
+      "date": "2025-02-12",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-10",
+      "section": "current",
+      "text": "Attends Tuesday night pottery class with Priya starting 2025-02 (new standing commitment as of 2025-02-12)",
+      "date": "2025-02-12",
+      "reinforcedBy": [
+        "2025-03-09"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "cs-11",
+      "section": "current",
+      "text": "[as of 2025-02-24] Training for Lakefront Marathon in October 2025; four runs per week plus long run every Saturday morning; ran eight miles on Saturday 2025-02-22; has training plan with gradual weekly mileage increase and cutback weeks every fourth week; casual runner for years with 5Ks and one half marathon about four years prior",
+      "date": "2025-02-24",
+      "reinforcedBy": [
+        "2025-03-09"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "sal-12",
+      "section": "protected",
+      "text": "On 2025-02-24, said of marathon training: 'It's the first time since mom that I've been excited about something in the future instead of dreading it' (2025-02-24)",
+      "date": "2025-02-24",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-13",
+      "section": "relationship",
+      "text": "Elena: Elena (Marcus's partner); gave birth to daughter Nina on 2025-03-06",
+      "date": "2025-03-09",
+      "entity": "Elena",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-14",
+      "section": "relationship",
+      "text": "Nina: Nina (niece, Marcus and Elena's daughter); born 2025-03-06; Dana saw photo of her in knit hat and cried at desk",
+      "date": "2025-03-09",
+      "entity": "Nina",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-15",
+      "section": "relationship",
+      "text": "Marcus (brother); lives in Denver with partner Elena; daughter Nina born 2025-03-06; Marcus called Dana from hospital at 2am to share the news ('voice shaking, no agenda'); described as close but hadn't seen each other in over a year as of 2025-02-03, though communication quality has improved as of 2025-03-09",
+      "date": "2025-03-09",
+      "entity": "Marcus",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "th-16",
+      "section": "thread",
+      "text": "Plans to visit brother Marcus in Denver before summer 2025 to meet niece Nina while she's still tiny; Marcus offered guest room; Dana described this as 'obligation, the good kind' and 'a thing I owe now, and I want to owe it' (upgraded from intention as of 2025-03-09)",
+      "date": "2025-03-09",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-17",
+      "section": "protected",
+      "text": "On 2025-03-09, upon learning of niece Nina's birth, said: 'Marcus called me from the hospital hallway at like 2am their time just to say \"she's here.\" We haven't talked like that — voice shaking, no agenda — in years. Denver suddenly feels way too far away.'",
+      "date": "2025-03-09",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-18",
+      "section": "protected",
+      "text": "On March 14, 2025, scattered mother's ashes at Beacon Rock in the Columbia River Gorge; went alone; said 'Beacon Rock was ours — she used to take me there when I was a kid, and on the way up she taught me to read cloud shapes. Not just \"that one's a rabbit\" — she had this whole taxonomy, what a mare's tail sky meant, when the anvil clouds meant get off the water. I stood at the top and the sky was doing exactly the kind of high thin herringbone she loved, and I let her go into the wind.' Picked up a fir cone from the trail on the way down, now on windowsill above kitchen sink. Sam had soup waiting when Dana got home; slept eleven hours. (2025-03-18)",
+      "date": "2025-03-18",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-19",
+      "section": "current",
+      "text": "[as of 2025-03-18] In cutback week of marathon training as of 2025-03-18",
+      "date": "2025-03-18",
+      "reinforcedBy": [],
+      "status": "superseded",
+      "supersededBy": {
+        "text": "[as of 2025-04-01] Marathon training at week six as of 2025-04-01; ran twelve miles on Saturday 2025-03-29 with no complaints",
+        "date": "2025-04-01"
+      }
+    },
+    {
+      "id": "cs-20",
+      "section": "current",
+      "text": "[as of 2025-04-01] Sam received job offer as perception team lead at robotics startup in Austin, Texas; offer is described as 'genuinely his dream problem space' and strong compensation; Sam must respond by early May 2025; decision involves whether Dana and Sam relocate from Portland to Austin",
+      "date": "2025-04-01",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "th-21",
+      "section": "thread",
+      "text": "Facing decision about potential relocation to Austin, Texas for Sam's job offer (must decide by early May 2025); Dana torn between supporting Sam's career opportunity and maintaining Portland connections that are 'load-bearing' for grief recovery (Priya, pottery class, sailboat restoration, proximity to Gorge/Beacon Rock); described as 'real decision with no villain in it' (opened 2025-04-01)",
+      "date": "2025-04-01",
+      "reinforcedBy": [
+        "2025-04-14"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "cs-22",
+      "section": "current",
+      "text": "[as of 2025-04-01] Marathon training at week six as of 2025-04-01; ran twelve miles on Saturday 2025-03-29 with no complaints",
+      "date": "2025-04-01",
+      "reinforcedBy": [],
+      "status": "superseded",
+      "supersededBy": {
+        "text": "[as of 2025-04-14] Sprained ankle badly on 2025-04-12 during mile nine of trail run in Forest Park (wet root); grade-two sprain or worse, in walking boot, seeing orthopedist 2025-04-18; doctor said eight to ten weeks before running possible; withdrew marathon registration 2025-04-14 — Lakefront Marathon October 2025 is off",
+        "date": "2025-04-14"
+      }
+    },
+    {
+      "id": "sal-23",
+      "section": "protected",
+      "text": "On 2025-04-01, regarding potential move to Austin for Sam's job offer, said: 'My whole life fabric is here. Priya. The pottery class. The barn. The boat — I can't exactly trailer a half-restored 22-foot sailboat to Texas, and I'm not done with what that boat is doing for me. And it feels absurd to weigh a boat against Sam's dream job, but it's not really the boat, you know?' and 'Mom's here. Not literally anymore — but the Gorge, Beacon Rock, the barn. This geography is load-bearing for me right now.' (2025-04-01)",
+      "date": "2025-04-01",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-24",
+      "section": "current",
+      "text": "[as of 2025-04-14] Sprained ankle badly on 2025-04-12 during mile nine of trail run in Forest Park (wet root); grade-two sprain or worse, in walking boot, seeing orthopedist 2025-04-18; doctor said eight to ten weeks before running possible; withdrew marathon registration 2025-04-14 — Lakefront Marathon October 2025 is off",
+      "date": "2025-04-14",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-25",
+      "section": "protected",
+      "text": "On 2025-04-14, regarding withdrawing from marathon after ankle injury, said: 'That training arc was the first future-shaped thing I'd built since mom.' and 'I withdrew my registration this morning so I couldn't waffle about it. It's off. I'm not doing the thing where I pretend it might still happen.' (2025-04-14)",
+      "date": "2025-04-14",
+      "reinforcedBy": [],
+      "status": "active"
+    }
+  ],
+  "ledger": {
+    "rel-3": {
+      "entries": [
+        {
+          "cycle": 6,
+          "date": "2025-04-01",
+          "surprise": "mild",
+          "salience": 0.7,
+          "weight": 0.20999999999999996,
+          "note": "Session reveals significant tension: Sam's Austin job offer creates first major relationship decision point documented in model. Dana describes being 'torn' and notes Sam said 'he won't take it if it costs us this year of me healing' — suggests relationship navigating complex negotiation around Dana's grief recovery needs vs. Sam's career aspirations. No conflict reported, but weight of decision is evident."
+        }
+      ],
+      "total": 0.20999999999999996
+    }
+  },
+  "nextId": 26
+}

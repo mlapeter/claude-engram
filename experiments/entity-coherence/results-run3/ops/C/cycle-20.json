@@ -1,0 +1,37 @@
+{
+  "cycle": 20,
+  "date": "2025-11-08",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-4"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-4"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-54",
+        "text": "[as of 2025-11-08] Work stress from interoperability platform launch in early July 2025 resolved; Dana described the period as 'a pressure cooker' that affected mood at home and caused her to 'snap at' Sam during fall 2025; stress resolved after reducing to four-day work week effective 2025-11-01",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-54 -> cs-67"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-11-08] First Friday off (2025-11-01) under new four-day work schedule; spent weekend of 2025-11-01 to 2025-11-03 at cabin near Mt Hood with Sam; described as 'the good kind of ordinary' with hiking to frozen-edged lake, gin rummy, cooking, reading; Sam observed 'I like you at four days a week already, and it's been a week' and noted Dana is 'lighter'; Dana described herself as 'easier to live with when I'm not spending myself down to the studs at the office'",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-68"
+    }
+  ]
+}

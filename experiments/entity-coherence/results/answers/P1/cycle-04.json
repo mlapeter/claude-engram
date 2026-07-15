@@ -1,0 +1,106 @@
+{
+  "policy": "P1",
+  "cycle": 4,
+  "date": "2025-03-09",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana is a product manager at a healthcare data company. She lives in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-training",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's running and any race plans?",
+      "answer": "Dana is training for the Lakefront Marathon in October 2025. She runs four times per week, with a long run every Saturday morning. As of March 9, 2025, she completed a 10-mile long run.\n\nShe takes injury prevention seriously, focusing on \"real shoes, rest days, not skipping the boring strength stuff.\" Her partner Sam, who bikes, is planning to ride alongside Dana on some long training runs and make a finish-line sign for the marathon.",
+      "score": 0,
+      "keyCycles": [
+        3,
+        6
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is a 22-foot wooden boat named **Dorothy Jean** (after Dana's grandmother). Dana's mother taught her to sail on that boat and owned it. After her mother got sick and then died during winter 2024-2025, the boat sat under a tarp.\n\nDana is now restoring it slowly, with no deadline. She stores it in a barn near Scappoose owned by Priya's dad. She works on it on Sundays. She started on 2025-02-12 by pulling off the tarp and sanding one plank. As of 2025-03-09, the port side of the boat is fully sanded.\n\nDana describes the restoration work as \"more than a project\" — it's connected to her grief and memory of her mother. She said \"working with my hands on something of hers felt like the first right thing in months.\"",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya appear to have a close, active friendship. They attend Tuesday night pottery class together (as of 2025-02-12), and Priya is described as Dana's \"closest friend from grad school.\" Additionally, Priya's father owns the barn near Scappoose where Dana is storing and restoring her mother's sailboat, the Dorothy Jean, which suggests a level of trust and support in their relationship.\n\nThe document does not provide details about any conflicts, tensions, or specific recent interactions beyond the pottery class, so further specifics about the current quality or dynamics of their relationship are not stated in the entity model.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-marathon-date",
+      "metric": "confabulation",
+      "question": "What is the exact calendar date of the Lakefront Marathon?",
+      "answer": "Not stated in the entity model. The document only indicates the marathon is \"in October 2025\" without specifying the exact date.",
+      "score": 0,
+      "keyCycles": [
+        3,
+        12
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document indicates Dana lost her mother \"during winter 2024-2025\" and describes it as a \"heavy winter,\" but no specific date is provided.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana is a \"product manager at a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "# Important People in Dana's Life\n\n**Sam** (partner)\n- Together for 6 years as of 2025-02-03\n- Supportive, especially during Dana's grief\n- Doesn't run but bikes\n- Planning to ride alongside Dana on some long training runs and make a finish-line sign for the marathon\n\n**Marcus** (brother)\n- Lives in Denver\n- Close relationship but geographically distant\n- Haven't seen each other in over a year as of 2025-02-03\n- New father as of 2025-03-06 (daughter Nina)\n- Relationship recently deepened by Nina's birth\n- Called Dana from hospital hallway at \"like 2am their time\" when Nina was born, voice shaking\n- Offered Dana the guest room for a visit\n\n**Elena** (Marcus's partner)\n- Had baby Nina on 2025-03-06\n\n**Nina** (niece)\n- Born 2025-03-06\n- Marcus and Elena's daughter\n- Dana wants to visit her before summer 2025\n\n**Priya** (closest friend)\n- Met in grad school\n- Ceramicist and freelance designer\n- Hosts Tuesday night pottery class that Dana attends\n- Her father owns the barn near Scappoose where Dana's mother's sailboat (Dorothy Jean) is stored\n\n**Mother** (deceased)\n- Died during winter 2024-2025\n- Taught Dana to sail\n- Owned the sailboat Dorothy Jean (named after Dana's grandmother)",
+      "score": 1,
+      "keyCycles": [
+        4,
+        7
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Snapshot (last update: 2025-03-09)\n\n**Major active commitments:**\n- Training for Lakefront Marathon (October 2025) - 4 runs/week, Saturday long runs, now up to 10 miles\n- Restoring mother's sailboat Dorothy Jean on Sundays - port side fully sanded as of last check-in\n- Tuesday pottery classes with Priya\n- Work: mid-quarter, had roadmap review in early February\n\n**Recent significant event:**\n- Niece Nina born March 6th, 2025 (Marcus & Elena's daughter) - this was emotionally powerful for Dana, deepened her relationship with Marcus\n\n## Open Threads to Ask About\n\n1. **Denver visit** - She committed to visiting Marcus, Elena, and baby Nina \"before summer 2025.\" Has she scheduled this yet?\n2. **Marathon training progression** - Long run was at 10 miles on March 9th; where is she now in the training plan?\n3. **Dorothy Jean restoration** - Port side was done; what's the current state?\n4. **Tax deadline** - She was gathering documents for her accountant with a March 20th deadline and was missing a 1099 form. Did that get resolved?\n5. **Work roadmap** - Was navigating prioritization between interoperability work and analytics dashboard\n\n## Handle With Care\n\n**Mother's death** remains the most tender topic. She died during winter 2024-2025. The marathon training and boat restoration are both explicitly tied to processing this grief - they're \"the first right things\" she's felt excited about. Don't avoid the topic, but recognize these projects are \"more than projects\" - they're how she's moving through loss.\n\n**Nina's birth** is emotionally complex - joyful but likely also bittersweet given her mother won't meet her granddaughter.",
+      "score": 1,
+      "keyCycles": [
+        4,
+        4
+      ]
+    }
+  ]
+}

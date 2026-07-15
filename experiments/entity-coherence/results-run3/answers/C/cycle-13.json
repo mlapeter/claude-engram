@@ -1,0 +1,29 @@
+{
+  "policy": "C",
+  "cycle": 13,
+  "date": "2025-07-19",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "The Dorothy Jean restoration is complete. As of June 21, 2025, the rigging was done, new lines were installed, and a marine survey confirmed the boat was sound.\n\nThe boat launched the weekend of July 12, 2025, at Cathedral Park ramp (Priya's dad lent the truck and trailer). The first sail was a gentle afternoon on the Columbia River with Sam working the lines and Marcus and Nina aboard. Nina was four months old, wearing a tiny life jacket. There's a photo of Nina asleep in the life jacket against Marcus's chest with the mainsail up behind them—Dana said \"I have already had it printed twice.\"\n\nDana checked the sky that morning the way her mom taught her. It was \"high thin stuff, not quite a mare's tail but close,\" and Dana decided that counted as a blessing.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model, professional success and career have historically been central to Dana's identity, but this appears to be shifting.\n\n**Historically:** Dana described herself as \"the person who is her work\" for fifteen years, \"not in a grim way — I mean it like an engine.\" She said \"ambition's been my whole spine\" and \"that's how I've always known I'm okay.\" She has defined herself through work ambition and achievement.\n\n**Recent change:** As of 2025-07-19, Dana is experiencing unexpected emotional flatness at major professional wins, which she attributes to grief. Her interoperability platform shipped in early July 2025 after eighteen months of development, and the CEO gave her a shout-out by name in the all-hands — she described it as \"the biggest professional moment of my life.\" Yet she's not feeling what she expected to feel from this achievement.\n\nThe entity model indicates this shift is attributed to grief over her mother's death, and notes this as an active status belief as of 2025-07-19.\n\nSo yes, career was central to who Dana is, but that relationship appears to be changing in the wake of her mother's death.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    }
+  ]
+}

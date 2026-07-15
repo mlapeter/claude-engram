@@ -1,0 +1,69 @@
+{
+  "cycle": 12,
+  "date": "2025-06-21",
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-37",
+        "text": "[as of 2025-06-21] Sailboat Dorothy Jean restoration complete as of 2025-06-21; passed marine survey; scheduled for launch weekend of 2025-07-12 at Cathedral Park boat ramp; first sail planned as gentle afternoon on Columbia River with Sam, Marcus, and four-month-old niece Nina; Priya's dad lending truck and trailer for transport",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-37 -> cs-39"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-36",
+        "text": "[as of 2025-06-21] Jogging up to forty minutes as of 2025-06-21; ankle recovery progressing well",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-36 -> cs-40"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-06-21, regarding Marcus flying out for Dorothy Jean's first sail on weekend of 2025-07-12, said: 'Marcus is flying out for it. With Nina.' and 'He didn't even hesitate when I told him the date — he said \"Mom would have required my attendance\" and booked flights that night. Nina will be four months old. She obviously won't remember it, but there's going to be a photo of her in a tiny life jacket on our mother's boat, and I need that photo to exist.' (2025-06-21)",
+        "salience": 1,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-41"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-06-21, regarding first sail of Dorothy Jean, said: 'I keep thinking about the cloud thing — I want to check the sky that morning the way she taught me. If it's a mare's tail sky I'm taking it as a blessing.' (2025-06-21)",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-42"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "th-16",
+        "note": "Marcus is now coming to Portland for Dorothy Jean launch weekend 2025-07-12 with Nina (age four months); this fulfills the intent to meet Nina while tiny, though location reversed from planned Denver visit",
+        "surprise": "mild",
+        "salience": 0.7
+      },
+      "outcome": "deferred",
+      "detail": "ledger th-16 now 0.36"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-26"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-26"
+    }
+  ]
+}

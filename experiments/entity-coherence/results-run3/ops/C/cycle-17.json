@@ -1,0 +1,67 @@
+{
+  "cycle": 17,
+  "date": "2025-09-20",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-09-20] Priya received the arts-infrastructure grant for her ceramics studio buildout; the full amount was awarded, covering deposit and buildout; she signs the lease next month. Dana and Priya built the application together at Priya's kitchen table in June 2025. When Priya called with the news, both cried; Dana said: 'I don't think I've ever been so happy about something that has nothing to do with my own life.' Priya asked Dana if she wants a shelf in the new studio for Dana's ceramics work; Dana said yes immediately. Dana described this as 'medicine' after 'the four-second-verdict spring.' (2025-09-20)",
+        "salience": 0.9,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-60"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-09-20] Nina (Marcus and Elena's daughter, born 2025-03-06) is crawling as of September 2025; Marcus sends videos frequently; Dana described her as 'a menace' affectionately",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-61"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-09-20] Dana and Sam took the Dorothy Jean out twice more during summer 2025 after the July 12 launch; described the summer sailing as 'lovely quiet' and 'nothing dramatic, exactly the point'",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-62"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-43"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-43"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-09-20] Sam's remote work arrangement with Austin robotics startup is working well; his team likes him; he is flying to Austin the week after 2025-09-20 for his regular every-couple-months in-person visit",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-63"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-56"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-56"
+    }
+  ]
+}

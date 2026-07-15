@@ -1,0 +1,84 @@
+{
+  "policy": "P1",
+  "cycle": 2,
+  "date": "2025-02-12",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is a 22-foot wooden boat named Dorothy Jean, after Dana's grandmother. Dana's mother taught her to sail on this boat.\n\nAfter Dana's mother died during the winter of 2024-2025, Dana began restoring the sailboat. She started on Sunday, February 9, 2025, pulling off the tarp and sanding one plank. She described this as \"the first right thing in months\" and said working with her hands on something of her mother's felt meaningful.\n\nThe boat is currently stored in Priya's dad's barn near Scappoose. As of February 12, 2025, the restoration is ongoing and slow, with no deadline—Dana describes it as \"one plank at a time.\" She's established a rhythm of working on it on Sundays. The restoration is more than just a project; it's grief work and a way to maintain connection to her mother.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya have a close and active friendship. Priya is described as Dana's \"closest friend from grad school.\" As of 2025-02-12, they have established a standing Tuesday night pottery class together—noted as Dana's \"first standing social commitment in years.\" \n\nAdditionally, Priya's father owns the barn near Scappoose where Dana is storing and restoring her mother's sailboat, which suggests practical support and trust in the relationship. Dana references \"Pottery Tuesday, barn Sunday. That's the new rhythm\" as of 2025-02-12, indicating Priya is part of Dana's current life structure during a difficult time.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana's mother died \"during winter 2024-2025 (before 2025-02-03)\" but does not provide a specific date.",
+      "score": 0,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana is a product manager at \"a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam (partner)**\n   - Nature: Romantic partner of 6 years (as of 2025-02-03)\n   - Current state: Supportive presence, especially during Dana's grief; described as \"great\" during the difficult winter following her mother's death\n\n2. **Marcus (brother)**\n   - Nature: Sibling who lives in Denver\n   - Current state: Close relationship but haven't seen each other in person in over a year as of 2025-02-03; communication has drifted to phone calls only; Dana has an active intention to see him in person in 2025\n\n3. **Priya (closest friend)**\n   - Nature: Closest friend from grad school; ceramicist and freelance designer\n   - Current state: Active friendship with a new standing commitment—attending Tuesday night pottery class together as of 2025-02-12 (Dana's first standing social commitment in years); Priya's father owns the barn where Dana is storing and restoring her mother's sailboat\n\n4. **Mother (deceased)**\n   - Nature: Parent who taught Dana to sail\n   - Current state: Died during winter 2024-2025; Dana is processing grief through restoring her mother's sailboat, the Dorothy Jean",
+      "score": 1,
+      "keyCycles": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Situation\nDana is navigating grief after losing her mother during winter 2024-2025. She's found two meaningful anchors:\n- **Boat restoration** (Sundays): Restoring her mother's 22-foot wooden sailboat, Dorothy Jean, stored in Priya's dad's barn near Scappoose. Started Feb 9th. This is grief work—she described it as \"the first right thing in months.\"\n- **Pottery class** (Tuesdays): New standing commitment with her closest friend Priya—her first regular social commitment in years.\n\nShe's in a 6-year relationship with Sam, who's been supportive through this difficult period. Works as a product manager at a healthcare data company in Portland.\n\n## Open Threads to Ask About\n- **Brother Marcus** (Denver): They haven't seen each other in over a year, communication drifted to just phone calls. She had active intention to see him in person in 2025—has that happened yet?\n- **Work roadmap decision**: Had a Feb 6th review where she needed to recommend between interoperability work vs. analytics dashboard. How did that go?\n- **Boat restoration progress**: How's it going? (But keep it open—there's no deadline, it's \"one plank at a time\")\n\n## Handle With Care\nHer mother's death is recent and central. The boat restoration isn't just a project—it's how she's processing grief and maintaining connection to her mother. Don't treat it casually or ask when it'll be \"done.\" She said she didn't want to get into details about her mother's death, so follow her lead on depth.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        2
+      ]
+    }
+  ]
+}

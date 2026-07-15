@@ -1,0 +1,40 @@
+{
+  "policy": "N",
+  "cycle": 18,
+  "date": "2025-10-04",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "# The Dorothy Jean — Current Status\n\n**The Boat:**\nThe Dorothy Jean is Dana's mother's 22-foot wooden sailboat, named after Dana's grandmother. After her mother's death (winter 2024-2025), Dana restored it between February and June 2025, working Sundays in a barn near Scappoose (belongs to Priya's dad).\n\n**Restoration & Launch:**\nBy early June 2025, the hull was fully caulked and painted, rigging done with new lines, and a marine survey confirmed she's sound. Dana successfully launched her on July 12, 2025 for a first sail on the Columbia River with Sam, her brother Marcus, and baby Nina aboard.\n\n**Current Status (October 2025):**\nThe boat is operational and Dana had a \"lovely quiet summer\" — she and Sam took the Dorothy Jean out twice more after the July launch, \"nothing dramatic, exactly the point.\"\n\n**Emotional Significance:**\nThe restoration did important emotional work for Dana. She describes the hours working on the boat as \"the only hours all spring where my brain went quiet. Really quiet.\" After launching, she felt \"a little panic of 'okay, but now what do I do with my hands'\" — which eventually led her to ceramics.\n\nAs Dana puts it: \"The point isn't the sailing\" — it's about who's aboard and whose boat it is.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job status (October 2025):**\n- Dana is a product manager at a healthcare data company\n- She successfully shipped a major interoperability platform in July 2025\n- Currently in Q4 planning, described as a \"bloodbath\" — staying online until eleven most nights\n- Work has her \"by the throat\" and she describes it as a \"pressure cooker\"\n- A production crisis that ran through August was finally closed in September\n\n**Promotion status:**\n- In August 2025, VP Elaine offered to put Dana up for director — a role heading a merged product org with double the org chart size\n- Dana declined, saying \"not this year\" — the first time she hasn't taken a bigger role\n- Her official reason: the interoperability platform is in a fragile stabilization phase and she's still the escalation point\n- Elaine accepted this as \"not now\" rather than \"no,\" leaving the door open for spring 2026\n- Dana plans to revisit the director track in spring 2026\n\n**Significant shift:**\n- This represents a major change for Dana, who describes ambition as having been her \"whole spine\" for fifteen years\n- She notes: \"Six months ago I'd have said yes before she finished the sentence\"\n- She's identified that \"it's not the relationship that's cracking. It's my relationship to the job\"",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is fundamentally solid as of October 2025, though Dana is actively protecting it from work stress.\n\n**Strengths:**\n- They've been together 6 years and \"don't do the snipe-at-each-other thing,\" which Dana values\n- The April-May 2025 decision process around Sam's Austin job offer made them \"sturdier\" as a couple\n- Dana describes them as \"better than we've been in years\" when not in a work crunch, saying \"the Austin thing welded us\"\n\n**Recent strain:**\n- Dana has snapped at Sam twice during work crunches (August and October 2025)\n- In October, during Q4 planning, she said \"must be nice to have a job you can close the laptop on\" when he suggested she log off by nine (she apologized within the hour)\n- Sam observed: \"I don't think you're mad at me, I think you're mad at the laptop\"\n\n**Dana's assessment:**\n- After examining whether the relationship is cracking, she concluded: \"It's not us... It's not the relationship that's cracking. It's my relationship to the job.\"\n- She's now protecting a nine-o'clock boundary \"for both our sakes\"\n- The issue is work stress \"leaking onto the nearest person,\" not fundamental relationship problems\n\nThe relationship appears strong and resilient, with Dana consciously working to prevent job stress from damaging it.",
+      "score": 0,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

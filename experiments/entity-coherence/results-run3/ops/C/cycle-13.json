@@ -1,0 +1,49 @@
+{
+  "cycle": 13,
+  "date": "2025-07-19",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-50"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-50"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-07-19] The Dorothy Jean sailed on July 12, 2025, exactly as planned — gentle afternoon on the Columbia with Sam working the lines, Marcus and Nina aboard. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them. Dana said: 'I have already had it printed twice.' The sky was 'high thin stuff, not quite a mare's tail but close,' and Dana decided that counted as a blessing.",
+        "salience": 0.95,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-51"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-07-19] Interoperability platform shipped in early July 2025 after eighteen months of development and internal politics; CEO gave Dana a shout-out by name in the all-hands; described as 'the biggest professional moment of my life'",
+        "salience": 0.6,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-52"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "belief",
+        "text": "Has historically defined herself through work ambition and achievement; described herself as 'the person who is her work' for fifteen years, 'not in a grim way — I mean it like an engine'; said 'ambition's been my whole spine' and 'that's how I've always known I'm okay'; as of 2025-07-19, experiencing unexpected emotional flatness at major professional wins, which she attributes to grief",
+        "salience": 0.75,
+        "surprise": "mild",
+        "confidence": "high"
+      },
+      "outcome": "applied",
+      "detail": "added bel-53"
+    }
+  ]
+}

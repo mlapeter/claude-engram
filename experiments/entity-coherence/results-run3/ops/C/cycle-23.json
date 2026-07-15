@@ -1,0 +1,45 @@
+{
+  "cycle": 23,
+  "date": "2025-12-20",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Applied to a six-month ceramics residency at a craft school on the coast on 2025-12-19 (submitted 11:52pm); residency includes studio access, stipend, and cohort; submitted portfolio of pots made fall 2025; described application as 'terrified and I submitted it'; has not told work yet, waiting to hear back before deciding on leave or further reduced hours; described the idea as 'the sanest thing I've considered in ages' versus a year ago when it would have read as 'a breakdown'",
+        "salience": 0.85,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-74"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-12-20] Speaking about the shift in how she sees work versus identity, Dana said: 'I think I finally understand the difference between what I do and who I am. Design — product work — is what I do. I'm good at it, it pays the mortgage, I don't hate it. But it is not who I am, and I spent fifteen years with those two things fused so tightly I couldn't see the seam. Who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved. That's not a hobby that got out of control. That's the actual center, and the job is the thing arranged around it now, not the other way around.' She also said: 'It took me all year and a dead mother and a sprained ankle and a boat to get there.'",
+        "salience": 0.95,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-75"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "bel-66"
+      },
+      "outcome": "applied",
+      "detail": "reinforced bel-66"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "bel-59"
+      },
+      "outcome": "applied",
+      "detail": "reinforced bel-59"
+    }
+  ]
+}

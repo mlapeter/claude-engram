@@ -1,0 +1,36 @@
+{
+  "cycle": 5,
+  "date": "2025-03-18",
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On March 14, 2025, scattered mother's ashes at Beacon Rock in the Columbia River Gorge; went alone; said 'Beacon Rock was ours — she used to take me there when I was a kid, and on the way up she taught me to read cloud shapes. Not just \"that one's a rabbit\" — she had this whole taxonomy, what a mare's tail sky meant, when the anvil clouds meant get off the water. I stood at the top and the sky was doing exactly the kind of high thin herringbone she loved, and I let her go into the wind.' Picked up a fir cone from the trail on the way down, now on windowsill above kitchen sink. Sam had soup waiting when Dana got home; slept eleven hours. (2025-03-18)",
+        "salience": 1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-18"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-03-18] In cutback week of marathon training as of 2025-03-18",
+        "salience": 0.1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-19"
+    }
+  ]
+}

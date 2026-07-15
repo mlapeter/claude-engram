@@ -1,0 +1,68 @@
+{
+  "cycle": 12,
+  "date": "2025-06-21",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-45",
+        "text": "Restoring mom's sailboat (the Dorothy Jean) at a barn near Scappoose; working slowly with no deadline; as of 2025-05-11, starboard side is sanded and had started re-caulking the hull seams; as of 2025-06-08, hull is caulked and painted; as of 2025-06-21, restoration complete — rigging done, new lines installed, marine survey completed and boat confirmed sound; scheduled to launch the weekend of 2025-07-12 at Cathedral Park ramp (Priya's dad lending truck and trailer)",
+        "salience": 0.85,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-45 -> cs-47"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-44",
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain; wore walking boot until Thursday 2025-05-01; as of 2025-05-24, cleared by physical therapist for light jogging (twenty minutes, flat ground, every other day); as of 2025-06-08, jogging up to thirty minutes; as of 2025-06-21, jogging up to forty minutes",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-44 -> cs-48"
+    },
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-18",
+        "text": "Marcus is flying to Portland with Nina for the Dorothy Jean's first sail the weekend of 2025-07-12; Marcus said 'Mom would have required my attendance' and booked flights immediately; Nina will be four months old; Dana described this as 'both debts, one weekend'"
+      },
+      "outcome": "applied",
+      "detail": "resolved th-18"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-06-21] Marcus is flying out for the Dorothy Jean's first sail the weekend of July 12, bringing Nina (who will be four months old). When Dana told him the date, Marcus said 'Mom would have required my attendance' and booked flights that night. Dana said: 'Nina will be four months old. She obviously won't remember it, but there's going to be a photo of her in a tiny life jacket on our mother's boat, and I need that photo to exist.' Dana also said: 'I keep thinking about the cloud thing — I want to check the sky that morning the way she taught me. If it's a mare's tail sky I'm taking it as a blessing.' (2025-06-21)",
+        "salience": 0.95,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-49"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-06-21] First sail of the Dorothy Jean scheduled for the weekend of 2025-07-12 at Cathedral Park; Marcus flying out with Nina for the occasion; Sam will be aboard; plan is a gentle afternoon sail on the river; Dana described feeling 'nervous in a good way' and said 'the point isn't the sailing' but rather who's aboard and whose boat it is",
+        "salience": 0.8,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-50"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-4"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-4"
+    }
+  ]
+}

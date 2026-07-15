@@ -1,0 +1,83 @@
+{
+  "cycle": 9,
+  "date": "2025-05-11",
+  "outcomes": [
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-21",
+        "text": "Resolved 2025-05-11: Sam negotiated remote work arrangement with Austin robotics startup; will work from Portland with occasional travel to Austin (week every couple months); Sam starts June 2025; Dana and Sam staying in Portland"
+      },
+      "outcome": "applied",
+      "detail": "resolved th-21"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-05-11, when Sam told Dana the Austin startup agreed to remote work, said: 'I cried a little, which surprised me. I hadn't let myself feel how scared I was of leaving this year — the barn, the boat, Beacon Rock, all of it. And I'd been quietly rehearsing how to be graceful about going. Not needing the rehearsal anymore was the relief.'",
+        "salience": 0.85,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-29"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-20",
+        "text": "[as of 2025-05-11] Sam accepted job offer as perception team lead at robotics startup, negotiated remote work from Portland with periodic travel to Austin (approximately one week every couple months); starts June 2025; Dana and Sam remaining in Portland",
+        "salience": 0.7,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-20 -> cs-30"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-27",
+        "text": "[as of 2025-05-11] Out of walking boot as of approximately late April/early May 2025; attending physical therapy twice per week; walking normally-ish; ankle healing progressing",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-27 -> cs-31"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-05-11] Sailboat restoration progressing: starboard side sanded, started re-caulking hull seams",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-32"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-16"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-16"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-28"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-28"
+    }
+  ]
+}

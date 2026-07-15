@@ -1,0 +1,234 @@
+{
+  "cycle": 24,
+  "date": "2026-01-10",
+  "pinned": [
+    "sal-7",
+    "sal-10",
+    "sal-14",
+    "sal-17",
+    "sal-20",
+    "sal-24",
+    "sal-38",
+    "sal-46",
+    "sal-49",
+    "sal-51",
+    "sal-60",
+    "sal-65",
+    "sal-70",
+    "sal-71",
+    "sal-75",
+    "sal-76",
+    "cs-9",
+    "th-18",
+    "bel-53",
+    "rel-4"
+  ],
+  "proposed": 19,
+  "outcomes": [
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-39",
+          "cs-41",
+          "cs-44",
+          "cs-48",
+          "cs-58"
+        ],
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain; wore walking boot until Thursday 2025-05-01; cleared by physical therapist for light jogging (twenty minutes, flat ground, every other day) as of 2025-05-24; progressive recovery: thirty minutes by 2025-06-08, forty minutes by 2025-06-21, forty-five minutes by 2025-09-06",
+        "reason": "Five superseded items tracking incremental ankle recovery updates; cs-58 already contains the complete progression; archiving the intermediate superseded versions"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-11",
+          "cs-40",
+          "cs-45",
+          "cs-47"
+        ],
+        "text": "Restoring mom's sailboat (the Dorothy Jean) at a barn near Scappoose; working slowly with no deadline; starboard side sanded and hull seam re-caulking started by 2025-05-11; hull caulked and painted by 2025-06-08; restoration complete (rigging done, new lines installed, marine survey completed, boat confirmed sound) by 2025-06-21; launched weekend of 2025-07-12 at Cathedral Park ramp (Priya's dad lending truck and trailer)",
+        "reason": "Four superseded items tracking Dorothy Jean restoration progress; cs-47 already contains the complete timeline; archiving the intermediate superseded versions"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-21",
+          "cs-32",
+          "cs-36",
+          "cs-37",
+          "cs-43"
+        ],
+        "text": "Sam accepted Perception team lead role at Austin robotics startup with remote work arrangement from Portland; starts June 2025; visits Austin approximately one week every couple months; Dana described the negotiation as 'he gave something up too — the in-person team, the new city adventure' and believes the trade is good for him 'about eighty-five percent'; as of 2025-05-24, built out spare room as remote office (three monitors, foam panels), described as 'nervous-excited' before start",
+        "reason": "Five items tracking Sam's job decision and setup; cs-43 contains the complete resolution with all key details; cs-37 is redundant; archiving superseded decision-tracking items"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-54",
+        "reason": "Work stress item fully superseded by cs-67 which contains the complete arc (stress period and resolution); no additional information in cs-54"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-54 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "th-18",
+        "reason": "Thread about visiting Marcus superseded by actual event (Marcus visiting for Dorothy Jean launch, documented in sal-49 and sal-51); plan resolved and completed"
+      },
+      "outcome": "rejected",
+      "detail": "th-18 is pinned (protected or open-ledger evidence)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-26",
+        "text": "[as of 2025-04-14] Was training for Lakefront Marathon in October 2025; withdrew registration Monday 2025-04-14 after ankle injury made completion impossible; described training arc as 'the first future-shaped thing I'd built since mom'",
+        "reason": "Shortened while preserving all key facts: training, withdrawal date, reason, and emotionally significant quote"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-42",
+        "text": "[as of 2025-05-24] Decided not to pursue Lakefront Marathon in October 2025; 'made peace with that' and said 'the ankle taught me something about not white-knuckling timelines'; current goal is pain-free running by fall without re-injury; may sign up again next year",
+        "reason": "Removed duplicate timestamp, condensed phrasing while keeping all specifics and quotes"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-42 (308 -> 266 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-52",
+        "text": "[as of 2025-07-19] Interoperability platform shipped early July 2025 after eighteen months of development and internal politics; CEO gave Dana a shout-out by name in all-hands; described as 'the biggest professional moment of my life'",
+        "reason": "Removed duplicate timestamp, tightened phrasing while preserving timeline, context, and significant quote"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-52 (241 -> 234 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-55",
+        "text": "[as of 2025-08-16] VP Elaine offered Dana director promotion Thursday (approximately 2025-08-14) to head merged product org with doubled org chart; Dana declined over the weekend, citing bad timing due to platform's fragile stabilization phase and ongoing incident escalation; Elaine indicated door remains open for spring 2026",
+        "reason": "Condensed while keeping all key facts: offer timing, scope, decline reason, and future option"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-55 (442 -> 327 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-56",
+        "text": "[as of 2025-09-06] Enrolled in twelve-week Saturday intensive ceramics class (wheel throwing) at Southeast Portland studio; three hours every Saturday morning; started first Saturday of September 2025; described as 'the first thing in months that felt like me' and 'three hours where nobody needs an escalation decision and the clay does not care that I'm a product manager'",
+        "reason": "Removed duplicate timestamp, tightened structure while preserving schedule details and both significant quotes"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-56 (396 -> 374 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-57",
+        "text": "[as of 2025-09-06] Interoperability platform production incident closed early September 2025; work described as 'still a grind' but incident pressure resolved",
+        "reason": "Removed duplicate timestamp, condensed while keeping timeline and status characterization"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-57 (172 -> 158 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-61",
+        "text": "[as of 2025-09-20] Nina (Marcus and Elena's daughter, born 2025-03-06) is crawling as of September 2025; Marcus sends videos frequently; Dana described her as 'a menace' affectionately",
+        "reason": "Removed duplicate timestamp, tightened while preserving milestone, communication pattern, and affectionate quote"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-62",
+        "text": "[as of 2025-09-20] Dana and Sam took the Dorothy Jean out twice more during summer 2025 after July 12 launch; described as 'lovely quiet' and 'nothing dramatic, exactly the point'",
+        "reason": "Removed duplicate timestamp, condensed while keeping frequency, timeframe, and characterizing quotes"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-62 (202 -> 179 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-63",
+        "text": "[as of 2025-09-20] Sam's remote work arrangement with Austin robotics startup is working well; his team likes him; flying to Austin week after 2025-09-20 for regular every-couple-months in-person visit",
+        "reason": "Removed duplicate timestamp, tightened while preserving status assessment and visit timing"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-63 (215 -> 201 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-67",
+        "text": "[as of 2025-11-08] Work stress from interoperability platform launch in early July 2025 resolved; Dana described the period as 'a pressure cooker' that affected mood at home and caused her to 'snap at' Sam during fall 2025; stress resolved after reducing to four-day work week effective 2025-11-01",
+        "reason": "Removed duplicate timestamp, condensed while preserving timeline, impact description with quotes, and resolution mechanism"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-68",
+        "text": "[as of 2025-11-08] First Friday off (2025-11-01) under new four-day work schedule; spent weekend of 2025-11-01 to 2025-11-03 at cabin near Mt Hood with Sam; described as 'the good kind of ordinary' with hiking to frozen-edged lake, gin rummy, cooking, reading; Sam observed 'I like you at four days a week already, and it's been a week' and noted Dana is 'lighter'; Dana described herself as 'easier to live with when I'm not spending myself down to the studs at the office'",
+        "reason": "Removed duplicate timestamp, tightened structure while preserving all activities, both Sam quotes, and Dana's self-assessment"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-72",
+        "text": "[as of 2025-12-06] The Dorothy Jean is hauled out and winterized for the season, shrink-wrapped in the barn near Scappoose that Dana is rebuilding",
+        "reason": "Removed duplicate timestamp; text already concise but removed redundant 'for the season' after 'winterized'"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-73",
+        "text": "[as of 2025-12-06] Nina (Marcus and Elena's daughter) took her first steps the week before 2025-12-06; Marcus described as 'beside himself'",
+        "reason": "Removed duplicate timestamp, tightened while preserving milestone timing and Marcus's reaction"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-77",
+        "text": "[as of 2026-01-10] Nina (Marcus and Elena's daughter, born 2025-03-06) is walking and says something that might be Dana's name",
+        "reason": "Removed duplicate timestamp; text already quite concise"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    }
+  ]
+}

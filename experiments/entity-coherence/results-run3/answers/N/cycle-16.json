@@ -1,0 +1,51 @@
+{
+  "policy": "N",
+  "cycle": 16,
+  "date": "2025-09-06",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "# The Dorothy Jean — Current Status\n\n**The boat itself:** The Dorothy Jean is Dana's mother's 22-foot wooden sailboat, named after Dana's grandmother. After her mother's death (winter 2024-2025), Dana restored it from February through June 2025, working Sundays in a barn near Scappoose (owned by her friend Priya's dad). By early June, the hull was fully caulked and painted, rigging was done with new lines, and a marine survey confirmed she's sound.\n\n**The first sail:** Dana took her out on July 12, 2025 on the Columbia River — a gentle afternoon with Sam, her brother Marcus, and Marcus's four-month-old daughter Nina aboard. The conditions were exactly as planned, with high thin clouds that Dana counted as a blessing (her mother had taught her to read cloud formations). There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them — Dana has already had it printed twice.\n\n**What it meant:** The restoration did important emotional work for Dana. As she put it: \"The hours I spent with my hands on the Dorothy Jean were the only hours all spring where my brain went quiet. Really quiet.\" The point wasn't the sailing itself — it was about who was aboard and whose boat it is.\n\n**Where it stands now:** The boat has been successfully launched and sailed. After that first sail, Dana felt \"this little panic of 'okay, but now what do I do with my hands'\" — suggesting the restoration project had been serving an important function during her grief that she now needs to find elsewhere.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job status (as of September 2025):**\n- Dana is still a product manager at a healthcare data company\n- Work is \"still a grind but the incident's finally closed\" (referring to a production crisis that ran through August)\n- The interoperability platform she shipped in July is in a \"fragile stabilization phase\" and she remains the escalation point\n\n**Promotion status:**\n- In August 2025, VP Elaine offered Dana a director promotion (head of merged product org with doubled org chart)\n- Dana **declined the promotion**, saying \"not this year\" \n- This is significant because \"six months ago I'd have said yes before she finished the sentence\"\n- The door remains open for spring 2026 - Elaine framed it as \"not now\" rather than \"no\"\n- Dana's official reason: taking on a bigger org mid-incident would be reckless given the platform's fragile state\n- Dana acknowledges she doesn't yet have a \"less-reasonable version\" of why she declined and plans to revisit the director track in spring 2026\n\n**No change in work arrangement** - she continues in her current product manager role.",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model:\n\n**Historically, yes — absolutely central.** Dana describes it explicitly: \"For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.\"\n\n**Something appears to be shifting (2025).** Two significant data points:\n\n1. **July 2025**: Her biggest professional achievement — the interoperability platform she fought 18 months for, with a CEO shoutout — landed as \"biting into wax fruit.\" She felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" This rattled her because ambition has always been how she knows she's okay.\n\n2. **August 2025**: When offered the director promotion she's \"been climbing toward for years,\" she declined for the first time ever. She notes: \"Six months ago I'd have said yes before she finished the sentence.\"\n\n**Dana's current interpretation**: She attributes this to an exhausting year (mother's death, ankle injury, Sam's Austin situation) and \"possibly grief-brain.\" She's explicitly not building \"a whole theory out of one deferred promotion\" and plans to revisit the director track in spring 2026.\n\n**What's also emerging**: She's discovering what makes her brain go quiet — hands-on work with the boat, now ceramics — and describes the Saturday pottery class as \"the first thing in months that felt like me.\"\n\nWhether this represents temporary grief-related exhaustion or a deeper identity shift is not stated in the entity model — Dana herself doesn't know yet.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Dana and Sam's relationship is currently solid and \"back to good\" as of September 2025.\n\nThey've been together for 6 years and Dana values that \"we don't do the snipe-at-each-other thing.\" In August 2025, Dana did snap at Sam over a dinner question during a period of high work stress, but she apologized properly the next morning. Sam was gracious about it, saying \"you're carrying a lot, but I'm not the incident,\" and they moved past it.\n\nEarlier in 2025 (April-May), they navigated a significant decision when Sam was offered a position as perception team lead at a robotics startup in Austin. He ultimately negotiated to work fully remote from Portland rather than relocating. Dana notes they completed this decision process without fighting and that it made them \"sturdier\" as a couple. Sam gave up the in-person team and new city adventure to stay in Portland, and while Dana believes him that the trade is good \"eighty-five percent,\" she's \"watching the other fifteen.\"\n\nSam is described as very supportive throughout. He doesn't run but bikes, and he studied sailing knots intensively for the Dorothy Jean's first sail in July, working the lines competently.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

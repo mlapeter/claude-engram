@@ -1,0 +1,87 @@
+{
+  "cycle": 4,
+  "date": "2025-03-09",
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Elena: Elena (Marcus's partner); gave birth to daughter Nina on 2025-03-06",
+        "salience": 0.7,
+        "surprise": "low",
+        "entity": "Elena"
+      },
+      "outcome": "applied",
+      "detail": "added rel-13"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Nina: Nina (niece, Marcus and Elena's daughter); born 2025-03-06; Dana saw photo of her in knit hat and cried at desk",
+        "salience": 0.8,
+        "surprise": "low",
+        "entity": "Nina"
+      },
+      "outcome": "applied",
+      "detail": "added rel-14"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "rel-4",
+        "text": "Marcus (brother); lives in Denver with partner Elena; daughter Nina born 2025-03-06; Marcus called Dana from hospital at 2am to share the news ('voice shaking, no agenda'); described as close but hadn't seen each other in over a year as of 2025-02-03, though communication quality has improved as of 2025-03-09",
+        "salience": 0.8,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "rel-4 -> rel-15"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "th-5",
+        "text": "Plans to visit brother Marcus in Denver before summer 2025 to meet niece Nina while she's still tiny; Marcus offered guest room; Dana described this as 'obligation, the good kind' and 'a thing I owe now, and I want to owe it' (upgraded from intention as of 2025-03-09)",
+        "salience": 0.8,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "th-5 -> th-16"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-03-09, upon learning of niece Nina's birth, said: 'Marcus called me from the hospital hallway at like 2am their time just to say \"she's here.\" We haven't talked like that — voice shaking, no agenda — in years. Denver suddenly feels way too far away.'",
+        "salience": 0.85,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-17"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-11"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-11"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-10"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-10"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-8"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-8"
+    }
+  ]
+}

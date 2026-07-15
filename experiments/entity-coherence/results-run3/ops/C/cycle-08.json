@@ -1,0 +1,74 @@
+{
+  "cycle": 8,
+  "date": "2025-04-27",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Priya: Approximately two weeks before 2025-04-27, Priya asked Dana to borrow eight thousand dollars for a ceramics studio lease deposit and buildout; Dana said no immediately and 'badly,' citing not mixing money and friendship; Priya went 'very quiet and then very polite'; they have skipped pottery class twice since; Dana described the exchange as delivering 'ten years of friendship a verdict in four seconds' and recognizes the delivery hurt more than the answer itself",
+        "salience": 0.75,
+        "surprise": "mild",
+        "entity": "Priya"
+      },
+      "outcome": "applied",
+      "detail": "added rel-28"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "cs-9",
+        "note": "Pottery class with Priya has been skipped twice in the two weeks before 2025-04-27 due to conflict over loan request; Dana described the class as 'just sitting there on the calendar mocking me'",
+        "surprise": "mild",
+        "salience": 0.6
+      },
+      "outcome": "deferred",
+      "detail": "ledger cs-9 now 0.18"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Needs to repair relationship with Priya after loan refusal conflict; wants to address how the answer was delivered without relitigating the loan decision itself; described situation as 'too raw' as of 2025-04-27",
+        "salience": 0.7,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added th-29"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-25",
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain or worse; wore walking boot until late April 2025; boot scheduled to come off Thursday 2025-05-01; orthopedist confirmed ankle healing on schedule; physical therapy to start after boot removal",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-25 -> cs-30"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-27",
+        "text": "Recovering from ankle sprain; boot scheduled to come off Thursday 2025-05-01 with physical therapy to begin afterward; continuing Dorothy Jean restoration work on Sundays (can sand planks while sitting)",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-27 -> cs-31"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-04-27] Sam's decision on Austin job offer due in approximately one week (early May 2025); Dana described current moment as 'everything is happening at once'",
+        "salience": 0.65,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-32"
+    }
+  ]
+}

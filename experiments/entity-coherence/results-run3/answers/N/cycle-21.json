@@ -1,0 +1,51 @@
+{
+  "policy": "N",
+  "cycle": 21,
+  "date": "2025-11-22",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Dana restored the Dorothy Jean between February and June 2025. It's a 22-foot wooden sailboat that belonged to her mother, named after Dana's grandmother. She worked on it Sundays in a barn near Scappoose (owned by her friend Priya's dad) — no deadline, just steady work. The restoration included fully caulking and painting the hull, redoing the rigging with new lines, and getting a marine survey that confirmed the boat is sound.\n\nShe launched it for its first sail on July 12, 2025 on the Columbia River — a gentle afternoon with Sam, her brother Marcus, and Marcus's four-month-old daughter Nina aboard. There's a photo Dana treasures of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them.\n\nAfter that first sail, Dana and Sam took the Dorothy Jean out twice more over the summer — \"nothing dramatic, exactly the point.\" \n\nThe restoration did important emotional work for Dana. She describes the hours working on the boat as \"the only hours all spring where my brain went quiet. Really quiet.\" After it launched, she felt \"this little panic of 'okay, but now what do I do with my hands'\" — which eventually led her to ceramics and now barn restoration work. The boat is seaworthy and being used, which was the whole point.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current Work Arrangement (as of November 2025):**\n- Dana dropped to a **four-day work week effective November 1, 2025** (Fridays off, 20% pay cut)\n- She's now three weeks into this schedule and it's showing clear benefits\n- She's described as \"lighter\" and \"easier to live with\" \n- The decision was processed by HR on October 24, 2025\n\n**Promotion Status:**\n- Dana was **offered a director promotion in August 2025** by her VP Elaine\n- She **declined it** with \"not this year\" - deferring rather than outright refusing\n- The official reason given was that the interoperability platform she shipped was in a fragile stabilization phase\n- The door remains open for spring 2026\n\n**Recent Shift:**\nHowever, as of November 19, 2025, Dana told Priya: **\"I'm not sure I want the director track at all anymore. I'm not sure I ever did.\"** This represents a major identity shift - she's now questioning whether her entire fifteen-year career climb was actually what she wanted, or just momentum and her mother's voice about \"not wasting potential.\"\n\nShe's not planning to \"blow up her career,\" but there's been a fundamental reorientation in what work means to her. As she put it: \"It stopped being the point.\"",
+      "score": 0.5,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Dana and Sam's relationship is **solid and thriving** as of late November 2025. They've been together six years and are described as \"better than solid.\"\n\n**Key strengths:**\n- \"We don't do the snipe-at-each-other thing\" — Dana values this quality\n- The Austin job decision process (April-May 2025) made them \"sturdier\" as a couple\n- Sam gave up an in-person team and new city adventure to stay in Portland; Dana believes him about the trade being good \"eighty-five percent\" and is watching the other fifteen\n- They're \"stubbornly unmarried\"\n\n**Recent strain and resolution:**\n- Dana snapped at Sam twice during intense work stress (August and October 2025), including saying \"must be nice to have a job you can close the laptop on\"\n- She apologized within the hour both times\n- Dana's diagnosis: \"It's not us... It's not the relationship that's cracking. It's my relationship to the job.\"\n- Sam observed: \"I don't think you're mad at me, I think you're mad at the laptop\"\n- Dana confirms: \"When we're not in a work crunch we're honestly better than we've been in years — the Austin thing welded us\"\n\n**Current state (three weeks into Dana's four-day work week):**\n- Sam noticed immediately: \"I like you at four days a week already, and it's been a week\" — Dana is lighter\n- Dana: \"I'm easier to live with when I'm not spending myself down to the studs at the office\"\n- \"The relationship was never the problem — but the relationship gets the benefit\"\n- Recent Mt Hood cabin weekend was \"the good kind of ordinary\" with no strain",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Dana dropped to a four-day work week (effective November 1, 2025) because she realized that **the days she spends working are the days she feels \"like a very competent function,\" while the days she spends at the pottery wheel or working on the barn are the days she feels \"like a person.\"** At 41, having lost her mom this year, she's \"no longer willing to spend five out of seven days being a function.\"\n\nThe deeper shift is more fundamental: Dana is questioning whether her fifteen years of career climbing was ever actually what she wanted, or whether it was \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something.\" She told Priya in November 2025: **\"I'm not sure I want the director track at all anymore. I'm not sure I ever did.\"**\n\nKey turning point: When her biggest professional achievement (shipping the interoperability platform in July 2025) landed like \"biting into wax fruit\" — she felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" This rattled her because ambition had always been \"her spine.\"\n\nShe's not blowing up her career, but she's clear that **\"it stopped being the point.\"** The work that makes her brain go quiet and makes her feel like herself — restoring the Dorothy Jean, ceramics, the barn project — that's what she's protecting now.",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

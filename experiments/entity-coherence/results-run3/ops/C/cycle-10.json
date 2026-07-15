@@ -1,0 +1,56 @@
+{
+  "cycle": 10,
+  "date": "2025-05-24",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-39",
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain; wore walking boot until Thursday 2025-05-01; as of 2025-05-24, cleared by physical therapist for light jogging (twenty minutes, flat ground, every other day); completed first jog on morning of 2025-05-24 along the esplanade",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-39 -> cs-41"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-05-24] Has decided not to pursue Lakefront Marathon in October 2025; described the decision as 'made peace with that' and said 'the ankle taught me something about not white-knuckling timelines'; current goal is to run pain-free by fall without re-injury; may sign up for marathon again next year",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-42"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-36",
+        "text": "Sam accepted the Perception team lead role at the Austin robotics startup with a remote work arrangement from Portland; starts June 2025; will visit Austin approximately one week every couple months; Dana described the negotiation as 'he gave something up too — the in-person team, the new city adventure' and said she believes the trade is good for him 'about eighty-five percent'; as of 2025-05-24, Sam has built out the spare room as remote office (three monitors, foam panels); starts in a couple weeks from 2025-05-24; Dana described him as 'nervous-excited'",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-36 -> cs-43"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-29"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-29"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-18"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-18"
+    }
+  ]
+}

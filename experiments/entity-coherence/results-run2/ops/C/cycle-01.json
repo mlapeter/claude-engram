@@ -1,0 +1,74 @@
+{
+  "cycle": 1,
+  "date": "2025-02-03",
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "core",
+        "text": "Dana Whitfield; uses she/her or he/him pronouns (partner Sam uses 'he'); lives in Portland",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added core-1"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Product manager at a healthcare data company; mid-quarter as of 2025-02-03, preparing for roadmap review on Thursday 2025-02-06; facing prioritization decision between interoperability work and analytics dashboard",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-2"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Sam (partner); together six years as of 2025-02-03; described as 'great' support during difficult time",
+        "salience": 0.8,
+        "surprise": "none",
+        "entity": "Sam"
+      },
+      "outcome": "applied",
+      "detail": "added rel-3"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Marcus (brother); lives in Denver; described as close but haven't seen each other in over a year as of 2025-02-03, communication has drifted to phone calls only",
+        "salience": 0.6,
+        "surprise": "none",
+        "entity": "Marcus"
+      },
+      "outcome": "applied",
+      "detail": "added rel-4"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Wants to see brother Marcus in person this year (2025); stated as 'real intention' on 2025-02-03",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added th-5"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "Lost mother during winter before 2025-02-03; described as 'heavy winter' and 'it colors everything'; did not want to discuss details in session on 2025-02-03",
+        "salience": 1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-6"
+    }
+  ]
+}

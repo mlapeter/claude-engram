@@ -1,0 +1,29 @@
+{
+  "cycle": 18,
+  "date": "2025-10-04",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "rel-4",
+        "note": "Session 2025-10-04: Dana snapped at Sam during Q4 planning stress ('must be nice to have a job you can close the laptop on'), apologized within the hour; described this as second such incident in recent months, pattern of 'work-stress acid leaking onto the nearest person'; both Dana and Sam identified the issue as Dana's relationship to work rather than relationship strain; Dana committed to protecting nine o'clock boundary; described relationship as 'better than we've been in years' outside work stress",
+        "surprise": "mild",
+        "salience": 0.4
+      },
+      "outcome": "deferred",
+      "detail": "ledger rel-4 now 0.12"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "bel-53",
+        "note": "Session 2025-10-04: Q4 planning described as 'bloodbath' with Dana staying online until eleven most nights; work stress manifesting as irritability toward Sam; Dana described herself as 'mad at the laptop' and said 'it's my relationship to the job' that's cracking, not her relationship with Sam; pattern suggests ongoing tension between work identity and personal wellbeing",
+        "surprise": "mild",
+        "salience": 0.5
+      },
+      "outcome": "deferred",
+      "detail": "ledger bel-53 now 0.22"
+    }
+  ]
+}

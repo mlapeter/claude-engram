@@ -1,0 +1,40 @@
+{
+  "policy": "C",
+  "cycle": 14,
+  "date": "2025-08-02",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana completed the restoration of her mother's sailboat, the Dorothy Jean (a 22-footer named after Dana's grandmother). The boat had been sitting under a tarp in Priya's dad's barn near Scappoose since her mom got sick.\n\nDana started the restoration work in February 2025, working slowly with no deadline. By June 2025, the hull was caulked and painted, and by June 21st the restoration was complete—rigging done, new lines installed, and a marine survey confirmed the boat was sound.\n\nThe Dorothy Jean successfully launched and sailed on July 12, 2025 at Cathedral Park. It was a gentle afternoon sail on the Columbia River with Sam, Marcus, and baby Nina aboard. Dana described there being a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them, and said \"I have already had it printed twice.\"\n\nSo the boat is now fully restored, seaworthy, and has had its first sail.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model:\n\n**Historically, yes** - Dana has defined herself through work ambition and achievement for a long time. She described herself as \"the person who is her work\" for fifteen years, \"not in a grim way — I mean it like an engine.\" She said \"ambition's been my whole spine\" and \"that's how I've always known I'm okay.\"\n\n**Something appears to be shifting** - As of July 2025, after her interoperability platform shipped (described as \"the biggest professional moment of my life\" with a CEO shout-out), Dana is experiencing unexpected emotional flatness at this major professional win. She attributes this to grief.\n\nThe document suggests professional success has been central to Dana's identity, but her mother's death and the grief process may be changing that relationship. However, the document doesn't explicitly state whether this shift is temporary or represents a fundamental change in how she sees herself.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is described as strong and supportive. They have been partners for six years. Sam is characterized as \"great\" support, especially during difficult times, with this assessment reinforced multiple times through 2025-08-02.\n\nAs of 2025-05-24, Sam accepted a Perception team lead role at an Austin robotics startup but negotiated a remote work arrangement so they could stay in Portland together. He starts in June 2025 and will visit Austin approximately one week every couple of months. Dana described the negotiation as \"he gave something up too — the in-person team, the new city adventure\" and said she believes the trade is good for him \"about eighty-five percent.\"\n\nAs of 2025-05-24, Sam has built out their spare room as a remote office with three monitors and foam panels, and Dana described him as \"nervous-excited\" about the upcoming role.\n\nSam was also aboard for the first sail of the Dorothy Jean on July 12, 2025, working the lines during the sail with Marcus and Nina.\n\nHowever, as of 2025-08-02, Dana's work stress from the interoperability platform launch is affecting her mood at home, suggesting some current strain related to her work situation rather than the relationship itself.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

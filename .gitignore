@@ -12,3 +12,7 @@ eval/
 # Local tooling artifacts
 .claude/
 .playwright-mcp/
+
+# research corpus + handoff live in the private data repo (privacy: family references)
+research/
+HANDOFF.md

@@ -1,0 +1,17 @@
+{
+  "cycle": 8,
+  "date": "2025-04-27",
+  "threshold": 3,
+  "snapshot": [
+    {
+      "key": "cs-9",
+      "targetText": "[as of 2025-02-12] Taking a Tuesday night pottery class with friend Priya; described as 'the first standing thing we've had on the calendar in years'",
+      "targetSection": "current",
+      "total": 0.18,
+      "entries": 1,
+      "hasPendingRevision": false
+    }
+  ],
+  "accommodatedThisCycle": [],
+  "hygieneRan": true
+}

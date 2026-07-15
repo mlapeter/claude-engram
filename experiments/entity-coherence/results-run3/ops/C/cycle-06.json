@@ -1,0 +1,67 @@
+{
+  "cycle": 6,
+  "date": "2025-04-01",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-04-01] Sam received a job offer as Perception team lead at a robotics startup in Austin, Texas; described as 'genuinely his dream problem space' with a strong offer; decision deadline early May 2025; Dana and Sam are considering whether to relocate together",
+        "salience": 0.9,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added cs-21"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Facing decision about potential move to Austin for Sam's job offer; torn between supporting Sam's career opportunity and staying in Portland where 'this geography is load-bearing' for healing after mom's death; specifically concerned about leaving the Dorothy Jean restoration, Priya, pottery class, and the Gorge/Beacon Rock; Sam has said he won't take the offer 'if it costs us this year of me healing'; decision needed by early May 2025 (opened 2025-04-01)",
+        "salience": 0.95,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added th-22"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-12"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-12"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-04-01] Marathon training at week six; completed 12 miles on Saturday (approximately 2025-03-29) with no complaints",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-23"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-9"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-9"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-04-01] Speaking about the potential move to Austin and leaving Portland, Dana said: 'Mom's here. Not literally anymore — but the Gorge, Beacon Rock, the barn. This geography is load-bearing for me right now.'",
+        "salience": 0.9,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-24"
+    }
+  ]
+}

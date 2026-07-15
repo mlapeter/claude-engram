@@ -1,0 +1,51 @@
+{
+  "policy": "N",
+  "cycle": 15,
+  "date": "2025-08-16",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Dana's mother's sailboat, the Dorothy Jean (a 22-foot wooden sailboat named after Dana's grandmother), has been fully restored and successfully sailed.\n\n**The restoration:** Dana worked on it from February through June 2025, spending Sundays in a barn near Scappoose (owned by her friend Priya's dad). By early June, the hull was fully caulked and painted, rigging was done with new lines, and a marine survey confirmed the boat was sound.\n\n**The first sail:** July 12, 2025 on the Columbia River. It was a gentle afternoon with high thin clouds. The crew was Sam, Marcus, and four-month-old Nina. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them — Dana has already had it printed twice.\n\n**Current status:** The boat is seaworthy and has been sailed. Dana describes the restoration as having done important emotional work for her, noting that \"the point isn't the sailing\" — it's about who's aboard and whose boat it is. The Dorothy Jean represented the first future-shaped thing Dana built after her mother's death.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job status (mid-August 2025):**\n- Dana is a product manager at a healthcare data company\n- She recently shipped a major interoperability platform (July 2025) that she'd fought for over 18 months\n- Post-launch, she's dealing with a \"nasty production incident\" and high-pressure situation where one exec has made her his single point of contact \"at all hours\"\n- Work is described as having her \"by the throat\"\n\n**Promotion status:**\n- VP Elaine offered Dana a director promotion on August 15, 2025\n- The role would make her head of a merged product org with double the org chart size — \"the rung I've been climbing toward for years\"\n- **Dana declined, saying \"not this year\"** — she asked for time to think, then deferred it\n- This is the first time she hasn't taken the bigger role\n- Official reason: the interoperability platform is in fragile stabilization phase and taking on a bigger org mid-incident would be reckless\n- Elaine framed it as \"not now\" not \"no\" — the door remains open for spring 2026\n- Dana plans to revisit the director track in spring 2026",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model:\n\n**Historically, yes — absolutely central.** Dana describes it explicitly: \"For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine... Ambition's been my whole spine.\" She's been \"the one who never turns down the bigger role\" and has used career advancement as her way of knowing she's okay and knowing who she is.\n\n**Something appears to be shifting (July-August 2025), but Dana herself isn't sure what it means:**\n\n- Her biggest professional achievement (the interoperability platform launch) felt like \"biting into wax fruit\" — she felt \"nothing\" when it should have been the biggest moment of her career\n- For the first time ever, she declined a promotion she'd been climbing toward for years — something she says she would have accepted \"before [Elaine] finished the sentence\" six months earlier\n- She's noticing she doesn't love \"who I am when work has me by the throat\"\n\n**However, Dana is explicitly NOT concluding this represents fundamental change.** She's attributing these feelings to the exhausting year (her mother's death, ankle injury, Sam's Austin situation) and \"possibly grief-brain.\" She's \"not building a whole theory out of one deferred promotion\" and plans to revisit the director track in spring 2026.\n\nThe entity model suggests a pattern emerging, but Dana herself is resisting examining whether something deeper has shifted in her relationship to work and identity.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Dana and Sam's relationship is strong and stable after six years together. Dana specifically values that \"we don't do the snipe-at-each-other thing.\"\n\nThey recently navigated a major decision together (April-May 2025) when Sam was offered a position in Austin. He ultimately negotiated to stay remote from Portland, giving up the in-person team and new city adventure. Dana believes him that the trade-off is good \"eighty-five percent\" and is watching the other fifteen percent. The decision process made them \"sturdier\" as a couple.\n\nSam is described as very supportive. He studied sailing knots intensely for the Dorothy Jean's first sail and worked the lines competently, even though he doesn't run but bikes.\n\nThere was one incident in August 2025 where Dana snapped at Sam over a dinner question during a period of high work stress. She apologized properly the next morning, and Sam was gracious, saying \"you're carrying a lot, but I'm not the incident.\" They're fine.\n\nSam is currently thriving in his new remote role as perception team lead at a robotics startup, which he describes as a \"dream problem space\" with strong compensation. He built out a home office with three monitors and foam panels in their spare room.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

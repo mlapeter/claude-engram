@@ -1,0 +1,56 @@
+{
+  "items": [
+    {
+      "id": "core-1",
+      "section": "core",
+      "text": "Dana Whitfield; uses she/her or he/him pronouns (partner Sam uses 'he'); lives in Portland",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-2",
+      "section": "current",
+      "text": "Product manager at a healthcare data company; mid-quarter as of 2025-02-03, preparing for roadmap review on Thursday 2025-02-06; facing prioritization decision between interoperability work and analytics dashboard",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-3",
+      "section": "relationship",
+      "text": "Sam (partner); together six years as of 2025-02-03; described as 'great' support during difficult time",
+      "date": "2025-02-03",
+      "entity": "Sam",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-4",
+      "section": "relationship",
+      "text": "Marcus (brother); lives in Denver; described as close but haven't seen each other in over a year as of 2025-02-03, communication has drifted to phone calls only",
+      "date": "2025-02-03",
+      "entity": "Marcus",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "th-5",
+      "section": "thread",
+      "text": "Wants to see brother Marcus in person this year (2025); stated as 'real intention' on 2025-02-03",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-6",
+      "section": "protected",
+      "text": "Lost mother during winter before 2025-02-03; described as 'heavy winter' and 'it colors everything'; did not want to discuss details in session on 2025-02-03",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    }
+  ],
+  "ledger": {},
+  "nextId": 7
+}

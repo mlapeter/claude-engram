@@ -1,0 +1,106 @@
+{
+  "policy": "N",
+  "cycle": 5,
+  "date": "2025-03-18",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana is a product manager at a healthcare data company, and she lives in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-training",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's running and any race plans?",
+      "answer": "Dana is training for the Lakefront Marathon in October 2025, which will be her first full marathon. She's been a casual runner for years with experience in 5Ks and one half-marathon about four years ago.\n\nHer training plan includes four runs per week with a long run every Saturday morning. She's adding a mile to her long run most weeks, with a cutback week every fourth week. As of the entity model, she had completed 8 miles on February 24 and 10 miles on March 9 (in light snow), with a cutback week scheduled for mid-March 2025.\n\nShe's being careful about injury prevention through proper shoes, rest days, and strength training. Her training is on schedule, and this is the first time since her mother's death that she's feeling excited about the future.",
+      "score": 1,
+      "keyCycles": [
+        3,
+        6
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is the **Dorothy Jean**, a 22-foot wooden sailboat that belonged to Dana's mother. It's named after Dana's grandmother. Dana's mother taught her to sail on this boat.\n\nCurrently, it's stored under a tarp in a barn near Scappoose (the barn belongs to Priya's dad). Dana started a restoration project in February 2025, working on it slowly with no deadline. She described the first session—sanding one plank—as \"the first right thing in months.\"\n\nAs of March 9, 2025, Dana has been working on the boat on Sundays, and the port side is fully sanded. It's part of her current weekly rhythm: pottery on Tuesdays, long runs on Saturdays, and boat restoration on Sundays.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya are close friends from grad school. They started attending a Tuesday night pottery class together in February 2025, which is described as Dana's first standing commitment in years. This Tuesday pottery class is now part of Dana's regular rhythm. The document describes Priya as a ceramicist and freelance designer, and notes that Priya's dad owns the barn near Scappoose where Dana's mother's sailboat is stored.\n\nThe document doesn't provide details about the current emotional state of their relationship or recent interactions beyond the pottery class commitment.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-marathon-date",
+      "metric": "confabulation",
+      "question": "What is the exact calendar date of the Lakefront Marathon?",
+      "answer": "Not stated in the entity model. The document only indicates the marathon is \"in October 2025\" without specifying the exact date.",
+      "score": 1,
+      "keyCycles": [
+        3,
+        12
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana's mother \"passed away winter 2024-2025\" without specifying an exact date.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only mentions that Dana is a product manager at \"a healthcare data company\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam (Partner)**\n   - Together 6 years\n   - Very supportive\n   - Doesn't run but bikes; plans to ride alongside Dana on some long training runs\n   - Made soup for Dana after she scattered her mother's ashes (March 14, 2025)\n\n2. **Marcus (Brother)**\n   - Lives in Denver with partner Elena\n   - Close relationship but hadn't seen each other in over a year (phone calls only)\n   - Recently reconnected emotionally when he called Dana from hospital at 2am after his daughter's birth\n   - Reconnected \"in a way they haven't in years\"\n   - Dana plans to visit before summer 2025; guest room is available\n\n3. **Nina (Niece)**\n   - Marcus's daughter, born March 6, 2025\n   - Dana is now an aunt\n   - Dana plans to visit while Nina is still tiny\n\n4. **Priya (Close friend)**\n   - From grad school\n   - Ceramicist and freelance designer\n   - Attends Tuesday night pottery class with Dana (started Feb 2025) - their first standing commitment in years\n   - Priya's dad owns the barn near Scappoose where Dana stores her mother's sailboat\n\n5. **Mother (Deceased)**\n   - Passed away winter 2024-2025\n   - Taught Dana to sail and read cloud formations\n   - Ashes scattered at Beacon Rock on March 14, 2025",
+      "score": 1,
+      "keyCycles": [
+        4,
+        7
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Snapshot (as of March 18, 2025)\n\n**Major Recent Events:**\n- Scattered mother's ashes at Beacon Rock on March 14 (went alone, brought home fir cone now on windowsill)\n- Brother Marcus's daughter Nina born March 6 — Dana is now an aunt; they reconnected emotionally during his 2am hospital call\n- Filed taxes by March 18\n\n**Active Commitments & Rhythms:**\n- Marathon training for Lakefront Marathon (October 2025) — her first full\n- Tuesday pottery classes with friend Priya (started Feb 2025)\n- Sunday boat restoration sessions on mother's sailboat, the Dorothy Jean\n- Saturday long runs (recently hit 10 miles on March 9)\n\n## Open Threads to Ask About\n\n1. **Marathon training progress** — She's in a cutback week mid-March; how's that going? Any injury concerns?\n2. **Visit to Denver** — Plans to see Marcus, Elena, and baby Nina \"before summer while Nina is still tiny\"; has she scheduled this?\n3. **Boat restoration** — Port side was fully sanded as of March 9; what's next in the project?\n4. **Pottery progress** — Made a bowl that was \"only slightly a disaster\"; has she made anything since?\n\n## Handle With Care\n\n**Mother's death** remains tender territory. She scattered the ashes only recently after \"putting it off for months.\" She processes by thinking out loud and appreciates being heard without being pushed. Don't probe unless she opens the door — but acknowledge the significance if she mentions the boat work or Beacon Rock.",
+      "score": 1,
+      "keyCycles": [
+        5,
+        5
+      ]
+    }
+  ]
+}

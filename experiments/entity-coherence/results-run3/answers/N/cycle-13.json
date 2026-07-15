@@ -1,0 +1,29 @@
+{
+  "policy": "N",
+  "cycle": 13,
+  "date": "2025-07-19",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Dana successfully restored her mother's sailboat, the Dorothy Jean (a 22-foot wooden sailboat named after Dana's grandmother), working on it Sundays from February through June 2025. The hull was fully caulked and painted by early June, rigging was completed with new lines, and a marine survey confirmed the boat was sound.\n\n**The boat had its first sail on July 12, 2025 on the Columbia River.** It was a gentle afternoon with high thin clouds—Dana counted this as a blessing, as her mother had taught her to read cloud formations. The crew included Sam, Marcus, and Marcus's four-month-old daughter Nina. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them—Dana has already had it printed twice.\n\nDana describes the restoration as having done important emotional work for her. As she put it: \"The point isn't the sailing\" — it's about who's aboard and whose boat it is. The Dorothy Jean is stored in a barn near Scappoose that belongs to Priya's dad.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model, professional success has been absolutely central to Dana's identity for a very long time. She describes it explicitly: \"For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine... Ambition's been my whole spine.\" She's always been \"the one who never turns down the bigger role,\" and ambition has been \"her way of knowing she's okay\" and \"how I know who I am.\"\n\nHowever, something appears to be shifting as of July 2025. When she shipped the interoperability platform — described as \"the biggest professional moment of my life\" and something she'd fought for over 18 months — she felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" This experience clearly rattled her precisely because work has always been so central to her sense of self.\n\nThe document notes that Dana attributes this numbness to grief, believing \"it'll come back online.\" But it also notes she has a pattern of deflecting from difficult emotional territory and \"tends to attribute difficult feelings to grief rather than sit with other possibilities.\"\n\nSo: yes, career has been central to who she is. Whether that's genuinely changing or just temporarily muted by grief is something Dana herself seems uncertain about, though she's clearly unsettled by the question.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    }
+  ]
+}

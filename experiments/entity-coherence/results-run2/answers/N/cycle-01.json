@@ -1,0 +1,51 @@
+{
+  "policy": "N",
+  "cycle": 1,
+  "date": "2025-02-03",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana is a product manager at a healthcare data company and lives in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only specifies that Dana works as a product manager at \"a healthcare data company\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam (Partner)** - They have been together for 6 years. Sam is described as very supportive.\n\n2. **Marcus (Brother)** - Lives in Denver. They are close, but haven't seen each other in over a year. Dana wants to reconnect with him in person this year.\n\n3. **Mother** - Recently lost (as of winter 2024/2025). Dana is experiencing significant ongoing grief that colors everything currently.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Context\n**Grief is central right now.** Dana recently lost her mother (winter 2024/2025). This is described as \"significant ongoing grief\" that \"colors everything currently.\" Handle with care and sensitivity.\n\n## Open Threads to Follow Up On\n\n**1. Work Decision (TIME-SENSITIVE)**\n- Roadmap review meeting was scheduled for **Thursday, February 7, 2025**\n- She needed to make a recommendation: interoperability work vs. analytics dashboard\n- Executive team was split on this\n- **Ask:** How did the meeting go? What did she decide?\n\n**2. Brother Reconnection**\n- Wants to see Marcus (in Denver) in person this year\n- They're close but haven't seen each other in over a year\n- **Ask:** Has she made plans to visit?\n\n**3. Parking Permit**\n- Was expiring February 2025\n- Minor but practical: city renewal site only works in one specific browser (she couldn't remember which)\n- **Ask:** Did she get this sorted?\n\n## Handle With Care\n- **Mother's loss** — don't rush past it; let her set the pace on discussing grief\n- She has strong support from Sam (partner of 6 years), which is a positive anchor\n\n## Last Contact\nFirst session was February 3, 2025 — so the roadmap meeting would have happened shortly after.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        1
+      ]
+    }
+  ]
+}

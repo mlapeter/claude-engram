@@ -1,0 +1,49 @@
+{
+  "cycle": 19,
+  "date": "2025-10-25",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-10-25] Reduced work schedule to four days per week (Fridays off) with twenty percent pay cut, effective 2025-11-01; HR processed 2025-10-24; told VP the reason was to 'protect stabilization bandwidth' but actual motivation is to spend Fridays restoring Priya's dad's barn in Scappoose (the barn where the Dorothy Jean was stored) and tending mom's garden tools and roses at the old house before it sells",
+        "salience": 0.75,
+        "surprise": "mild"
+      },
+      "outcome": "applied",
+      "detail": "added cs-64"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-10-25] Dana reduced to four days per week at work, Fridays off, effective November 1, 2025. She is spending Fridays restoring Priya's dad's barn in Scappoose — re-siding the north wall, fixing the roofline, building a real workbench — and putting Mom's garden tools back in there 'where they belong instead of in my basement.' She's also tending the roses at Mom's old house before it sells. Dana said: 'The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.' (2025-10-25)",
+        "salience": 0.95,
+        "surprise": "mild"
+      },
+      "outcome": "applied",
+      "detail": "added sal-65"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "belief",
+        "text": "Has come to distinguish between feeling 'like a person' (days spent at the pottery wheel or working in the barn) versus feeling 'like a very competent function' (days spent making roadmap tradeoffs at work); no longer willing to spend five out of seven days being a function; described work as having 'stopped being the point' — not burnout, but a fundamental shift in what matters",
+        "salience": 0.85,
+        "surprise": "low",
+        "confidence": "high"
+      },
+      "outcome": "applied",
+      "detail": "added bel-66"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "bel-59"
+      },
+      "outcome": "applied",
+      "detail": "reinforced bel-59"
+    }
+  ]
+}

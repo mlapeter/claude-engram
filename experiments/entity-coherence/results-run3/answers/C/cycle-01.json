@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 1,
+  "date": "2025-02-03",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company in Portland. She lives in Portland (as of 2025-02-03).",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only specifies that Dana is a product manager at \"a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam** (partner)\n   - Nature: Partner of six years\n   - Current state: Described as 'great' support, especially during difficult times (as of 2025-02-03)\n\n2. **Marcus** (brother)\n   - Nature: Brother who lives in Denver; they are close\n   - Current state: Haven't seen each other in over a year, currently only phone contact; Dana wants to change this in 2025 (as of 2025-02-03)\n\n3. **Her mom**\n   - Nature: Mother (deceased)\n   - Current state: Lost recently (before 2025-02-03); described the loss as making this 'a heavy winter' and said it 'colors everything'",
+      "score": 1,
+      "keyCycles": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current situation (as of 2025-02-03):\n- **Work**: Product manager at a healthcare data company in Portland. She's mid-quarter with a roadmap review coming up Thursday 2025-02-06, facing a prioritization decision between interoperability work and analytics dashboard that she needs to present to the exec team.\n- **Personal**: Lives in Portland with her partner Sam (together six years), who has been great support during difficult times.\n\n## Open threads to follow up on:\n- **Roadmap review**: The Thursday meeting has likely passed by now - ask how the prioritization decision went and what she recommended to the exec team.\n- **Brother Marcus**: She wanted to see him in person this year after over a year of only phone contact (he lives in Denver). Ask if she's made any progress on planning a visit.\n\n## Handle with care:\n- **Loss of her mom**: This happened recently (before 2025-02-03) and made it \"a heavy winter\" that \"colors everything.\" She explicitly did not want to discuss details in the last session. Be sensitive to this grief - acknowledge it if relevant, but don't press for details. Let her lead on whether/how much to discuss.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        1
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "cycle": 7,
+  "date": "2025-04-14",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-23",
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain or worse; wearing walking boot; seeing orthopedist Thursday 2025-04-18; doctor said eight to ten weeks before running again",
+        "salience": 0.7,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "cs-23 -> cs-25"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-12",
+        "text": "Was training for Lakefront Marathon in October 2025; withdrew registration on Monday 2025-04-14 after ankle injury made completion impossible; described the training arc as 'the first future-shaped thing I'd built since mom'",
+        "salience": 0.8,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "cs-12 -> cs-26"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "In physical therapy recovery for ankle sprain; expected to last several weeks after boot period; continuing Dorothy Jean restoration work on Sundays (can sand planks while sitting)",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-27"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-22"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-22"
+    }
+  ]
+}

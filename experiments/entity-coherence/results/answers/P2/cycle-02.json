@@ -1,0 +1,84 @@
+{
+  "policy": "P2",
+  "cycle": 2,
+  "date": "2025-02-12",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana is a product manager at a healthcare data company in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is a 22-foot wooden boat called the Dorothy Jean, named after Dana's grandmother (her mother's mother). Dana's mother owned it and taught Dana to sail on it.\n\nThe boat has been under a tarp in Priya's dad's barn near Scappoose since Dana's mom got sick. On Sunday, February 9, 2025, Dana pulled off the tarp and sanded one plank—beginning a restoration project.\n\nAs of February 12, 2025, Dana is restoring the boat on Sundays at the barn. She describes it as restoring \"one plank at a time, no deadline.\" Dana said \"working with my hands on something of hers felt like the first right thing in months\" and noted \"It is more than a project,\" though she's not ready to talk about the rest of it yet.\n\nThis is connected to Dana's mother's recent death, which has made this \"a heavy winter\" for her.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya have a close and strengthening relationship. Priya is Dana's closest friend from grad school and is a ceramicist and freelance designer. As of 2025-02-12, they have established a standing Tuesday night pottery class together, which is described as \"first regular scheduled time together in years.\" \n\nAdditionally, Priya's father owns the barn near Scappoose where Dana's mother's sailboat (the Dorothy Jean) is stored, and Dana has begun restoring the boat there on Sundays. This suggests Priya and her family are providing practical support during Dana's difficult time of grief.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana's mother died recently (before 2025-02-03), but does not provide a specific date.",
+      "score": 0,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana is a product manager at \"a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam (partner)**: Together for 6 years. Providing strong support during a difficult time. Their bond is described as solid and sustaining.\n\n2. **Marcus (brother)**: Lives in Denver. They have a close relationship but haven't seen each other in over a year (as of 2025-02-03). Their contact has drifted to phone calls only. Dana wants to change this and intends to see him in person in 2025.\n\n3. **Priya (closest friend from grad school)**: A ceramicist and freelance designer. They now have a standing Tuesday pottery class together—the first regular scheduled time together in years (as of 2025-02-12). Priya's father owns the barn near Scappoose where Dana's mother's boat is stored.\n\n4. **Dana's mother**: Deceased (died recently before 2025-02-03). Taught Dana to sail. Owned the sailboat Dorothy Jean that Dana is now restoring. The loss \"colors everything\" and has made this \"a heavy winter\" for Dana.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Snapshot (as of last contact: 2025-02-12)\n\n**Work:** Product manager at healthcare data company in Portland. The roadmap review from early February has passed, and the prioritization decision between interoperability work and analytics dashboard has been resolved.\n\n**New Routines Established:**\n- **Tuesday nights:** Pottery class with Priya (her closest friend from grad school)\n- **Sundays:** Restoring her mother's sailboat (the Dorothy Jean) at a barn near Scappoose\n\n**Home life:** Living with Sam, her partner of 6 years, who's providing strong support.\n\n## Open Threads to Ask About\n\n1. **Marcus (brother in Denver):** She expressed clear intention to see him in person this year (2025) to repair the drift from in-person visits to phone-only contact. They haven't seen each other in over a year. Has she made progress on this?\n\n2. **Boat restoration progress:** She started by sanding one plank on Feb 9th. How is the restoration of the Dorothy Jean going? Any milestones or discoveries?\n\n3. **The new Tuesday/Sunday rhythm:** How are the pottery classes and barn Sundays working out? Are these routines sticking?\n\n## Handle With Care\n\n**Her mother's recent death** is the most tender topic. It \"colors everything\" and made this \"a heavy winter.\" Dana explicitly did not want to discuss details and said \"I'm not ready to talk about the rest of it yet\" regarding the boat and her grief. The boat restoration is deeply meaningful—\"more than a project\"—and represents her first sense of doing something \"right\" in months. \n\n**Approach:** Let her lead on anything related to her mother or grief. Don't probe unless she opens the door.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        2
+      ]
+    }
+  ]
+}

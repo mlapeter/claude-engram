@@ -1,0 +1,969 @@
+[
+  {
+    "policy": "P0",
+    "cycle": 1,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 2205,
+      "noiseCount": 1
+    },
+    "changed": []
+  },
+  {
+    "policy": "P0",
+    "cycle": 2,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 3725,
+      "noiseCount": 2
+    },
+    "changed": []
+  },
+  {
+    "policy": "P0",
+    "cycle": 3,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 5034,
+      "noiseCount": 3
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P0",
+    "cycle": 4,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 6754,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P0",
+    "cycle": 5,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 8363,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P0",
+    "cycle": 6,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 10661,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P0",
+    "cycle": 7,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 13323,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P0",
+    "cycle": 8,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 16306,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P0",
+    "cycle": 9,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 18642,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "cf-priya-status",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P0",
+    "cycle": 10,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 22445,
+      "noiseCount": 6
+    },
+    "changed": [
+      {
+        "id": "cf-priya-status",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P0",
+    "cycle": 11,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 25107,
+      "noiseCount": 6
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P0",
+    "cycle": 12,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 28175,
+      "noiseCount": 6
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 1,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 1906,
+      "noiseCount": 1
+    },
+    "changed": []
+  },
+  {
+    "policy": "P1",
+    "cycle": 2,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 3226,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 3,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 3672,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 4,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 4508,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 5,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571
+    },
+    "overall": 0.9714285714285713,
+    "aux": {
+      "bytes": 5044,
+      "noiseCount": 0
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 6,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.7142857142857143
+    },
+    "overall": 0.9428571428571428,
+    "aux": {
+      "bytes": 6002,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 7,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571
+    },
+    "overall": 0.9795918367346939,
+    "aux": {
+      "bytes": 6228,
+      "noiseCount": 1
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0.5,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 8,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571
+    },
+    "overall": 0.9795918367346939,
+    "aux": {
+      "bytes": 7226,
+      "noiseCount": 1
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 9,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 7981,
+      "noiseCount": 3
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 10,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 8888,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 11,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.7142857142857143
+    },
+    "overall": 0.9591836734693878,
+    "aux": {
+      "bytes": 8547,
+      "noiseCount": 3
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P1",
+    "cycle": 12,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 9454,
+      "noiseCount": 0
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 1,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 1930,
+      "noiseCount": 1
+    },
+    "changed": []
+  },
+  {
+    "policy": "P2",
+    "cycle": 2,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 3077,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 3,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 3864,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 4,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 4937,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 5,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 6038,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 6,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 8290,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "cf-training",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 7,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 10114,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 8,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 8726,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 9,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 9630,
+      "noiseCount": 2
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 10,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 11619,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 11,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 13348,
+      "noiseCount": 4
+    },
+    "changed": [
+      {
+        "id": "cf-priya-status",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "P2",
+    "cycle": 12,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1
+    },
+    "overall": 1,
+    "aux": {
+      "bytes": 9298,
+      "noiseCount": 3
+    },
+    "changed": [
+      {
+        "id": "conf-marathon-date",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-mom-death",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  }
+]

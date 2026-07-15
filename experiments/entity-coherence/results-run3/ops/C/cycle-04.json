@@ -1,0 +1,88 @@
+{
+  "cycle": 4,
+  "date": "2025-03-09",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Elena: Elena (Marcus's partner); gave birth to daughter Nina on 2025-03-06",
+        "salience": 0.7,
+        "surprise": "none",
+        "entity": "Elena"
+      },
+      "outcome": "applied",
+      "detail": "added rel-15"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Nina: Nina (niece, daughter of Marcus and Elena); born 2025-03-06; Dana described crying at her desk upon seeing the first photo of Nina in a knit hat",
+        "salience": 0.8,
+        "surprise": "none",
+        "entity": "Nina"
+      },
+      "outcome": "applied",
+      "detail": "added rel-16"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "[2025-03-09] Marcus called Dana from the hospital hallway at approximately 2am Denver time after Nina's birth just to say 'she's here.' Dana said: 'We haven't talked like that — voice shaking, no agenda — in years. Denver suddenly feels way too far away.'",
+        "salience": 0.9,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-17"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "th-6",
+        "text": "Plans to visit Marcus, Elena, and new niece Nina in Denver before summer 2025; Marcus offered 'the guest room is yours'; Dana described this as 'a thing I owe now, and I want to owe it'",
+        "salience": 0.8,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "th-6 -> th-18"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-12"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-12"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-9"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-9"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-11"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-11"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-03-09] Gathering tax documents for accountant; deadline 2025-03-20; missing one 1099 form",
+        "salience": 0.2,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-19"
+    }
+  ]
+}

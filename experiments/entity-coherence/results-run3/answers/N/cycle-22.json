@@ -1,0 +1,51 @@
+{
+  "policy": "N",
+  "cycle": 22,
+  "date": "2025-12-06",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Dana fully restored the Dorothy Jean between February and June 2025 — it's her mother's 22-foot wooden sailboat, named after Dana's grandmother. She worked on it Sundays in a barn near Scappoose (owned by Priya's dad), and those hours were \"the only hours all spring where my brain went quiet.\"\n\nShe launched it for the first sail on July 12, 2025 on the Columbia River, with Sam, her brother Marcus, and baby Nina aboard. The day had high thin clouds — not quite mare's tail but close enough that Dana counted it as a blessing. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail behind them that Dana has already printed twice.\n\nThey took her out twice more over summer 2025 — \"nothing dramatic, exactly the point.\"\n\nAs of December 2025, the Dorothy Jean has been hauled out and winterized for the season. She's shrink-wrapped in the same barn Dana is now rebuilding, \"which pleases me enormously.\"",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement (as of early December 2025):**\n- Dana dropped to a **four-day work week effective November 1, 2025** (Fridays off, 20% pay cut)\n- She's now four weeks into this schedule and it's showing clear benefits - she's \"lighter\" and \"easier to live with\"\n- She uses Fridays for barn restoration work\n\n**Promotion status:**\n- In August 2025, her VP offered to put her up for **director** (head of merged product org - \"the rung I've been climbing toward for years\")\n- Dana **declined, saying \"not this year\"** - framed as deferral, not refusal\n- Official reason: the interoperability platform she shipped was in fragile stabilization phase\n- The door remains open for spring 2026\n\n**Deeper shift:**\n- By November 2025, Dana told Priya: **\"I'm not sure I want the director track at all anymore. I'm not sure I ever did.\"**\n- She's questioning whether fifteen years of career climbing was actually what she wanted or just \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something\"\n- She describes this as: **\"The story where getting to director was the point of me? I don't think I believe it anymore.\"**\n\nShe's not planning to \"blow up her career\" but has undergone a fundamental reorientation of what work means to her.",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Dana and Sam's relationship is described as \"solid, better than solid\" as of early December 2025.\n\nThey've been together for 6 years and \"don't do the snipe-at-each-other thing.\" The relationship went through a strengthening period during Sam's job decision (April-May 2025) when he chose to stay remote in Portland rather than move to Austin - Dana says this decision process \"made them sturdier\" as a couple and \"welded us.\"\n\nThere was some strain in fall 2025 when Dana snapped at Sam twice (August and October) during intense work stress, but Dana recognized \"It's not us... It's not the relationship that's cracking. It's my relationship to the job.\" Sam observed \"I don't think you're mad at me, I think you're mad at the laptop.\"\n\nSince Dana dropped to a four-day work week in November, the relationship has improved noticeably. Sam said \"I like you at four days a week already, and it's been a week\" - he noticed Dana is lighter. Dana acknowledges she's \"easier to live with when I'm not spending myself down to the studs at the office.\" They had a good weekend at Mt Hood cabin in early November that was \"the good kind of ordinary\" with no strain.\n\nDana's assessment: \"The relationship was never the problem — but the relationship gets the benefit\" of her schedule change.\n\nThey remain stubbornly unmarried.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Dana dropped to a four-day work week (effective November 1, 2025) because she realized that **the days she spends working feel like being \"a very competent function,\" while the days she spends at the pottery wheel or working on the barn are the days she feels \"like a person.\"**\n\nThe decision came after a period where work stress was affecting her badly—she was online until eleven most nights during Q4 planning, snapped at Sam twice, and recognized she didn't like \"who I am when work has me by the throat.\" When she asked herself what she'd do with a day back, the answer came \"so fast it embarrassed me: the barn.\"\n\nMore fundamentally, Dana experienced a major identity shift. After shipping her big interoperability platform in July 2025—something she'd fought for over 18 months—she felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" She describes it as \"the biggest professional moment of my life\" landing like \"biting into wax fruit.\"\n\nBy November, she articulated the deeper truth: **\"It's not burnout—the work's fine, I'm good at it. It's that it stopped being the point.\"** She's questioning whether her fifteen years of climbing toward director was actually what she wanted, or just \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something.\"\n\nShe's 41, lost her mother this year, and is \"no longer willing to spend five out of seven days being a function.\"",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

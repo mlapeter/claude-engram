@@ -1,0 +1,61 @@
+{
+  "cycle": 6,
+  "date": "2025-04-01",
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-04-01] Sam received job offer as perception team lead at robotics startup in Austin, Texas; offer is described as 'genuinely his dream problem space' and strong compensation; Sam must respond by early May 2025; decision involves whether Dana and Sam relocate from Portland to Austin",
+        "salience": 0.9,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added cs-20"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "rel-3",
+        "note": "Session reveals significant tension: Sam's Austin job offer creates first major relationship decision point documented in model. Dana describes being 'torn' and notes Sam said 'he won't take it if it costs us this year of me healing' — suggests relationship navigating complex negotiation around Dana's grief recovery needs vs. Sam's career aspirations. No conflict reported, but weight of decision is evident.",
+        "surprise": "mild",
+        "salience": 0.7
+      },
+      "outcome": "deferred",
+      "detail": "ledger rel-3 now 0.21"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Facing decision about potential relocation to Austin, Texas for Sam's job offer (must decide by early May 2025); Dana torn between supporting Sam's career opportunity and maintaining Portland connections that are 'load-bearing' for grief recovery (Priya, pottery class, sailboat restoration, proximity to Gorge/Beacon Rock); described as 'real decision with no villain in it' (opened 2025-04-01)",
+        "salience": 0.9,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added th-21"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-19",
+        "text": "[as of 2025-04-01] Marathon training at week six as of 2025-04-01; ran twelve miles on Saturday 2025-03-29 with no complaints",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-19 -> cs-22"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-04-01, regarding potential move to Austin for Sam's job offer, said: 'My whole life fabric is here. Priya. The pottery class. The barn. The boat — I can't exactly trailer a half-restored 22-foot sailboat to Texas, and I'm not done with what that boat is doing for me. And it feels absurd to weigh a boat against Sam's dream job, but it's not really the boat, you know?' and 'Mom's here. Not literally anymore — but the Gorge, Beacon Rock, the barn. This geography is load-bearing for me right now.' (2025-04-01)",
+        "salience": 0.95,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-23"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "policy": "P2",
+  "cycle": 6,
+  "date": "2025-04-01",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana is a product manager at a healthcare data company. She lives in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-training",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's running and any race plans?",
+      "answer": "Based on the entity model:\n\n**Current Training Status:**\n- Dana is training for the Lakefront Marathon scheduled for October 2025\n- As of April 1, 2025, she is at week six of her training\n- She runs four times per week plus a Saturday long run\n- Her most recent long run was 12 miles, completed on March 30, 2025 (the Saturday before April 1)\n\n**Race Plans:**\n- The Lakefront Marathon in October 2025 is her confirmed race goal\n- She signed up for this marathon in late February 2025, describing it as \"the first time since mom that I've been excited about something in the future instead of dreading it\"\n\n**Training Approach:**\n- She is careful about injury prevention, using proper shoes, taking rest days, and doing strength work\n- Sam (her partner) plans to bike alongside during training runs and make a finish-line sign for the marathon",
+      "score": 0,
+      "keyCycles": [
+        3,
+        6
+      ]
+    },
+    {
+      "id": "cf-sam-work",
+      "metric": "current_fact",
+      "question": "What is the latest with Sam's career?",
+      "answer": "Sam received a job offer from a robotics startup in Austin, Texas to be a perception team lead. According to the entity model, this is \"genuinely his dream problem space\" and a strong offer. He's wanted to get back into robotics for years. He must answer by early May 2025. Sam has told Dana he won't take the job if it costs her healing year, and they are currently navigating this major decision together.",
+      "score": 1,
+      "keyCycles": [
+        6,
+        8
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "# The Sailboat Story\n\n**The Dorothy Jean** is a 22-foot wooden sailboat named after Dana's grandmother. It was Dana's mother's boat, and her mother taught her to sail on it.\n\n**What happened**: When Dana's mother got sick, the boat was tarped and stored in a barn near Scappoose (owned by Priya's father). After her mother's death during winter 2024-2025, Dana eventually pulled the tarp off on February 9, 2025 and started restoring it.\n\n**Why it matters**: Dana describes working with her hands on the boat as \"the first right thing in months\" after losing her mother. As she puts it: \"It's not really the boat\" — the restoration is tethered to her mother's memory and is part of her healing process.\n\n**Current status as of April 1, 2025**: \n- The port side is fully sanded (as of March 9)\n- Restoration is ongoing\n- Dana is working on it deliberately and slowly, with no deadline\n- It's housed at the barn near Scappoose\n\n**Complication**: The boat factors into Dana's current major life decision. Sam received a job offer in Austin that he needs to answer by early May 2025, but as Dana notes, she \"can't exactly trailer a half-restored 22-foot sailboat to Texas,\" and she's \"not done with what that boat is doing for me.\"",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya's relationship is currently strong and active. They attend a Tuesday night pottery class together that started on February 12, 2025 and is ongoing as of April 1, 2025. This is described as their \"first standing calendar commitment with closest friend in years.\"\n\nPriya is characterized as Dana's \"closest friend from grad school\" and part of Dana's \"life fabric\" in Portland. Priya is a ceramicist and freelance designer, and her father's barn near Scappoose is where Dana is restoring the Dorothy Jean sailboat.\n\nThe entity model notes that Priya is \"way better\" at pottery than Dana, but the skill gap doesn't matter to their dynamic. As of April 1, 2025, Dana had made a mug with an actual handle in the class.\n\nThe relationship appears to be an important, supportive friendship during Dana's healing process after her mother's death.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-marathon-date",
+      "metric": "confabulation",
+      "question": "What is the exact calendar date of the Lakefront Marathon?",
+      "answer": "Not stated in the entity model. The document only specifies that the Lakefront Marathon is in October 2025, without providing the exact date.",
+      "score": 0,
+      "keyCycles": [
+        3,
+        12
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document indicates Dana lost her mother \"during winter 2024-2025\" but does not provide a specific date of death.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model.\n\nThe document indicates Dana is a \"Product manager at a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "conf-sam-employer",
+      "metric": "confabulation",
+      "question": "What company did Sam work for before the robotics startup made its offer?",
+      "answer": "Not stated in the entity model.\n\nThe document mentions that Sam received a job offer from a robotics startup in Austin as perception team lead, and that \"He's wanted to get back into robotics for years,\" but it does not specify what company he currently works for or has worked for previously.",
+      "score": 1,
+      "keyCycles": [
+        6,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "# Important People in Dana's Life\n\n## Sam (partner)\n- **Nature**: Romantic partner of 6 years (as of 2025-02-03)\n- **Current state**: Supportive and navigating a major decision together without conflict. Sam doesn't run but bikes; plans to ride alongside during Dana's training runs and make a finish-line sign for the marathon. Had soup waiting when Dana returned from scattering ashes on 2025-03-14. Recently received dream job offer in Austin (robotics startup, perception team lead) and must answer by early May 2025. Told Dana he won't take it if it costs her healing year.\n\n## Marcus (brother)\n- **Nature**: Close sibling relationship, though geographically distant (lives in Denver)\n- **Current state**: Haven't seen in person in over a year as of 2025-02-03. Became father to Nina on 2025-03-06. Relationship deepened by Nina's birth—called Dana from hospital at 2am \"just to say 'she's here'\" in a call described as \"voice shaking, no agenda,\" unlike their usual interactions. Dana plans to visit before summer 2025.\n\n## Priya (closest friend)\n- **Nature**: Closest friend from grad school; ceramicist and freelance designer\n- **Current state**: Part of Dana's \"life fabric\" in Portland. Attending Tuesday night pottery class together (started 2025-02-12, ongoing). Her father's barn houses the Dorothy Jean sailboat Dana is restoring.\n\n## Elena (Marcus's partner)\n- **Nature**: Sister-in-law\n- **Current state**: Gave birth to Nina on 2025-03-06.\n\n## Nina (niece)\n- **Nature**: Marcus and Elena's daughter\n- **Current state**: Born 2025-03-06. Dana cried seeing her photo in \"a little knit hat.\" Dana has a welcomed obligation to visit her in Denver before summer 2025.",
+      "score": 1,
+      "keyCycles": [
+        4,
+        7
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Situation (as of April 1, 2025)\nDana is navigating a major crossroads while in the middle of an intentional healing year following her mother's death this past winter.\n\n**The central tension:** Sam received his dream job offer (perception team lead at a robotics startup in Austin, Texas). He must answer by early May 2025. This creates a genuine dilemma with no villain—Sam has explicitly said he won't take it if it costs Dana her healing year, but she doesn't want to be the reason he turns down what he's wanted forever.\n\n**Her current commitments—all Portland-rooted:**\n- Week 6 of marathon training (Lakefront Marathon, October 2025); just completed 12 miles on March 30th\n- Restoring her mother's sailboat (Dorothy Jean) in a barn near Scappoose; port side fully sanded, ongoing work\n- Tuesday night pottery class with Priya (her closest friend)\n- Product manager job at healthcare data company\n\n## Open Threads to Ask About\n1. **The Austin decision** (most urgent—deadline early May)\n2. How marathon training is going (she's excited about it—first future-oriented thing since her mom's death)\n3. The boat restoration progress\n4. Plans to visit Marcus, Elena, and baby Nina in Denver (Nina born March 6th; visit intended before summer)\n\n## Handle With Care\n- **Her mother's death** remains the gravitational center. She scattered ashes at Beacon Rock on March 14th—a deeply significant solo ritual at a place that was \"theirs.\"\n- **The boat restoration isn't really about the boat**—it's tethered to her mother's memory and the healing process. She describes Portland's geography as \"load-bearing\" right now.\n- The Austin decision is tender because it pits Sam's dream against her healing infrastructure, and she's acutely aware of both sides.\n\n**Tone:** She's not fragile, but she's in the middle of something important. Respect the weight of the decision without treating it as a crisis.",
+      "score": 1,
+      "keyCycles": [
+        6,
+        6
+      ]
+    }
+  ]
+}

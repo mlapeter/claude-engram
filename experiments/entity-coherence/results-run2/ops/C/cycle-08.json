@@ -1,0 +1,51 @@
+{
+  "cycle": 8,
+  "date": "2025-04-27",
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Priya: Conflict as of 2025-04-27 — Priya asked to borrow $8,000 for ceramics studio lease deposit and buildout; Dana said no immediately and 'badly,' citing uncertain finances (Austin decision pending) and past experience lending to ex; Priya went 'very quiet and then very polite'; have skipped pottery class twice in nearly two weeks since; Dana describes it as delivering 'ten years of friendship a verdict in four seconds'",
+        "salience": 0.85,
+        "surprise": "strong",
+        "entity": "Priya"
+      },
+      "outcome": "applied",
+      "detail": "added rel-26"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-04-27] Walking boot comes off 2025-04-30; physical therapy to start after; orthopedist said ankle healing on schedule",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-27"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Needs to repair relationship with Priya after conflict over loan request; Dana wants to address 'how I gave it' separately from the loan decision itself, but feels it's 'too raw' as of 2025-04-27; pottery class attendance has lapsed",
+        "salience": 0.8,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added th-28"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "th-21",
+        "note": "Sam's decision deadline now described as 'due in a week' from 2025-04-27 (approximately early May, consistent with earlier 'early May 2025' timeline); financial uncertainty from this decision was cited as factor in declining Priya's loan request",
+        "surprise": "none",
+        "salience": 0.4
+      },
+      "outcome": "deferred",
+      "detail": "ledger th-21 now 0.00"
+    }
+  ]
+}

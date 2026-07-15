@@ -1,0 +1,36 @@
+{
+  "cycle": 3,
+  "date": "2025-02-24",
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-02-24] Training for Lakefront Marathon in October 2025; four runs per week plus long run every Saturday morning; ran eight miles on Saturday 2025-02-22; has training plan with gradual weekly mileage increase and cutback weeks every fourth week; casual runner for years with 5Ks and one half marathon about four years prior",
+        "salience": 0.7,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-11"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-02-24, said of marathon training: 'It's the first time since mom that I've been excited about something in the future instead of dreading it' (2025-02-24)",
+        "salience": 0.9,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-12"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    }
+  ]
+}

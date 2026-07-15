@@ -1,0 +1,64 @@
+{
+  "cycle": 11,
+  "date": "2025-06-08",
+  "outcomes": [
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-28",
+        "text": "Resolved 2025-06-08: Dana texted Priya 'I miss you, can I buy you coffee, I want to talk about how I said what I said'; met for coffee on Thursday (a few days before 2025-06-08) and talked for three hours; both apologized (Dana for 'four-second verdict,' Priya for going 'polite-and-frozen'); Dana found regional arts infrastructure grant for studio buildout and helped Priya with application on Sunday before 2025-06-08; grant due end of June 2025; pottery class resumed Tuesday before 2025-06-08"
+      },
+      "outcome": "applied",
+      "detail": "resolved th-28"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-7"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-7"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-33",
+        "text": "[as of 2025-06-08] Jogging up to thirty minutes as of 2025-06-08; ankle recovery progressing",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-33 -> cs-36"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-32",
+        "text": "[as of 2025-06-08] Sailboat Dorothy Jean restoration nearly complete as of 2025-06-08: hull caulked and painted; boat described as 'actually-in-the-water-this-summer close'; Dana described getting 'a lump in my throat' looking at the boat",
+        "salience": 0.7,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-32 -> cs-37"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-35"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-35"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-06-08, regarding sailboat Dorothy Jean being nearly ready to sail, said: 'I keep standing back and looking at her and getting a lump in my throat.' and 'It's very much not nothing.' (2025-06-08)",
+        "salience": 0.85,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-38"
+    }
+  ]
+}

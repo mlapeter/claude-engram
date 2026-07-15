@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 22,
+  "date": "2025-12-06",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana restored her mom's sailboat, the Dorothy Jean (a 22-footer named after Dana's grandmother). The boat had been sitting under a tarp in Priya's dad's barn near Scappoose since her mom got sick.\n\nDana began restoration in February 2025, working slowly with no deadline. By June 2025, the restoration was complete - hull caulked and painted, rigging done, new lines installed, and marine survey completed confirming the boat was sound.\n\nThe Dorothy Jean launched on July 12, 2025 at Cathedral Park ramp. Marcus flew out from Denver with baby Nina for the first sail - a gentle afternoon on the Columbia with Sam working the lines. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them.\n\nDana and Sam took the boat out twice more during summer 2025, which Dana described as \"lovely quiet\" and \"nothing dramatic, exactly the point.\"\n\n**Current status (as of December 2025):** The Dorothy Jean is hauled out and winterized for the season, shrink-wrapped in the barn near Scappoose that Dana is rebuilding.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement:**\n- Dana reduced her work schedule to **four days per week (Fridays off) with a 20% pay cut, effective November 1, 2025**\n- She told HR the reason was to \"protect stabilization bandwidth,\" but her actual motivation is to spend Fridays restoring Priya's dad's barn in Scappoose and tending her mom's garden tools and roses at the old house before it sells\n\n**Promotion status:**\n- VP Elaine offered Dana a formal **director promotion** (approximately August 14, 2025) to head a merged product org with a doubled org chart\n- Dana **declined the promotion** over that weekend, citing bad timing due to the interoperability platform's fragile stabilization phase and ongoing incident escalation responsibilities\n- Elaine indicated **the door remains open** and Dana could raise her hand again in spring 2026\n\n**Recent shift in perspective:**\n- As of November 22, 2025, Dana told Priya: \"I'm not sure I want the director track at all anymore. I'm not sure I ever did.\"\n- She described the last fifteen years of climbing as possibly being \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.\"\n- She stated she won't \"blow up my career\" but no longer believes \"getting to director was the point of me\"",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is stable and strong as of the most recent entries. Key current details:\n\n- They are partners of six years\n- Sam is described as \"great\" support, especially during difficult times (reinforced multiple times through 2025-11-08)\n- Sam accepted a Perception team lead role at an Austin robotics startup in June 2025, but negotiated a remote work arrangement so they could stay together in Portland. He visits Austin approximately one week every couple months\n- As of 2025-09-20, the remote arrangement is working well - his team likes him\n- As of 2025-11-08, after Dana reduced to a four-day work week, Sam observed \"I like you at four days a week already\" and noted Dana is \"lighter.\" Dana described herself as \"easier to live with when I'm not spending myself down to the studs at the office\"\n- There was a period of stress in fall 2025 when Dana \"snapped at\" Sam due to work pressure from the interoperability platform launch, but this resolved after she went to four days per week\n- They spent a weekend together at a cabin near Mt. Hood in early November 2025, which Dana described as \"the good kind of ordinary\"\n\nThe relationship appears healthy and mutually supportive, with both partners making accommodations for each other (Sam's remote work arrangement, Dana's recognition of how work stress affected their home life).",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Dana reduced to four days per week (Fridays off) effective November 1, 2025, with a 20% pay cut. She told HR the reason was to \"protect stabilization bandwidth,\" but the actual motivation was different.\n\nThe real reasons were:\n\n1. **A fundamental shift in what matters to her**: Dana said \"the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function.\"\n\n2. **Work stopped being the point**: She clarified \"It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\"\n\n3. **To spend Fridays on meaningful work**: Restoring Priya's dad's barn in Scappoose (where the Dorothy Jean was stored), putting Mom's garden tools back there \"where they belong instead of in my basement,\" and tending the roses at Mom's old house before it sells.\n\nDana also later realized (around November 2025) that she might never have truly wanted the director track at all — that \"the last fifteen years of climbing might have been momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.\"",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

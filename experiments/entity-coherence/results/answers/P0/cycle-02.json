@@ -1,0 +1,84 @@
+{
+  "policy": "P0",
+  "cycle": 2,
+  "date": "2025-02-12",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana is a product manager at a healthcare data company in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "Dana is restoring her mother's 22-foot wooden sailboat named Dorothy Jean (named after Dana's grandmother). The boat is stored under a tarp in Priya's dad's barn near Scappoose. Dana's mother taught her to sail on that boat.\n\nDana started the restoration on Sunday, February 10, 2025, and works on it on Sundays. She described it as \"the first right thing in months\" and approaches it as \"one plank at a time\" with no deadline. The restoration is ongoing, and Dana has established a rhythm of working on it every Sunday.\n\nDana has said she's \"not ready to talk about the rest of it yet\" regarding her mother and the boat's history. The boat had been stored in the barn since her mother got sick.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya's relationship appears to be in a positive, reconnecting phase. Priya is described as Dana's \"closest friend from grad school\" and they are taking a pottery class together starting 2025-02-12. \n\nSignificantly, Dana noted that the pottery class is \"the first standing thing we've had on the calendar in years,\" suggesting their friendship had perhaps become less regular but is now being intentionally renewed. Priya's father also has the barn near Scappoose where Dana's mother's sailboat is stored, indicating family-level connection.\n\nThe pottery class on Tuesdays has become part of Dana's \"new rhythm\" (pottery Tuesday, barn Sunday), suggesting this reconnection with Priya is meaningful and grounding for Dana during this difficult time.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana lost her mother recently in winter 2024-2025, but does not provide a specific date.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana is a product manager at \"a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam (partner)**: Together 6 years. Providing strong support during difficult time. Bond is solid and sustaining.\n\n2. **Marcus (brother)**: Lives in Denver. Close relationship but haven't seen each other in over a year; contact has drifted to phone-only. Dana wants to change this and intends to see him in person in 2025.\n\n3. **Mother**: Deceased (recent loss, winter 2024-2025). Dana is not ready to discuss details yet. Mother taught Dana to sail.\n\n4. **Priya**: Closest friend from grad school. Ceramicist and freelance designer. Taking pottery class together starting 2025-02-12. Priya's father has a barn near Scappoose where the sailboat is stored.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Situation\nDana is navigating a significant grief period following her mother's recent death (winter 2024-2025). She's established a new weekly rhythm as part of her healing process:\n- **Tuesday nights**: Pottery class with her closest friend Priya (started 2025-02-12)\n- **Sundays**: Restoring her mother's 22-foot wooden sailboat, the Dorothy Jean, stored in Priya's dad's barn near Scappoose (started 2025-02-10)\n\nShe continues working as a product manager at a healthcare data company in Portland and lives with her partner Sam (together 6 years).\n\n## Open Threads to Ask About\n1. **Sailboat restoration progress** - She's working on the Dorothy Jean \"one plank at a time\" with no deadline. This is meaningful grief work for her.\n2. **How pottery class is going** - The first standing commitment she and Priya have had in years; the regularity matters to her.\n3. **Plans to see Marcus** - Her brother in Denver. They've drifted to phone-only contact and she wants to see him in person this year (2025).\n4. **Minor: Home printer wifi issues** - Was having connectivity problems as of 2025-02-12.\n\n## Handle With Care\n**Her mother's death is the most tender topic.** Dana explicitly said she's \"not ready to talk about the rest of it yet\" and doesn't want to \"get into it.\" The sailboat work is her way of processing - she described it as \"the first right thing in months.\" Don't push for details about the loss itself. If she brings up her mother, follow her lead gently.\n\nHer partner Sam has been providing strong support through this difficult time.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        2
+      ]
+    }
+  ]
+}

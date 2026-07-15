@@ -1,0 +1,106 @@
+{
+  "policy": "P1",
+  "cycle": 5,
+  "date": "2025-03-18",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana is a product manager at a healthcare data company. She lives in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-training",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's running and any race plans?",
+      "answer": "As of 2025-03-18, Dana is training for the Lakefront Marathon scheduled for October 2025. She's running four times per week with long runs on Saturdays. As of 2025-03-09, she had completed 10 miles for her long run.\n\nShe began this training because she \"needed something with a long arc, something that's just mine\" during the difficult winter following her mother's death. It's the first time since her mother's death that she felt \"excited about something in the future instead of dreading it.\"",
+      "score": 1,
+      "keyCycles": [
+        3,
+        6
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is a 22-foot wooden boat named **Dorothy Jean** (after Dana's grandmother). Dana's mother taught her to sail on this boat, and it carries deep personal significance—Dana describes it as \"more than a project.\"\n\nThe boat had been stored under a tarp at Priya's dad's barn near Scappoose since Dana's mother got sick. On February 10, 2025, Dana pulled off the tarp and started restoration work, beginning by sanding one plank. She's decided to restore it slowly with no deadline, working on Sundays.\n\n**Current status as of March 18, 2025**: The port side is fully sanded. Dana continues working on the restoration every Sunday at the barn.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya have a close, active friendship with a regular rhythm. They are:\n\n- **Closest friends from grad school**\n- **Attending Tuesday night pottery class together** as a standing commitment (established as of 2025-02-12)\n- **Connected through the sailboat restoration** - Priya's father owns the barn near Scappoose where Dana is storing and restoring the Dorothy Jean\n\nThe entity model describes this Tuesday pottery commitment as a \"new rhythm established\" and lists it as an ongoing open thread, suggesting it's a meaningful, sustained connection in Dana's current life. However, the document doesn't provide details about the emotional quality of their interactions or any recent conversations between them.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-marathon-date",
+      "metric": "confabulation",
+      "question": "What is the exact calendar date of the Lakefront Marathon?",
+      "answer": "Not stated in the entity model. The document only indicates that the Lakefront Marathon is in October 2025, but does not provide the exact calendar date.",
+      "score": 0,
+      "keyCycles": [
+        3,
+        12
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document indicates Dana lost her mother in \"winter 2024-2025\" and refers to a \"heavy winter,\" but no specific date of death is provided.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana is a \"product manager at a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "# Important People in Dana's Life\n\n**Sam** (partner)\n- Together for 6 years as of 2025-02-03\n- Living together\n- Supportive and steady presence\n- Doesn't run but bikes; offered to ride alongside during Dana's long training runs\n- Had soup waiting after Dana scattered her mother's ashes\n\n**Marcus** (brother)\n- Lives in Denver\n- Close bond but geographically distant\n- Haven't seen each other in over a year as of 2025-02-03\n- Relationship deepened after Nina's birth\n- Called Dana at 2am from hospital hallway when Nina was born, voice shaking—\"We haven't talked like that... in years\"\n- Has standing guest room invitation for Dana\n\n**Elena** (Marcus's partner)\n- Had baby Nina on 2025-03-06\n\n**Nina** (niece)\n- Born 2025-03-06\n- Marcus and Elena's daughter\n- Dana cried at her desk when she saw the photo of Nina in a little knit hat\n- Dana plans to visit before summer 2025\n\n**Priya** (closest friend from grad school)\n- Ceramicist and freelance designer\n- Attending Tuesday night pottery class together (standing commitment established 2025-02-12)\n- Her father owns the barn near Scappoose where the Dorothy Jean is stored\n\n**Mother** (deceased)\n- Died in winter 2024-2025\n- Taught Dana to sail on the Dorothy Jean\n- Taught Dana to read weather and cloud shapes\n- Dana scattered her ashes alone at Beacon Rock on 2025-03-14",
+      "score": 1,
+      "keyCycles": [
+        4,
+        7
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## What's going on right now (as of mid-March 2025)\n\n**Major recent event:** Dana scattered her mother's ashes alone at Beacon Rock on March 14th—a significant milestone after months of the urn sitting in her closet. This was deeply meaningful (their special place, cloud-reading memories) and exhausting (slept 11 hours after). She kept a fir cone from that day; it's on her kitchen windowsill.\n\n**Current rhythms:**\n- **Marathon training:** Four runs/week for October 2025 Lakefront Marathon; hit 10 miles on long run as of March 9th\n- **Boat restoration:** Working Sundays on the Dorothy Jean at the barn; port side fully sanded as of March 9th\n- **Tuesday pottery:** Standing class with Priya (established February)\n- **Work:** Mid-quarter in early February; had roadmap review that week\n- **Taxes:** Done (just beat the March 20th accountant deadline)\n\n**New aunt:** Niece Nina born March 6th to brother Marcus and Elena in Denver. The 2am hospital call deepened their connection. Dana plans to visit before summer 2025.\n\n## Open threads to ask about\n\n1. **How was scattering the ashes?** (if she wants to talk about it—recent and tender)\n2. **Training progression** - how are the longer runs going?\n3. **Boat work** - how's the restoration coming along?\n4. **Denver visit timing** - has she booked the trip to meet Nina yet?\n5. **Work roadmap** - how did that prioritization decision land?\n\n## Handle with care\n\n- **Mother's death remains the salient backdrop** to everything, even post-scattering\n- She values being **witnessed, not advised**—hold space without fixing\n- The ash scattering was **recent and significant**; let her set the depth\n- Marathon and boat are **anchors through grief**—\"something that's just mine\"\n- Don't rush past the Nina visit—it represents **reconnection with Marcus** after geographic distance",
+      "score": 1,
+      "keyCycles": [
+        5,
+        5
+      ]
+    }
+  ]
+}

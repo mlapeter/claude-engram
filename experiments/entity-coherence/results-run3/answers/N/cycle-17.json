@@ -1,0 +1,40 @@
+{
+  "policy": "N",
+  "cycle": 17,
+  "date": "2025-09-20",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "# The Dorothy Jean — Current Status\n\n**The Boat:**\nThe Dorothy Jean is Dana's mother's 22-foot wooden sailboat, named after Dana's grandmother. After her mother's death (winter 2024-2025), Dana restored it between February and June 2025, working Sundays in a barn near Scappoose (owned by Priya's dad). By early June, the hull was fully caulked and painted, rigging was done with new lines, and a marine survey confirmed she's sound.\n\n**First Sail:**\nJuly 12, 2025 — Dana took her out on the Columbia River with Sam, her brother Marcus, and baby Nina (4 months old). It was a gentle afternoon with high thin clouds. There's a photo Dana treasures: Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them. Dana has already had it printed twice.\n\n**Current Status (Late September 2025):**\nDana and Sam took the Dorothy Jean out twice more over summer 2025 — \"nothing dramatic, exactly the point.\" The boat is functional and being used for quiet, meaningful sails.\n\n**What It Meant:**\nThe restoration did important emotional work for Dana. As she put it: \"The hours I spent with my hands on the Dorothy Jean were the only hours all spring where my brain went quiet. Really quiet.\" After launching the boat, she felt \"a little panic of 'okay, but now what do I do with my hands'\" — which led her to ceramics.\n\nThe boat is sailing, being used, and serving its purpose: honoring her mother's memory with the people who matter.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job status (late September 2025):**\n- Dana is still a product manager at a healthcare data company\n- Work is described as \"grinding\" and \"still a grind but the incident's finally closed\" — steady but not improved from the August pressure-cooker period\n- The major production incident that consumed August has been resolved\n\n**Promotion status:**\n- In August 2025, VP Elaine offered Dana a director promotion (head of merged product org, doubling her org chart) — \"the rung I've been climbing toward for years\"\n- Dana declined, saying \"not this year\" — the first time she hasn't taken a bigger role\n- Her official reason: the interoperability platform is in fragile stabilization phase and taking on a bigger org mid-incident would be reckless\n- Elaine framed it as \"not now\" not \"no\" — the door remains open for spring 2026\n- Dana plans to revisit the director track in spring 2026\n\n**Significance:**\nThis is notable because Dana describes herself as someone who \"for fifteen years has basically been the person who is her work\" and \"never turns down the bigger role.\" Six months earlier, she says she would have accepted immediately.",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is **solid and healthy** as of late September 2025. Key points:\n\n**Relationship strength:**\n- Together 6 years\n- Dana values that \"we don't do the snipe-at-each-other thing\"\n- They navigated Sam's job decision (Austin vs. Portland) in April-May 2025 \"without fighting\" — the process made them \"sturdier\" as a couple\n\n**Recent stress point (resolved):**\n- August 2025: Dana snapped at Sam over a dinner question during high work stress\n- She apologized properly the next morning\n- Sam was gracious, saying \"you're carrying a lot, but I'm not the incident\"\n- They're described as \"fine\" and \"back to good\"\n\n**Sam's current situation:**\n- Started remote position as perception team lead at Austin robotics startup in June 2025\n- Thriving in the role — calls it his \"dream problem space\" with strong compensation\n- Gave up in-person team and new city to stay in Portland with Dana\n- Dana believes him that the trade-off is good \"eighty-five percent\" and is \"watching the other fifteen\"\n- Flying to Austin for week-long in-person stint starting September 20, 2025\n\n**Shared experiences:**\n- Sam crewed Dorothy Jean's first sail (July 2025) and two subsequent sails over summer\n- Very supportive partner throughout Dana's grief and recovery year",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "policy": "P0",
+  "cycle": 1,
+  "date": "2025-02-03",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company. She lives in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only specifies that Dana is a product manager at \"a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam (partner)**\n   - Nature: Committed partnership of 6 years (as of 2025-02-03)\n   - Current state: Stable and caring relationship; Sam is supportive, especially during difficult times\n\n2. **Marcus (brother)**\n   - Nature: Close sibling bond\n   - Current state: Physically distant (Marcus lives in Denver); they haven't seen each other in over a year as of 2025-02-03; relationship maintained through phone calls; Dana wants to see him in person in 2025\n\n3. **Mother**\n   - Nature: Not stated in the entity model\n   - Current state: Deceased (lost recently before 2025-02-03); grief is present and significant for Dana",
+      "score": 1,
+      "keyCycles": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current situation (as of last contact: 2025-02-03)\n\n**Work:** Mid-quarter, with a roadmap review coming up on Thursday, 2025-02-06. She was working through a prioritization decision between interoperability work and an analytics dashboard, with the exec team split on preferences. She planned to come with a recommendation rather than a survey.\n\n**Personal:** Described experiencing \"a heavy winter emotionally.\" In a stable 6-year partnership with Sam, who has been supportive.\n\n**Logistics:** Parking permit expiring February 2025.\n\n## Open threads to follow up on\n\n1. **Roadmap review** - How did the Thursday presentation go? What did she decide to recommend?\n2. **Parking permit** - Did she manage to renew it (noting the browser hassle)?\n3. **Seeing Marcus** - Any progress on plans to visit her brother in Denver this year? (They hadn't seen each other in over a year as of last contact)\n\n## Handle with care\n\n**Recent loss of mother** - This is salient and protected. Dana explicitly chose not to discuss details in the first session. She described it as \"coloring everything\" and contributing to the heavy emotional winter. Do not probe directly. Let her raise it if she wants to. Be aware grief may be present beneath other topics.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        1
+      ]
+    }
+  ]
+}

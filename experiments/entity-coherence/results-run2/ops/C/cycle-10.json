@@ -1,0 +1,78 @@
+{
+  "cycle": 10,
+  "date": "2025-05-24",
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-31",
+        "text": "[as of 2025-05-24] Cleared by physical therapist for light jogging as of 2025-05-24 (twenty minutes, flat ground, every other day); completed first jog morning of 2025-05-24 along esplanade; still attending physical therapy; ankle healing progressing",
+        "salience": 0.6,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-31 -> cs-33"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "belief",
+        "text": "Has made peace with marathon being off for 2025; goal now is to run pain-free by fall without re-injury, not to force a timeline; described learning 'something about not white-knuckling timelines' from the ankle injury (as of 2025-05-24)",
+        "salience": 0.7,
+        "surprise": "low",
+        "confidence": "high"
+      },
+      "outcome": "applied",
+      "detail": "added bel-34"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-05-24] Sam built out home office in spare room (three monitors, foam panels) for remote work; Sam starts Austin robotics job in approximately two weeks from 2025-05-24; described as nervous-excited",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-35"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-28"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-28"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "th-28",
+        "note": "As of 2025-05-24, Dana drafted text to Priya twice this week and deleted both times; acknowledges she must 'go first' and is 'circling it' but has not yet acted; describes 'shame math' around the delay",
+        "surprise": "mild",
+        "salience": 0.5
+      },
+      "outcome": "deferred",
+      "detail": "ledger th-28 now 0.15"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-16"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-16"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "th-16",
+        "note": "As of 2025-05-24, still has not booked Denver trip to meet Nina despite 'before summer' promise; expressed concern Nina will be walking by the time of visit; Marcus has not said anything, which Dana describes as making it worse; acknowledges delay with self-awareness about 'shame math'",
+        "surprise": "mild",
+        "salience": 0.5
+      },
+      "outcome": "deferred",
+      "detail": "ledger th-16 now 0.15"
+    }
+  ]
+}

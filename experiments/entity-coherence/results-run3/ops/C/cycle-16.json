@@ -1,0 +1,60 @@
+{
+  "cycle": 16,
+  "date": "2025-09-06",
+  "threshold": 3,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-09-06] Enrolled in a twelve-week Saturday intensive ceramics class (wheel throwing) at a studio in Southeast Portland; three hours every Saturday morning; started first Saturday of September 2025; described the class as 'the first thing in months that felt like me' and said 'three hours where nobody needs an escalation decision and the clay does not care that I'm a product manager'",
+        "salience": 0.75,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-56"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-9"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-9"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-09-06] Interoperability platform production incident finally closed as of early September 2025; work described as 'still a grind' but incident pressure resolved",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-57"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-48",
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during mile nine of a trail run in Forest Park (wet root); diagnosed as bad grade-two sprain; wore walking boot until Thursday 2025-05-01; as of 2025-05-24, cleared by physical therapist for light jogging (twenty minutes, flat ground, every other day); as of 2025-06-08, jogging up to thirty minutes; as of 2025-06-21, jogging up to forty minutes; as of 2025-09-06, jogging up to forty-five minutes",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-48 -> cs-58"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "belief",
+        "text": "Finds deep satisfaction in hands-on creative work that quiets mental noise; described hours spent on Dorothy Jean restoration as 'the only hours all spring where my brain went quiet' and ceramics class similarly as making 'my own head quiet'; distinguished this from work achievements or obligation-driven activities",
+        "confidence": "high",
+        "salience": 0.7,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added bel-59"
+    }
+  ]
+}

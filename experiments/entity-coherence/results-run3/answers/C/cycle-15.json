@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 15,
+  "date": "2025-08-16",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model, Dana completed the restoration of her mother's sailboat, the Dorothy Jean, and successfully launched it.\n\n**The restoration timeline:**\n- The boat had been sitting under a tarp in Priya's dad's barn near Scappoose since Dana's mom got sick\n- Dana started restoration work on February 9, 2025, working slowly with no deadline\n- By early May 2025, the starboard side was sanded and hull seam re-caulking had started\n- By early June 2025, the hull was caulked and painted\n- By June 21, 2025, restoration was complete — rigging done, new lines installed, marine survey completed confirming the boat was sound\n\n**The launch:**\nThe Dorothy Jean launched the weekend of July 12, 2025 at Cathedral Park ramp (Priya's dad lent the truck and trailer). It was a gentle afternoon sail on the Columbia River with Sam working the lines and Marcus flying out from Denver with four-month-old Nina for the occasion. \n\nDana described having a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them, and said \"I have already had it printed twice.\" The sky was \"high thin stuff, not quite a mare's tail but close,\" which Dana decided counted as a blessing.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model as of 2025-08-16:\n\nDana is a product manager at a healthcare data company in Portland. Her interoperability platform shipped in early July 2025 after eighteen months of development, which the CEO recognized with a personal shout-out at the all-hands meeting—described as \"the biggest professional moment of my life.\"\n\nHowever, the launch led to ongoing production incidents and high-pressure executive management. Dana described work as \"a pressure cooker since the launch\" with an exec treating her as \"single point of contact at all hours,\" causing stress that affects her mood at home.\n\nRegarding promotion: VP Elaine offered Dana a formal director promotion on Thursday (approximately 2025-08-14) to head a merged product org with a doubled org chart. Dana asked for time to think and declined over the weekend, citing bad timing due to the interoperability platform's fragile stabilization phase and ongoing incident escalation responsibilities. Elaine indicated the door remains open and Dana could raise her hand again in spring 2026.",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model, professional success and career have historically been central to Dana's identity, but this appears to be shifting.\n\n**Historically central to her identity:**\nDana described herself as \"the person who is her work\" for fifteen years, \"not in a grim way — I mean it like an engine.\" She said \"ambition's been my whole spine\" and \"that's how I've always known I'm okay.\" This suggests work ambition and achievement have been a core part of how she defines herself.\n\n**Evidence of change:**\nAs of 2025-07-19, Dana is experiencing \"unexpected emotional flatness at major professional wins,\" which she attributes to grief. This is notable because the interoperability platform shipping in early July 2025 was described as \"the biggest professional moment of my life\" with a CEO shout-out by name — yet her emotional response wasn't what it historically would have been.\n\nAdditionally, on 2025-08-16, Dana declined a director promotion (formal offer to head a merged product org with doubled org chart), citing bad timing due to the platform's stabilization needs. While her stated reason was practical, the fact that she turned down what would typically be a significant career advancement suggests her relationship to professional ambition may be evolving.\n\nThe document attributes this shift to grief's impact on how she experiences achievement.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam have been partners for six years. Their relationship is described as strong and supportive, with Sam characterized as providing \"great\" support, especially during difficult times (reinforced multiple times through 2025-08-02).\n\nAs of August 2, 2025, Sam has accepted a Perception team lead role at an Austin robotics startup but negotiated a remote work arrangement so they could stay in Portland together. He started in June 2025 and visits Austin approximately one week every couple of months. He built out their spare room as a remote office with three monitors and foam panels.\n\nDana described Sam's decision to work remotely as a sacrifice: \"he gave something up too — the in-person team, the new city adventure.\" She believes the trade is good for him \"about eighty-five percent.\"\n\nSam was aboard for the first sail of the Dorothy Jean (Dana's mom's restored sailboat) in July 2025, working the lines during the sail with Marcus and baby Nina.\n\nAs of August 2, 2025, Dana mentioned that work stress from the interoperability platform launch was affecting her mood at home, suggesting some strain from external pressures, but the relationship itself continues to be described as supportive.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

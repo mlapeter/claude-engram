@@ -1,0 +1,17 @@
+[
+  {
+    "policy": "P0",
+    "cycle": 1,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 1784,
+      "noiseCount": 1
+    }
+  }
+]
