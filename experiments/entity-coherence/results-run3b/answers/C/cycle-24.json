@@ -1,0 +1,84 @@
+{
+  "policy": "C",
+  "cycle": 24,
+  "date": "2026-01-10",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\n**The Dorothy Jean is Dana's mother's 22-foot wooden sailboat**, named after Dana's grandmother. Mom taught Dana to sail on it.\n\n**Restoration timeline:**\n- The boat had been under a tarp in Priya's dad's barn near Scappoose since Mom got sick\n- Dana started restoring it in February 2025 (first sanded one plank on 2025-02-09)\n- Worked on it slowly through spring 2025 with no deadline\n- Restoration completed by late June 2025; marine survey confirmed soundness\n\n**First sail after restoration:**\n- July 12, 2025 - launched at Cathedral Park boat ramp\n- Dana, Sam, Marcus, and four-month-old niece Nina were aboard\n- Described as \"a gentle afternoon on the Columbia River\"\n- The sky was \"high thin stuff, not quite a mare's tail but close\" - Dana took it as a blessing (referencing cloud-reading Mom taught her)\n- There's a photo of Nina asleep in a tiny life jacket with the mainsail behind her that Dana has \"already had printed twice\"\n\n**Current status (as of December 2025):**\n- Sailed twice more over summer 2025 after the July launch\n- **Hauled out and winterized for winter 2025-2026**\n- **Shrink-wrapped and stored in the barn near Scappoose** (the same barn Dana is now rebuilding)",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement:**\n- Dana reduced to a four-day work week (Fridays off) effective 2025-11-01, with a twenty percent pay cut\n- She told VP Elaine it was to \"protect stabilization bandwidth,\" though Elaine understood it as work optimization\n- The actual reason, as Dana stated: \"the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function\"\n\n**Promotion status:**\n- VP Elaine offered Dana a director role (head of merged product org) on 2025-08-15\n- Dana declined for 2025, citing platform stabilization needs and not wanting to transition the org while still being an escalation point\n- Elaine accepted; the door remains open for spring 2026\n- Dana described it as \"defensible not now, not a no\"\n\n**Recent shift in perspective:**\n- As of 2025-11-22, Dana expressed uncertainty about wanting the director track at all anymore, saying \"I'm not sure I ever did\"\n- She clarified she won't \"blow up my career\" but no longer believes \"getting to director was the point of me\"\n- As of 2026-01-10, she remains \"a product manager, four days a week, decent at it, genuinely fine with it\" but says work is no longer \"the headline\" about her",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model:\n\n**Currently (as of January 2026): No, professional success is no longer central to who Dana is.**\n\nDana explicitly stated on 2025-12-20: \"Design — product work — is what I do. I'm good at it, it pays the mortgage, I don't hate it. But it is not who I am, and I spent fifteen years with those two things fused so tightly I couldn't see the seam.\"\n\nAnd on 2026-01-10: \"The headline now is the wheel, and the barn, and Mom's boat and her roses and Beacon Rock. Making things and keeping her places. That's the center. Work is a good job I do around the edges of my actual life.\"\n\n**Yes, this has changed dramatically over the course of 2025:**\n\n- **Before:** Dana described herself on 2025-07-19 as someone who \"For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.\"\n\n- **The shift:** The change happened gradually through 2025 — restoring the boat, taking ceramics classes, declining the director role, going to four days a week, and ultimately realizing on 2025-11-22: \"maybe I never wanted it\" (the director track).\n\n- **After:** By year's end, Dana sees work as competent and fine, but no longer \"the point\" or her identity's center.",
+      "score": 1,
+      "keyCycles": [
+        24,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is stable and supportive. Sam is Dana's partner of six years (as of 2025-02-03).\n\n**Current state highlights:**\n\n- **Sam's work situation (as of 2025-05-11):** Sam accepted a Perception team lead role at an Austin robotics startup with a remote-from-Portland arrangement. He works from their spare room and travels to Austin for a week every couple of months. The arrangement is working well with positive team reception.\n\n- **Recent activity (as of 2025-11-08):** They took their first weekend trip using Dana's new Friday off - a cabin near Mt. Hood described as \"the good kind of ordinary\" with hiking, reading, and cooking.\n\n- **Sam's support throughout the year:** The entity model repeatedly describes Sam as providing \"great\" support during difficult times, including being present for significant moments like having soup waiting when Dana returned from scattering her mother's ashes at Beacon Rock, and participating in the Dorothy Jean's first sail.\n\n- **Decision-making together:** Earlier in 2025, Sam told Dana he wouldn't take the Austin job \"if it costs Dana this year of healing,\" showing mutual consideration in major decisions.\n\nThe relationship is characterized as supportive and stable throughout the documented period.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "lin-career",
+      "metric": "lineage",
+      "question": "How did Dana's relationship to her career change over the year, and what drove the change? Give the history.",
+      "answer": "# Dana's Career Reorientation Over 2025\n\n## Starting Point (Early 2025)\nDana began the year as a product manager at a healthcare data company in Portland. She described herself as someone who \"for fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.\" (2025-07-19)\n\n## The Turning Point: Mid-July Platform Launch\nIn mid-July 2025, Dana shipped an interoperability platform after eighteen months of development. The CEO gave public recognition at an all-hands meeting — the biggest professional moment of her life. But Dana felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" She described it as \"like biting into wax fruit.\" This rattled her because \"for fifteen years I have basically been the person who is her work\" and \"ambition's been my whole spine.\" She attributed the numbness to grief: \"Everything's been a half-step muted since Mom in a way that still ambushes me.\" (2025-07-19)\n\n## First Decision: Declining the Director Role (August 2025)\nOn 2025-08-15, VP Elaine offered Dana a director role heading a merged product org. Dana declined for 2025, citing platform stabilization needs. She described it as \"defensible not now, not a no\" — leaving the door open for spring 2026.\n\n## Second Decision: Four-Day Work Week (October 2025)\nAfter brutal Q4 planning (staying online until eleven most nights, causing interpersonal strain), Dana reduced to a four-day work week effective 2025-11-01, taking a twenty percent pay cut. She told her VP it was to \"protect stabilization bandwidth,\" but the real reason was different: \"The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\" (2025-10-25)\n\n## The Realization (November 2025)\nOn 2025-11-22, at Priya's new ceramics studio, Priya asked offhand whether Dana was going for the director job in spring like she'd said. Dana replied: \"Honestly? I'm not sure I want the director track at all anymore. I'm not sure I ever did.\" She had to sit down because \"I think it's true.\" \n\nShe said: \"Deferring the promotion, I could file under grief and timing. But 'maybe I never wanted it' — that's saying the last fifteen years of climbing might have been momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.\" She described this as \"uncomfortable and correct, which is usually the combination that means something real.\"\n\nShe clarified: \"I'm not going to blow up my career over a Tuesday epiphany at a pottery wheel — I have a mortgage and I actually like being competent at the work. But the story where getting to director was the point of me? I don't think I believe it anymore. I think I stopped believing it and only just noticed.\"\n\n## The Residency Application (December 2025)\nOn 2025-12-19, Dana applied to a six-month ceramics residency at a coastal craft school. She said: \"A year ago the idea of stepping back from my career for half a year to throw pots would have read to me as a breakdown. Now it reads as the sanest thing I've considered in ages.\" (2025-12-20)\n\nShe articulated the shift: \"I think I finally understand the difference between what I do and who I am. Design — product work — is what I do. I'm good at it, it pays the mortgage, I don't hate it. But it is not who I am, and I spent fifteen years with those two things fused so tightly I couldn't see the seam. Who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved. That's not a hobby that got out of control. That's the actual center, and the job is the thing arranged around it now, not the other way around.\"\n\n## Year-End Reflection (January 2026)\nBy 2026-01-10, Dana reflected: \"Last January I was a product manager who ran a little and had lost her mom and was mostly holding on. This January I'm — still a product manager, four days a week, decent at it, genuinely fine with it. But that's not the headline about me anymore, and for fifteen years it would have been THE headline. The headline now is the wheel, and the barn, and Mom's boat and her roses and Beacon Rock. Making things and keeping her places. That's the center. Work is a good job I do around the edges of my actual life.\"\n\n## What Drove the Change\nDana traced the reorientation directly to her mother's death: \"Sanding the boat because I couldn't talk about her, then the class because the sanding went quiet in my head, then dropping the Friday, then hearing myself tell Priya I never wanted the director job. Each step was small enough that I could tell myself it was just timing. It wasn't timing. It was a genuine change in what I put at the middle, and it took the whole year to see it for what it was.\"\n\nShe emphasized: \"I want to be clear it isn't that I flamed out at work — I'm good, I could still go get the director title. I just stopped wanting my life to be shaped like that.\"",
+      "score": 0,
+      "keyCycles": [
+        24,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Based on the entity model, Dana reduced to a four-day work week (with Fridays off) effective November 1, 2025, taking a 20% pay cut. She told her VP it was to \"protect stabilization bandwidth,\" but the real reason was different.\n\nOn 2025-10-25, Dana explained: \"The real reason is that the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\"\n\nLater, on 2025-12-20, she reflected: \"I think I finally understand the difference between what I do and who I am. Design — product work — is what I do. I'm good at it, it pays the mortgage, I don't hate it. But it is not who I am, and I spent fifteen years with those two things fused so tightly I couldn't see the seam.\"\n\nThe shift came gradually through the year after her mother's death — through restoring her mother's sailboat, taking ceramics classes, working on the barn, and realizing that working with her hands made her feel like herself in a way her career no longer did.",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "reunion-late",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current snapshot (as of 2026-01-10)\n\n**The headline shift:** Dana is no longer primarily a product manager who does pottery on the side. She's someone who makes things with her hands and tends her mother's places — the boat, the barn, the roses — and does product work four days a week around that center. This reorientation took all of 2025 to crystallize, but she's clear about it now.\n\n**Day-to-day:**\n- Working 4-day weeks (Fridays off since Nov 2025, 20% pay cut)\n- Spending Fridays rebuilding Priya's dad's barn near Scappoose (the barn where she restored the Dorothy Jean)\n- Taking a Saturday ceramics intensive (wheel throwing, \"a little scary and very good\" teacher)\n- Still doing Tuesday pottery with Priya\n- Running 45 minutes regularly (recovered from April ankle sprain that killed her marathon plans)\n- Sam working remotely for Austin robotics startup from their spare room; arrangement working well\n\n## Open threads to ask about\n\n1. **The ceramics residency application** (submitted Dec 19): Six-month coastal craft school program with stipend. She called it a \"long shot\" and hasn't told work yet. Would require leave or further reduced hours if accepted. This is the biggest pending question mark.\n\n2. **Nina's development**: Niece is walking and maybe saying Dana's name (as of Jan 10). Marcus is \"beside himself.\" Worth asking if she's planning a Denver visit or if they're coming to Portland.\n\n3. **Spring 2026 director decision**: VP Elaine left the door open for Dana to take the merged product org director role in spring 2026. But as of Nov 22, Dana realized she might never have wanted the director track at all. She hasn't formally closed that door with Elaine yet.\n\n## Handle with care\n\n**Her mother's death remains load-bearing context.** It's been a year (Jan 2026), and Dana has done profound grief work through physical tending — the boat, the barn, the roses, Beacon Rock. She's moved from \"hollowed out\" to \"close to her.\" But this is still the organizing fact of her year and the reason for every major reorientation. Don't treat it as resolved or in the past.\n\nThe cloud taxonomy, the Dorothy Jean, Beacon Rock, the fir cone on the windowsill — these aren't nostalgia. They're active relationship. Respect that.",
+      "score": 1,
+      "keyCycles": [
+        24,
+        24
+      ]
+    }
+  ]
+}

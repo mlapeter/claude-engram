@@ -1,0 +1,84 @@
+{
+  "policy": "C",
+  "cycle": 2,
+  "date": "2025-02-12",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is a 22-foot wooden boat called the Dorothy Jean, named after Dana's grandmother. Dana's mother taught Dana to sail on it. \n\nAfter Dana's mother got sick, the boat was stored under a tarp in Priya's dad's barn near Scappoose. On Sunday, February 9, 2025, Dana pulled off the tarp and sanded one plank—the first step in what became a decision to restore the boat.\n\nCurrently, Dana is working on restoring it on Sundays, going slowly with no deadline. Dana described working with hands on something of mom's as feeling \"like the first right thing in months.\"",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya's relationship appears to be strong and active right now. Priya is described as Dana's \"closest friend from grad school\" and is a ceramicist and freelance designer. As of 2025-02-12, they started attending a Tuesday night pottery class together, which is noted as \"the first standing regular activity they've had together in years.\"\n\nAdditionally, there's a connection through the sailboat restoration: the Dorothy Jean has been stored under a tarp in Priya's dad's barn near Scappoose, and Dana began restoration work there on 2025-02-09.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model.\n\nThe document indicates that Dana lost their mother recently (as of 2025-02-03) and describes it as a \"heavy winter,\" but no specific date of death is provided.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana is a product manager at \"a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam** - Partner of six years; described as 'great' support during difficult times (as of 2025-02-03)\n\n2. **Marcus** - Brother, lives in Denver; they are close but haven't seen each other in over a year, currently only phone contact (as of 2025-02-03). Dana has a real intention to see him in person this year.\n\n3. **Priya** - Closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12 (as of 2025-02-12). This is their first standing regular activity together in years.\n\n4. **Mother** (deceased) - Dana lost their mother recently (as of 2025-02-03); described it as a 'heavy winter' that 'colors everything'. Dana is restoring mother's sailboat Dorothy Jean, which mom used to teach Dana to sail on.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Situation\n\n**Work:** Product manager at a healthcare data company in Portland. She was mid-quarter as of early February with a roadmap review scheduled for Feb 6th, working through prioritization decisions between interoperability work and an analytics dashboard.\n\n**Personal Projects & Activities:**\n- **Sailboat restoration:** Started restoring her late mother's 22-foot wooden sailboat (the Dorothy Jean) on Feb 9th. Working Sundays at a barn near Scappoose, going slowly with no deadline. This felt like \"the first right thing in months\" for her.\n- **Pottery class:** Started attending Tuesday night pottery class with her friend Priya as of Feb 12th—their first regular standing activity together in years.\n\n**Relationships:** Lives with Sam (partner of six years, described as great support). Close with brother Marcus in Denver but hasn't seen him in over a year (phone contact only).\n\n## Open Threads to Follow Up On\n\n1. How is the sailboat restoration going? (This seems meaningful to her)\n2. Did she manage to see Marcus in person? (She had \"a real intention\" to visit him this year)\n3. How's the pottery class with Priya going?\n\n## Handle with Care\n\n**Her mother's recent death** is the most tender topic. As of early February, she described it as a \"heavy winter\" and said \"it colors everything.\" She explicitly did not want to discuss details in the Feb 3rd conversation. The sailboat restoration is connected to this loss—approach with gentleness.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        2
+      ]
+    }
+  ]
+}

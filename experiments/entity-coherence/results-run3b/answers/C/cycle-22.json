@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 22,
+  "date": "2025-12-06",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nThe Dorothy Jean is Dana's mother's 22-foot wooden sailboat, named after Dana's grandmother. Mom taught Dana to sail on it.\n\n**Restoration timeline:**\n- The boat had been under a tarp in Priya's dad's barn near Scappoose since Mom got sick\n- Dana started restoring it in February 2025, working Sundays with no deadline\n- By June 2025, the restoration was complete and a marine survey confirmed it was sound\n- **First sail after restoration:** July 12, 2025 on the Columbia River at Cathedral Park\n\n**Current status (as of December 2025):**\nThe Dorothy Jean has been hauled out and winterized for winter 2025-2026. It's shrink-wrapped and stored in the barn near Scappoose (the same barn Dana is now rebuilding).\n\nThe boat sailed twice more over summer 2025 after the July launch, described as a \"lovely quiet summer\" on the water with Sam.\n\nThe July 12 first sail was particularly significant - Dana, Sam, Marcus, and four-month-old niece Nina were aboard. There's a photo of Nina asleep in a tiny life jacket that Dana has \"already had printed twice.\"",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement (as of 2025-10-25):**\n- Dana reduced to a four-day work week (Fridays off) effective 2025-11-01\n- This came with a twenty percent pay cut\n- She told VP Elaine it was to \"protect stabilization bandwidth\"; Elaine understood it as work optimization\n- The real reason, as Dana stated: \"the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function\"\n\n**Promotion status:**\n- VP Elaine offered Dana a director role (head of merged product org) on 2025-08-15\n- Dana declined for 2025, citing platform stabilization needs and not wanting to transition the org while still being an escalation point\n- Elaine accepted; the door remains open for spring 2026\n- Dana described it as \"defensible not now, not a no\"\n\n**Recent shift in perspective (as of 2025-11-22):**\n- Dana told Priya she's \"not sure I want the director track at all anymore. I'm not sure I ever did\"\n- She questioned whether the last fifteen years of climbing might have been \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine\"\n- She clarified she won't \"blow up my career\" but no longer believes \"getting to director was the point of me\"",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is stable and supportive. Sam is Dana's partner of six years, and their relationship has been consistently described as \"great\" support during difficult times throughout 2025.\n\nKey current details:\n\n- **Sam's work situation (as of May 2025)**: Sam accepted a Perception team lead role at an Austin robotics startup but negotiated a remote-from-Portland arrangement. He works from their spare room and travels to Austin for a week every couple of months. The arrangement is working well with positive team reception.\n\n- **Recent quality time (as of November 2025)**: They took their first weekend trip using Dana's new Friday off - a cabin near Mt. Hood described as \"the good kind of ordinary\" with hiking, reading, cooking, and no agenda.\n\n- **Shared activities**: They sailed the restored Dorothy Jean together twice over summer 2025, described as a \"lovely quiet summer\" on the water.\n\n- **Support through challenges**: Sam has been consistently supportive through Dana's grief, the Austin job decision (saying he wouldn't take it if it cost Dana \"this year of healing\"), and various life transitions.\n\nThe relationship appears healthy, mutually supportive, and adapting well to changes in both their lives.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Based on the entity model, Dana reduced to a four-day work week (not fully part-time, but with Fridays off and a 20% pay cut) effective November 1, 2025. \n\nThe stated reason to her VP Elaine was to \"protect stabilization bandwidth\" - framed as work optimization.\n\nBut Dana's actual reason, as she explained on 2025-10-25, was: **\"The real reason is that the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\"**\n\nThis followed a broader shift in her relationship with career ambition. After shipping her major interoperability platform in mid-July 2025, she felt \"nothing\" - describing it as \"biting into wax fruit.\" She also declined a director role in August 2025, and by November 2025 realized: \"I'm not sure I want the director track at all anymore. I'm not sure I ever did.\"\n\nThe core reason was her mother's death fundamentally changing what felt meaningful to her - hands-on work (pottery, boat restoration, barn repair) versus professional achievement.",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

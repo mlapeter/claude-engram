@@ -1,0 +1,57 @@
+{
+  "cycle": 10,
+  "date": "2025-05-24",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-31",
+        "text": "Cleared by physical therapy for light jogging as of 2025-05-24; running twenty minutes on flat ground every other day. First run 2025-05-24 morning along esplanade. Still attending physical therapy.",
+        "salience": 0.6,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-31 -> cs-34"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Sam built out spare room for remote work setup (three monitors, foam panels); starts Austin robotics job in approximately two weeks from 2025-05-24 (early June 2025). Described as 'nervous-excited' about start.",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-35"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "belief",
+        "text": "Has made peace with not running Lakefront Marathon October 2025; sees no responsible training path from twenty-minute jogs in late May to 26.2 miles in October. Open to signing up again next year. Current goal: run pain-free by fall without re-injury. Described learning 'something about not white-knuckling timelines' from the ankle injury experience.",
+        "salience": 0.7,
+        "surprise": "low",
+        "confidence": "high"
+      },
+      "outcome": "applied",
+      "detail": "added bel-36"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-29"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-29"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-16"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-16"
+    }
+  ]
+}

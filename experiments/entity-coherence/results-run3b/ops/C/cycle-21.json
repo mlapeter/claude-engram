@@ -1,0 +1,37 @@
+{
+  "cycle": 21,
+  "date": "2025-11-22",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-11-22, at Priya's new studio, Priya asked offhand whether Dana was going to go for the director job in the spring like she'd said. Dana said: 'Honestly? I'm not sure I want the director track at all anymore. I'm not sure I ever did.' Dana described having to sit down because 'I think it's true.' Dana said: 'Deferring the promotion, I could file under grief and timing. But \"maybe I never wanted it\" — that's saying the last fifteen years of climbing might have been momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.' Dana described this realization as 'uncomfortable and correct, which is usually the combination that means something real.' Dana clarified: 'I'm not going to blow up my career over a Tuesday epiphany at a pottery wheel — I have a mortgage and I actually like being competent at the work. But the story where getting to director was the point of me? I don't think I believe it anymore. I think I stopped believing it and only just noticed.' Priya said 'yeah, no kidding' and handed Dana a mug to trim. (2025-11-22)",
+        "salience": 0.95,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added sal-65"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-7"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-7"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Priya's new ceramics studio has keys as of November 2025; described as smelling like 'wet clay and fresh paint' (as of 2025-11-22)",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-66"
+    }
+  ]
+}

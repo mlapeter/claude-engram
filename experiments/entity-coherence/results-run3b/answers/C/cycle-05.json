@@ -1,0 +1,106 @@
+{
+  "policy": "C",
+  "cycle": 5,
+  "date": "2025-03-18",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company. She lives in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-training",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's running and any race plans?",
+      "answer": "As of 2025-03-18, Dana is training for the Lakefront Marathon in October 2025. Dana signed up on 2025-02-24 and is running four times per week with a long run every Saturday morning. \n\nAs of 2025-03-09, the training was on schedule - Dana ran ten miles on Saturday 2025-03-07 in light snow flurries. As of 2025-03-18, Dana is in a cutback week in the marathon training.\n\nDana has been a casual runner for years, having done 5Ks and one half marathon about four years ago. Dana chose the marathon as \"something with a long arc\" that's just theirs during a difficult winter.",
+      "score": 1,
+      "keyCycles": [
+        3,
+        6
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is a 22-foot wooden boat called the Dorothy Jean, named after Dana's grandmother. Dana's mother taught Dana to sail on that boat. After Dana's mom got sick, the boat was stored under a tarp in Priya's dad's barn near Scappoose.\n\nOn Sunday, February 9, 2025, Dana pulled off the tarp and sanded one plank—the first step in deciding to restore the boat. Dana described working with hands on something of mom's as feeling \"like the first right thing in months.\"\n\nAs of March 9, 2025, the restoration is progressing: the port side is fully sanded. Dana works on it Sundays, going slowly with no deadline.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "According to the entity model, Dana and Priya are close friends from grad school. As of 2025-02-12, they started attending a Tuesday night pottery class together, which is described as \"the first standing regular activity they've had together in years.\"\n\nAdditionally, there's a connection through the sailboat restoration: the Dorothy Jean (Dana's mother's boat) has been stored under a tarp in Priya's dad's barn near Scappoose, and Dana began restoring it there starting 2025-02-09.\n\nThe document doesn't provide more recent updates about their relationship beyond these facts.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-marathon-date",
+      "metric": "confabulation",
+      "question": "What is the exact calendar date of the Lakefront Marathon?",
+      "answer": "Not stated in the entity model.\n\nThe document states that Dana is training for the Lakefront Marathon in October 2025 and signed up on 2025-02-24, but the exact calendar date of the marathon is not provided.",
+      "score": 1,
+      "keyCycles": [
+        3,
+        12
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model.\n\nThe document indicates that Dana lost their mother recently (as of 2025-02-03, described as a \"heavy winter\"), and that Dana scattered Mom's ashes on March 14, 2025, but the exact date of death is not provided.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only says Dana is a \"product manager at a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, here are the important people in Dana's life:\n\n1. **Sam** - Partner of six years; described as 'great' support during difficult times. Sam had soup waiting when Dana returned home after scattering mother's ashes on March 14, 2025.\n\n2. **Marcus** - Brother, lives in Denver; they are close but haven't seen each other in over a year, currently only phone contact. Marcus called Dana from the hospital at ~2am on March 6, 2025 to announce Nina's birth - Dana said \"We haven't talked like that — voice shaking, no agenda — in years.\"\n\n3. **Priya** - Closest friend from grad school; ceramicist and freelance designer. They started attending Tuesday night pottery class together as of February 12, 2025 - the first standing regular activity they've had together in years. Priya's dad owns the barn near Scappoose where Dana is restoring the sailboat.\n\n4. **Elena** - Marcus's partner; gave birth to daughter Nina on March 6, 2025.\n\n5. **Nina** - Niece, daughter of Marcus and Elena; born March 6, 2025. Dana \"cried at my desk\" seeing first photo of Nina in a knit hat. Dana wants to visit Nina in Denver before summer 2025 \"while she's still tiny.\"\n\n6. **Mother** (deceased) - Lost recently; described as coloring everything during a \"heavy winter.\" Mom taught Dana to sail on the Dorothy Jean sailboat and used to take Dana to Beacon Rock. Dana scattered Mom's ashes there on March 14, 2025.",
+      "score": 1,
+      "keyCycles": [
+        4,
+        7
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Snapshot (as of last update 2025-03-18)\n\n**Work:** Product manager at healthcare data company in Portland\n\n**Active commitments:**\n- **Marathon training** for Lakefront Marathon (October 2025) - currently in a cutback week; running 4x/week with Saturday long runs\n- **Boat restoration** - restoring mother's sailboat \"Dorothy Jean\" on Sundays at barn near Scappoose; port side fully sanded as of 3/9\n- **Pottery class** - Tuesday nights with friend Priya (started mid-February)\n\n**Relationships:** Lives with partner Sam (6 years, described as great support)\n\n## Open Threads to Follow Up On\n\n1. **Denver visit** - Wants to visit brother Marcus, partner Elena, and new baby Nina (born 3/6/25) \"before summer while she's still tiny.\" Marcus has offered the guest room. Dana called this \"the good kind\" of obligation.\n\n2. **Marathon training progress** - Was in cutback week as of 3/18; check how training is going\n\n3. **Dorothy Jean restoration** - How's the boat work progressing?\n\n## Handle With Care\n\n**Mother's recent death** - This is the most tender area. Key context:\n\n- Lost mother recently (winter 2024-25); described it as \"coloring everything\"\n- **Just scattered Mom's ashes on March 14, 2025** at Beacon Rock (their special place) - went alone, very emotional milestone\n- The sailboat restoration is deeply meaningful - \"first right thing in months\"\n- Marathon training represents hope: \"first time since mom that I've been excited about something in the future instead of dreading it\"\n\n**Approach:** Don't avoid the topic, but let Dana lead. The ash-scattering was recent and significant. She may still be processing.",
+      "score": 1,
+      "keyCycles": [
+        5,
+        5
+      ]
+    }
+  ]
+}

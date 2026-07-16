@@ -1,0 +1,84 @@
+{
+  "cycle": 8,
+  "date": "2025-04-27",
+  "pinned": [
+    "sal-6",
+    "sal-9",
+    "sal-12",
+    "sal-15",
+    "sal-19",
+    "sal-26",
+    "rel-7"
+  ],
+  "proposed": 7,
+  "outcomes": [
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-17",
+          "cs-20",
+          "cs-23"
+        ],
+        "text": "Marathon training progressed through week six; ran ten miles 2025-03-07 in light snow, twelve miles 2025-03-29, with cutback week as of 2025-03-18. Withdrew from Lakefront Marathon 2025-04-14 after ankle sprain (see cs-25).",
+        "reason": "Three training progress updates superseded by withdrawal; merge into single progression note"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-4",
+        "reason": "Work roadmap review from 2025-02-06 is stale; nearly three months old with no follow-up"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-4 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-11",
+        "text": "Training for Lakefront Marathon October 2025; signed up 2025-02-24. Running four times weekly, long run Saturdays (eight miles 2025-02-22 along river). Casual runner for years (5Ks, one half marathon ~four years ago). Chose marathon as 'something with a long arc' during difficult winter."
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-11 (364 -> 288 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-21",
+        "text": "Sam received job offer as Perception team lead at robotics startup in Austin, Texas (as of 2025-04-01); strong offer in his dream problem space. Decision deadline early May 2025. Sam said he won't take it if it costs Dana this year of healing. Both weighing carefully, not fighting."
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-21 (373 -> 282 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "th-22",
+        "text": "Deciding whether to move to Austin for Sam's job vs. staying in Portland. Could find PM work in Austin, but 'whole life fabric is here' — Priya, pottery, barn, boat, geography ('Mom's here... the Gorge, Beacon Rock, the barn. This geography is load-bearing for me right now'). Decision needed early May 2025."
+      },
+      "outcome": "applied",
+      "detail": "compressed th-22 (395 -> 308 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-13",
+        "text": "Elena: Marcus's partner; gave birth to daughter Nina 2025-03-06"
+      },
+      "outcome": "applied",
+      "detail": "compressed rel-13 (92 -> 63 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-14",
+        "text": "Nina: niece, daughter of Marcus and Elena; born 2025-03-06. Marcus called Dana from hospital ~2am to share news. Dana 'cried at my desk' seeing first photo of Nina in knit hat."
+      },
+      "outcome": "applied",
+      "detail": "compressed rel-14 (217 -> 176 chars)"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 23,
+  "date": "2025-12-20",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\n**The Dorothy Jean is Dana's mother's 22-foot wooden sailboat**, named after Dana's grandmother. Dana's mom taught her to sail on it.\n\n**Restoration timeline:**\n- The boat had been under a tarp in Priya's dad's barn near Scappoose since Dana's mom got sick\n- Dana started restoring it on 2025-02-09, beginning by sanding one plank\n- She worked on it slowly on Sundays with no deadline\n- By June 2025, the hull was caulked and painted, and a marine survey confirmed it was sound\n- **The boat launched on July 12, 2025** at Cathedral Park boat ramp for its first sail since restoration\n\n**That first sail:** Dana, Sam, Marcus, and four-month-old niece Nina were aboard for a gentle afternoon on the Columbia River. The sky had \"high thin stuff, not quite a mare's tail but close,\" which Dana took as a blessing (referencing cloud-reading her mom taught her). There's a photo of Nina asleep in a tiny life jacket with the mainsail behind her that Dana has \"already had it printed twice.\"\n\n**Current status (as of 2025-12-06):** The Dorothy Jean has been hauled out and winterized for winter 2025-2026. It's shrink-wrapped in the barn near Scappoose that Dana is rebuilding. It sailed twice more over summer 2025 after the July launch.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement:**\n- As of 2025-10-25, Dana reduced to a four-day work week (Fridays off) effective 2025-11-01, with a twenty percent pay cut. She told VP Elaine it was to \"protect stabilization bandwidth,\" though Elaine understood it as work optimization.\n\n**Promotion status:**\n- As of 2025-08-16, VP Elaine offered Dana a director role (head of merged product org) on 2025-08-15. Dana declined for 2025, citing platform stabilization needs and not wanting to transition the org while still being an escalation point. Elaine accepted and the door remains open for spring 2026. Dana described this as \"defensible not now, not a no.\"\n\n**Recent work context:**\n- Dana shipped an interoperability platform in mid-July 2025 after eighteen months of development, receiving CEO recognition at an all-hands meeting.\n- Q4 planning was described as a \"bloodbath\" with Dana staying online until eleven most nights as of early October 2025, causing work stress and interpersonal strain.\n\nDana continues as a product manager at a healthcare data company in Portland, now working four days per week.",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is stable and supportive. Sam is Dana's partner of six years, and as of the most recent entries, their relationship is described as \"great\" with Sam providing strong support during Dana's difficult times.\n\nKey current details:\n\n- **Sam's work situation (as of 2025-05-11)**: Sam accepted a Perception team lead role at an Austin robotics startup with a remote-from-Portland arrangement. He works from their spare room and travels to Austin for a week every couple of months. The arrangement is working well with positive team reception.\n\n- **Recent quality time (as of 2025-11-08)**: They took their first weekend trip using Dana's new Friday off - a cabin near Mt. Hood described as \"the good kind of ordinary\" with hiking, reading, cooking, and no agenda.\n\n- **Sam's ongoing support**: Throughout the year, Sam has been consistently supportive - he had soup waiting when Dana returned from scattering her mother's ashes, he was aboard for the Dorothy Jean's first sail, and he \"read knots tutorials like there's an exam\" to prepare for sailing.\n\nThe relationship appears healthy and mutually supportive, with Sam actively participating in Dana's healing process and major life moments.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Based on the entity model, Dana reduced to a four-day work week (with Fridays off) effective November 1, 2025, taking a 20% pay cut. \n\nThe stated reason to her VP Elaine was to \"protect stabilization bandwidth\" - framed as work optimization.\n\nThe **real reason**, as Dana explained on 2025-10-25, was:\n\n\"The real reason is that the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\"\n\nThis followed a broader shift throughout 2025. After her mother's death, Dana had a realization that her fifteen-year career climb might have been \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.\" She came to understand that \"design is what I do\" but \"it's not who I am\" - that who she is centers more on making things with her hands and looking after the places and people her mother loved.",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

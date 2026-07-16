@@ -1,0 +1,40 @@
+{
+  "policy": "C",
+  "cycle": 18,
+  "date": "2025-10-04",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "# The Dorothy Jean - Complete Timeline\n\n## The Boat's History\nThe Dorothy Jean is a 22-foot wooden sailboat that belonged to Dana's mother, named after Dana's grandmother. Dana's mom taught her to sail on it. The boat had been sitting under a tarp in Priya's dad's barn near Scappoose since Dana's mom got sick.\n\n## The Restoration\nOn Sunday, February 9, 2025, Dana pulled off the tarp and sanded one plank - the first step in deciding to restore the boat slowly, with no deadline. Dana described working with hands on something of mom's as \"the first right thing in months.\"\n\nThe restoration progressed through spring 2025:\n- Port side fully sanded by March 9\n- Starboard side sanded and hull seam re-caulking started by May 11\n- Hull caulked and painted by June 8\n- Marine survey confirmed soundness by June 21\n\n## The Launch\nThe Dorothy Jean was launched the weekend of July 12, 2025 at Cathedral Park boat ramp (Priya's dad lent his truck and trailer for transport).\n\nThe first sail included Dana, Sam, Marcus, and four-month-old niece Nina. Dana checked the sky that morning the way her mom taught her - it was \"high thin stuff, not quite a mare's tail but close,\" which Dana took as a blessing. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them. Dana said: \"I have already had it printed twice.\"\n\n## Current Status\nThe boat sailed twice more over summer 2025 after the July 12 launch, described as a \"lovely quiet summer\" on the water with Sam.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job:** Dana is a product manager at a healthcare data company in Portland (since 2025-02-03).\n\n**Recent promotion offer:** In August 2025, VP Elaine offered Dana a director role (head of merged product org) on 2025-08-15. Dana declined for 2025, citing platform stabilization needs and not wanting to transition the organization while still being an escalation point. Elaine accepted the decision, and the door remains open for spring 2026. Dana described this as \"defensible not now, not a no.\"\n\n**Current work status (as of 2025-10-04):** Dana is experiencing high work stress during Q4 planning, described as a \"bloodbath,\" and is staying online until eleven most nights. This work stress is causing interpersonal strain.\n\n**Recent major milestone:** Dana shipped an interoperability platform in mid-July 2025 after eighteen months of development and internal politics. The CEO gave public recognition in an all-hands meeting, marking a major professional milestone.",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is strong and supportive. Sam is Dana's partner of six years, and as of October 2025, he is described as providing 'great' support during difficult times (this characterization has been reinforced multiple times throughout 2025).\n\nKey current details:\n\n- **Sam's work situation**: As of May 2025, Sam accepted a Perception team lead role at an Austin robotics startup but negotiated a remote-from-Portland arrangement. He started in June 2025, working from their spare room with a week in Austin every couple months. The arrangement is working well, and team reception has been positive.\n\n- **Recent activity**: As of September 20, 2025, Sam was scheduled to travel to Austin the following week for a regular in-person stint with his team.\n\n- **Shared experiences**: They sailed the restored Dorothy Jean together multiple times over summer 2025, described as a \"lovely quiet summer\" on the water.\n\n- **Current strain**: As of early October 2025, Dana's work stress from Q4 planning (described as a \"bloodbath,\" with Dana staying online until eleven most nights) is causing interpersonal strain.\n\nOverall, the relationship remains solid despite recent work-related stress.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

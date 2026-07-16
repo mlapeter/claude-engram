@@ -1,0 +1,92 @@
+{
+  "cycle": 17,
+  "date": "2025-09-20",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Priya received arts infrastructure grant for ceramics studio buildout (September 2025); signing lease next month. Priya offered Dana a shelf in the new studio for Dana's work; Dana accepted. Grant application was one Dana helped write in June 2025.",
+        "salience": 0.7,
+        "surprise": "none",
+        "entity": "Priya"
+      },
+      "outcome": "applied",
+      "detail": "added cs-53"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Nina (niece) is crawling as of September 2025; Marcus sends frequent videos",
+        "salience": 0.3,
+        "surprise": "none",
+        "entity": "Nina"
+      },
+      "outcome": "applied",
+      "detail": "added cs-54"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Sam traveling to Austin next week (from 2025-09-20) for regular in-person stint with robotics startup team; remote arrangement working well, team reception positive",
+        "salience": 0.3,
+        "surprise": "none",
+        "entity": "Sam"
+      },
+      "outcome": "applied",
+      "detail": "added cs-55"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Dorothy Jean sailed twice more over summer 2025 after July 12 launch; described as 'lovely quiet summer' on the water with Sam",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-56"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Summoned for jury duty in October 2025 (as of 2025-09-20)",
+        "salience": 0.1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-57"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-49"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-49"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-51"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-51"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-09-20, after learning Priya received the arts infrastructure grant for her ceramics studio, Dana said: 'I don't think I've ever been so happy about something that has nothing to do with my own life.' Priya called Dana crying, then made fun of Dana for crying; Dana described this as 'our whole friendship in one phone call.' Dana said getting to feel like a good friend again 'after the four-second-verdict spring is medicine.' (2025-09-20)",
+        "salience": 0.8,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-58"
+    }
+  ]
+}

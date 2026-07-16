@@ -1,0 +1,40 @@
+{
+  "policy": "C",
+  "cycle": 14,
+  "date": "2025-08-02",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana completed the restoration of her mother's sailboat, the Dorothy Jean. The boat had been under a tarp in Priya's dad's barn near Scappoose since her mom got sick. Dana started the restoration on February 9, 2025, working Sundays with no deadline.\n\nThe restoration was completed by June 21, 2025, with a marine survey confirming the boat's soundness.\n\n**The Dorothy Jean sailed for the first time since restoration on July 12, 2025.** Dana, Sam, Marcus, and four-month-old Nina were aboard for a gentle afternoon on the Columbia River. The sky was \"high thin stuff, not quite a mare's tail but close,\" which Dana took as a blessing (referencing how her mom taught her to read cloud shapes). There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them, which Dana said \"I have already had it printed twice.\"\n\nThat's the most recent status in the entity model - the boat has been successfully restored and has had its first sail.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model:\n\n**Historically, yes - professional success has been central to Dana's identity.** On 2025-07-19, Dana explicitly stated: \"For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.\"\n\n**This appears to be changing.** When Dana's interoperability platform launched in mid-July 2025 after 18 months of development - described as \"the biggest professional moment of my life\" with CEO recognition - Dana felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" Dana described this reaction as \"rattling\" and said it was \"like biting into wax fruit.\"\n\nDana attributes this shift to grief: \"Everything's been a half-step muted since Mom in a way that still ambushes me.\"\n\nThe entity model shows Dana investing deeply in non-work activities throughout 2025: restoring her mother's sailboat, marathon training, pottery class with Priya, and prioritizing staying in Portland's \"load-bearing geography\" over potential career opportunities in Austin.\n\nHowever, the model also shows ongoing high work stress as of 2025-08-02, with work described as a \"pressure cooker\" that has Dana \"by the throat\" - so the professional demands remain intense even as their emotional centrality may be shifting.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is described as strong and supportive. Key points:\n\n- Sam is Dana's partner of six years\n- He is described as providing \"great\" support during difficult times (noted multiple times from 2025-02-03 through 2025-08-02)\n- In April 2025, when Sam received a job offer in Austin, he said \"he won't take it if it costs Dana this year of healing.\" They weighed the decision carefully without fighting.\n- Sam ultimately negotiated a remote-from-Portland arrangement for the Austin robotics job (starting June 2025), allowing them to stay in Portland together\n- Sam has been actively supportive: he had soup waiting when Dana returned from scattering her mother's ashes, he's been \"reading knots tutorials\" to prepare for sailing the Dorothy Jean, and he was aboard for the boat's first sail on July 12, 2025\n- As of the most recent entry (2025-08-02), Sam continues to be described as \"great\" support\n\nThe relationship appears stable, caring, and mutually considerate, particularly during Dana's difficult year of grief and healing.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

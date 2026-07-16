@@ -1,0 +1,59 @@
+{
+  "cycle": 16,
+  "date": "2025-09-06",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Enrolled in twelve-week Saturday intensive ceramics class (wheel throwing) at studio in Southeast Portland; started first Saturday of September 2025. Three hours every Saturday morning with 'a little scary and very good' teacher. Described as 'the first thing in months that felt like me' and 'the loudest my own head has been quiet since Beacon Rock.' Continues Tuesday pottery class with Priya separately. (as of 2025-09-06)",
+        "salience": 0.75,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-49"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-8"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-8"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-42",
+        "text": "Running forty-five minutes on flat ground regularly (as of 2025-09-06); progressing from forty-minute runs in June 2025. Post-ankle-sprain recovery continuing.",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-42 -> cs-50"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-47",
+        "text": "Work production incident from post-interoperability platform launch (mid-July 2025) finally closed as of 2025-09-06; work described as 'still a grind' but incident pressure resolved. (as of 2025-09-06)",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-47 -> cs-51"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-09-06, describing the new Saturday ceramics intensive, Dana said: 'I've been circling it since the boat, honestly. The barn work, the sanding, the caulking — I noticed that the hours I spent with my hands on the Dorothy Jean were the only hours all spring where my brain went quiet. Really quiet. And when the boat launched I felt this little panic of \"okay, but now what do I do with my hands.\" So: clay.' Dana said the class 'felt like me. Not like a thing I'm supposed to want, or a box I'm checking. Like me. Three hours where nobody needs an escalation decision and the clay does not care that I'm a product manager. It was the loudest my own head has been quiet since Beacon Rock.' (2025-09-06)",
+        "salience": 0.85,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added sal-52"
+    }
+  ]
+}

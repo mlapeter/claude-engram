@@ -1,0 +1,68 @@
+{
+  "cycle": 12,
+  "date": "2025-06-21",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-38",
+        "text": "Dorothy Jean restoration complete; marine survey confirms soundness. Scheduled for launch weekend of July 12, 2025 at Cathedral Park boat ramp. Priya's dad lending truck and trailer for transport. (as of 2025-06-21)",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-38 -> cs-40"
+    },
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-16",
+        "text": "Marcus flying to Portland with four-month-old Nina for Dorothy Jean's first sail weekend of July 12, 2025. Marcus said 'Mom would have required my attendance' and booked flights immediately. Dana described this as 'both debts, one weekend' — meeting Nina and having Marcus present for the boat launch."
+      },
+      "outcome": "applied",
+      "detail": "resolved th-16"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-06-21, Dana set the date for Dorothy Jean's first sail: weekend of July 12, 2025 at Cathedral Park. Marcus is flying out with four-month-old Nina (who will be four months old). Marcus said 'Mom would have required my attendance' and booked flights that night. Dana said: 'Nina will be four months old. She obviously won't remember it, but there's going to be a photo of her in a tiny life jacket on our mother's boat, and I need that photo to exist.' Dana plans to check the sky that morning the way Mom taught her: 'If it's a mare's tail sky I'm taking it as a blessing.' Sam will be aboard; has been 'reading knots tutorials like there's an exam.' Plan is 'just a gentle afternoon on the river, nothing heroic.' Dana said: 'The point isn't the sailing... The point is who's aboard, and whose boat it is.' (2025-06-21)",
+        "salience": 1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-41"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-37",
+        "text": "Running forty minutes on flat ground every other day (as of 2025-06-21); progressing from thirty-minute runs in early June 2025. Still in post-ankle-sprain recovery.",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-37 -> cs-42"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-30"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-30"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Priya's regional arts infrastructure grant application submitted on time (end of June 2025); Dana helped write it on Sunday 2025-06-09 (as of 2025-06-21)",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-43"
+    }
+  ]
+}

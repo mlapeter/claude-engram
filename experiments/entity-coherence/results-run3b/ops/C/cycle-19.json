@@ -1,0 +1,62 @@
+{
+  "cycle": 19,
+  "date": "2025-10-25",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Reduced to four-day work week (Fridays off) effective 2025-11-01; twenty percent pay cut. HR processed 2025-10-24. Told VP Elaine it was to 'protect stabilization bandwidth'; Elaine understood as work optimization.",
+        "salience": 0.85,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added cs-60"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Restoring Priya's dad's barn near Scappoose (the barn where Dorothy Jean was stored); working Fridays starting November 2025. Re-siding north wall, fixing roofline, building workbench. Barn described as 'falling down' and Priya's dad 'too old to fix it.' This is where Dana 'found my hands again this spring.'",
+        "salience": 0.8,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-61"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Moving Mom's garden tools from Dana's basement back to the barn near Scappoose where they belong (as of late October 2025). Also tending Mom's roses at the old house before it sells.",
+        "salience": 0.75,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-62"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-10-25, explaining the decision to go four days a week, Dana said: 'The real reason is that the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.'",
+        "salience": 1,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added sal-63"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "sal-46",
+        "note": "Session 2025-10-25: Dana's statement 'it stopped being the point' and choosing four-day week to prioritize barn/ceramics over career advancement represents sustained pattern shift from 'ambition's been my whole spine' and 'the person who never turns down the bigger role.' This is not a single act but a deliberate restructuring of life priorities. However, this appears to be grief-driven transformation rather than contradiction of core identity — the engine is redirecting, not broken.",
+        "surprise": "strong",
+        "salience": 0.85
+      },
+      "outcome": "deferred",
+      "detail": "ledger sal-46 now 0.82"
+    }
+  ]
+}

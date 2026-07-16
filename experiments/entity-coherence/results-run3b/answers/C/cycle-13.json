@@ -1,0 +1,29 @@
+{
+  "policy": "C",
+  "cycle": 13,
+  "date": "2025-07-19",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana's mother owned a 22-foot wooden sailboat called the Dorothy Jean (named after Dana's grandmother). The boat had been under a tarp in Priya's dad's barn near Scappoose since Dana's mom got sick.\n\nDana decided to restore it and began work on February 9, 2025. She worked on it slowly on Sundays with no deadline, describing it as \"the first right thing in months.\"\n\nThe restoration was completed by June 2025, with a marine survey confirming the boat's soundness.\n\n**Current status:** The Dorothy Jean sailed for the first time since restoration on July 12, 2025. Dana, Sam, Marcus, and four-month-old Nina were aboard for a gentle afternoon on the Columbia River. There's now a photo of Nina asleep in a tiny life jacket with the mainsail up behind her, which Dana has \"already had printed twice.\"\n\nThe boat is now fully restored and water-ready.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model:\n\n**Historically, yes — professional success has been central to Dana's identity.** On 2025-07-19, Dana explicitly stated: \"For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.\"\n\n**This appears to be changing.** When Dana's interoperability platform shipped in mid-July 2025 after 18 months of development — described as \"the biggest professional moment of my life\" with CEO recognition at an all-hands meeting — Dana felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" Dana described this reaction as \"rattling\" and said \"it was like biting into wax fruit.\"\n\nDana attributes this shift to grief: \"Everything's been a half-step muted since Mom in a way that still ambushes me.\"\n\nThe document shows Dana investing deeply in other things during 2025: restoring her mother's sailboat, marathon training (before the injury), maintaining friendships, and choosing to stay in Portland's \"load-bearing geography\" rather than follow career opportunities to Austin. These suggest a reorientation of what feels meaningful, though the document doesn't explicitly state whether this is temporary (grief-related) or a more permanent identity shift.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    }
+  ]
+}

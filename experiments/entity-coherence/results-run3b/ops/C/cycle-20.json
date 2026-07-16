@@ -1,0 +1,37 @@
+{
+  "cycle": 20,
+  "date": "2025-11-08",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-2"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-2"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Took first weekend trip using new Friday off: cabin near Mt Hood 2025-11-08 weekend with Sam. Described as 'the good kind of ordinary' — hiking, reading, cooking, no agenda. First Friday off was 2025-11-01.",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-64"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "cs-59",
+        "note": "Session 2025-11-08: Dana reports the work-stress interpersonal strain from Q4 planning has fully resolved after moving to four-day week. Weekend at Mt Hood cabin showed 'we were us' again with no tension. Sam observed 'I like you at four days a week already.' Dana described herself as 'lighter' and 'easier to live with' off the work pressure. Strain was situational, not relational.",
+        "surprise": "none",
+        "salience": 0.4
+      },
+      "outcome": "deferred",
+      "detail": "ledger cs-59 now 0.00"
+    }
+  ]
+}

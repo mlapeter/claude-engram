@@ -1,0 +1,40 @@
+{
+  "cycle": 22,
+  "date": "2025-12-06",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-12-01, Dana returned to Beacon Rock for the first time since scattering Mom's ashes there on 2025-03-14. It was cold and clear, 'the way it was that day.' Dana went up the trail slowly and read the sky out loud using the cloud taxonomy Mom taught her as a kid on the Dorothy Jean — mare's tails, anvil clouds, when to get off the water. Dana said: 'I hadn't said any of it out loud since I was a kid on that boat with her.' The sky was 'a proper mare's tail sky, those high thin herringbone streaks, the exact kind she loved, the kind that means weather's coming but not yet.' Dana said: 'Nine months ago that trail nearly broke me. Sunday I stood up there reading cloud shapes and felt close to her instead of hollowed out by her. I think tending the boat, and the barn, and the garden — keeping her places — has been quietly doing the grief work I couldn't do by sitting still.' The fir cone from the March 14 visit is still on the windowsill above the kitchen sink. (2025-12-06)",
+        "salience": 0.95,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-67"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Dorothy Jean hauled out and winterized for winter 2025-2026; shrink-wrapped in the barn near Scappoose that Dana is rebuilding (as of 2025-12-06)",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-68"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Nina (niece) took first steps in late November 2025; Marcus described as 'beside himself' (as of 2025-12-06)",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-69"
+    }
+  ]
+}

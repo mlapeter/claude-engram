@@ -1,0 +1,46 @@
+{
+  "cycle": 18,
+  "date": "2025-10-04",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Q4 planning described as 'bloodbath'; staying online until eleven most nights as of early October 2025. Work stress causing interpersonal strain.",
+        "salience": 0.6,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-59"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "cs-51",
+        "note": "Work described as 'still a grind' in September; by early October Q4 planning is 'bloodbath' with eleven-hour days. Pattern of work stress leaking into personal relationships emerging (snapped at Sam twice in recent months about work pressure). Dana self-aware: 'not mad at him, mad at the laptop.'",
+        "surprise": "mild",
+        "salience": 0.5
+      },
+      "outcome": "deferred",
+      "detail": "ledger cs-51 now 0.15"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-2"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-2"
+    },
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "cs-57",
+        "text": "Jury duty dismissed after one day when case settled (early October 2025); Dana described as 'rare gift from the state of Oregon.'"
+      },
+      "outcome": "rejected",
+      "detail": "cs-57 is not a thread"
+    }
+  ]
+}

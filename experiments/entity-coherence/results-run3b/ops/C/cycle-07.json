@@ -1,0 +1,56 @@
+{
+  "cycle": 7,
+  "date": "2025-04-14",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Sprained ankle badly on Saturday 2025-04-13 during trail run in Forest Park (mile nine, wet root); grade-two sprain or worse per urgent care. In walking boot; seeing orthopedist Thursday 2025-04-18. Doctor said eight to ten weeks before running possible again.",
+        "salience": 0.6,
+        "surprise": "mild"
+      },
+      "outcome": "applied",
+      "detail": "added cs-24"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-23",
+        "text": "Withdrew from Lakefront Marathon October 2025 on 2025-04-14 after ankle sprain; cannot safely complete training with eight-to-ten week recovery window. Withdrew registration immediately to avoid 'waffling.'",
+        "salience": 0.8,
+        "surprise": "mild"
+      },
+      "outcome": "applied",
+      "detail": "cs-23 -> cs-25"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-04-14, after withdrawing from the marathon, Dana said: 'That training arc was the first future-shaped thing I'd built since mom.' Sam pointed out the fitness isn't lost and there's always next year; Dana said 'he's right, and I don't want to hear it yet.'",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-26"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-18"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-18"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-22"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-22"
+    }
+  ]
+}

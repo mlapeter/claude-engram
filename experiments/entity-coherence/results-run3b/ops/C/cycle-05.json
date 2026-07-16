@@ -1,0 +1,37 @@
+{
+  "cycle": 5,
+  "date": "2025-03-18",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On March 14, 2025, Dana scattered Mom's ashes at Beacon Rock in the Columbia River Gorge. Dana went alone. Beacon Rock was 'ours' — Mom used to take Dana there as a kid, and on the way up taught Dana to read cloud shapes: 'Not just \"that one's a rabbit\" — she had this whole taxonomy, what a mare's tail sky meant, when the anvil clouds meant get off the water.' Dana said: 'I stood at the top and the sky was doing exactly the kind of high thin herringbone she loved, and I let her go into the wind.' The urn had been in Dana's closet for months; Dana 'couldn't even look at that side of the closet.' Dana picked up a fir cone from the trail on the way down; it's on the windowsill above the kitchen sink now. Sam had soup waiting when Dana got home. Dana slept eleven hours. (2025-03-18)",
+        "salience": 1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-19"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-03-18] In a cutback week in marathon training (as of 2025-03-18)",
+        "salience": 0.1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-20"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-2"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-2"
+    }
+  ]
+}

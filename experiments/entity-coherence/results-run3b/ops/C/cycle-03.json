@@ -1,0 +1,37 @@
+{
+  "cycle": 3,
+  "date": "2025-02-24",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Training for Lakefront Marathon in October 2025; signed up 2025-02-24. Running four times per week with long run every Saturday morning. Did eight miles on Saturday 2025-02-22 along the river. Has been a casual runner for years (5Ks, one half marathon about four years ago). Chose marathon as 'something with a long arc' that's just theirs during difficult winter.",
+        "salience": 0.7,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-11"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-2"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-2"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-02-24, Dana said of signing up for the marathon: 'It's the first time since mom that I've been excited about something in the future instead of dreading it.'",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-12"
+    }
+  ]
+}

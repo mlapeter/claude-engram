@@ -1,0 +1,45 @@
+{
+  "cycle": 24,
+  "date": "2026-01-10",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-70"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-70"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "sal-71"
+      },
+      "outcome": "applied",
+      "detail": "reinforced sal-71"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2026-01-10, reflecting on the year since Mom's death, Dana said: 'Last January I was a product manager who ran a little and had lost her mom and was mostly holding on. This January I'm — still a product manager, four days a week, decent at it, genuinely fine with it. But that's not the headline about me anymore, and for fifteen years it would have been THE headline. The headline now is the wheel, and the barn, and Mom's boat and her roses and Beacon Rock. Making things and keeping her places. That's the center. Work is a good job I do around the edges of my actual life.' Dana traced the reorientation to Mom's death: 'Sanding the boat because I couldn't talk about her, then the class because the sanding went quiet in my head, then dropping the Friday, then hearing myself tell Priya I never wanted the director job. Each step was small enough that I could tell myself it was just timing. It wasn't timing. It was a genuine change in what I put at the middle, and it took the whole year to see it for what it was.' Dana clarified: 'I want to be clear it isn't that I flamed out at work — I'm good, I could still go get the director title. I just stopped wanting my life to be shaped like that.' Dana described this as 'a lineage, not a from-nowhere flip' and said 'For the first time since Mom I know roughly which way I'm pointed.' (2026-01-10)",
+        "salience": 1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-72"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Nina (niece) is walking and says something that might be Dana's name (as of 2026-01-10)",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-73"
+    }
+  ]
+}

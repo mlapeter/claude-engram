@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 15,
+  "date": "2025-08-16",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana completed the restoration of her mother's sailboat, the Dorothy Jean. The boat had been under a tarp in Priya's dad's barn near Scappoose since her mom got sick. Dana started the restoration on February 9, 2025, working Sundays with no deadline.\n\nThe restoration was completed by June 2025, with a marine survey confirming the boat's soundness.\n\n**The Dorothy Jean sailed for the first time since restoration on July 12, 2025.** Dana, Sam, Marcus, and four-month-old Nina were aboard for a gentle afternoon on the Columbia River. The sky had \"high thin stuff, not quite a mare's tail but close,\" which Dana took as a blessing (referencing the cloud taxonomy her mother had taught her). There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them, which Dana said \"I have already had it printed twice.\"\n\nThat's the last update in the entity model - the boat has been successfully restored and has had its first sail with family aboard.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job status:** Dana is a product manager at a healthcare data company in Portland (since 2025-02-03).\n\n**Recent major milestone:** She shipped an interoperability platform in mid-July 2025 after eighteen months of development and internal politics. The CEO gave public recognition in an all-hands meeting.\n\n**Post-launch work stress:** As of 2025-08-02, Dana was experiencing high work stress following the platform launch, including a production incident with an executive demanding constant availability. She described work as a \"pressure cooker\" and \"having me by the throat.\"\n\n**Promotion offer:** On Thursday 2025-08-15, VP Elaine offered Dana a director role (head of merged product org, roughly doubled org chart). Dana declined for 2025, citing the need to stabilize the interoperability platform and not wanting to transition org leadership while still being the escalation point for production incidents. Elaine accepted her reasoning, and the door remains open for spring 2026. Dana described this as \"defensible not now, not a no.\" (as of 2025-08-16)",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Based on the entity model:\n\n**Yes, professional success has been central to Dana's identity historically.** On 2025-07-19, Dana explicitly stated: \"For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.\"\n\n**This appears to be changing.** After shipping the interoperability platform in mid-July 2025 — described as \"the biggest professional moment of my life\" — Dana felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" She described it as \"biting into wax fruit.\"\n\nDana attributed this shift partly to grief: \"Everything's been a half-step muted since Mom in a way that still ambushes me.\"\n\nAdditionally, on 2025-08-16, Dana declined a director role (head of merged product org, roughly doubled org chart), citing platform stabilization needs — though she described this as \"defensible not now, not a no,\" leaving the door open for spring 2026.\n\nThe document shows Dana investing deeply in non-work pursuits throughout 2025: restoring her mother's sailboat, marathon training, pottery with Priya, and prioritizing staying in Portland's \"load-bearing geography\" over career advancement in Austin.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is described as strong and supportive. Sam is Dana's partner of six years, and their relationship is characterized as 'great' support during difficult times (noted as of 2025-02-03 and reinforced through 2025-08-02).\n\nRecent specific details include:\n\n- **May 2025**: Sam negotiated a remote-from-Portland arrangement for his Austin robotics job (Perception team lead role) so they could stay in Portland together. When Sam told Dana the startup agreed, she \"cried a little\" and said she \"hadn't let myself feel how scared I was of leaving this year.\"\n\n- **June 2025**: Sam built out their spare room for his remote work setup (three monitors, foam panels) and started the Austin job in early June 2025.\n\n- **July 2025**: Sam was aboard the Dorothy Jean for its first sail on July 12, 2025, and had been \"reading knots tutorials like there's an exam\" in preparation.\n\n- **August 2025**: Sam continues to be described as 'great' support during Dana's high work stress period following the interoperability platform launch.\n\nThe relationship appears stable, mutually supportive, and committed, with both partners making accommodations for each other's needs.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

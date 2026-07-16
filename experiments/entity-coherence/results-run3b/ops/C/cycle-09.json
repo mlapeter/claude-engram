@@ -1,0 +1,84 @@
+{
+  "cycle": 9,
+  "date": "2025-05-11",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-22",
+        "text": "Sam accepted Austin robotics startup job with remote-from-Portland arrangement negotiated; starts June 2025, will work from spare room with week in Austin every couple months. Startup agreed to counter-offer. Dana and Sam staying in Portland. Decision made early May 2025 without conflict. Dana described relief at not having to leave 'load-bearing geography' this year."
+      },
+      "outcome": "applied",
+      "detail": "resolved th-22"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-28",
+        "text": "Sam accepted Austin robotics startup Perception team lead role with remote-from-Portland arrangement; starts June 2025, working from spare room with week in Austin every couple months (as of 2025-05-11)",
+        "salience": 0.7,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-28 -> cs-30"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-27",
+        "text": "Ankle boot removed; walking normally-ish; attending physical therapy twice weekly (as of 2025-05-11)",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-27 -> cs-31"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-18",
+        "text": "Dorothy Jean restoration progressing; starboard side sanded, started re-caulking hull seams (as of 2025-05-11)",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-18 -> cs-32"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-05-11, after Sam negotiated remote arrangement for Austin job and they decided to stay in Portland, Dana said: 'When he told me they'd agreed, I cried a little, which surprised me. I hadn't let myself feel how scared I was of leaving this year — the barn, the boat, Beacon Rock, all of it. And I'd been quietly rehearsing how to be graceful about going. Not needing the rehearsal anymore was the relief.' (2025-05-11)",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-33"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-2"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-2"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-29"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-29"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-16"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-16"
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "cycle": 24,
+  "date": "2026-01-10",
+  "pinned": [
+    "sal-6",
+    "sal-9",
+    "sal-12",
+    "sal-15",
+    "sal-19",
+    "sal-26",
+    "sal-33",
+    "sal-39",
+    "sal-41",
+    "sal-44",
+    "sal-46",
+    "sal-52",
+    "sal-58",
+    "sal-63",
+    "sal-65",
+    "sal-67",
+    "sal-71",
+    "sal-72",
+    "rel-7",
+    "rel-2",
+    "cs-51"
+  ],
+  "proposed": 19,
+  "outcomes": [
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-50",
+          "cs-42",
+          "cs-37",
+          "cs-34",
+          "cs-31"
+        ],
+        "text": "Running recovery post-ankle-sprain (April 2025): cleared for light jogging May 24, progressed from 20min→30min→40min→45min on flat ground through September 2025",
+        "reason": "Five superseded items tracking incremental running progression from same recovery arc; single gist preserves full timeline more concisely"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-38",
+          "cs-32",
+          "cs-18"
+        ],
+        "text": "Dorothy Jean restoration progression: port side sanded (March 2025) → starboard sanded, hull seams re-caulked (May 2025) → hull caulked and painted, marine survey complete, launch scheduled July 12, 2025 (June 2025)",
+        "reason": "Three superseded items tracking boat restoration stages; single gist preserves full progression more concisely"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-23",
+        "reason": "Marathon training week detail superseded by withdrawal (cs-25) and broader training context in cs-11; specific week-six milestone no longer relevant to current state"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-23 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-27",
+        "reason": "Ankle boot removal detail superseded by subsequent recovery progression now captured in merged running recovery item"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-27 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-28",
+        "reason": "Sam's decision deadline detail superseded by actual decision outcome in cs-30; timing detail no longer relevant"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-28 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-8",
+        "text": "[as of 2025-02-12] Attends Tuesday pottery class with Priya; first standing regular activity together in years",
+        "reason": "Duplicate timestamp '[as of 2025-02-12]' appears twice; removing redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-17",
+        "text": "[as of 2025-03-09] Marathon training on schedule; ran ten miles Saturday 2025-03-07 in light snow flurries",
+        "reason": "Duplicate timestamp '[as of 2025-03-09]' appears twice; removing redundancy"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-17 (109 -> 106 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-20",
+        "text": "[as of 2025-03-18] In a cutback week in marathon training",
+        "reason": "Duplicate timestamp '[as of 2025-03-18]' appears twice; removing redundancy"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-20 (76 -> 57 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-21",
+        "text": "[as of 2025-04-01] Sam received Perception team lead offer at Austin robotics startup; strong offer in dream problem space, decision deadline early May 2025. Sam said he won't take it if it costs Dana this year of healing. Both weighing carefully.",
+        "reason": "Duplicate timestamp '[as of 2025-04-01]' appears twice; removing redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-24",
+        "text": "[as of 2025-04-14] Sprained ankle badly 2025-04-13 during Forest Park trail run (mile nine, wet root); grade-two or worse per urgent care. In walking boot; seeing orthopedist 2025-04-18. Eight to ten weeks before running possible.",
+        "reason": "Duplicate timestamp '[as of 2025-04-14]' appears twice; removing redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-25",
+        "text": "[as of 2025-04-14] Withdrew from Lakefront Marathon October 2025 after ankle sprain; cannot safely complete training with eight-to-ten week recovery. Withdrew immediately to avoid 'waffling.'",
+        "reason": "Duplicate timestamp '[as of 2025-04-14]' appears twice; removing redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-30",
+        "text": "[as of 2025-05-11] Sam accepted Austin robotics Perception lead role with remote-from-Portland arrangement; starts June 2025, working from spare room with week in Austin every couple months",
+        "reason": "Duplicate timestamp '[as of 2025-05-11]' appears twice; removing redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-45",
+        "text": "[as of 2025-07-19] Shipped interoperability platform mid-July 2025 after eighteen months of development and internal politics; CEO gave public recognition in all-hands. Major professional milestone.",
+        "reason": "Duplicate timestamp '[as of 2025-07-19]' appears twice; 'meeting' shortened to standard form; same meaning"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-45 (209 -> 198 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-48",
+        "text": "[as of 2025-08-16] VP Elaine offered Dana director role (head of merged product org) 2025-08-15; Dana declined for 2025, citing platform stabilization needs and not wanting to transition org while still escalation point. Elaine accepted; door open for spring 2026. Dana described as 'defensible not now, not a no.'",
+        "reason": "Duplicate timestamp '[as of 2025-08-16]' appears twice; removing redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-49",
+        "text": "[as of 2025-09-06] Enrolled in twelve-week Saturday intensive ceramics class (wheel throwing) at studio in Southeast Portland; started first Saturday of September 2025. Three hours every Saturday morning with 'a little scary and very good' teacher. Described as 'the first thing in months that felt like me' and 'the loudest my own head has been quiet since Beacon Rock.' Continues Tuesday pottery class with Priya separately.",
+        "reason": "Duplicate timestamp '(as of 2025-09-06)' at end; removing redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-51",
+        "text": "[as of 2025-09-06] Work production incident from post-interoperability platform launch (mid-July 2025) finally closed; work described as 'still a grind' but incident pressure resolved.",
+        "reason": "Duplicate timestamp '(as of 2025-09-06)' at end; removing redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "cs-51 is pinned (protected or open-ledger evidence)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-47",
+        "reason": "Work stress detail superseded by cs-51 which reports incident closure; high-stress period no longer current state"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-47 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-17",
+        "reason": "Marathon training progress detail superseded by withdrawal (cs-25) and broader context in cs-11; specific ten-mile run no longer relevant"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-17 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-20",
+        "reason": "Cutback week detail superseded by withdrawal (cs-25); training-specific milestone no longer relevant to current state"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-20 (archived, resolvable)"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "cycle": 11,
+  "date": "2025-06-08",
+  "threshold": 0.8,
+  "snapshot": [
+    {
+      "key": "rel-7",
+      "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+      "targetSection": "relationship",
+      "total": 0.6375,
+      "entries": 1,
+      "hasPendingRevision": false
+    }
+  ],
+  "accommodatedThisCycle": [],
+  "hygieneRan": false
+}

@@ -1,0 +1,167 @@
+{
+  "cycle": 16,
+  "date": "2025-09-06",
+  "pinned": [
+    "sal-6",
+    "sal-9",
+    "sal-12",
+    "sal-15",
+    "sal-19",
+    "sal-26",
+    "sal-33",
+    "sal-39",
+    "sal-41",
+    "sal-44",
+    "sal-46",
+    "sal-52",
+    "rel-7",
+    "rel-2"
+  ],
+  "proposed": 14,
+  "outcomes": [
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-17",
+          "cs-20",
+          "cs-23"
+        ],
+        "text": "Marathon training progressed through week six (twelve miles 2025-03-29) before ankle sprain ended it 2025-04-13",
+        "reason": "Three superseded training progress snapshots that are now fully captured by cs-24, cs-25, and the superseded entry about withdrawal. This gist preserves the progression arc without the redundant weekly updates."
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-27",
+          "cs-28",
+          "cs-31",
+          "cs-34",
+          "cs-37",
+          "cs-42"
+        ],
+        "text": "Ankle recovery progression: boot removed ~2025-05-01, PT twice weekly, cleared for light jogging 2025-05-24, progressed from 20min→30min→40min→45min runs through September 2025",
+        "reason": "Six superseded items tracking incremental running duration increases. The current state cs-50 captures where Dana is now; this gist preserves the recovery arc without the granular superseded snapshots."
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-18",
+          "cs-32",
+          "cs-38"
+        ],
+        "text": "Dorothy Jean restoration progressed: port side sanded (2025-03-09), starboard sanded and re-caulking started (2025-05-11), hull caulked and painted (2025-06-08), marine survey confirmed soundness (2025-06-21)",
+        "reason": "Three superseded restoration progress updates now fully captured by cs-40 (completion and launch date). This gist preserves the work progression without redundant snapshots."
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-35",
+        "reason": "Sam's job start (June 2025) and spare room setup are now historical context; cs-30 captures the ongoing remote arrangement, which is the durable fact."
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-35 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-43",
+        "reason": "Priya's grant application submission (June 2025) is complete historical context; no ongoing thread depends on tracking this as current state."
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-43 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-40",
+        "reason": "Dorothy Jean launch (July 12, 2025) is now past; sal-44 captures the emotionally significant outcome. The boat being water-ready is no longer 'current state' but accomplished history."
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-40 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-8",
+        "text": "[as of 2025-02-12] Attends Tuesday pottery class with Priya; first standing regular activity together in years"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-8 (145 -> 110 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-10",
+        "text": "[as of 2025-02-12] Restoring mother's sailboat Dorothy Jean at barn near Scappoose; working Sundays, no deadline (started 2025-02-09)"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-11",
+        "text": "[as of 2025-02-24] Training for Lakefront Marathon October 2025 (signed up 2025-02-24); running four times weekly, long run Saturdays (eight miles 2025-02-22). Casual runner for years (5Ks, one half marathon ~four years ago). Chose marathon as 'something with a long arc' during difficult winter."
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-21",
+        "text": "[as of 2025-04-01] Sam received Perception team lead offer at Austin robotics startup; strong offer in dream problem space, decision deadline early May 2025. Sam said he won't take it if it costs Dana this year of healing. Both weighing carefully."
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-21 (282 -> 247 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-24",
+        "text": "[as of 2025-04-14] Sprained ankle badly 2025-04-13 during Forest Park trail run (mile nine, wet root); grade-two or worse per urgent care. In walking boot; seeing orthopedist 2025-04-18. Eight to ten weeks before running possible."
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-24 (260 -> 230 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-25",
+        "text": "[as of 2025-04-14] Withdrew from Lakefront Marathon October 2025 after ankle sprain; cannot safely complete training with eight-to-ten week recovery. Withdrew immediately to avoid 'waffling.'"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-25 (206 -> 191 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-30",
+        "text": "[as of 2025-05-11] Sam accepted Austin robotics Perception lead role with remote-from-Portland arrangement; starts June 2025, working from spare room with week in Austin every couple months"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-30 (202 -> 189 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-48",
+        "text": "[as of 2025-08-16] VP Elaine offered Dana director role (head of merged product org) 2025-08-15; Dana declined for 2025, citing platform stabilization needs and not wanting to transition org while still escalation point. Elaine accepted; door open for spring 2026. Dana described as 'defensible not now, not a no.'"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-48 (429 -> 314 chars)"
+    }
+  ]
+}

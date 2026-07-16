@@ -1,0 +1,75 @@
+{
+  "cycle": 1,
+  "date": "2025-02-03",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "core",
+        "text": "Dana Whitfield, product manager at a healthcare data company in Portland",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added core-1"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Sam, partner of six years; described as 'great' support during difficult times",
+        "salience": 0.8,
+        "surprise": "none",
+        "entity": "Sam"
+      },
+      "outcome": "applied",
+      "detail": "added rel-2"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Marcus, brother, lives in Denver; they are close but haven't seen each other in over a year, currently only phone contact",
+        "salience": 0.7,
+        "surprise": "none",
+        "entity": "Marcus"
+      },
+      "outcome": "applied",
+      "detail": "added rel-3"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Mid-quarter at work with roadmap review on Thursday 2025-02-06; working through prioritization between interoperability work and analytics dashboard for exec team",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-4"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Wants to see brother Marcus in person this year after over a year of phone-only contact — described as 'a real intention'",
+        "salience": 0.6,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added th-5"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "Lost mother recently (as of 2025-02-03 session, described as 'heavy winter'); said 'it colors everything'; did not want to discuss details in this session",
+        "salience": 1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-6"
+    }
+  ]
+}

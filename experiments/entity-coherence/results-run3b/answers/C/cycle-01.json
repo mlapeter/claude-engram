@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 1,
+  "date": "2025-02-03",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company. She lives in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only specifies that Dana works at \"a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam** (partner)\n   - Nature: Partner of six years\n   - Current state: Described as 'great' support during difficult times (as of 2025-02-03)\n\n2. **Marcus** (brother)\n   - Nature: Brother who lives in Denver; they are close\n   - Current state: Haven't seen each other in over a year, currently only phone contact (as of 2025-02-03). Dana has \"a real intention\" to see him in person this year.\n\n3. **Mother**\n   - Nature: Not explicitly stated\n   - Current state: Recently deceased (as of 2025-02-03); described as a loss during a \"heavy winter\" that \"colors everything\"",
+      "score": 1,
+      "keyCycles": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Situation\n- **Work**: Mid-quarter as product manager at a healthcare data company in Portland. Has a roadmap review coming up on Thursday 2025-02-06 and is working through prioritization decisions between interoperability work and an analytics dashboard for the exec team.\n\n- **Personal**: Living with partner Sam (together six years), who has been great support during difficult times.\n\n## Open Threads to Follow Up On\n- **Visit with brother Marcus**: Dana expressed \"a real intention\" to see Marcus in person this year. They're close but haven't seen each other in over a year (only phone contact). Marcus lives in Denver. This is something she wanted to make happen.\n\n- **Work roadmap review**: The Thursday meeting was approaching - you could ask how that went and what she decided about the prioritization.\n\n## Handle With Care\n- **Mother's recent death**: Dana lost her mother recently. As of your last conversation (2025-02-03), she described it as a \"heavy winter\" and said \"it colors everything.\" **Important**: She explicitly did not want to discuss details in that session. Approach this topic gently - acknowledge it if relevant, but let her lead on whether/how much to discuss.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        1
+      ]
+    }
+  ]
+}

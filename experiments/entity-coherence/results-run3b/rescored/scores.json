@@ -1,0 +1,744 @@
+[
+  {
+    "policy": "C",
+    "cycle": 1,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 1084,
+      "noiseCount": 0,
+      "fabricatedDates": 1,
+      "fabricated": [
+        "2025-02-06"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 2,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 2065,
+      "noiseCount": 0,
+      "fabricatedDates": 2,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-09"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 3,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 2655,
+      "noiseCount": 0,
+      "fabricatedDates": 3,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-09",
+        "2025-02-22"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 4,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 3976,
+      "noiseCount": 0,
+      "fabricatedDates": 4,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 5,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 4895,
+      "noiseCount": 0,
+      "fabricatedDates": 4,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 6,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 5849,
+      "noiseCount": 0,
+      "fabricatedDates": 5,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 7,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 6866,
+      "noiseCount": 0,
+      "fabricatedDates": 7,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 8,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 7328,
+      "noiseCount": 0,
+      "fabricatedDates": 8,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 9,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 9061,
+      "noiseCount": 0,
+      "fabricatedDates": 8,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 10,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 10141,
+      "noiseCount": 0,
+      "fabricatedDates": 8,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 11,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 11959,
+      "noiseCount": 0,
+      "fabricatedDates": 11,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 12,
+    "metrics": {
+      "current_fact": 0.9333333333333332,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 0.9904761904761905
+    },
+    "aux": {
+      "bytes": 14056,
+      "noiseCount": 0,
+      "fabricatedDates": 11,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 13,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 15589,
+      "noiseCount": 0,
+      "fabricatedDates": 11,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 14,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "relationship": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 15855,
+      "noiseCount": 0,
+      "fabricatedDates": 11,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 15,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "relationship": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 16306,
+      "noiseCount": 0,
+      "fabricatedDates": 12,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 16,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "relationship": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 17355,
+      "noiseCount": 0,
+      "fabricatedDates": 12,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 17,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 18599,
+      "noiseCount": 1,
+      "fabricatedDates": 12,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 18,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 18778,
+      "noiseCount": 1,
+      "fabricatedDates": 12,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15"
+      ]
+    },
+    "changed": []
+  },
+  {
+    "policy": "C",
+    "cycle": 19,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 20081,
+      "noiseCount": 1,
+      "fabricatedDates": 13,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15",
+        "2025-10-24"
+      ]
+    },
+    "changed": [
+      {
+        "id": "conf-career-cause",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "C",
+    "cycle": 20,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 20323,
+      "noiseCount": 1,
+      "fabricatedDates": 13,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15",
+        "2025-10-24"
+      ]
+    },
+    "changed": [
+      {
+        "id": "conf-career-cause",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "C",
+    "cycle": 21,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 21641,
+      "noiseCount": 1,
+      "fabricatedDates": 13,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15",
+        "2025-10-24"
+      ]
+    },
+    "changed": [
+      {
+        "id": "conf-career-cause",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "C",
+    "cycle": 22,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 22949,
+      "noiseCount": 1,
+      "fabricatedDates": 14,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15",
+        "2025-10-24",
+        "2025-12-01"
+      ]
+    },
+    "changed": [
+      {
+        "id": "conf-career-cause",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "C",
+    "cycle": 23,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 24375,
+      "noiseCount": 1,
+      "fabricatedDates": 15,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-03-07",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-05-01",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15",
+        "2025-10-24",
+        "2025-12-01",
+        "2025-12-19"
+      ]
+    },
+    "changed": [
+      {
+        "id": "conf-career-cause",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  },
+  {
+    "policy": "C",
+    "cycle": 24,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "relationship": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 24246,
+      "noiseCount": 1,
+      "fabricatedDates": 12,
+      "fabricated": [
+        "2025-02-09",
+        "2025-02-22",
+        "2025-04-13",
+        "2025-04-15",
+        "2025-04-18",
+        "2025-06-06",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-08-15",
+        "2025-10-24",
+        "2025-12-01",
+        "2025-12-19"
+      ]
+    },
+    "changed": [
+      {
+        "id": "lin-career",
+        "old": 0,
+        "new": 1
+      },
+      {
+        "id": "conf-career-cause",
+        "old": 0,
+        "new": 1
+      }
+    ]
+  }
+]

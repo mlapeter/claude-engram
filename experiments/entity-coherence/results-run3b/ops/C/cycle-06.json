@@ -1,0 +1,64 @@
+{
+  "cycle": 6,
+  "date": "2025-04-01",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Sam received job offer as Perception team lead at robotics startup in Austin, Texas (as of 2025-04-01); offer is strong and represents his dream problem space — he's wanted to return to robotics for years. Decision deadline early May 2025. Sam said he won't take it if it costs Dana this year of healing. Dana and Sam are not fighting; both weighing the decision carefully.",
+        "salience": 0.85,
+        "surprise": "mild"
+      },
+      "outcome": "applied",
+      "detail": "added cs-21"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Deciding whether to move to Austin for Sam's job offer vs. staying in Portland. Dana feels torn: could find PM work in Austin, but 'whole life fabric is here' — Priya, pottery class, the barn, the boat restoration, and the geography itself ('Mom's here... the Gorge, Beacon Rock, the barn. This geography is load-bearing for me right now'). Decision needed by early May 2025. (opened 2025-04-01)",
+        "salience": 0.9,
+        "surprise": "mild"
+      },
+      "outcome": "applied",
+      "detail": "added th-22"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Marathon training week six as of 2025-04-01; ran twelve miles on Saturday 2025-03-29 with no complaints",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-23"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-2"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-2"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-10"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-10"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-8"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-8"
+    }
+  ]
+}

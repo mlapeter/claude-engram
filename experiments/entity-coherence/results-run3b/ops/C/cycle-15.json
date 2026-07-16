@@ -1,0 +1,37 @@
+{
+  "cycle": 15,
+  "date": "2025-08-16",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "VP Elaine offered Dana director role (head of merged product org, roughly doubled org chart) on Thursday 2025-08-15; Dana declined for 2025, citing interoperability platform stabilization needs and not wanting to transition org leadership while still escalation point for production incidents. Elaine accepted reasoning; door remains open for spring 2026. Dana described this as 'defensible not now, not a no.' (as of 2025-08-16)",
+        "salience": 0.7,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added cs-48"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "sal-46",
+        "note": "Session 2025-08-16: Dana deferred director promotion offer despite it being 'the rung I've been climbing toward for years' and 'the obvious next move.' Said six months ago would have accepted immediately. Attributed hesitation to 'this year's been a lot' and possibility of 'grief-brain again, same as the flat launch.' Explicitly resisted building theory from single decision: 'I'm not going to build a whole theory out of one deferred promotion. Ask me in the spring.' Pattern of ambition-as-identity meeting sustained ambivalence, but Dana frames as situational/timing rather than identity shift.",
+        "surprise": "mild",
+        "salience": 0.6
+      },
+      "outcome": "deferred",
+      "detail": "ledger sal-46 now 0.18"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-47"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-47"
+    }
+  ]
+}

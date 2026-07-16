@@ -1,0 +1,40 @@
+{
+  "policy": "C",
+  "cycle": 17,
+  "date": "2025-09-20",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana's mother owned a 22-foot wooden sailboat called the Dorothy Jean (named after Dana's grandmother). The boat had been under a tarp in Priya's dad's barn near Scappoose since Dana's mom got sick.\n\n**The restoration:**\n- Dana started restoring it in February 2025, working Sundays with no deadline\n- By June 2025, the hull was caulked and painted, and a marine survey confirmed it was sound\n- The restoration was completed by early July 2025\n\n**The launch:**\n- The Dorothy Jean sailed for the first time since restoration on July 12, 2025\n- Dana, Sam, Marcus, and four-month-old niece Nina were aboard for a gentle afternoon on the Columbia River\n- There's a photo of Nina asleep in a tiny life jacket with the mainsail up behind her that Dana has \"already had printed twice\"\n\n**Current status:**\n- The boat sailed twice more over summer 2025 after the July 12 launch\n- Dana described it as a \"lovely quiet summer\" on the water with Sam\n\nThe boat is fully restored and actively being sailed.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job status:**\n- Dana is a product manager at a healthcare data company in Portland (since 2025-02-03)\n- She shipped an interoperability platform in mid-July 2025 after eighteen months of development and internal politics\n- The CEO gave her public recognition in an all-hands meeting for this achievement\n- As of 2025-09-06, work is described as \"still a grind\" but a production incident from the post-launch period has been resolved\n\n**Promotion offer:**\n- On 2025-08-15, VP Elaine offered Dana a director role (head of merged product org)\n- **Dana declined the promotion for 2025**, citing:\n  - Need to stabilize the platform\n  - Not wanting to transition the organization while still being an escalation point\n- Elaine accepted Dana's decision\n- The door remains open for spring 2026\n- Dana described her response as \"defensible not now, not a no\"\n\nSo Dana remains in her current product manager role, having turned down a director promotion but leaving the possibility open for 2026.",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is strong and stable. Here are the key current facts:\n\n**Relationship Status:**\n- Sam is Dana's partner of six years\n- They are living together in Portland\n\n**Recent Developments:**\n- Sam accepted a Perception team lead role at an Austin robotics startup in May 2025, but negotiated a remote-from-Portland arrangement so they could stay together in Portland. He works from their spare room and travels to Austin for a week every couple months.\n- The remote arrangement is working well, with positive team reception (as of September 2025)\n- Sam is traveling to Austin next week from September 20, 2025 for a regular in-person stint\n\n**Support & Activities:**\n- Sam is described as \"great\" support during Dana's difficult times (reinforced multiple times through 2025)\n- They sailed the restored Dorothy Jean together twice over summer 2025, described as a \"lovely quiet summer\" on the water\n- Sam was aboard for the Dorothy Jean's first sail on July 12, 2025, and had been \"reading knots tutorials like there's an exam\"\n\nThe relationship appears healthy, supportive, and they successfully navigated the potential challenge of Sam's job offer without needing to relocate.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

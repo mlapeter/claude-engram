@@ -1,0 +1,92 @@
+{
+  "cycle": 4,
+  "date": "2025-03-09",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Elena: Elena, Marcus's partner; gave birth to daughter Nina on 2025-03-06 (as of 2025-03-09)",
+        "entity": "Elena",
+        "salience": 0.7,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added rel-13"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Nina: Nina, niece, daughter of Marcus and Elena; born 2025-03-06. Marcus called Dana from hospital at ~2am to share the news. Dana said 'I cried at my desk' seeing first photo of Nina in a knit hat. (as of 2025-03-09)",
+        "entity": "Nina",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added rel-14"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-03-09, Dana learned Marcus and Elena had their daughter Nina on 2025-03-06. Marcus called from the hospital hallway at ~2am 'just to say \"she's here.\"' Dana said: 'We haven't talked like that — voice shaking, no agenda — in years. Denver suddenly feels way too far away.' (2025-03-09)",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-15"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Wants to visit Marcus, Elena, and baby Nina in Denver before summer 2025 'while she's still tiny'; Marcus said 'the guest room is yours.' Dana described this as 'a thing I owe now, and I want to owe it' — 'the good kind' of obligation. (opened 2025-03-09)",
+        "salience": 0.8,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added th-16"
+    },
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-5",
+        "text": "Upgraded to concrete plan after Nina's birth 2025-03-06; see new thread about visiting before summer 2025 (resolved 2025-03-09)"
+      },
+      "outcome": "applied",
+      "detail": "resolved th-5"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-03-09] Marathon training on schedule; ran ten miles on Saturday 2025-03-07 in light snow flurries",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-17"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-03-09] Dorothy Jean restoration progressing; port side fully sanded as of 2025-03-09",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-18"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-8"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-8"
+    }
+  ]
+}

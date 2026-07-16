@@ -1,0 +1,611 @@
+[
+  {
+    "cycle": 1,
+    "date": "2025-02-03",
+    "threshold": 0.8,
+    "snapshot": [],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 2,
+    "date": "2025-02-12",
+    "threshold": 0.8,
+    "snapshot": [],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 3,
+    "date": "2025-02-24",
+    "threshold": 0.8,
+    "snapshot": [],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 4,
+    "date": "2025-03-09",
+    "threshold": 0.8,
+    "snapshot": [],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 5,
+    "date": "2025-03-18",
+    "threshold": 0.8,
+    "snapshot": [],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 6,
+    "date": "2025-04-01",
+    "threshold": 0.8,
+    "snapshot": [],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 7,
+    "date": "2025-04-14",
+    "threshold": 0.8,
+    "snapshot": [],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 8,
+    "date": "2025-04-27",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": true
+  },
+  {
+    "cycle": 9,
+    "date": "2025-05-11",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 10,
+    "date": "2025-05-24",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 11,
+    "date": "2025-06-08",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 12,
+    "date": "2025-06-21",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 13,
+    "date": "2025-07-19",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 14,
+    "date": "2025-08-02",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 15,
+    "date": "2025-08-16",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.18,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 16,
+    "date": "2025-09-06",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.18,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": true
+  },
+  {
+    "cycle": 17,
+    "date": "2025-09-20",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.18,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 18,
+    "date": "2025-10-04",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.18,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-51",
+        "targetText": "Work production incident from post-interoperability platform launch (mid-July 2025) finally closed as of 2025-09-06; work described as 'still a grind' but incident pressure resolved. (as of 2025-09-06)",
+        "targetSection": "current",
+        "total": 0.15000000000000002,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 19,
+    "date": "2025-10-25",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.8174999999999999,
+        "entries": 2,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-51",
+        "targetText": "Work production incident from post-interoperability platform launch (mid-July 2025) finally closed as of 2025-09-06; work described as 'still a grind' but incident pressure resolved. (as of 2025-09-06)",
+        "targetSection": "current",
+        "total": 0.15000000000000002,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 20,
+    "date": "2025-11-08",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.8174999999999999,
+        "entries": 2,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-51",
+        "targetText": "Work production incident from post-interoperability platform launch (mid-July 2025) finally closed as of 2025-09-06; work described as 'still a grind' but incident pressure resolved. (as of 2025-09-06)",
+        "targetSection": "current",
+        "total": 0.15000000000000002,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-59",
+        "targetText": "Q4 planning described as 'bloodbath'; staying online until eleven most nights as of early October 2025. Work stress causing interpersonal strain.",
+        "targetSection": "current",
+        "total": 0,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 21,
+    "date": "2025-11-22",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.8174999999999999,
+        "entries": 2,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-51",
+        "targetText": "Work production incident from post-interoperability platform launch (mid-July 2025) finally closed as of 2025-09-06; work described as 'still a grind' but incident pressure resolved. (as of 2025-09-06)",
+        "targetSection": "current",
+        "total": 0.15000000000000002,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-59",
+        "targetText": "Q4 planning described as 'bloodbath'; staying online until eleven most nights as of early October 2025. Work stress causing interpersonal strain.",
+        "targetSection": "current",
+        "total": 0,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 22,
+    "date": "2025-12-06",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.8174999999999999,
+        "entries": 2,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-51",
+        "targetText": "Work production incident from post-interoperability platform launch (mid-July 2025) finally closed as of 2025-09-06; work described as 'still a grind' but incident pressure resolved. (as of 2025-09-06)",
+        "targetSection": "current",
+        "total": 0.15000000000000002,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-59",
+        "targetText": "Q4 planning described as 'bloodbath'; staying online until eleven most nights as of early October 2025. Work stress causing interpersonal strain.",
+        "targetSection": "current",
+        "total": 0,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 23,
+    "date": "2025-12-20",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.8174999999999999,
+        "entries": 2,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-51",
+        "targetText": "Work production incident from post-interoperability platform launch (mid-July 2025) finally closed as of 2025-09-06; work described as 'still a grind' but incident pressure resolved. (as of 2025-09-06)",
+        "targetSection": "current",
+        "total": 0.15000000000000002,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-59",
+        "targetText": "Q4 planning described as 'bloodbath'; staying online until eleven most nights as of early October 2025. Work stress causing interpersonal strain.",
+        "targetSection": "current",
+        "total": 0,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": false
+  },
+  {
+    "cycle": 24,
+    "date": "2026-01-10",
+    "threshold": 0.8,
+    "snapshot": [
+      {
+        "key": "sal-46",
+        "targetText": "On 2025-07-19, reflecting on the interoperability platform launch (mid-July 2025), Dana said: 'I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing.' Dana described this as rattling: 'I hit the biggest professional moment of my life and it was like biting into wax fruit.' Dana said: 'For fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' Dana attributed the numbness to grief: 'Everything's been a half-step muted since Mom in a way that still ambushes me.' (2025-07-19)",
+        "targetSection": "protected",
+        "total": 0.8174999999999999,
+        "entries": 2,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-7",
+        "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; they signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "targetSection": "relationship",
+        "total": 0.6375,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-51",
+        "targetText": "Work production incident from post-interoperability platform launch (mid-July 2025) finally closed as of 2025-09-06; work described as 'still a grind' but incident pressure resolved. (as of 2025-09-06)",
+        "targetSection": "current",
+        "total": 0.15000000000000002,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "rel-2",
+        "targetText": "Sam, partner of six years; described as 'great' support during difficult times",
+        "targetSection": "relationship",
+        "total": 0.09,
+        "entries": 1,
+        "hasPendingRevision": false
+      },
+      {
+        "key": "cs-59",
+        "targetText": "Q4 planning described as 'bloodbath'; staying online until eleven most nights as of early October 2025. Work stress causing interpersonal strain.",
+        "targetSection": "current",
+        "total": 0,
+        "entries": 1,
+        "hasPendingRevision": false
+      }
+    ],
+    "accommodatedThisCycle": [],
+    "hygieneRan": true
+  }
+]

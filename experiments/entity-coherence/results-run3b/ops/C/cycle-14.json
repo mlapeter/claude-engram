@@ -1,0 +1,37 @@
+{
+  "cycle": 14,
+  "date": "2025-08-02",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Experiencing high work stress post-interoperability platform launch (mid-July 2025); production incident with exec demanding constant availability. Described work as 'pressure cooker' and 'having me by the throat' (as of 2025-08-02)",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-47"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "rel-2",
+        "note": "Snapped at Sam over dinner question on Tuesday 2025-07-30 ('I genuinely could not care less about dinner, Sam' — cold tone over salmon vs. pasta). Apologized properly next morning; Sam responded graciously ('you're carrying a lot, but I'm not the incident'). Dana described this as uncharacteristic ('six years and we don't do the snipe-at-each-other thing') and attributed it to work stress, not relationship issue. Repaired same-day.",
+        "surprise": "mild",
+        "salience": 0.3
+      },
+      "outcome": "deferred",
+      "detail": "ledger rel-2 now 0.09"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-2"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-2"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "cycle": 8,
+  "date": "2025-04-27",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Ankle healing on schedule per orthopedist; walking boot comes off Thursday 2025-05-01, physical therapy to start after (as of 2025-04-27)",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-27"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Sam's decision deadline on Austin job offer is one week from 2025-04-27 (early May 2025 as previously stated)",
+        "salience": 0.6,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-28"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Rift with Priya after Dana declined to lend her $8,000 for ceramics studio lease deposit and buildout (as of ~2025-04-13 to 2025-04-15). Dana said no immediately and 'badly,' citing uncertain finances with Austin decision pending and past experience lending money to an ex that 'poisoned everything.' Priya went 'very quiet and then very polite.' They have skipped pottery class twice in the nearly two weeks since. Dana described it as delivering 'ten years of friendship a verdict in four seconds.' Dana is 'pretty sure' she won't change the answer but regrets how she delivered it. Described as 'too raw' to repair yet as of 2025-04-27. (opened 2025-04-27)",
+        "salience": 0.85,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added th-29"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "rel-7",
+        "note": "Serious conflict as of mid-April 2025 over loan request; relationship currently strained with communication paused. See open thread.",
+        "surprise": "strong",
+        "salience": 0.85
+      },
+      "outcome": "deferred",
+      "detail": "ledger rel-7 now 0.64"
+    }
+  ]
+}

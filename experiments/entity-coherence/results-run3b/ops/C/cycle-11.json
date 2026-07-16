@@ -1,0 +1,57 @@
+{
+  "cycle": 11,
+  "date": "2025-06-08",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-29",
+        "text": "Reconciled with Priya on 2025-06-06 over coffee after Dana texted 'I miss you, can I buy you coffee, I want to talk about how I said what I said.' Three-hour conversation; both apologized (Dana for 'four-second verdict' delivery, Priya for going 'polite-and-frozen' instead of expressing hurt). Dana found regional arts infrastructure grant matching Priya's studio needs; spent Sunday 2025-06-09 helping write application (due end of June 2025). Dana said doing that together 'did more repair than any amount of talking about the fight.' Resumed pottery class Tuesday 2025-06-10; Priya mocked Dana's new bowl, which Dana took as sign they were 'really okay.'"
+      },
+      "outcome": "applied",
+      "detail": "resolved th-29"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-34",
+        "text": "Running thirty minutes on flat ground every other day (as of 2025-06-08); progressing from twenty-minute runs cleared in late May 2025. Still in post-ankle-sprain recovery.",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-34 -> cs-37"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-32",
+        "text": "Dorothy Jean restoration nearly complete; hull caulked and painted as of 2025-06-08. Described as 'close' to water-ready, 'actually-in-the-water-this-summer close.' Dana said she keeps 'standing back and looking at her and getting a lump in my throat.'",
+        "salience": 0.8,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-32 -> cs-38"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-30"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-30"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "On 2025-06-08, describing the nearly-complete Dorothy Jean restoration, Dana said: 'I keep standing back and looking at her and getting a lump in my throat.' When told 'Your mom's boat, nearly ready to sail again. That's not nothing,' Dana replied: 'It's very much not nothing.' (2025-06-08)",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-39"
+    }
+  ]
+}

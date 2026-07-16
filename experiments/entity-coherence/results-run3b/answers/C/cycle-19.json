@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 19,
+  "date": "2025-10-25",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana's mother owned a 22-foot wooden sailboat called the Dorothy Jean (named after Dana's grandmother). The boat had been under a tarp in Priya's dad's barn near Scappoose since Dana's mom got sick.\n\n**The restoration:**\n- Dana started restoring it in February 2025, working Sundays with no deadline\n- By June 2025, the restoration was complete and a marine survey confirmed the boat was sound\n\n**The launch:**\n- Dorothy Jean sailed for the first time since restoration on July 12, 2025\n- Dana, Sam, Marcus, and four-month-old niece Nina were aboard for a gentle afternoon on the Columbia River\n- There's a photo of Nina asleep in a tiny life jacket that Dana has \"already had it printed twice\"\n\n**Current status:**\n- As of September 2025, the Dorothy Jean sailed twice more over the summer\n- Dana described it as a \"lovely quiet summer\" on the water with Sam\n\nThe boat restoration was deeply meaningful to Dana - she said working on it with her hands \"felt like the first right thing in months\" after her mother's death.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement (as of 2025-10-25):**\n- Dana reduced to a **four-day work week (Fridays off) effective 2025-11-01**, taking a twenty percent pay cut\n- HR processed this on 2025-10-24\n- She told VP Elaine it was to \"protect stabilization bandwidth\"; Elaine understood it as work optimization\n\n**Promotion offer:**\n- VP Elaine offered Dana a **director role** (head of merged product org) on 2025-08-15\n- Dana **declined for 2025**, citing platform stabilization needs and not wanting to transition the org while still being an escalation point\n- Elaine accepted; the door remains open for spring 2026\n- Dana described this as \"defensible not now, not a no\"\n\n**Work context:**\n- Dana shipped the interoperability platform in mid-July 2025 after eighteen months of development; the CEO gave public recognition\n- Q4 planning (early October 2025) was described as a \"bloodbath\" with Dana staying online until eleven most nights\n- Work is described as \"still a grind\" as of September 2025",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is stable and supportive as of the most recent entries (October 2025). Key points:\n\n- **Partnership duration**: They have been together for six years (as of February 2025)\n- **Current status**: Sam is described as providing \"great\" support during difficult times, with this characterization reinforced multiple times throughout 2025 (February, March, April, May, August, and October)\n- **Living situation**: They are living together in Portland. Sam is working remotely from their spare room for an Austin robotics startup (started June 2025), with occasional week-long trips to Austin every couple months\n- **Recent context**: In early October 2025, there was some interpersonal strain caused by Dana's work stress (staying online until eleven most nights during Q4 planning). However, there is no indication this has fundamentally changed the relationship's supportive nature\n\nThe entity model consistently portrays Sam as a caring, understanding partner throughout Dana's difficult year following her mother's death.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "According to the entity model, Dana reduced to a four-day work week (Fridays off) effective November 1, 2025, with a twenty percent pay cut. \n\nThe real reason, as Dana stated on 2025-10-25, was: \"The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\"\n\nThis followed a significant shift in Dana's relationship with work. After shipping the interoperability platform in mid-July 2025 — described as \"the biggest professional moment of my life\" — Dana felt \"nothing. Not modest-nothing. Actual, echoing nothing.\" Dana had previously described ambition as \"my whole spine\" and being \"the person who is her work,\" but after losing her mother, work stopped being central to her identity and sense of purpose.\n\nOfficially, Dana told VP Elaine the reduction was to \"protect stabilization bandwidth,\" which Elaine understood as work optimization.",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}
