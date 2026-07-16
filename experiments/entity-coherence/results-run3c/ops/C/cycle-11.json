@@ -1,0 +1,59 @@
+{
+  "cycle": 11,
+  "date": "2025-06-08",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "rel-24",
+        "text": "Priya: Friendship repaired as of 2025-06-08 after conflict over loan request; Dana apologized for abrupt delivery, Priya apologized for withdrawn response; both agreed not to mix money and friendship; Dana found regional arts infrastructure grant for Priya's studio buildout and helped with application (due end of June 2025); attended pottery class together 2025-06-04; relationship restored",
+        "salience": 0.7,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "rel-24 -> rel-34"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-32",
+        "text": "[as of 2025-06-08] Jogging increased to thirty minutes; ankle recovery progressing; goal remains pain-free running by fall",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-32 -> cs-35"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-31",
+        "text": "[as of 2025-06-08] Boat restoration nearly complete: hull caulked and painted on the Dorothy Jean; close to water-ready, aiming for launch summer 2025",
+        "salience": 0.8,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-31 -> cs-36"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-33"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-33"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-06-08: On the nearly-restored Dorothy Jean: 'the Dorothy Jean's hull is caulked and painted. She's close. Like, actually-in-the-water-this-summer close. I keep standing back and looking at her and getting a lump in my throat.' (2025-06-08)",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-37"
+    }
+  ]
+}

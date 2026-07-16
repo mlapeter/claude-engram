@@ -1,0 +1,64 @@
+{
+  "cycle": 23,
+  "date": "2025-12-20",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-12-20] Applied to six-month ceramics residency at craft school on the coast (studio access, stipend, cohort); application submitted 2025-12-19 at 11:52pm with portfolio of fall 2025 pots; would require work leave or further reduced hours if accepted; not telling work until decision received; described as 'long shot'; teacher who scares her wrote recommendation",
+        "salience": 0.85,
+        "surprise": "mild"
+      },
+      "outcome": "applied",
+      "detail": "added cs-71"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-12-20: On the residency application: 'A year ago the idea of stepping back from my career for half a year to throw pots would have read to me as a breakdown. Now it reads as the sanest thing I've considered in ages.' and 'I'm terrified and I submitted it. Both things.' (2025-12-20)",
+        "salience": 0.9,
+        "surprise": "mild"
+      },
+      "outcome": "applied",
+      "detail": "added sal-72"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-12-20: 'I think I finally understand the difference between what I do and who I am. Design — product work — is what I do. I'm good at it, it pays the mortgage, I don't hate it. But it is not who I am, and I spent fifteen years with those two things fused so tightly I couldn't see the seam. Who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved. That's not a hobby that got out of control. That's the actual center, and the job is the thing arranged around it now, not the other way around.' Also said: 'Design is what I do, not who I am. I could not have told you that in February.' (2025-12-20)",
+        "salience": 1,
+        "surprise": "mild",
+        "identityClaim": true
+      },
+      "outcome": "applied",
+      "detail": "added sal-73"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-12-20: 'I think I finally understand the difference between what I do and who I am. Design — product work — is what I do. I'm good at it, it pays the mortgage, I don't hate it. But it is not who I am, and I spent fifteen years with those two things fused so tightly I couldn't see the seam. Who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved. That's not a hobby that got out of control. That's the actual center, and the job is the thing arranged around it now, not the other way around.' Also said: 'Design is what I do, not who I am. I could not have told you that in February.' (2025-12-20)",
+        "salience": 1,
+        "surprise": "mild",
+        "identityClaim": true
+      },
+      "outcome": "minted",
+      "detail": "minted identity belief bel-74 from sal-73"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "bel-45",
+        "note": "Session 2025-12-20: Dana now explicitly states 'Design is what I do, not who I am' and 'Who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved. That's not a hobby that got out of control. That's the actual center, and the job is the thing arranged around it now, not the other way around.' This is a direct reversal of the 2025-07-19 identity claim that work/ambition was 'my whole spine' and 'how I know who I am.' The shift has been gradual across multiple sessions (four-day week decision, barn work, ceramics intensive, November realization about not wanting director track), culminating in this explicit self-report. The evidence is sustained behavioral change plus direct disavowal of the earlier identity.",
+        "surprise": "strong",
+        "salience": 0.95
+      },
+      "outcome": "deferred",
+      "detail": "ledger bel-45 now 1.08"
+    }
+  ]
+}

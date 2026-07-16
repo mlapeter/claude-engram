@@ -1,0 +1,56 @@
+{
+  "cycle": 10,
+  "date": "2025-05-24",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-29",
+        "text": "[as of 2025-05-24] Cleared by physical therapist for light jogging (twenty minutes, flat ground, every other day); completed first jog 2025-05-24 morning along esplanade; ankle recovering; goal is pain-free running by fall without re-injury",
+        "salience": 0.6,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-29 -> cs-32"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "cs-22",
+        "note": "2025-05-24: Dana states 'I've made peace with' the marathon being off this year and describes being 'weirdly okay with it now'; attributes shift to 'The ankle taught me something about not white-knuckling timelines.' Contrast with sal-23 (2025-04-14) where withdrawal felt like loss of 'the first future-shaped thing I'd built since mom' and she 'didn't want to hear' reassurance. Appears to be genuine acceptance rather than resignation.",
+        "surprise": "low",
+        "salience": 0.4
+      },
+      "outcome": "deferred",
+      "detail": "ledger cs-22 now 0.04"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-05-24] Sam built out spare room as home office (three monitors, foam panels) for remote Austin role; starts in couple weeks; described as nervous-excited",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-33"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-24"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-24"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "th-16"
+      },
+      "outcome": "applied",
+      "detail": "reinforced th-16"
+    }
+  ]
+}

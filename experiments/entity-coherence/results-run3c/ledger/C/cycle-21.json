@@ -1,0 +1,66 @@
+{
+  "cycle": 21,
+  "date": "2025-11-22",
+  "threshold": 0.8,
+  "snapshot": [
+    {
+      "key": "bel-45",
+      "targetText": "2025-07-19: On her identity and work: 'here's the thing about me you should file away: for fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.' (2025-07-19)",
+      "targetSection": "belief",
+      "total": 0.7600000000000001,
+      "entries": 3,
+      "hasPendingRevision": false,
+      "distinctSessions": 3,
+      "identityBelief": true
+    },
+    {
+      "key": "rel-7",
+      "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; Dana and Priya signed up for a Tuesday night pottery class together starting 2025-02-12",
+      "targetSection": "relationship",
+      "total": 0.32000000000000006,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    },
+    {
+      "key": "cs-22",
+      "targetText": "Marathon training halted; sprained ankle badly on 2025-04-13 during trail run in Forest Park (grade-two sprain, possibly worse); in walking boot, orthopedist appointment 2025-04-18; withdrew from Lakefront Marathon October 2025; doctor advised eight to ten weeks before running again",
+      "targetSection": "current",
+      "total": 0.045,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    },
+    {
+      "key": "th-16",
+      "targetText": "Plans to visit Marcus in Denver before summer 2025 to meet niece Nina; Marcus offered 'the guest room is yours'; Dana described this as 'obligation, the good kind' and 'a thing I owe now, and I want to owe it' (as of 2025-03-09)",
+      "targetSection": "thread",
+      "total": 0.03375,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    },
+    {
+      "key": "cs-59",
+      "targetText": "[as of 2025-10-04] Snapped at Sam Wednesday 2025-10-02 over work-life boundary suggestion ('must be nice to have a job you can close the laptop on'); apologized within the hour; second such incident in couple months (previous 2025-07-29); both attributed to work stress displacement onto trusted partner; relationship itself described as 'better than we've been in years'; committed to protecting nine o'clock log-off boundary",
+      "targetSection": "current",
+      "total": 0,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    }
+  ],
+  "accommodatedThisCycle": [],
+  "mintedThisCycle": [
+    {
+      "detail": "minted identity belief bel-66 from sal-65"
+    }
+  ],
+  "reroutedThisCycle": [],
+  "refusedThisCycle": [],
+  "hygieneRan": false
+}

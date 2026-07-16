@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 22,
+  "date": "2025-12-06",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana restored her mother's wooden sailboat, the Dorothy Jean (a 22-footer named after her grandmother). The boat had been stored under a tarp in Priya's dad's barn near Scappoose since her mother got sick. Dana began the restoration work on February 10, 2025, taking it slowly with no deadline.\n\nThe restoration was completed by June 21, 2025, when the boat passed its marine survey and became water-ready. The Dorothy Jean sailed for the first time on July 12, 2025, on the Columbia River. Marcus flew out with baby Nina for that first sail, and there's a photo of Nina in a tiny life jacket with the mainsail up behind them.\n\nDana sailed the boat twice more over the summer of 2025 with Sam.\n\n**Current status (as of December 6, 2025):** The Dorothy Jean has been hauled out and winterized for winter. She is shrink-wrapped and stored back in Priya's dad's barn in Scappoose - the same barn where Dana is now doing restoration work (re-siding the north wall, fixing the roofline, and building a workbench).",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement:**\n- Dana reduced to a four-day work week (Fridays off) with a twenty percent pay cut, effective November 1, 2025\n- She told her VP the reason was to \"protect stabilization bandwidth\"\n- She now spends Fridays working on restoring Priya's dad's barn in Scappoose\n\n**Promotion status:**\n- In August 2025, VP Elaine offered Dana a director promotion (head of merged product org, which would double her org chart)\n- Dana deferred the promotion, citing the need to stabilize the interoperability platform and not wanting a larger org while still being an escalation point\n- She told the VP \"not this year\" with the door open to revisit in spring 2026\n\n**Recent development (as of November 22, 2025):**\n- Dana has begun questioning whether she wants the director track at all anymore, saying \"I'm not sure I want the director track at all anymore. I'm not sure I ever did.\"\n- She reflected that the last fifteen years of climbing might have been \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.\"",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is currently strong and stable. As of November 8, 2025, Dana describes it as \"solid, better than solid.\"\n\nKey points about their relationship:\n\n- They've been together for six years\n- Sam has been a \"great\" support throughout Dana's difficult time following her mother's death\n- Sam successfully negotiated a remote work arrangement with his Austin robotics startup (starting June 2025) so they could stay in Portland together, which was important for Dana's healing process\n- They've had two incidents where Dana snapped at Sam due to work stress (July 29 and October 2, 2025), but both were repaired quickly with apologies. Dana noted \"six years and we don't do the snipe-at-each-other thing\"\n- After Dana reduced to a four-day work week in November 2025, Sam observed \"I like you at four days a week already, and it's been a week,\" and Dana described being \"lighter\" and \"easier to live with\"\n- They've sailed the Dorothy Jean together multiple times over summer 2025, which Dana described as a \"lovely quiet summer\"\n\nThe relationship is characterized as better than it's been in years, with the challenges being external (work stress) rather than relational.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Based on the entity model, Dana reduced to a four-day work week (not part-time, but with a 20% pay cut) effective November 1, 2025, for the following reasons:\n\n**Her stated reason to her VP:** To \"protect stabilization bandwidth\" after shipping the interoperability platform.\n\n**Her actual reason (as she articulated it):** \"The days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\"\n\n**Additional context:**\n- She had deferred a director promotion in August 2025, telling her VP \"not this year\"\n- When she shipped her biggest professional achievement (the interoperability platform) in July, she felt \"nothing\" — describing it as \"like biting into wax fruit\"\n- By November 2022, she realized she might not want the director track at all anymore, questioning whether her fifteen years of climbing had been \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.\"\n\nThe work with her hands (pottery, boat restoration, barn work) made her feel like herself in a way her career no longer did.",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

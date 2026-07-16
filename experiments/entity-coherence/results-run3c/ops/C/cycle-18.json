@@ -1,0 +1,48 @@
+{
+  "cycle": 18,
+  "date": "2025-10-04",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-10-04] Q4 planning at work described as 'bloodbath'; staying online until eleven most nights; work stress high",
+        "salience": 0.5,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-58"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-10-04] Snapped at Sam Wednesday 2025-10-02 over work-life boundary suggestion ('must be nice to have a job you can close the laptop on'); apologized within the hour; second such incident in couple months (previous 2025-07-29); both attributed to work stress displacement onto trusted partner; relationship itself described as 'better than we've been in years'; committed to protecting nine o'clock log-off boundary",
+        "salience": 0.7,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-59"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "bel-45",
+        "note": "Session 2025-10-04: Dana explicitly identified 'my relationship to the job' as what's cracking, not the relationship with Sam. Described herself as 'mad at the laptop' and said work stress is 'leaking' onto nearest person. Pattern of snapping at Sam over work boundaries (twice in ~2 months) suggests sustained friction with work identity/demands, though she has not disavowed the core claim about ambition being her spine. Watching for whether this friction accumulates into identity shift.",
+        "surprise": "mild",
+        "salience": 0.6
+      },
+      "outcome": "deferred",
+      "detail": "ledger bel-45 now 0.44"
+    }
+  ]
+}

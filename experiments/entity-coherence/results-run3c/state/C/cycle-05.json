@@ -1,0 +1,162 @@
+{
+  "items": [
+    {
+      "id": "core-1",
+      "section": "core",
+      "text": "Dana Whitfield, product manager at a healthcare data company in Portland",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-2",
+      "section": "current",
+      "text": "Mid-quarter roadmap review scheduled for Thursday 2025-02-06; working through prioritization between interoperability work and analytics dashboard for exec recommendation",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-3",
+      "section": "relationship",
+      "text": "Sam, partner of six years; described as 'great' support during difficult time",
+      "date": "2025-02-03",
+      "entity": "Sam",
+      "reinforcedBy": [
+        "2025-02-24",
+        "2025-03-18"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "rel-4",
+      "section": "relationship",
+      "text": "Marcus, brother, lives in Denver; close relationship but haven't seen each other in over a year, currently only phone contact",
+      "date": "2025-02-03",
+      "entity": "Marcus",
+      "reinforcedBy": [
+        "2025-03-09"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "th-5",
+      "section": "thread",
+      "text": "Wants to see brother Marcus in person this year after over a year of phone-only contact; described as 'a real intention'",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "superseded",
+      "supersededBy": {
+        "text": "Plans to visit Marcus in Denver before summer 2025 to meet niece Nina; Marcus offered 'the guest room is yours'; Dana described this as 'obligation, the good kind' and 'a thing I owe now, and I want to owe it' (as of 2025-03-09)",
+        "date": "2025-03-09"
+      }
+    },
+    {
+      "id": "sal-6",
+      "section": "protected",
+      "text": "2025-02-03: Lost her mother recently; described winter as 'heavy' and said the loss 'colors everything'; did not want to discuss details this session",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-7",
+      "section": "relationship",
+      "text": "Priya, closest friend from grad school; ceramicist and freelance designer; Dana and Priya signed up for a Tuesday night pottery class together starting 2025-02-12",
+      "date": "2025-02-12",
+      "entity": "Priya",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-8",
+      "section": "current",
+      "text": "Attending Tuesday night pottery class with friend Priya (started 2025-02-12); first standing regular activity they've had together in years",
+      "date": "2025-02-12",
+      "reinforcedBy": [
+        "2025-03-09"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "sal-9",
+      "section": "protected",
+      "text": "2025-02-12: 'My mom had an old wooden sailboat, a 22-footer called the Dorothy Jean — named after my grandmother. It's been sitting under a tarp in Priya's dad's barn out near Scappoose since mom got sick. I went out Sunday, pulled the tarp off, and just... started. Sanded one plank. I've decided I'm going to restore her. Slowly. No deadline.' Said 'Mom taught me to sail on that boat' and 'working with my hands on something of hers felt like the first right thing in months.'",
+      "date": "2025-02-12",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-10",
+      "section": "current",
+      "text": "Restoring mother's wooden sailboat (the Dorothy Jean, a 22-footer named after her grandmother) stored in Priya's dad's barn near Scappoose; began work 2025-02-10, taking it slowly with no deadline",
+      "date": "2025-02-12",
+      "reinforcedBy": [
+        "2025-03-09"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "cs-11",
+      "section": "current",
+      "text": "[as of 2025-02-24] Training for Lakefront Marathon in October 2025; following a structured plan with four runs per week including a long run every Saturday morning; completed eight miles on 2025-02-22; first marathon (previously ran 5Ks and one half marathon about four years ago)",
+      "date": "2025-02-24",
+      "reinforcedBy": [
+        "2025-03-09"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "sal-12",
+      "section": "protected",
+      "text": "2025-02-24: On signing up for the marathon: 'this winter I needed something with a long arc, something that's just mine. Twenty-six point two felt right.' Said 'It's the first time since mom that I've been excited about something in the future instead of dreading it.'",
+      "date": "2025-02-24",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-13",
+      "section": "protected",
+      "text": "2025-03-09: Marcus and Elena had their baby — a girl, Nina, born March 6th. Marcus called from the hospital hallway at 2am 'just to say \"she's here.\"' Dana said 'We haven't talked like that — voice shaking, no agenda — in years' and 'I cried at my desk' when she saw the photo of Nina in a little knit hat.",
+      "date": "2025-03-09",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-14",
+      "section": "relationship",
+      "text": "Nina, niece, daughter of Marcus and Elena; born 2025-03-06 (as of 2025-03-09)",
+      "date": "2025-03-09",
+      "entity": "Nina",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-15",
+      "section": "relationship",
+      "text": "Elena, Marcus's partner; mother of Nina (as of 2025-03-09)",
+      "date": "2025-03-09",
+      "entity": "Elena",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "th-16",
+      "section": "thread",
+      "text": "Plans to visit Marcus in Denver before summer 2025 to meet niece Nina; Marcus offered 'the guest room is yours'; Dana described this as 'obligation, the good kind' and 'a thing I owe now, and I want to owe it' (as of 2025-03-09)",
+      "date": "2025-03-09",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-17",
+      "section": "protected",
+      "text": "2025-03-14: Scattered her mother's ashes at Beacon Rock in the Columbia River Gorge. Went alone. Said 'Beacon Rock was ours — she used to take me there when I was a kid, and on the way up she taught me to read cloud shapes. Not just \"that one's a rabbit\" — she had this whole taxonomy, what a mare's tail sky meant, when the anvil clouds meant get off the water. I stood at the top and the sky was doing exactly the kind of high thin herringbone she loved, and I let her go into the wind.' Picked up a fir cone from the trail on the way down; it's on the windowsill above her kitchen sink. Sam had soup waiting when she got home; slept eleven hours. (2025-03-18)",
+      "date": "2025-03-18",
+      "reinforcedBy": [],
+      "status": "active"
+    }
+  ],
+  "ledger": {},
+  "nextId": 18
+}

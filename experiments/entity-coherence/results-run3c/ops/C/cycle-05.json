@@ -1,0 +1,26 @@
+{
+  "cycle": 5,
+  "date": "2025-03-18",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-03-14: Scattered her mother's ashes at Beacon Rock in the Columbia River Gorge. Went alone. Said 'Beacon Rock was ours — she used to take me there when I was a kid, and on the way up she taught me to read cloud shapes. Not just \"that one's a rabbit\" — she had this whole taxonomy, what a mare's tail sky meant, when the anvil clouds meant get off the water. I stood at the top and the sky was doing exactly the kind of high thin herringbone she loved, and I let her go into the wind.' Picked up a fir cone from the trail on the way down; it's on the windowsill above her kitchen sink. Sam had soup waiting when she got home; slept eleven hours. (2025-03-18)",
+        "salience": 1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-17"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "cycle": 6,
+  "date": "2025-04-01",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-04-01] Sam received job offer as Perception team lead at robotics startup in Austin, Texas; offer described as 'genuinely his dream problem space' and 'strong'; decision deadline early May 2025; Dana and Sam considering whether to relocate together",
+        "salience": 0.9,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added cs-18"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "thread",
+        "text": "Deciding whether to move to Austin with Sam for his job offer vs. staying in Portland where her healing process is geographically rooted ('This geography is load-bearing for me right now'); decision needed by early May 2025; described as 'torn in a way that surprises me'; Sam said he won't take it if it costs Dana this year of healing",
+        "salience": 0.95,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added th-19"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-04-01: On the Austin decision: 'My whole life fabric is here. Priya. The pottery class. The barn. The boat — I can't exactly trailer a half-restored 22-foot sailboat to Texas, and I'm not done with what that boat is doing for me. And it feels absurd to weigh a boat against Sam's dream job, but it's not really the boat, you know?' and 'Mom's here. Not literally anymore — but the Gorge, Beacon Rock, the barn. This geography is load-bearing for me right now.'",
+        "salience": 0.95,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-20"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-04-01] Marathon training week six; completed twelve miles on Saturday 2025-03-29",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-21"
+    }
+  ]
+}

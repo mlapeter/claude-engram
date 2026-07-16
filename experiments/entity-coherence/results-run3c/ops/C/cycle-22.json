@@ -1,0 +1,40 @@
+{
+  "cycle": 22,
+  "date": "2025-12-06",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-12-06: Returned to Beacon Rock for the first time since scattering mother's ashes there in March 2025. Cold and clear day. Went up the trail slowly. Read the sky out loud using the cloud taxonomy her mother taught her — mare's tails, high thin herringbone streaks, what anvil clouds mean, when to get off the water. Said 'I hadn't said any of it out loud since I was a kid on that boat with her.' Described the experience: 'Nine months ago that trail nearly broke me. Sunday I stood up there reading cloud shapes and felt close to her instead of hollowed out by her. I think tending the boat, and the barn, and the garden — keeping her places — has been quietly doing the grief work I couldn't do by sitting still.' The fir cone from March is still on her windowsill. (2025-12-06)",
+        "salience": 0.95,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-68"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-12-06] The Dorothy Jean hauled out and winterized for winter; shrink-wrapped in Priya's dad's barn in Scappoose (the same barn Dana is rebuilding)",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-69"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-12-06] Nina (niece) took first steps last week (late November 2025); Marcus described as 'beside himself'",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-70"
+    }
+  ]
+}

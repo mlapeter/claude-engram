@@ -1,0 +1,46 @@
+{
+  "cycle": 13,
+  "date": "2025-07-19",
+  "threshold": 0.8,
+  "snapshot": [
+    {
+      "key": "rel-7",
+      "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; Dana and Priya signed up for a Tuesday night pottery class together starting 2025-02-12",
+      "targetSection": "relationship",
+      "total": 0.32000000000000006,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    },
+    {
+      "key": "cs-22",
+      "targetText": "Marathon training halted; sprained ankle badly on 2025-04-13 during trail run in Forest Park (grade-two sprain, possibly worse); in walking boot, orthopedist appointment 2025-04-18; withdrew from Lakefront Marathon October 2025; doctor advised eight to ten weeks before running again",
+      "targetSection": "current",
+      "total": 0.045,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    },
+    {
+      "key": "th-16",
+      "targetText": "Plans to visit Marcus in Denver before summer 2025 to meet niece Nina; Marcus offered 'the guest room is yours'; Dana described this as 'obligation, the good kind' and 'a thing I owe now, and I want to owe it' (as of 2025-03-09)",
+      "targetSection": "thread",
+      "total": 0.03375,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    }
+  ],
+  "accommodatedThisCycle": [],
+  "mintedThisCycle": [
+    {
+      "detail": "minted identity belief bel-45 from sal-44"
+    }
+  ],
+  "reroutedThisCycle": [],
+  "refusedThisCycle": [],
+  "hygieneRan": false
+}

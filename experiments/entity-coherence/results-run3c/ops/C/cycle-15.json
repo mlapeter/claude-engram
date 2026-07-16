@@ -1,0 +1,38 @@
+{
+  "cycle": 15,
+  "date": "2025-08-16",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-08-16] VP Elaine offered director promotion (head of merged product org, org chart doubles); Dana deferred, citing interoperability platform stabilization phase and not wanting to take larger org while still escalation point for incidents; told VP 'not this year' with door left open to revisit spring 2026",
+        "salience": 0.75,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added cs-49"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "bel-45",
+        "note": "2025-08-16: When offered director promotion (the 'bigger role,' the 'obvious next move,' the 'rung I've been climbing toward for years'), Dana deferred rather than accepting immediately. Said 'six months ago I'd have said yes before she finished the sentence' but heard herself say 'can I think about it?' Attributed deferral to timing (platform stabilization, exhausting year with grief/ankle/Austin) and explicitly framed as 'not now' not 'no,' planning to potentially revisit spring 2026. Described the decision as strange ('that's the strange part') and noted uncertainty about whether this represents a deeper shift or is 'just grief-brain again, same as the flat launch.' Evidence is a single decision during a difficult year, not a sustained pattern change.",
+        "surprise": "strong",
+        "salience": 0.8
+      },
+      "outcome": "deferred",
+      "detail": "ledger bel-45 now 0.32"
+    },
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "cs-47",
+        "text": "As of 2025-08-16, platform in 'fragile stabilization phase' with Dana still serving as escalation point; cited as reason for deferring director promotion"
+      },
+      "outcome": "rejected",
+      "detail": "cs-47 is not a thread"
+    }
+  ]
+}

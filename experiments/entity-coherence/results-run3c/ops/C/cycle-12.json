@@ -1,0 +1,76 @@
+{
+  "cycle": 12,
+  "date": "2025-06-21",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-36",
+        "text": "[as of 2025-06-21] Boat restoration complete: the Dorothy Jean passed marine survey and is water-ready; first sail scheduled for weekend of July 12, 2025 at Cathedral Park boat ramp; Priya's dad lending truck and trailer for transport",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-36 -> cs-38"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-35",
+        "text": "[as of 2025-06-21] Jogging increased to forty minutes; ankle recovery progressing well; goal remains pain-free running by fall",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-35 -> cs-39"
+    },
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-16",
+        "text": "Resolved 2025-06-21: Marcus flying to Portland with Nina (four months old) for first sail of the Dorothy Jean weekend of July 12, 2025; will meet niece Nina in person; Marcus said 'Mom would have required my attendance' and booked flights immediately"
+      },
+      "outcome": "applied",
+      "detail": "resolved th-16"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-06-21: Marcus is flying out for the Dorothy Jean's first sail on the weekend of July 12, 2025, bringing Nina (who will be four months old). When Dana told him the date, Marcus said 'Mom would have required my attendance' and booked flights that night. Dana said 'Nina will be four months old. She obviously won't remember it, but there's going to be a photo of her in a tiny life jacket on our mother's boat, and I need that photo to exist.' Also said 'I keep thinking about the cloud thing — I want to check the sky that morning the way she taught me. If it's a mare's tail sky I'm taking it as a blessing.'",
+        "salience": 1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-40"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-06-21] First sail of the Dorothy Jean scheduled for weekend of July 12, 2025 at Cathedral Park; Marcus flying from Denver with Nina (four months old) to attend; Sam also attending; plan is gentle afternoon sail on the river",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-41"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-34"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-34"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    }
+  ]
+}

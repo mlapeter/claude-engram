@@ -1,0 +1,40 @@
+{
+  "policy": "C",
+  "cycle": 17,
+  "date": "2025-09-20",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana restored her mother's wooden sailboat, the Dorothy Jean (a 22-footer named after her grandmother). The boat had been stored under a tarp in Priya's dad's barn near Scappoose since her mom got sick. Dana began the restoration work on February 10, 2025, taking it slowly with no deadline.\n\nThe restoration was completed by June 21, 2025 - the boat passed its marine survey and became water-ready.\n\nThe Dorothy Jean had its first sail on July 12, 2025, on the Columbia River. Sam worked the lines, and Marcus flew out from Denver with baby Nina for the occasion. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them.\n\n**Current status (as of September 20, 2025):** Dana sailed the Dorothy Jean twice more over the summer of 2025 with Sam. She described it as a \"lovely quiet summer\" on the boat. The boat is fully operational and being used.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job status:**\n- Dana is a product manager at a healthcare data company in Portland (since 2025-02-03)\n\n**Recent major work achievement:**\n- As of 2025-07-19, she shipped an interoperability platform that she had fought for since the February roadmap review (eighteen months of politics). It went live successfully and the CEO gave her a shoutout by name in the all-hands meeting.\n\n**Promotion offer:**\n- As of 2025-08-16, VP Elaine offered Dana a director promotion (head of merged product org, which would double her org chart). Dana **declined** the promotion, citing:\n  - Need to stabilize the interoperability platform\n  - Not wanting a larger org while still being the escalation point\n  - Told the VP \"not this year\" with the door open to revisit in spring 2026\n\n**Current work state:**\n- As of 2025-09-06, a production incident following the interoperability platform launch has been closed. Work is described as still \"a grind\" but the incident phase is resolved.\n\nSo Dana remains in her product manager role, having turned down a director promotion for now.",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is strong and stable. They have been partners for six years (as of 2025-02-03, with this reinforced multiple times through 2025-09-06).\n\nKey current aspects of their relationship:\n\n**Living situation**: They live together in Portland. Sam recently built a home office in their spare room with three monitors and foam panels for his new remote role.\n\n**Sam's work**: As of May 2025, Sam accepted a Perception team lead role at a robotics startup in Austin, but negotiated a remote work arrangement so he could stay in Portland with Dana. He works remotely and travels to Austin approximately one week every couple months. The arrangement is working well, and his team likes him. He's scheduled to travel to Austin in late September 2025.\n\n**Relationship quality**: Sam is described as \"great\" support during Dana's difficult time following her mother's death. When they had a brief conflict in July 2025 (Dana snapped at Sam over dinner due to work stress), they repaired it immediately the next morning. Dana noted: \"six years and we don't do the snipe-at-each-other thing.\"\n\n**Shared activities**: They sailed the Dorothy Jean (Dana's mother's restored boat) together twice over summer 2025, described as a \"lovely quiet summer\" on the boat.\n\nThe relationship appears supportive, communicative, and resilient.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

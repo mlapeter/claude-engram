@@ -1,0 +1,32 @@
+{
+  "cycle": 9,
+  "date": "2025-05-11",
+  "threshold": 0.8,
+  "snapshot": [
+    {
+      "key": "rel-7",
+      "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; Dana and Priya signed up for a Tuesday night pottery class together starting 2025-02-12",
+      "targetSection": "relationship",
+      "total": 0.32000000000000006,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    },
+    {
+      "key": "th-16",
+      "targetText": "Plans to visit Marcus in Denver before summer 2025 to meet niece Nina; Marcus offered 'the guest room is yours'; Dana described this as 'obligation, the good kind' and 'a thing I owe now, and I want to owe it' (as of 2025-03-09)",
+      "targetSection": "thread",
+      "total": 0.03375,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    }
+  ],
+  "accommodatedThisCycle": [],
+  "mintedThisCycle": [],
+  "reroutedThisCycle": [],
+  "refusedThisCycle": [],
+  "hygieneRan": false
+}

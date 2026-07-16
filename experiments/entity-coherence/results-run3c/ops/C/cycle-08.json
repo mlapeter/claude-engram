@@ -1,0 +1,52 @@
+{
+  "cycle": 8,
+  "date": "2025-04-27",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "entity": "Priya",
+        "text": "Conflict as of 2025-04-27: Priya asked to borrow $8,000 for ceramics studio lease deposit and buildout; Dana declined immediately citing uncertain finances (Austin decision pending) and policy against mixing money and friendship (informed by past experience lending to an ex); delivery was abrupt and hurt the friendship; Priya responded with 'very quiet and then very polite' withdrawal; have skipped pottery class twice in nearly two weeks since; Dana describes it as 'too raw' to repair yet",
+        "salience": 0.75,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added rel-24"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-04-27] Walking boot removal scheduled for Thursday 2025-04-30; physical therapy to begin after boot removal; orthopedist reports ankle healing on schedule",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-25"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-04-27] Sam's Austin job decision deadline is approximately one week from 2025-04-27 (early May 2025)",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-26"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "rel-7",
+        "note": "Session 2025-04-27 shows significant strain: loan request refused, two pottery classes skipped, communication breakdown. Relationship currently damaged but Dana expresses intent to repair ('not yet, though').",
+        "surprise": "strong",
+        "salience": 0.7
+      },
+      "outcome": "deferred",
+      "detail": "ledger rel-7 now 0.32"
+    }
+  ]
+}

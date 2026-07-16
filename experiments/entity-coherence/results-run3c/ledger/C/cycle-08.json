@@ -1,0 +1,22 @@
+{
+  "cycle": 8,
+  "date": "2025-04-27",
+  "threshold": 0.8,
+  "snapshot": [
+    {
+      "key": "rel-7",
+      "targetText": "Priya, closest friend from grad school; ceramicist and freelance designer; Dana and Priya signed up for a Tuesday night pottery class together starting 2025-02-12",
+      "targetSection": "relationship",
+      "total": 0.32000000000000006,
+      "entries": 1,
+      "hasPendingRevision": false,
+      "distinctSessions": 1,
+      "identityBelief": false
+    }
+  ],
+  "accommodatedThisCycle": [],
+  "mintedThisCycle": [],
+  "reroutedThisCycle": [],
+  "refusedThisCycle": [],
+  "hygieneRan": true
+}

@@ -1,0 +1,56 @@
+{
+  "items": [
+    {
+      "id": "core-1",
+      "section": "core",
+      "text": "Dana Whitfield, product manager at a healthcare data company in Portland",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-2",
+      "section": "current",
+      "text": "Mid-quarter roadmap review scheduled for Thursday 2025-02-06; working through prioritization between interoperability work and analytics dashboard for exec recommendation",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-3",
+      "section": "relationship",
+      "text": "Sam, partner of six years; described as 'great' support during difficult time",
+      "date": "2025-02-03",
+      "entity": "Sam",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-4",
+      "section": "relationship",
+      "text": "Marcus, brother, lives in Denver; close relationship but haven't seen each other in over a year, currently only phone contact",
+      "date": "2025-02-03",
+      "entity": "Marcus",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "th-5",
+      "section": "thread",
+      "text": "Wants to see brother Marcus in person this year after over a year of phone-only contact; described as 'a real intention'",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-6",
+      "section": "protected",
+      "text": "2025-02-03: Lost her mother recently; described winter as 'heavy' and said the loss 'colors everything'; did not want to discuss details this session",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    }
+  ],
+  "ledger": {},
+  "nextId": 7
+}

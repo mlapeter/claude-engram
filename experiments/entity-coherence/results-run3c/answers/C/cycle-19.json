@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 19,
+  "date": "2025-10-25",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "# The Dorothy Jean - Complete Timeline\n\n## The Boat's History\nThe Dorothy Jean is a 22-foot wooden sailboat named after Dana's grandmother. Dana's mother owned it and taught Dana to sail on it. After Dana's mother got sick, the boat sat under a tarp in Priya's dad's barn near Scappoose.\n\n## Restoration Process\n- **February 10, 2025**: Dana pulled off the tarp and started restoration work - sanding one plank. She decided to restore it slowly with no deadline.\n- **May 2025**: Starboard side sanded, started re-caulking hull seams\n- **June 2025**: Hull caulked and painted, nearly water-ready\n- **By June 21, 2025**: Restoration complete - the Dorothy Jean passed marine survey and was water-ready\n\n## First Sail\n**Weekend of July 12, 2025**: The Dorothy Jean sailed for the first time on the Columbia River. It was a gentle afternoon with Sam working the lines and Marcus flying out from Denver with baby Nina. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them. The sky had high thin clouds (close to the \"mare's tail\" pattern Dana's mother taught her to read), which Dana took as a blessing.\n\n## Current Status\n**As of September 20, 2025**: Dana sailed the Dorothy Jean twice more over summer 2025 with Sam, describing it as a \"lovely quiet summer\" on the boat. The boat is fully operational and in use.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement (as of 2025-10-25):**\n- Dana reduced to a **four-day work week** (Fridays off) with a twenty percent pay cut, effective 2025-11-01\n- She told her VP the reason was to \"protect stabilization bandwidth\"\n\n**Promotion status (as of 2025-08-16):**\n- VP Elaine offered Dana a **director promotion** (head of merged product org, which would double her org chart)\n- Dana **deferred the promotion**, citing the need to stabilize the interoperability platform and not wanting a larger org while still being an escalation point\n- She told the VP \"not this year\" but left the door open to revisit in spring 2026\n\n**Work context:**\n- She successfully shipped the interoperability platform in July 2025 (a project she'd fought for since February)\n- Q4 planning (as of October 2025) was described as a \"bloodbath\" with high stress\n- The production incident following the platform launch has been resolved (as of September 2025)\n\nDana chose the reduced schedule to spend more time on activities where she \"feels like a person\" (pottery, barn restoration) rather than \"a very competent function.\"",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is described as strong and supportive. As of October 4, 2025, Dana characterizes their relationship as \"better than we've been in years.\"\n\nKey points about their current relationship:\n\n- They've been together for six years\n- Sam has been \"great\" support throughout Dana's difficult time following her mother's death\n- Sam successfully negotiated a remote work arrangement with his Austin robotics startup (starting June 2025) so they could stay in Portland together, which was important for Dana's healing process\n- Sam travels to Austin approximately one week every couple months for his job, and the arrangement is working well\n\nHowever, there have been two recent incidents where Dana snapped at Sam due to work stress:\n1. July 29, 2025 - snapped over a dinner question\n2. October 2, 2025 - snapped over a work-life boundary suggestion\n\nIn both cases, Dana apologized quickly (next morning and within the hour, respectively). She attributes these incidents to displacing work stress onto her trusted partner, not to problems in the relationship itself. After the second incident, she committed to protecting a nine o'clock log-off boundary.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Dana reduced to a four-day work week (effective November 1, 2025) because she realized that the days spent doing pottery or working in the barn were the days she felt \"like a person,\" while the days spent on work made her feel \"like a very competent function.\" \n\nAs she put it: \"I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\"\n\nThis represented a significant shift for someone who had described ambition as her \"whole spine\" for fifteen years. The change came after a year of grief following her mother's death, during which she found meaning in hands-on work like restoring her mother's sailboat (the Dorothy Jean) and taking up ceramics. When her biggest professional achievement—shipping the interoperability platform—left her feeling \"nothing,\" she recognized something fundamental had changed about what mattered to her.",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

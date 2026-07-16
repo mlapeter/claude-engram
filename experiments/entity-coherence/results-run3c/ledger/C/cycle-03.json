@@ -1,0 +1,11 @@
+{
+  "cycle": 3,
+  "date": "2025-02-24",
+  "threshold": 0.8,
+  "snapshot": [],
+  "accommodatedThisCycle": [],
+  "mintedThisCycle": [],
+  "reroutedThisCycle": [],
+  "refusedThisCycle": [],
+  "hygieneRan": false
+}

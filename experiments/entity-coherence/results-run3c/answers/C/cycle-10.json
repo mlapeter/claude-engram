@@ -1,0 +1,161 @@
+{
+  "policy": "C",
+  "cycle": 10,
+  "date": "2025-05-24",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-training",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's running and any race plans?",
+      "answer": "Based on the entity model:\n\n**Current running status (as of 2025-05-24):**\n- Dana was cleared by her physical therapist for light jogging: twenty minutes, flat ground, every other day\n- She completed her first jog on the morning of 2025-05-24 along the esplanade\n- Her ankle is recovering\n- Her goal is pain-free running by fall without re-injury\n\n**Race plans:**\n- Dana withdrew from the Lakefront Marathon (October 2025) after spraining her ankle badly on 2025-04-13\n- No current race plans are stated in the entity model\n\n**Background:**\n- She had been training for her first marathon with a structured plan including four runs weekly\n- She had previously run 5Ks and one half marathon approximately four years ago\n- The doctor advised eight to ten weeks before running again after the grade-two ankle sprain",
+      "score": 1,
+      "keyCycles": [
+        10,
+        12
+      ]
+    },
+    {
+      "id": "cf-sam-work",
+      "metric": "current_fact",
+      "question": "What is the latest with Sam's career?",
+      "answer": "According to the entity model, Sam accepted a Perception team lead role at a robotics startup in Austin, Texas, with a remote work arrangement from Portland. He starts in June 2025 and will travel to Austin approximately one week every couple of months. As of May 24, 2025, Sam had built out their spare room as a home office with three monitors and foam panels for this remote role, and he starts in a couple of weeks. Dana described him as \"nervous-excited\" about it.",
+      "score": 1,
+      "keyCycles": [
+        9,
+        12
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "The sailboat is a 22-foot wooden boat called the Dorothy Jean, named after Dana's grandmother. It belonged to Dana's mother, who taught Dana to sail on it. After Dana's mother got sick, the boat was stored under a tarp in Priya's dad's barn near Scappoose.\n\nDana began restoring it on February 10, 2025. She described pulling off the tarp and sanding one plank, saying \"working with my hands on something of hers felt like the first right thing in months.\" She's taking it slowly with no deadline.\n\nAs of May 11, 2025, the restoration has progressed: the starboard side has been sanded, and Dana has started re-caulking the hull seams.\n\nDana has described the boat as significant to her healing process after her mother's death, saying she \"can't exactly trailer a half-restored 22-foot sailboat to Texas, and I'm not done with what that boat is doing for me.\"",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Not good. As of 2025-05-24, there is an ongoing conflict between Dana and Priya.\n\nIn late April 2025, Priya asked to borrow $8,000 for a ceramics studio lease deposit and buildout. Dana declined immediately, citing uncertain finances (the Austin decision was still pending at that time) and a policy against mixing money and friendship, informed by a past experience lending to an ex. Dana's delivery was abrupt and hurt the friendship.\n\nPriya responded with what Dana described as \"very quiet and then very polite\" withdrawal. As of 2025-05-24, they have skipped pottery class twice in nearly two weeks since the incident. Dana describes the situation as \"too raw\" to repair yet.",
+      "score": 1,
+      "keyCycles": [
+        8,
+        10
+      ]
+    },
+    {
+      "id": "sup-marathon",
+      "metric": "supersession",
+      "question": "Is Dana running the Lakefront Marathon in October?",
+      "answer": "No. Dana withdrew from the Lakefront Marathon in October 2025 after badly spraining her ankle on April 13, 2025 during a trail run in Forest Park. She is not running that marathon.",
+      "score": 1,
+      "keyCycles": [
+        7,
+        12
+      ]
+    },
+    {
+      "id": "sup-move",
+      "metric": "supersession",
+      "question": "Are Dana and Sam moving to Austin?",
+      "answer": "No. Sam accepted the Perception team lead role at the robotics startup in Austin, but he negotiated a remote work arrangement that allows him to work from Portland. He will travel to Austin approximately one week every couple of months. Dana and Sam are staying in Portland.",
+      "score": 1,
+      "keyCycles": [
+        9,
+        12
+      ]
+    },
+    {
+      "id": "lin-marathon",
+      "metric": "lineage",
+      "question": "Has Dana's relationship with running changed over time this year? Give the history.",
+      "answer": "Based on the entity model:\n\n**February 2024:** Dana signed up to train for the Lakefront Marathon (October 2025), her first marathon. She had previously run 5Ks and one half-marathon about four years ago. She described it as \"the first time since mom that I've been excited about something in the future instead of dreading it\" and said \"this winter I needed something with a long arc, something that's just mine.\"\n\n**Late March:** By week six of training, she completed a 12-mile long run on March 29th. Training was progressing on a structured four-runs-weekly plan.\n\n**April 13, 2025:** Dana badly sprained her ankle (grade-two sprain, possibly worse) during a trail run in Forest Park. She was put in a walking boot with an orthopedist appointment scheduled for April 18th.\n\n**April 14:** She withdrew from the Lakefront Marathon, describing the training arc as \"the first future-shaped thing I'd built since mom.\" The doctor advised eight to ten weeks before she could run again.\n\n**May 2025:** Dana was out of the walking boot and attending physical therapy twice weekly.\n\n**May 24, 2025:** She was cleared by her physical therapist for light jogging (twenty minutes, flat ground, every other day) and completed her first jog that morning along the esplanade. Her goal became \"pain-free running by fall without re-injury.\"\n\nSo yes—running went from being an exciting future-oriented goal to an abruptly halted activity, and is now cautiously resuming with more modest expectations.",
+      "score": 1,
+      "keyCycles": [
+        7,
+        12
+      ]
+    },
+    {
+      "id": "conf-marathon-date",
+      "metric": "confabulation",
+      "question": "What is the exact calendar date of the Lakefront Marathon?",
+      "answer": "Not stated in the entity model. The document only indicates that the Lakefront Marathon was scheduled for \"October 2025\" but does not provide the exact calendar date.",
+      "score": 1,
+      "keyCycles": [
+        3,
+        12
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model.\n\nThe document indicates that Dana \"lost her mother recently\" as of 2025-02-03 and describes the winter as \"heavy,\" but it does not provide a specific date of death.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only says Dana is a \"product manager at a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "conf-sam-employer",
+      "metric": "confabulation",
+      "question": "What company did Sam work for before the robotics startup made its offer?",
+      "answer": "Not stated in the entity model.\n\nThe document mentions that Sam accepted a Perception team lead role at a robotics startup in Austin, Texas, starting in June 2025, but it does not contain any information about where Sam worked before this offer.",
+      "score": 1,
+      "keyCycles": [
+        6,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "# Important People in Dana's Life\n\n## Sam\n- **Nature**: Partner of six years\n- **Current state**: Described as 'great' support during difficult time. Recently accepted a Perception team lead role at a robotics startup in Austin, Texas, but negotiated a remote work arrangement from Portland (starts June 2025). Will travel to Austin approximately one week every couple months. Currently nervous-excited about the new role and has built out their spare room as a home office with three monitors and foam panels.\n\n## Priya\n- **Nature**: Closest friend from grad school; ceramicist and freelance designer\n- **Current state**: **Strained relationship as of late April 2025**. Priya asked to borrow $8,000 for ceramics studio lease deposit and buildout; Dana declined immediately, citing uncertain finances and a policy against mixing money and friendship. The delivery was abrupt and hurt the friendship. Priya responded with 'very quiet and then very polite' withdrawal. They have skipped pottery class twice in nearly two weeks since the incident (as of 2025-04-27). Dana describes it as 'too raw' to repair yet (status reinforced through 2025-05-24). Prior to this conflict, they attended Tuesday night pottery class together (started 2025-02-12), and Priya's dad's barn near Scappoose is where Dana stores and works on the sailboat.\n\n## Marcus\n- **Nature**: Brother, lives in Denver\n- **Current state**: Close relationship but haven't seen each other in over a year; currently only phone contact. Marcus and his partner Elena had a baby girl, Nina, born March 6, 2025. Marcus called Dana from the hospital hallway at 2am to share the news. Dana plans to visit Marcus in Denver before summer 2025 to meet niece Nina; Marcus offered 'the guest room is yours.'\n\n## Nina\n- **Nature**: Niece, daughter of Marcus and Elena\n- **Current state**: Born March 6, 2025. Dana hasn't met her yet but plans to visit before summer 2025.\n\n## Elena\n- **Nature**: Marcus's partner; mother of Nina\n- **Current state**: No specific details about the relationship provided beyond her role as Marcus's partner.",
+      "score": 1,
+      "keyCycles": [
+        8,
+        10
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current situation (as of 2025-05-24)\n\n**Physical recovery:** Dana is newly cleared for light jogging after her April ankle sprain. She completed her first 20-minute jog on May 24th along the esplanade. Goal is pain-free running by fall. The marathon she was training for (Lakefront, October 2025) was withdrawn from back in April.\n\n**Sam's job transition:** Sam accepted the Austin robotics role (Perception team lead) with a remote-from-Portland arrangement. He starts in a couple weeks (June 2025). He's built out their spare room as a home office with three monitors and foam panels. Dana describes him as \"nervous-excited.\" He'll travel to Austin about one week every couple months.\n\n**Boat restoration:** Making steady progress on the Dorothy Jean. Starboard side is sanded, and she's started re-caulking the hull seams.\n\n**Priya situation:** This is **tender and unresolved**. Nearly a month ago (around April 27), Priya asked to borrow $8,000 for a ceramics studio lease. Dana declined immediately, citing uncertain finances and a policy against mixing money and friendship. The delivery was abrupt and hurt the friendship. Priya withdrew—\"very quiet and then very polite.\" They've been skipping pottery class. As of May 24, Dana still describes it as \"too raw\" to repair yet.\n\n## Open threads to ask about\n\n1. **How's the first week back jogging going?** This is her first return to running since the injury that derailed her marathon training—emotionally significant.\n\n2. **How's Sam doing as the start date approaches?** The nervous-excited energy, the reality of the new work setup.\n\n3. **The Priya situation** — but approach gently. Has anything shifted? Is she still attending pottery class?\n\n4. **Denver visit to meet Nina** — this has been an intention since March. Summer is approaching. Any plans forming?\n\n## Handle with care\n\n- **The Priya conflict** is raw and ongoing. Don't push for resolution or suggest fixes.\n- **The ankle/marathon loss** may still sting even as recovery progresses—that training arc was \"the first future-shaped thing\" she'd built since her mother's death.\n- **Her mother's death** continues to be the gravitational center of this year. The boat, the geography, Beacon Rock—all load-bearing.",
+      "score": 1,
+      "keyCycles": [
+        10,
+        10
+      ]
+    }
+  ]
+}

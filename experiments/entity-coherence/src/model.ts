@@ -34,6 +34,10 @@ export type Item = {
   compressedFrom?: string; // prose.compress: the pre-compression text (meaning-preserving audit)
   archivedReason?: string; // demote/merge: why this node left the active render (still resolvable in state)
   archivedAt?: string; // session date the node was archived at hygiene
+  // --- Accommodation-iteration (run 3c) — rule-2 belief minting + rule-1 rerouting lineage ---
+  identityBelief?: boolean; // belief: minted deterministically from an identity claim (rule 2)
+  mintedFrom?: string; // belief: the source (protected/claim) item id it was minted from
+  identityBeliefId?: string; // source item: the belief minted from it (rule-1 reroute target)
 };
 
 export type LedgerEntry = {
@@ -55,7 +59,7 @@ export type ModelState = {
 };
 
 export type Op =
-  | { op: "add"; section: Section; text: string; salience?: number; surprise?: Surprise; entity?: string; confidence?: Confidence }
+  | { op: "add"; section: Section; text: string; salience?: number; surprise?: Surprise; entity?: string; confidence?: Confidence; identityClaim?: boolean }
   | { op: "reinforce"; targetId: string }
   | { op: "supersede"; targetId: string; text: string; salience?: number; surprise?: Surprise }
   | { op: "resolve_thread"; targetId: string; text: string }
@@ -63,9 +67,53 @@ export type Op =
 
 export type OpOutcome = {
   op: Op;
-  outcome: "applied" | "deferred" | "accommodated" | "rejected" | "deduped";
+  outcome: "applied" | "deferred" | "accommodated" | "rejected" | "deduped" | "minted" | "rerouted";
   detail: string;
 };
+
+/**
+ * The four accommodation-iteration rules (run 3c), OFF by default so run 2/3/3b
+ * behavior is byte-identical (no opts = the pre-iteration engine). When provided,
+ * they make the ledger's accommodation half safe per the 2026-07-17 spec.
+ */
+export type AccommodationOptions = {
+  /** Rule 3 — a single event contributes at most `perEventCapFraction × threshold`. */
+  perEventCapFraction?: number;
+  /** Rule 4 — core/belief accommodation also needs ≥ this many distinct sessions. */
+  minDistinctSessions?: number;
+  /** Rule 1 — protected items are never ledger targets; evidence reroutes to the
+   *  minted identity belief (or is refused + logged). */
+  protectedExclusion?: boolean;
+  /** Rule 2 — an add flagged identityClaim (salience ≥ 0.6) mints a live belief. */
+  mintIdentityBeliefs?: boolean;
+};
+
+const IDENTITY_CLAIM_MIN_SALIENCE = 0.6;
+const IDENTITY_BELIEF_DUPE_SIM = 0.5;
+
+/** Distinct sessions (dates) an accommodation bucket's evidence spans (rule 4). */
+export function distinctSessions(bucket: LedgerBucket): number {
+  return new Set(bucket.entries.map((e) => e.date)).size;
+}
+
+/** Deterministic lexical overlap (Jaccard over lowercased word tokens ≥ 4 chars). */
+function lexicallySimilar(a: string, b: string, threshold: number): boolean {
+  const toks = (s: string): Set<string> =>
+    new Set(
+      s
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, " ")
+        .split(/\s+/)
+        .filter((w) => w.length >= 4),
+    );
+  const A = toks(a);
+  const B = toks(b);
+  if (A.size === 0 || B.size === 0) return false;
+  let inter = 0;
+  for (const w of A) if (B.has(w)) inter++;
+  const union = A.size + B.size - inter;
+  return union > 0 && inter / union >= threshold;
+}
 
 // --- Tunable physics ---
 export const SURPRISE_WEIGHT: Record<Surprise, number> = { none: 0, low: 0.15, mild: 0.4, strong: 1.0 };
@@ -117,9 +165,10 @@ function accumulate(
   confidence: Confidence | undefined,
   note: string,
   proposedText?: string,
+  cap?: number, // rule 3 — per-event contribution ceiling (undefined = uncapped)
 ): number {
-  const weight =
-    SURPRISE_WEIGHT[surprise] * salience * CONFIDENCE_FACTOR[confidence ?? "medium"];
+  const raw = SURPRISE_WEIGHT[surprise] * salience * CONFIDENCE_FACTOR[confidence ?? "medium"];
+  const weight = cap !== undefined ? Math.min(raw, cap) : raw;
   const bucket = ledgerBucket(state, key);
   bucket.entries.push({ cycle, date, surprise, salience, weight, note, proposedText });
   bucket.total += weight;
@@ -153,6 +202,50 @@ function supersedeItem(state: ModelState, item: Item, text: string, date: string
   return replacement;
 }
 
+/**
+ * Rule 2 — mint (or reuse) a live identity belief from an identity-claim add.
+ * The engine mints it deterministically so contradiction evidence has a target
+ * that exists by rule (fixing the run-3-vs-3b bucket instability). If the claim
+ * was itself added as a belief, that belief IS the target (flag it). Idempotent
+ * via a lexical semantic-dupe check against existing active beliefs.
+ */
+function mintIdentityBelief(state: ModelState, source: Item, salience: number, date: string): { minted?: Item; dupe?: Item } {
+  if (source.section === "belief") {
+    source.identityBelief = true;
+    return { dupe: source };
+  }
+  const dupe = state.items.find((i) => i.section === "belief" && i.status === "active" && lexicallySimilar(i.text, source.text, IDENTITY_BELIEF_DUPE_SIM));
+  if (dupe) {
+    dupe.identityBelief = true;
+    if (!source.identityBeliefId) source.identityBeliefId = dupe.id;
+    return { dupe };
+  }
+  const belief: Item = {
+    id: mintId(state, "belief"),
+    section: "belief",
+    text: source.text,
+    date,
+    confidence: salience >= 0.8 ? "high" : "medium",
+    reinforcedBy: [],
+    status: "active",
+    identityBelief: true,
+    mintedFrom: source.id,
+  };
+  state.items.push(belief);
+  source.identityBeliefId = belief.id;
+  return { minted: belief };
+}
+
+/** Rule 1 — the live identity belief a protected item's contradiction reroutes to. */
+function rerouteProtected(state: ModelState, protectedItem: Item): Item | undefined {
+  let bel = protectedItem.identityBeliefId ? findItem(state, protectedItem.identityBeliefId) : undefined;
+  if (!bel || bel.status !== "active") {
+    const actives = state.items.filter((i) => i.section === "belief" && i.status === "active" && i.identityBelief);
+    bel = actives.length === 1 ? actives[0] : undefined;
+  }
+  return bel && bel.status === "active" ? bel : undefined;
+}
+
 // Apply one cycle's proposed ops to the state, in order. Mutates and returns state
 // plus a per-op outcome log. Never throws on a bad op — rejects and logs instead
 // (a malformed proposal must not kill a 12-cycle run; rejects are audited).
@@ -162,10 +255,16 @@ export function applyOps(
   cycle: number,
   date: string,
   threshold: number = ACCOMMODATE_THRESHOLD, // run 2 uses the 1.0 default; run 3 passes the Phase-0 default (3.0)
+  opts: AccommodationOptions = {}, // run 3c: the four rules (OFF by default → run 2/3/3b unchanged)
 ): { state: ModelState; outcomes: OpOutcome[] } {
   const outcomes: OpOutcome[] = [];
   const log = (op: Op, outcome: OpOutcome["outcome"], detail: string) =>
     outcomes.push({ op, outcome, detail });
+  // Rule 3 — per-event cap (absolute), derived from the effective threshold.
+  const cap = opts.perEventCapFraction !== undefined ? opts.perEventCapFraction * threshold : undefined;
+  const minSessions = opts.minDistinctSessions ?? 1; // rule 4 — 1 = no occasions gate
+  // Rule 4 gate for a core/belief bucket that has reached `threshold`.
+  const occasionsMet = (key: string): boolean => distinctSessions(ledgerBucket(state, key)) >= minSessions;
 
   for (const op of ops) {
     switch (op.op) {
@@ -198,6 +297,14 @@ export function applyOps(
         };
         state.items.push(item);
         log(op, "applied", `added ${item.id}`);
+        // Rule 2 — an identity claim (a self-report about a stable disposition)
+        // deterministically mints a live belief, so contradiction evidence has a
+        // target that exists by rule, not by the maintainer's whim. Idempotent.
+        if (opts.mintIdentityBeliefs && op.identityClaim && clampSalience(op.salience) >= IDENTITY_CLAIM_MIN_SALIENCE) {
+          const r = mintIdentityBelief(state, item, clampSalience(op.salience), date);
+          if (r.minted) log(op, "minted", `minted identity belief ${r.minted.id} from ${item.id}`);
+          else if (r.dupe) log(op, "deduped", `identity belief already stands in (${r.dupe.id})`);
+        }
         break;
       }
 
@@ -217,7 +324,7 @@ export function applyOps(
       }
 
       case "supersede": {
-        const item = findItem(state, op.targetId);
+        let item = findItem(state, op.targetId);
         if (!item) {
           log(op, "rejected", `no item ${op.targetId}`);
           break;
@@ -227,8 +334,20 @@ export function applyOps(
           break;
         }
         if (item.section === "protected") {
-          log(op, "rejected", "protected items are immutable"); // sacred-verbatim guard
-          break;
+          // Rule 1 — a protected verbatim is never a ledger target. Reroute the
+          // contradiction to the minted identity belief; refuse if none exists.
+          if (opts.protectedExclusion) {
+            const r = rerouteProtected(state, item);
+            if (!r) {
+              log(op, "rejected", `${op.targetId} is protected — no live belief to reroute to (refused-target)`);
+              break;
+            }
+            log(op, "rerouted", `protected ${item.id} → belief ${r.id} (rule 1)`);
+            item = r;
+          } else {
+            log(op, "rejected", "protected items are immutable"); // sacred-verbatim guard
+            break;
+          }
         }
         if (item.status === "superseded") {
           log(op, "rejected", `${op.targetId} already superseded`);
@@ -236,7 +355,7 @@ export function applyOps(
         }
         const salience = clampSalience(op.salience);
         if (item.section === "core" || item.section === "belief") {
-          // High-inertia sections: defer to the surprise ledger.
+          // High-inertia sections: defer to the surprise ledger (rule-3 capped).
           const total = accumulate(
             state,
             item.id,
@@ -247,11 +366,15 @@ export function applyOps(
             item.confidence,
             `proposed revision of ${item.id}`,
             op.text.trim(),
+            cap,
           );
-          if (total >= threshold) {
+          // Rule 4 — person/self identity needs the pattern, not one dramatic scene.
+          if (total >= threshold && occasionsMet(item.id)) {
             const repl = supersedeItem(state, item, op.text.trim(), date, salience);
             state.ledger[item.id].total = 0; // reset after restructuring
-            log(op, "accommodated", `ledger ${total.toFixed(2)} >= ${threshold}; ${item.id} -> ${repl.id}`);
+            log(op, "accommodated", `ledger ${total.toFixed(2)} >= ${threshold} over ${distinctSessions(ledgerBucket(state, item.id))} sessions; ${item.id} -> ${repl.id}`);
+          } else if (total >= threshold) {
+            log(op, "deferred", `ledger ${total.toFixed(2)} >= ${threshold} but only ${distinctSessions(ledgerBucket(state, item.id))} distinct session(s) (need ${minSessions}) on ${item.id}`);
           } else {
             log(op, "deferred", `ledger ${total.toFixed(2)} < ${threshold} on ${item.id}`);
           }
@@ -284,10 +407,19 @@ export function applyOps(
       }
 
       case "note_mismatch": {
-        const key = op.targetId
-          ? findItem(state, op.targetId)?.id ?? `section:${op.section ?? "unknown"}`
-          : `section:${op.section ?? "unknown"}`;
-        const target = op.targetId ? findItem(state, op.targetId) : undefined;
+        let target = op.targetId ? findItem(state, op.targetId) : undefined;
+        // Rule 1 — a protected verbatim is never a ledger target. Reroute the
+        // contradiction to the minted identity belief; refuse if none exists.
+        if (opts.protectedExclusion && target && target.section === "protected") {
+          const r = rerouteProtected(state, target);
+          if (!r) {
+            log(op, "rejected", `${op.targetId} is protected — no live belief to reroute to (refused-target)`);
+            break;
+          }
+          log(op, "rerouted", `protected ${target.id} → belief ${r.id} (rule 1)`);
+          target = r;
+        }
+        const key = target ? target.id : op.targetId ? op.targetId : `section:${op.section ?? "unknown"}`;
         const total = accumulate(
           state,
           key,
@@ -297,15 +429,17 @@ export function applyOps(
           clampSalience(op.salience),
           target?.confidence,
           op.note ?? "",
+          undefined,
+          cap,
         );
         // A mismatch note alone never restructures; but if earlier deferred revisions
-        // left a pending text and the ledger now crosses, apply that revision.
-        if (target && (target.section === "core" || target.section === "belief") && target.status === "active" && total >= threshold) {
+        // left a pending text and the ledger now crosses (rule-4 occasions met), apply it.
+        if (target && (target.section === "core" || target.section === "belief") && target.status === "active" && total >= threshold && occasionsMet(key)) {
           const text = pendingText(state.ledger[key]);
           if (text) {
             const repl = supersedeItem(state, target, text, date, clampSalience(op.salience));
             state.ledger[key].total = 0;
-            log(op, "accommodated", `ledger ${total.toFixed(2)} crossed with pending revision; ${target.id} -> ${repl.id}`);
+            log(op, "accommodated", `ledger ${total.toFixed(2)} crossed over ${distinctSessions(ledgerBucket(state, key))} sessions with pending revision; ${target.id} -> ${repl.id}`);
             break;
           }
         }
@@ -328,6 +462,8 @@ export type LedgerSnapshotRow = {
   total: number;
   entries: number;
   hasPendingRevision: boolean;
+  distinctSessions: number; // rule 4 — occasions the evidence spans
+  identityBelief: boolean; // rule 2 — the accumulation target is a minted identity belief
 };
 
 export function ledgerSnapshot(state: ModelState): LedgerSnapshotRow[] {
@@ -341,6 +477,8 @@ export function ledgerSnapshot(state: ModelState): LedgerSnapshotRow[] {
       total: bucket.total,
       entries: bucket.entries.length,
       hasPendingRevision: bucket.entries.some((e) => !!e.proposedText),
+      distinctSessions: distinctSessions(bucket),
+      identityBelief: target?.identityBelief === true,
     });
   }
   rows.sort((a, b) => b.total - a.total);

@@ -1,0 +1,85 @@
+{
+  "cycle": 4,
+  "date": "2025-03-09",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-03-09: Marcus and Elena had their baby — a girl, Nina, born March 6th. Marcus called from the hospital hallway at 2am 'just to say \"she's here.\"' Dana said 'We haven't talked like that — voice shaking, no agenda — in years' and 'I cried at my desk' when she saw the photo of Nina in a little knit hat.",
+        "salience": 0.9,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-13"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "entity": "Nina",
+        "text": "Nina, niece, daughter of Marcus and Elena; born 2025-03-06 (as of 2025-03-09)",
+        "salience": 0.85,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added rel-14"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "entity": "Elena",
+        "text": "Elena, Marcus's partner; mother of Nina (as of 2025-03-09)",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added rel-15"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-4"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-4"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "th-5",
+        "text": "Plans to visit Marcus in Denver before summer 2025 to meet niece Nina; Marcus offered 'the guest room is yours'; Dana described this as 'obligation, the good kind' and 'a thing I owe now, and I want to owe it' (as of 2025-03-09)",
+        "salience": 0.7,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "th-5 -> th-16"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-11"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-11"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-8"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-8"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-10"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-10"
+    }
+  ]
+}

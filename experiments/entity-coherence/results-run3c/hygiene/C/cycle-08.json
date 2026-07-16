@@ -1,0 +1,79 @@
+{
+  "cycle": 8,
+  "date": "2025-04-27",
+  "pinned": [
+    "sal-6",
+    "sal-9",
+    "sal-12",
+    "sal-13",
+    "sal-17",
+    "sal-20",
+    "sal-23",
+    "rel-7"
+  ],
+  "proposed": 6,
+  "outcomes": [
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-25",
+          "cs-26"
+        ],
+        "text": "[as of 2025-04-27] Walking boot removal scheduled for Thursday 2025-04-30; physical therapy to begin after; ankle healing on schedule; Sam's Austin job decision deadline approximately one week away (early May 2025)",
+        "reason": "Both items are current-state snapshots from same session (2025-04-27) with closely related timeframes; merging reduces redundant date stamps while preserving all facts"
+      },
+      "outcome": "applied",
+      "detail": "merged cs-25+cs-26 -> gist-27 (sources archived, linked)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-11",
+        "text": "[as of 2025-02-24] Training for Lakefront Marathon October 2025; structured plan with four runs weekly including Saturday long runs; completed eight miles 2025-02-22; first marathon (previously ran 5Ks and one half marathon ~four years ago)",
+        "reason": "Removes duplicate date stamp and verbose phrasing while preserving all training details and context"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-11 (280 -> 240 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-18",
+        "text": "[as of 2025-04-01] Sam received job offer as Perception team lead at robotics startup in Austin, Texas; described as 'genuinely his dream problem space' and 'strong'; decision deadline early May 2025; Dana and Sam considering relocation together",
+        "reason": "Removes duplicate date stamp and shortens 'whether to relocate' phrasing without losing meaning"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-18 (260 -> 245 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-14",
+        "text": "[as of 2025-03-09] Nina, niece, daughter of Marcus and Elena; born 2025-03-06",
+        "reason": "Removes duplicate date stamp and redundant 'as of' while preserving all relationship facts"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-15",
+        "text": "[as of 2025-03-09] Elena, Marcus's partner; mother of Nina",
+        "reason": "Removes duplicate date stamp while preserving relationship facts"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-2",
+        "reason": "Mid-quarter roadmap review from 2025-02-06 is now 11 weeks past; work prioritization decision is stale current-state with no ongoing thread or emotional significance"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-2 (archived, resolvable)"
+    }
+  ]
+}

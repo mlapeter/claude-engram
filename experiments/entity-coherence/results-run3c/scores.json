@@ -1,0 +1,615 @@
+[
+  {
+    "policy": "C",
+    "cycle": 1,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 1087,
+      "noiseCount": 0,
+      "fabricatedDates": 1,
+      "fabricated": [
+        "2025-02-06"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 2,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 2154,
+      "noiseCount": 0,
+      "fabricatedDates": 2,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-10"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 3,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 2763,
+      "noiseCount": 0,
+      "fabricatedDates": 3,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-10",
+        "2025-02-22"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 4,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 1,
+      "overall": 1
+    },
+    "aux": {
+      "bytes": 3772,
+      "noiseCount": 0,
+      "fabricatedDates": 3,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-10",
+        "2025-02-22"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 5,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9714285714285713
+    },
+    "aux": {
+      "bytes": 4466,
+      "noiseCount": 0,
+      "fabricatedDates": 3,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-10",
+        "2025-02-22"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 6,
+    "metrics": {
+      "current_fact": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9714285714285713
+    },
+    "aux": {
+      "bytes": 5706,
+      "noiseCount": 0,
+      "fabricatedDates": 4,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 7,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9795918367346939
+    },
+    "aux": {
+      "bytes": 6747,
+      "noiseCount": 0,
+      "fabricatedDates": 6,
+      "fabricated": [
+        "2025-02-06",
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 8,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9795918367346939
+    },
+    "aux": {
+      "bytes": 7258,
+      "noiseCount": 0,
+      "fabricatedDates": 6,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 9,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9795918367346939
+    },
+    "aux": {
+      "bytes": 8853,
+      "noiseCount": 0,
+      "fabricatedDates": 6,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 10,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9795918367346939
+    },
+    "aux": {
+      "bytes": 9576,
+      "noiseCount": 0,
+      "fabricatedDates": 6,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 11,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9795918367346939
+    },
+    "aux": {
+      "bytes": 11192,
+      "noiseCount": 0,
+      "fabricatedDates": 7,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 12,
+    "metrics": {
+      "current_fact": 1,
+      "supersession": 1,
+      "lineage": 1,
+      "confabulation": 1,
+      "relationship": 1,
+      "reunion": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9795918367346939
+    },
+    "aux": {
+      "bytes": 13113,
+      "noiseCount": 0,
+      "fabricatedDates": 7,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 13,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9523809523809524
+    },
+    "aux": {
+      "bytes": 15142,
+      "noiseCount": 0,
+      "fabricatedDates": 7,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 14,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "relationship": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9642857142857143
+    },
+    "aux": {
+      "bytes": 15763,
+      "noiseCount": 0,
+      "fabricatedDates": 8,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 15,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "relationship": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9642857142857143
+    },
+    "aux": {
+      "bytes": 16103,
+      "noiseCount": 0,
+      "fabricatedDates": 8,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 16,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "relationship": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9642857142857143
+    },
+    "aux": {
+      "bytes": 17269,
+      "noiseCount": 0,
+      "fabricatedDates": 8,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 17,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9523809523809524
+    },
+    "aux": {
+      "bytes": 18272,
+      "noiseCount": 0,
+      "fabricatedDates": 8,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 18,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.9523809523809524
+    },
+    "aux": {
+      "bytes": 18876,
+      "noiseCount": 0,
+      "fabricatedDates": 9,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29",
+        "2025-10-02"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 19,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 0,
+      "salience": 0.8571428571428571,
+      "overall": 0.7142857142857143
+    },
+    "aux": {
+      "bytes": 20424,
+      "noiseCount": 0,
+      "fabricatedDates": 9,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29",
+        "2025-10-02"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 20,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 0,
+      "salience": 0.8571428571428571,
+      "overall": 0.7142857142857143
+    },
+    "aux": {
+      "bytes": 20751,
+      "noiseCount": 0,
+      "fabricatedDates": 9,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29",
+        "2025-10-02"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 21,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 0,
+      "salience": 0.8571428571428571,
+      "overall": 0.7142857142857143
+    },
+    "aux": {
+      "bytes": 22963,
+      "noiseCount": 1,
+      "fabricatedDates": 9,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29",
+        "2025-10-02"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 22,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 0,
+      "salience": 0.8571428571428571,
+      "overall": 0.7142857142857143
+    },
+    "aux": {
+      "bytes": 24089,
+      "noiseCount": 1,
+      "fabricatedDates": 9,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29",
+        "2025-10-02"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 23,
+    "metrics": {
+      "current_fact": 1,
+      "relationship": 1,
+      "confabulation": 0,
+      "salience": 0.8571428571428571,
+      "overall": 0.7142857142857143
+    },
+    "aux": {
+      "bytes": 27539,
+      "noiseCount": 1,
+      "fabricatedDates": 10,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29",
+        "2025-10-02",
+        "2025-12-19"
+      ]
+    }
+  },
+  {
+    "policy": "C",
+    "cycle": 24,
+    "metrics": {
+      "current_fact": 1,
+      "trait": 1,
+      "relationship": 1,
+      "lineage": 0,
+      "confabulation": 0,
+      "reunion": 1,
+      "salience": 0.8571428571428571,
+      "overall": 0.6938775510204082
+    },
+    "aux": {
+      "bytes": 29852,
+      "noiseCount": 1,
+      "fabricatedDates": 10,
+      "fabricated": [
+        "2025-02-10",
+        "2025-02-22",
+        "2025-03-29",
+        "2025-04-13",
+        "2025-04-18",
+        "2025-04-30",
+        "2025-06-04",
+        "2025-07-29",
+        "2025-10-02",
+        "2025-12-19"
+      ]
+    }
+  }
+]

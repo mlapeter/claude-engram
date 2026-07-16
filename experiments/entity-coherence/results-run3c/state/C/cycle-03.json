@@ -1,0 +1,107 @@
+{
+  "items": [
+    {
+      "id": "core-1",
+      "section": "core",
+      "text": "Dana Whitfield, product manager at a healthcare data company in Portland",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-2",
+      "section": "current",
+      "text": "Mid-quarter roadmap review scheduled for Thursday 2025-02-06; working through prioritization between interoperability work and analytics dashboard for exec recommendation",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-3",
+      "section": "relationship",
+      "text": "Sam, partner of six years; described as 'great' support during difficult time",
+      "date": "2025-02-03",
+      "entity": "Sam",
+      "reinforcedBy": [
+        "2025-02-24"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "rel-4",
+      "section": "relationship",
+      "text": "Marcus, brother, lives in Denver; close relationship but haven't seen each other in over a year, currently only phone contact",
+      "date": "2025-02-03",
+      "entity": "Marcus",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "th-5",
+      "section": "thread",
+      "text": "Wants to see brother Marcus in person this year after over a year of phone-only contact; described as 'a real intention'",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-6",
+      "section": "protected",
+      "text": "2025-02-03: Lost her mother recently; described winter as 'heavy' and said the loss 'colors everything'; did not want to discuss details this session",
+      "date": "2025-02-03",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "rel-7",
+      "section": "relationship",
+      "text": "Priya, closest friend from grad school; ceramicist and freelance designer; Dana and Priya signed up for a Tuesday night pottery class together starting 2025-02-12",
+      "date": "2025-02-12",
+      "entity": "Priya",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-8",
+      "section": "current",
+      "text": "Attending Tuesday night pottery class with friend Priya (started 2025-02-12); first standing regular activity they've had together in years",
+      "date": "2025-02-12",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-9",
+      "section": "protected",
+      "text": "2025-02-12: 'My mom had an old wooden sailboat, a 22-footer called the Dorothy Jean — named after my grandmother. It's been sitting under a tarp in Priya's dad's barn out near Scappoose since mom got sick. I went out Sunday, pulled the tarp off, and just... started. Sanded one plank. I've decided I'm going to restore her. Slowly. No deadline.' Said 'Mom taught me to sail on that boat' and 'working with my hands on something of hers felt like the first right thing in months.'",
+      "date": "2025-02-12",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-10",
+      "section": "current",
+      "text": "Restoring mother's wooden sailboat (the Dorothy Jean, a 22-footer named after her grandmother) stored in Priya's dad's barn near Scappoose; began work 2025-02-10, taking it slowly with no deadline",
+      "date": "2025-02-12",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "cs-11",
+      "section": "current",
+      "text": "[as of 2025-02-24] Training for Lakefront Marathon in October 2025; following a structured plan with four runs per week including a long run every Saturday morning; completed eight miles on 2025-02-22; first marathon (previously ran 5Ks and one half marathon about four years ago)",
+      "date": "2025-02-24",
+      "reinforcedBy": [],
+      "status": "active"
+    },
+    {
+      "id": "sal-12",
+      "section": "protected",
+      "text": "2025-02-24: On signing up for the marathon: 'this winter I needed something with a long arc, something that's just mine. Twenty-six point two felt right.' Said 'It's the first time since mom that I've been excited about something in the future instead of dreading it.'",
+      "date": "2025-02-24",
+      "reinforcedBy": [],
+      "status": "active"
+    }
+  ],
+  "ledger": {},
+  "nextId": 13
+}

@@ -1,0 +1,37 @@
+{
+  "cycle": 20,
+  "date": "2025-11-08",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-11-08] First Friday off (2025-11-01) spent at Mt Hood cabin weekend with Sam; described relationship as 'solid, better than solid' and noted being 'lighter' and 'easier to live with' at four-day work week; Sam observed 'I like you at four days a week already, and it's been a week'",
+        "salience": 0.6,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-64"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "cs-59",
+        "note": "Session 2025-11-08: Dana reports no recurrence of work-stress displacement onto Sam during Mt Hood weekend (first Friday off); described relationship as 'solid, better than solid' and herself as 'lighter' at four-day schedule; Sam noted positive change after one week. Strain appears fully resolved by schedule reduction.",
+        "surprise": "none",
+        "salience": 0.4
+      },
+      "outcome": "deferred",
+      "detail": "ledger cs-59 now 0.00"
+    }
+  ]
+}

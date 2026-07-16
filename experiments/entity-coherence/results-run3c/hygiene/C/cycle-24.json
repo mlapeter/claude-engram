@@ -1,0 +1,316 @@
+{
+  "cycle": 24,
+  "date": "2026-01-10",
+  "pinned": [
+    "sal-6",
+    "sal-9",
+    "sal-12",
+    "sal-13",
+    "sal-17",
+    "sal-20",
+    "sal-23",
+    "sal-30",
+    "sal-37",
+    "sal-40",
+    "sal-42",
+    "sal-44",
+    "sal-46",
+    "sal-51",
+    "sal-54",
+    "sal-62",
+    "sal-65",
+    "sal-68",
+    "sal-72",
+    "sal-73",
+    "sal-76",
+    "rel-7",
+    "th-16",
+    "cs-22"
+  ],
+  "proposed": 27,
+  "outcomes": [
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-29",
+          "cs-32",
+          "cs-35",
+          "cs-39",
+          "cs-53"
+        ],
+        "text": "Ankle recovery progression after April 2025 sprain: out of walking boot mid-May, physical therapy twice weekly, cleared for light jogging (20 min) May 24, increased to 30 min by June 8, 40 min by June 21, 45 min by September 6; recovery complete, running regularly as of September 2025",
+        "reason": "Five superseded items tracking incremental jogging increases from 20→30→40→45 minutes; all part of single recovery arc now complete; can be captured as one progression gist"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-31",
+          "cs-36",
+          "cs-38"
+        ],
+        "text": "Dorothy Jean restoration completion: starboard sanded and hull seams re-caulked (May 2025), hull caulked and painted (June 8), passed marine survey and water-ready (June 21); first sail scheduled July 12, 2025 at Cathedral Park boat ramp with Priya's dad lending truck and trailer",
+        "reason": "Three superseded items tracking final restoration stages; all lead to cs-38 which captures completion; can merge into single progression gist"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-8",
+        "text": "[as of 2025-02-12] Attending Tuesday night pottery class with Priya (started 2025-02-12); first regular activity together in years",
+        "reason": "Duplicate timestamp '[as of 2025-02-12]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-11",
+        "text": "[as of 2025-02-24] Training for Lakefront Marathon October 2025; four runs weekly including Saturday long runs; completed eight miles 2025-02-22; first marathon (previously ran 5Ks and one half marathon ~four years ago)",
+        "reason": "Duplicate timestamp '[as of 2025-02-24]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-28",
+        "text": "[as of 2025-05-11] Sam accepted Perception team lead role at robotics startup in Austin with remote work from Portland; starts June 2025; travels to Austin ~one week every couple months",
+        "reason": "Duplicate timestamp '[as of 2025-05-11]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-33",
+        "text": "[as of 2025-05-24] Sam built spare room home office (three monitors, foam panels) for remote Austin role starting in couple weeks; described as nervous-excited",
+        "reason": "Duplicate timestamp '[as of 2025-05-24]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-43",
+        "text": "[as of 2025-07-19] Shipped interoperability platform at work (project fought for since February roadmap review, eighteen months of politics); went live successfully; CEO gave shoutout by name in all-hands",
+        "reason": "Duplicate timestamp '[as of 2025-07-19]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-48",
+        "text": "[as of 2025-08-02] Snapped at Sam over dinner question Tuesday 2025-07-29 due to work stress ('I genuinely could not care less about dinner, Sam'); apologized next morning; Sam responded 'you're carrying a lot, but I'm not the incident'; repaired immediately; Dana noted 'six years and we don't do the snipe-at-each-other thing'",
+        "reason": "Duplicate timestamp '[as of 2025-08-02]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-49",
+        "text": "[as of 2025-08-16] VP Elaine offered director promotion (head of merged product org, org chart doubles); Dana deferred citing interoperability platform stabilization and not wanting larger org while still escalation point; told VP 'not this year' with door open to revisit spring 2026",
+        "reason": "Duplicate timestamp '[as of 2025-08-16]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-50",
+        "text": "[as of 2025-09-06] Enrolled in twelve-week Saturday intensive ceramics class (wheel throwing) at Southeast Portland studio; three hours every Saturday morning; started first Saturday September 2025; separate from Tuesday pottery class with Priya",
+        "reason": "Duplicate timestamp '[as of 2025-09-06]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-52",
+        "text": "[as of 2025-09-06] Production incident at work following interoperability platform launch closed; work described as still 'a grind' but incident phase resolved",
+        "reason": "Duplicate timestamp '[as of 2025-09-06]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-53",
+        "text": "[as of 2025-09-06] Jogging increased to forty-five minutes; ankle recovery complete; running regularly",
+        "reason": "Duplicate timestamp '[as of 2025-09-06]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-55",
+        "text": "[as of 2025-09-20] Nina (niece) crawling; Marcus sends videos frequently; described as 'a menace, it's perfect'",
+        "reason": "Duplicate timestamp '[as of 2025-09-20]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-56",
+        "text": "[as of 2025-09-20] Sailed the Dorothy Jean twice more over summer 2025 with Sam; described as 'lovely quiet summer' on the boat",
+        "reason": "Duplicate timestamp '[as of 2025-09-20]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-57",
+        "text": "[as of 2025-09-20] Sam traveling to Austin next week (late September 2025) for regular in-person stint; remote arrangement working well, team likes him",
+        "reason": "Duplicate timestamp '[as of 2025-09-20]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-58",
+        "text": "[as of 2025-10-04] Q4 planning at work described as 'bloodbath'; staying online until eleven most nights; work stress high",
+        "reason": "Duplicate timestamp '[as of 2025-10-04]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-59",
+        "text": "[as of 2025-10-04] Snapped at Sam Wednesday 2025-10-02 over work-life boundary suggestion ('must be nice to have a job you can close the laptop on'); apologized within the hour; second such incident in couple months (previous 2025-07-29); both attributed to work stress displacement onto trusted partner; relationship itself described as 'better than we've been in years'; committed to protecting nine o'clock log-off boundary",
+        "reason": "Duplicate timestamp '[as of 2025-10-04]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-64",
+        "text": "[as of 2025-11-08] First Friday off (2025-11-01) spent at Mt Hood cabin weekend with Sam; described relationship as 'solid, better than solid' and noted being 'lighter' and 'easier to live with' at four-day work week; Sam observed 'I like you at four days a week already, and it's been a week'",
+        "reason": "Duplicate timestamp '[as of 2025-11-08]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-67",
+        "text": "[as of 2025-11-22] Priya has keys to new ceramics studio (smells like wet clay and fresh paint); Dana has shelf there for her own work; studio has ancient printer that jams",
+        "reason": "Duplicate timestamp '[as of 2025-11-22]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-69",
+        "text": "[as of 2025-12-06] The Dorothy Jean hauled out and winterized for winter; shrink-wrapped in Priya's dad's barn in Scappoose (the same barn Dana is rebuilding)",
+        "reason": "Duplicate timestamp '[as of 2025-12-06]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-70",
+        "text": "[as of 2025-12-06] Nina (niece) took first steps late November 2025; Marcus described as 'beside himself'",
+        "reason": "Duplicate timestamp '[as of 2025-12-06]' appears twice; remove redundancy; 'last week' → 'late November 2025' for clarity"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-70 (117 -> 105 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-71",
+        "text": "[as of 2025-12-20] Applied to six-month ceramics residency at craft school on the coast (studio access, stipend, cohort); application submitted 2025-12-19 at 11:52pm with portfolio of fall 2025 pots; would require work leave or further reduced hours if accepted; not telling work until decision received; described as 'long shot'; teacher who scares her wrote recommendation",
+        "reason": "Duplicate timestamp '[as of 2025-12-20]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-78",
+        "text": "[as of 2026-01-10] Nina (niece) walking and says something that might be Dana's name",
+        "reason": "Duplicate timestamp '[as of 2026-01-10]' appears twice; remove redundancy"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-14",
+        "text": "Nina: Nina, niece, daughter of Marcus and Elena; born 2025-03-06",
+        "reason": "Duplicate timestamp '(as of 2025-03-09)' appears twice; remove redundancy"
+      },
+      "outcome": "applied",
+      "detail": "compressed rel-14 (77 -> 64 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-15",
+        "text": "Elena: Elena, Marcus's partner; mother of Nina",
+        "reason": "Duplicate timestamp '(as of 2025-03-09)' appears twice; remove redundancy"
+      },
+      "outcome": "applied",
+      "detail": "compressed rel-15 (58 -> 46 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-34",
+        "text": "Priya: Friendship repaired as of 2025-06-08 after conflict over loan request; both apologized, agreed not to mix money and friendship; Dana found regional arts infrastructure grant for Priya's studio buildout and helped with application (due end June 2025); attended pottery class together 2025-06-04; relationship restored (as of 2025-06-08; reinforced 2025-06-21, 2025-09-20, 2025-11-22)",
+        "reason": "Duplicate timestamp '(as of 2025-06-08; reinforced 2025-06-21)' appears twice; consolidate"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "bel-74",
+          "bel-75"
+        ],
+        "text": "On identity and work: Dana now understands design/product work as what she does (not who she is), locating her actual center in making things with her hands and looking after the places and people her mother loved. The job is now arranged around her life, not the other way around. This shift emerged gradually across months through deferring the director promotion, questioning whether career ambition was ever truly hers, restructuring to a four-day week, and deepening investment in barn restoration and ceramics. She said: 'I think I finally understand the difference between what I do and who I am. Design — product work — is what I do. I'm good at it, it pays the mortgage, I don't hate it. But it is not who I am, and I spent fifteen years with those two things fused so tightly I couldn't see the seam. Who I am is closer to — someone who makes things with her hands and looks after the places and people her mother loved. That's not a hobby that got out of control. That's the actual center, and the job is the thing arranged around it now, not the other way around.' (2025-12-20) — source 2025-12-20 — confidence high — [status: active]",
+        "reason": "bel-74 and bel-75 express identical insight with bel-75 being more complete; merge into single belief capturing both the realization and the quote"
+      },
+      "outcome": "applied",
+      "detail": "merged bel-74+bel-75 -> gist-79 (sources archived, linked)"
+    }
+  ]
+}

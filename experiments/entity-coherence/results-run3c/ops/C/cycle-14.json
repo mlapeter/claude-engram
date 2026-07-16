@@ -1,0 +1,37 @@
+{
+  "cycle": 14,
+  "date": "2025-08-02",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-08-02] Production incident at work following interoperability platform launch; executive using Dana as single point of contact at all hours; described work as 'pressure cooker' and 'has me by the throat'",
+        "salience": 0.5,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-47"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-08-02] Snapped at Sam over dinner question Tuesday 2025-07-29 due to work stress ('I genuinely could not care less about dinner, Sam'); apologized properly next morning; Sam responded 'you're carrying a lot, but I'm not the incident'; relationship repaired immediately; Dana noted 'six years and we don't do the snipe-at-each-other thing'",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-48"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    }
+  ]
+}

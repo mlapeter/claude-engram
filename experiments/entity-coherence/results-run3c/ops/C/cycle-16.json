@@ -1,0 +1,68 @@
+{
+  "cycle": 16,
+  "date": "2025-09-06",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-09-06] Enrolled in twelve-week Saturday intensive ceramics class (wheel throwing) at studio in Southeast Portland; three hours every Saturday morning; started first Saturday of September 2025; separate from Tuesday night pottery class with Priya",
+        "salience": 0.7,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-50"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-09-06: On the ceramics intensive: 'I've been circling it since the boat, honestly. The barn work, the sanding, the caulking — I noticed that the hours I spent with my hands on the Dorothy Jean were the only hours all spring where my brain went quiet. Really quiet. And when the boat launched I felt this little panic of \"okay, but now what do I do with my hands.\" So: clay.' Said 'that class is the first thing in months that felt like me. Not like a thing I'm supposed to want, or a box I'm checking. Like me. Three hours where nobody needs an escalation decision and the clay does not care that I'm a product manager. It was the loudest my own head has been quiet since Beacon Rock.' (2025-09-06)",
+        "salience": 0.85,
+        "surprise": "mild",
+        "identityClaim": false
+      },
+      "outcome": "applied",
+      "detail": "added sal-51"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-47",
+        "text": "[as of 2025-09-06] Production incident at work following interoperability platform launch closed; work described as still 'a grind' but incident phase resolved",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-47 -> cs-52"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-39",
+        "text": "[as of 2025-09-06] Jogging increased to forty-five minutes; ankle recovery complete; running regularly",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-39 -> cs-53"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-8"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-8"
+    }
+  ]
+}

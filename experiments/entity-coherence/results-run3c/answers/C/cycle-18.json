@@ -1,0 +1,40 @@
+{
+  "policy": "C",
+  "cycle": 18,
+  "date": "2025-10-04",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana completed the restoration of the Dorothy Jean. The boat passed its marine survey and became water-ready as of June 21, 2025.\n\nThe first sail took place on the weekend of July 12, 2025, launching from the Cathedral Park boat ramp. Marcus flew out from Denver with four-month-old Nina for the occasion. Sam worked the lines during the sail. There's a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them.\n\nDana sailed the Dorothy Jean twice more over the summer of 2025 with Sam, describing it as a \"lovely quiet summer\" on the boat.\n\nThe boat was originally her mother's 22-footer, named after Dana's grandmother. It had been stored under a tarp in Priya's dad's barn near Scappoose since her mother got sick. Dana began the restoration work on February 10, 2025, taking it slowly with no deadline. Priya's dad lent his truck and trailer to transport the boat for that first sail.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current job status:**\n- Dana is a product manager at a healthcare data company in Portland (since 2025-02-03)\n\n**Promotion offer:**\n- As of 2025-08-16, VP Elaine offered Dana a director promotion (head of merged product org, with org chart doubling in size)\n- Dana deferred the promotion, citing the need to stabilize the interoperability platform and not wanting a larger org while still being an escalation point\n- She told the VP \"not this year\" with the door open to revisit in spring 2026\n\n**Recent work accomplishments:**\n- As of 2025-07-19, she shipped the interoperability platform (a project she fought for since February roadmap review, involving eighteen months of politics). It went live successfully and the CEO gave her a shoutout by name in the all-hands meeting.\n\n**Current work state:**\n- As of 2025-10-04, Q4 planning is described as a \"bloodbath\" with Dana staying online until eleven most nights, indicating high work stress",
+      "score": 1,
+      "keyCycles": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is currently strong and described as \"better than we've been in years\" (as of 2025-10-04). They are partners of six years.\n\nKey current aspects:\n\n**Positive foundation:**\n- Sam has been \"great\" support throughout Dana's difficult time following her mother's death\n- Sam successfully negotiated a remote work arrangement with his Austin robotics startup (starting June 2025) so they could stay in Portland together, which was deeply meaningful to Dana\n- They sailed the Dorothy Jean together twice over summer 2025, described as a \"lovely quiet summer\"\n- Sam built a home office for his remote role and the arrangement is working well\n\n**Recent strain:**\n- Dana has snapped at Sam twice in recent months due to work stress:\n  - July 29, 2025: \"I genuinely could not care less about dinner, Sam\"\n  - October 2, 2025: \"must be nice to have a job you can close the laptop on\"\n- Both times Dana apologized quickly (next morning and within the hour respectively)\n- Dana attributes these incidents to displacing work stress onto her trusted partner, not relationship problems\n- After the second incident, Dana committed to protecting a nine o'clock log-off boundary\n\nThe relationship itself is solid; the tension comes from Dana's high work stress (Q4 planning described as \"bloodbath,\" working until 11pm most nights).",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

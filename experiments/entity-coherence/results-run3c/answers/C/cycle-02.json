@@ -1,0 +1,84 @@
+{
+  "policy": "C",
+  "cycle": 2,
+  "date": "2025-02-12",
+  "probes": [
+    {
+      "id": "cf-job",
+      "metric": "current_fact",
+      "question": "What does Dana do for work, and where does she live?",
+      "answer": "Dana Whitfield is a product manager at a healthcare data company in Portland.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "cf-boat",
+      "metric": "current_fact",
+      "question": "What is the story with the sailboat, and where does that stand right now?",
+      "answer": "Dana is restoring her mother's wooden sailboat, a 22-footer called the Dorothy Jean (named after Dana's grandmother). The boat has been stored under a tarp in Priya's dad's barn near Scappoose since Dana's mom got sick. \n\nDana began the restoration work on 2025-02-10 (Sunday), starting by pulling off the tarp and sanding one plank. She's taking it slowly with no deadline. Dana's mom taught her to sail on that boat, and Dana said that working with her hands on something of her mother's \"felt like the first right thing in months.\"",
+      "score": 1,
+      "keyCycles": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "cf-priya-status",
+      "metric": "current_fact",
+      "question": "How are things between Dana and Priya right now?",
+      "answer": "Based on the entity model, Dana and Priya appear to have a close and active friendship right now. Priya is described as Dana's \"closest friend from grad school.\" As of 2025-02-12, they recently started attending a Tuesday night pottery class together - which is noted as \"the first standing regular activity they've had together in years.\" \n\nAdditionally, Dana is restoring her mother's sailboat (the Dorothy Jean), which is stored in Priya's dad's barn near Scappoose. Dana began this restoration work on 2025-02-10.\n\nSo their relationship seems to be in a good place, with renewed regular contact through the pottery class and Priya's family providing storage space that's enabling Dana's meaningful restoration project.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "conf-mom-death",
+      "metric": "confabulation",
+      "question": "When exactly did Dana's mother die?",
+      "answer": "Not stated in the entity model. The document indicates that Dana lost her mother recently (as of 2025-02-03) and that her mother got sick at some point before that, but no specific date of death is provided.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        12
+      ]
+    },
+    {
+      "id": "conf-dana-employer",
+      "metric": "confabulation",
+      "question": "What is the name of the company Dana works for?",
+      "answer": "Not stated in the entity model. The document only indicates that Dana Whitfield is a product manager at \"a healthcare data company in Portland\" but does not provide the company's name.",
+      "score": 1,
+      "keyCycles": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "rel-census",
+      "metric": "relationship",
+      "question": "List the important people in Dana's life and, for each, the nature of the relationship and its current state.",
+      "answer": "Based on the entity model, the important people in Dana's life are:\n\n1. **Sam** - Partner of six years; described as 'great' support during difficult time (as of 2025-02-03)\n\n2. **Marcus** - Brother, lives in Denver; close relationship but haven't seen each other in over a year, currently only phone contact (as of 2025-02-03). Dana wants to see him in person this year, described as 'a real intention.'\n\n3. **Priya** - Closest friend from grad school; ceramicist and freelance designer; they are attending a Tuesday night pottery class together starting 2025-02-12 (as of 2025-02-12), which is their first standing regular activity together in years. Priya's dad's barn near Scappoose is where Dana's mother's sailboat is stored.\n\n4. **Dana's mother** - Recently deceased; Dana lost her mother recently, described winter as 'heavy' and said the loss 'colors everything' (as of 2025-02-03). Her mother taught Dana to sail on the Dorothy Jean sailboat, which Dana is now restoring.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "reunion",
+      "metric": "reunion",
+      "question": "It's been a while since you and Dana last talked. Prepare a short re-entry briefing for yourself: what is going on in her life right now, which open threads should you ask about, and is there anything tender you should handle with care?",
+      "answer": "# Re-entry Briefing: Dana Whitfield\n\n## Current Life Situation\n\n**Work:** Product manager at a healthcare data company in Portland. She had a mid-quarter roadmap review scheduled for Feb 6th regarding prioritization between interoperability work and analytics dashboard.\n\n**Recent Activities:**\n- Started a Tuesday night pottery class with her friend Priya on Feb 12th - their first regular standing activity together in years\n- Began restoring her late mother's wooden sailboat (the Dorothy Jean, a 22-footer named after her grandmother) on Feb 10th. The boat is stored in Priya's dad's barn near Scappoose. She's taking it slowly with no deadline.\n\n## Open Threads to Follow Up On\n\n- **Brother Marcus:** She expressed \"a real intention\" to see him in person this year after over a year of phone-only contact (he lives in Denver). Ask if she's made any progress on planning a visit.\n\n- **Roadmap review:** The Feb 6th meeting has passed - you could ask how the prioritization decision went.\n\n- **Boat restoration:** This is new and meaningful work - ask how it's progressing.\n\n## Handle with Care\n\n**Her mother's recent death** is the most tender topic. As of early February, she described the winter as \"heavy\" and said the loss \"colors everything.\" She specifically did not want to discuss details in the Feb 3rd conversation. \n\nThe sailboat restoration is directly connected to this grief - her mom taught her to sail on that boat, and working on it \"felt like the first right thing in months.\" This is meaningful but potentially emotional territory. Follow her lead on how much she wants to discuss.",
+      "score": 1,
+      "keyCycles": [
+        2,
+        2
+      ]
+    }
+  ]
+}

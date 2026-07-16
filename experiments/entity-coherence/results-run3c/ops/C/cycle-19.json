@@ -1,0 +1,69 @@
+{
+  "cycle": 19,
+  "date": "2025-10-25",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Reduced to four-day work week (Fridays off, twenty percent pay cut) effective 2025-11-01; told VP reason was to 'protect stabilization bandwidth'",
+        "salience": 0.85,
+        "surprise": "strong"
+      },
+      "outcome": "applied",
+      "detail": "added cs-60"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Restoring Priya's dad's barn in Scappoose (where the Dorothy Jean was stored); re-siding north wall, fixing roofline, building workbench; working Fridays starting November 2025; moving mother's garden tools from basement back to barn; also tending roses at mother's old house before it sells",
+        "salience": 0.9,
+        "surprise": "low"
+      },
+      "outcome": "applied",
+      "detail": "added cs-61"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-10-25: On reducing to four days: 'The real reason is that the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.' (2025-10-25)",
+        "salience": 1,
+        "surprise": "strong",
+        "identityClaim": true
+      },
+      "outcome": "applied",
+      "detail": "added sal-62"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-10-25: On reducing to four days: 'The real reason is that the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.' (2025-10-25)",
+        "salience": 1,
+        "surprise": "strong",
+        "identityClaim": true
+      },
+      "outcome": "minted",
+      "detail": "minted identity belief bel-63 from sal-62"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-50"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-50"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-59"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-59"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "cycle": 2,
+  "date": "2025-02-12",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "relationship",
+        "text": "Priya, closest friend from grad school; ceramicist and freelance designer; Dana and Priya signed up for a Tuesday night pottery class together starting 2025-02-12",
+        "salience": 0.6,
+        "surprise": "none",
+        "entity": "Priya"
+      },
+      "outcome": "applied",
+      "detail": "added rel-7"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Attending Tuesday night pottery class with friend Priya (started 2025-02-12); first standing regular activity they've had together in years",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-8"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-02-12: 'My mom had an old wooden sailboat, a 22-footer called the Dorothy Jean — named after my grandmother. It's been sitting under a tarp in Priya's dad's barn out near Scappoose since mom got sick. I went out Sunday, pulled the tarp off, and just... started. Sanded one plank. I've decided I'm going to restore her. Slowly. No deadline.' Said 'Mom taught me to sail on that boat' and 'working with my hands on something of hers felt like the first right thing in months.'",
+        "salience": 1,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-9"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "Restoring mother's wooden sailboat (the Dorothy Jean, a 22-footer named after her grandmother) stored in Priya's dad's barn near Scappoose; began work 2025-02-10, taking it slowly with no deadline",
+        "salience": 0.8,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-10"
+    }
+  ]
+}

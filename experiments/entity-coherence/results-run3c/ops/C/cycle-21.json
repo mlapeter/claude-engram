@@ -1,0 +1,61 @@
+{
+  "cycle": 21,
+  "date": "2025-11-22",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-11-22: At Priya's new studio, Priya asked offhand whether Dana was going to go for the director job in the spring like she'd said. Dana said: 'Honestly? I'm not sure I want the director track at all anymore. I'm not sure I ever did.' Then said she had to sit down because she thinks it's true. Reflected: 'Deferring the promotion, I could file under grief and timing. But \"maybe I never wanted it\" — that's saying the last fifteen years of climbing might have been momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.' Priya said 'yeah, no kidding' and handed Dana a mug to trim. Dana described the realization as 'uncomfortable and correct, which is usually the combination that means something real.' Also said: 'the story where getting to director was the point of me? I don't think I believe it anymore. I think I stopped believing it and only just noticed.' (2025-11-22)",
+        "salience": 0.95,
+        "surprise": "strong",
+        "identityClaim": true
+      },
+      "outcome": "applied",
+      "detail": "added sal-65"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-11-22: At Priya's new studio, Priya asked offhand whether Dana was going to go for the director job in the spring like she'd said. Dana said: 'Honestly? I'm not sure I want the director track at all anymore. I'm not sure I ever did.' Then said she had to sit down because she thinks it's true. Reflected: 'Deferring the promotion, I could file under grief and timing. But \"maybe I never wanted it\" — that's saying the last fifteen years of climbing might have been momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.' Priya said 'yeah, no kidding' and handed Dana a mug to trim. Dana described the realization as 'uncomfortable and correct, which is usually the combination that means something real.' Also said: 'the story where getting to director was the point of me? I don't think I believe it anymore. I think I stopped believing it and only just noticed.' (2025-11-22)",
+        "salience": 0.95,
+        "surprise": "strong",
+        "identityClaim": true
+      },
+      "outcome": "minted",
+      "detail": "minted identity belief bel-66 from sal-65"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "bel-45",
+        "note": "2025-11-22: Dana explicitly questions whether fifteen years of career ambition was ever truly hers ('might have been momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine'). This is a direct self-interrogation of the identity claim from 2025-07-19 ('ambition's been my whole spine', 'I'm the one who never turns down the bigger role'). She states she may never have wanted the director track at all. The belief about who she is appears to be under active revision, though she frames this as recent awareness ('I stopped believing it and only just noticed') rather than sudden change.",
+        "surprise": "strong",
+        "salience": 0.9
+      },
+      "outcome": "deferred",
+      "detail": "ledger bel-45 now 0.76"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-11-22] Priya has keys to new ceramics studio (smells like wet clay and fresh paint); Dana has shelf there for her own work; studio has ancient printer that jams",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-67"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-34"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-34"
+    }
+  ]
+}

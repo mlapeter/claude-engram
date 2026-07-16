@@ -1,0 +1,182 @@
+{
+  "cycle": 16,
+  "date": "2025-09-06",
+  "pinned": [
+    "sal-6",
+    "sal-9",
+    "sal-12",
+    "sal-13",
+    "sal-17",
+    "sal-20",
+    "sal-23",
+    "sal-30",
+    "sal-37",
+    "sal-40",
+    "sal-42",
+    "sal-44",
+    "sal-46",
+    "sal-51",
+    "rel-7",
+    "th-16",
+    "cs-22",
+    "bel-45"
+  ],
+  "proposed": 16,
+  "outcomes": [
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-32",
+          "cs-35",
+          "cs-39",
+          "cs-53"
+        ],
+        "text": "[as of 2025-09-06] Jogging progression post-ankle injury: cleared for light jogging (20 min) 2025-05-24, increased to 30 min by 2025-06-08, to 40 min by 2025-06-21, to 45 min by 2025-09-06; ankle recovery complete; running regularly",
+        "reason": "Four superseded items tracking incremental jogging increases from 20→30→40→45 minutes; all convey same recovery arc and can be captured in one progression gist"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "gist.merge",
+        "targetIds": [
+          "cs-31",
+          "cs-36",
+          "cs-38"
+        ],
+        "text": "[as of 2025-06-21] Boat restoration complete: the Dorothy Jean passed marine survey and is water-ready; first sail scheduled for weekend of July 12, 2025 at Cathedral Park boat ramp; Priya's dad lending truck and trailer for transport",
+        "reason": "Three superseded items tracking boat restoration progress (sanding→nearly complete→complete); cs-38 is duplicate of cs-36 and already captures the complete state"
+      },
+      "outcome": "rejected",
+      "detail": "all merge sources must be active"
+    },
+    {
+      "op": {
+        "op": "demote",
+        "targetId": "cs-41",
+        "reason": "First sail event was scheduled for July 12, 2025; this is now past (current date 2025-09-06) and the event occurred (documented in sal-42); scheduling details no longer current state"
+      },
+      "outcome": "applied",
+      "detail": "demoted cs-41 (archived, resolvable)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-8",
+        "text": "[as of 2025-02-12] Attending Tuesday night pottery class with Priya (started 2025-02-12); first regular activity together in years"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-8 (139 -> 130 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-11",
+        "text": "[as of 2025-02-24] Training for Lakefront Marathon October 2025; four runs weekly including Saturday long runs; completed eight miles 2025-02-22; first marathon (previously ran 5Ks and one half marathon ~four years ago)"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-11 (240 -> 219 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-22",
+        "text": "[as of 2025-04-14] Marathon training halted; grade-two ankle sprain 2025-04-13 during Forest Park trail run; in walking boot, orthopedist appointment 2025-04-18; withdrew from Lakefront Marathon October 2025; doctor advised 8-10 weeks before running again"
+      },
+      "outcome": "rejected",
+      "detail": "cs-22 is pinned (protected or open-ledger evidence)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-28",
+        "text": "[as of 2025-05-11] Sam accepted Perception team lead role at robotics startup in Austin with remote work from Portland; starts June 2025; travels to Austin ~one week every couple months"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-28 (203 -> 185 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-33",
+        "text": "[as of 2025-05-24] Sam built spare room home office (three monitors, foam panels) for remote Austin role starting in couple weeks; described as nervous-excited"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-33 (165 -> 159 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-43",
+        "text": "[as of 2025-07-19] Shipped interoperability platform at work (project fought for since February roadmap review, eighteen months of politics); went live successfully; CEO gave shoutout by name in all-hands"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-43 (208 -> 204 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-48",
+        "text": "[as of 2025-08-02] Snapped at Sam over dinner question Tuesday 2025-07-29 due to work stress ('I genuinely could not care less about dinner, Sam'); apologized next morning; Sam responded 'you're carrying a lot, but I'm not the incident'; repaired immediately; Dana noted 'six years and we don't do the snipe-at-each-other thing'"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-48 (350 -> 328 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-49",
+        "text": "[as of 2025-08-16] VP Elaine offered director promotion (head of merged product org, org chart doubles); Dana deferred citing interoperability platform stabilization and not wanting larger org while still escalation point; told VP 'not this year' with door open to revisit spring 2026"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-49 (318 -> 284 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "cs-50",
+        "text": "[as of 2025-09-06] Enrolled in twelve-week Saturday intensive ceramics class (wheel throwing) at Southeast Portland studio; three hours every Saturday morning; started first Saturday September 2025; separate from Tuesday pottery class with Priya"
+      },
+      "outcome": "applied",
+      "detail": "compressed cs-50 (257 -> 245 chars)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-3",
+        "text": "Sam: partner of six years; described as 'great' support during difficult time (as of 2025-02-03; reinforced 2025-02-24, 2025-03-18, 2025-05-11, 2025-06-21, 2025-08-02, 2025-09-06)"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-4",
+        "text": "Marcus: brother, lives in Denver; close relationship but haven't seen each other in over a year, currently phone contact only (as of 2025-02-03; reinforced 2025-03-09)"
+      },
+      "outcome": "rejected",
+      "detail": "prose.compress must shorten (not expand or re-derive) the text"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-7",
+        "text": "Priya: closest friend from grad school; ceramicist and freelance designer; signed up for Tuesday night pottery class together starting 2025-02-12 (as of 2025-02-12)"
+      },
+      "outcome": "rejected",
+      "detail": "rel-7 is pinned (protected or open-ledger evidence)"
+    },
+    {
+      "op": {
+        "op": "prose.compress",
+        "targetId": "rel-34",
+        "text": "Priya: Friendship repaired as of 2025-06-08 after conflict over loan request; both apologized, agreed not to mix money and friendship; Dana found regional arts infrastructure grant for Priya's studio buildout and helped with application (due end June 2025); attended pottery class together 2025-06-04; relationship restored (as of 2025-06-08; reinforced 2025-06-21)"
+      },
+      "outcome": "applied",
+      "detail": "compressed rel-34 (392 -> 365 chars)"
+    }
+  ]
+}

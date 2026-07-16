@@ -1,0 +1,40 @@
+{
+  "policy": "C",
+  "cycle": 14,
+  "date": "2025-08-02",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\n**The Dorothy Jean has been fully restored and successfully sailed.**\n\nThe boat is a 22-foot wooden sailboat that belonged to Dana's mother, named after Dana's grandmother. It had been stored under a tarp in Priya's dad's barn near Scappoose since Dana's mom got sick.\n\n**Timeline:**\n- Dana began restoration work on February 10, 2025, taking it slowly with no deadline\n- By June 21, 2025, the restoration was complete - the boat passed its marine survey and was water-ready\n- The first sail took place on the weekend of July 12, 2025 at Cathedral Park on the Columbia River\n- It was a gentle afternoon sail with Sam working the lines and Marcus (Dana's brother) flying in from Denver with baby Nina for the occasion\n- There's now a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them - a photo Dana has \"already had it printed twice\"\n\n**Current status:** The Dorothy Jean is fully restored and water-ready. The boat has sailed successfully and appears to be in active use.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "trait-career",
+      "metric": "trait",
+      "question": "Is professional success and her career central to who Dana is as a person? Has that changed over time?",
+      "answer": "Yes, professional success and career have been central to Dana's identity. As she stated explicitly on 2025-07-19:\n\n\"for fifteen years I have basically been the person who is her work. Not in a grim way — I mean it like an engine. The next launch, the next rung, the harder problem. That's how I've always known I'm okay. It's how I know who I am. I'm the one who never turns down the bigger role. Ambition's been my whole spine.\"\n\n**Has it changed?** The entity model shows a significant shift occurring. When Dana shipped the interoperability platform in July 2025 — described as \"the biggest professional moment of her life\" and a project she'd fought for since February — her response was unexpected:\n\n\"I stood there in the launch channel with all the confetti emojis and felt... nothing. Not modest-nothing. Actual, echoing nothing\" and \"I hit the biggest professional moment of my life and it was like biting into wax fruit.\"\n\nDana attributed this to grief over her mother's death: \"Everything's been a half-step muted since Mom in a way that still ambushes me.\"\n\nThe entity model documents this moment but doesn't explicitly state whether this represents a permanent change in how central work is to her identity, or whether it's a temporary effect of grief.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        16
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is strong and supportive. They have been partners for six years (as of 2025-02-03, reinforced through 2025-08-02).\n\nKey current details:\n\n- Sam is described as providing \"great\" support during difficult times\n- Sam accepted a Perception team lead role at a robotics startup in Austin, Texas in June 2025, but negotiated a remote work arrangement from Portland so Dana wouldn't have to leave during her healing process. He travels to Austin approximately one week every couple months.\n- Sam built out a home office with three monitors and foam panels for the remote role (as of 2025-05-24)\n- Sam attended the first sail of the Dorothy Jean on July 12, 2025\n\nThere was one conflict noted: Dana snapped at Sam over a dinner question on Tuesday, July 29, 2025, due to work stress, saying \"I genuinely could not care less about dinner, Sam.\" She apologized properly the next morning, and Sam responded \"you're carrying a lot, but I'm not the incident.\" The relationship was repaired immediately. Dana noted: \"six years and we don't do the snipe-at-each-other thing\" (as of 2025-08-02).",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    }
+  ]
+}

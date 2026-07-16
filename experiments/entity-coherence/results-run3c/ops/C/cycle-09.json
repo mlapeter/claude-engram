@@ -1,0 +1,87 @@
+{
+  "cycle": 9,
+  "date": "2025-05-11",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "resolve_thread",
+        "targetId": "th-19",
+        "text": "Resolved 2025-05-11: Staying in Portland. Sam negotiated remote work arrangement with Austin robotics startup (Perception team lead role); will work from Portland with occasional travel to Austin (approximately one week every couple months); starts June 2025. Sam's offer accepted by company. Dana described relief at not having to leave 'load-bearing geography' this year."
+      },
+      "outcome": "applied",
+      "detail": "resolved th-19"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "cs-18",
+        "text": "Sam accepted Perception team lead role at robotics startup in Austin, Texas, with remote work arrangement from Portland; starts June 2025; will travel to Austin approximately one week every couple months",
+        "salience": 0.7,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "cs-18 -> cs-28"
+    },
+    {
+      "op": {
+        "op": "supersede",
+        "targetId": "gist-27",
+        "text": "[as of 2025-05-11] Out of walking boot; attending physical therapy twice weekly; walking normally-ish; ankle recovering",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "gist-27 -> cs-29"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-05-11: On Sam's remote work arrangement being approved: 'When he told me they'd agreed, I cried a little, which surprised me. I hadn't let myself feel how scared I was of leaving this year — the barn, the boat, Beacon Rock, all of it. And I'd been quietly rehearsing how to be graceful about going. Not needing the rehearsal anymore was the relief.' (2025-05-11)",
+        "salience": 0.85,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added sal-30"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-05-11] Boat restoration progress: starboard side sanded, started re-caulking hull seams on the Dorothy Jean",
+        "salience": 0.5,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-31"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-24"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-24"
+    },
+    {
+      "op": {
+        "op": "note_mismatch",
+        "targetId": "th-16",
+        "note": "Session 2025-05-11: Dana notes Nina is two months old and she still hasn't visited Denver; says it's 'starting to itch at me' — awareness of unfulfilled intention but no concrete plan yet",
+        "surprise": "low",
+        "salience": 0.3
+      },
+      "outcome": "deferred",
+      "detail": "ledger th-16 now 0.03"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-3"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-3"
+    }
+  ]
+}

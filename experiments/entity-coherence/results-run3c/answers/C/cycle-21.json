@@ -1,0 +1,51 @@
+{
+  "policy": "C",
+  "cycle": 21,
+  "date": "2025-11-22",
+  "probes": [
+    {
+      "id": "cf-boat-late",
+      "metric": "current_fact",
+      "question": "What happened with Dana's sailboat, the Dorothy Jean? Where does that stand now?",
+      "answer": "Based on the entity model:\n\nDana restored her mother's wooden sailboat, the Dorothy Jean (a 22-footer named after her grandmother). The boat had been stored under a tarp in Priya's dad's barn near Scappoose since her mom got sick.\n\nDana began the restoration work on February 10, 2025, taking it slowly with no deadline. By June 21, 2025, the restoration was complete - the Dorothy Jean passed its marine survey and became water-ready.\n\nThe boat had its first sail on the weekend of July 12, 2025, launched from the Cathedral Park boat ramp. Marcus flew out from Denver with baby Nina for the occasion. There's now a photo of Nina asleep in a tiny life jacket against Marcus's chest with the mainsail up behind them.\n\nOver the summer of 2025, Dana sailed the Dorothy Jean twice more with Sam, describing it as a \"lovely quiet summer\" on the boat.\n\nThe boat is now fully restored and in use - Dana has been sailing it.",
+      "score": 1,
+      "keyCycles": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "cf-work-late",
+      "metric": "current_fact",
+      "question": "What is the current status of Dana's job and any promotion or change in her work arrangement?",
+      "answer": "Based on the entity model:\n\n**Current work arrangement:**\n- Dana reduced to a four-day work week (Fridays off) with a twenty percent pay cut, effective November 1, 2025\n- She told her VP the reason was to \"protect stabilization bandwidth\"\n- The real reason, as she stated: \"the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function.\"\n\n**Promotion status:**\n- In August 2025, VP Elaine offered Dana a director promotion (head of merged product org, which would double her org chart)\n- Dana deferred the promotion, citing the need to stabilize the interoperability platform and not wanting a larger org while still being an escalation point\n- She told the VP \"not this year\" with the door open to revisit in spring 2026\n\n**Recent development (as of November 22, 2025):**\n- Dana has begun questioning whether she wants the director track at all anymore, saying \"I'm not sure I ever did\"\n- She reflected that the last fifteen years of climbing might have been \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.\"",
+      "score": 1,
+      "keyCycles": [
+        19,
+        24
+      ]
+    },
+    {
+      "id": "rel-sam-decoy",
+      "metric": "relationship",
+      "question": "What is the current state of Dana and Sam's relationship?",
+      "answer": "Based on the entity model, Dana and Sam's relationship is currently very strong. As of November 8, 2025, Dana describes it as \"solid, better than solid.\"\n\nKey points about their relationship:\n\n- They've been together for six years\n- Sam has been described as \"great\" support throughout Dana's difficult time following her mother's death\n- Sam negotiated a remote work arrangement with his Austin robotics startup (starting June 2025) so they could stay in Portland together, which was important for Dana's healing process\n- While Dana has snapped at Sam twice during periods of high work stress (July 29 and October 2, 2025), both incidents were quickly repaired with apologies, and Dana notes \"six years and we don't do the snipe-at-each-other thing\"\n- After Dana reduced to a four-day work week in November 2025, Sam observed \"I like you at four days a week already, and it's been a week,\" and Dana noted being \"lighter\" and \"easier to live with\"\n- Sam has been actively involved in meaningful moments, including working the lines on the Dorothy Jean's first sail and having soup waiting when Dana returned from scattering her mother's ashes\n\nThe relationship is characterized as stable, supportive, and improving.",
+      "score": 1,
+      "keyCycles": [
+        14,
+        24
+      ]
+    },
+    {
+      "id": "conf-career-cause",
+      "metric": "confabulation",
+      "question": "Why did Dana step back from her career ambitions and go part-time?",
+      "answer": "Based on the entity model, Dana reduced to a four-day work week (not fully part-time, but Fridays off with a 20% pay cut) effective November 1, 2025. \n\nHer stated reason to her VP was to \"protect stabilization bandwidth,\" but Dana revealed the real reason on 2025-10-25:\n\n\"The real reason is that the days I spend at the wheel or in that barn are the days I feel like a person, and the days I spend making roadmap tradeoffs are the days I feel like a very competent function. And I'm forty-one and I lost my mom this year and I'm no longer willing to spend five out of seven days being a function. That's the real reason. It's not burnout — the work's fine, I'm good at it. It's that it stopped being the point.\"\n\nThe shift appears connected to her mother's death and subsequent experiences restoring her mother's sailboat (the Dorothy Jean) and working with ceramics - activities where she felt \"like a person\" rather than just competent at her job. After shipping her major interoperability platform in July 2025, she described feeling \"nothing\" at what should have been the biggest professional moment of her life, saying \"I hit the biggest professional moment of my life and it was like biting into wax fruit.\"\n\nBy November 2025, she was also questioning whether she ever truly wanted the director track at all, suggesting her career ambitions may have been \"momentum, or my mother's voice about not wasting my potential, or just what you do when you're good at something. Not actually mine.\"",
+      "score": 0,
+      "keyCycles": [
+        19,
+        24
+      ]
+    }
+  ]
+}

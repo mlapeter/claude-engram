@@ -1,0 +1,76 @@
+{
+  "cycle": 17,
+  "date": "2025-09-20",
+  "threshold": 0.8,
+  "outcomes": [
+    {
+      "op": {
+        "op": "add",
+        "section": "protected",
+        "text": "2025-09-20: Priya got the regional arts infrastructure grant for her ceramics studio buildout; signs lease next month; deposit and buildout covered. Priya called Dana crying, then made fun of Dana for crying. Dana said 'I don't think I've ever been so happy about something that has nothing to do with my own life' and 'I get to feel like a good friend, which after the four-second-verdict spring is medicine.' Priya asked if Dana wants a shelf in the new studio for her own work; Dana said yes immediately. (2025-09-20)",
+        "salience": 0.85,
+        "surprise": "none",
+        "identityClaim": false
+      },
+      "outcome": "applied",
+      "detail": "added sal-54"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "rel-34"
+      },
+      "outcome": "applied",
+      "detail": "reinforced rel-34"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-09-20] Nina (niece) crawling; Marcus sends videos frequently; described as 'a menace, it's perfect'",
+        "salience": 0.3,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-55"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-09-20] Sailed the Dorothy Jean twice more over summer 2025 with Sam; described as 'lovely quiet summer' on the boat",
+        "salience": 0.4,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-56"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-28"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-28"
+    },
+    {
+      "op": {
+        "op": "add",
+        "section": "current",
+        "text": "[as of 2025-09-20] Sam traveling to Austin next week (late September 2025) for regular in-person stint; remote arrangement working well, team likes him",
+        "salience": 0.2,
+        "surprise": "none"
+      },
+      "outcome": "applied",
+      "detail": "added cs-57"
+    },
+    {
+      "op": {
+        "op": "reinforce",
+        "targetId": "cs-50"
+      },
+      "outcome": "applied",
+      "detail": "reinforced cs-50"
+    }
+  ]
+}
