@@ -28,7 +28,7 @@ export interface EngramConfig {
   /** Decay rate for archived memories — substantially lower than active (default: 0.001 per day) */
   archiveDecayRate: number;
   /** Model for memory extraction — the front door to the world-store; small
-   * models measurably confabulate here (default: "claude-sonnet-4-5") */
+   * models measurably confabulate here (default: "claude-sonnet-5") */
   extractionModel: string;
   /** Model for gist compression — mechanical, and never-destroy makes its
    * mistakes recoverable (default: "claude-haiku-4-5") */
@@ -38,7 +38,7 @@ export interface EngramConfig {
   gistChunkSize: number;
   /** Model for briefing generation (default: "claude-opus-4-6") */
   briefingModel: string;
-  /** Model for consolidation (default: "claude-sonnet-4-5") */
+  /** Model for consolidation (default: "claude-sonnet-5") */
   consolidationModel: string;
   /** Max memories to include in briefing (default: 60) */
   briefingMaxMemories: number;
@@ -111,11 +111,11 @@ const DEFAULTS: EngramConfig = {
   autoConsolidationMinDays: 3,
   pruneThreshold: 0.03,
   archiveDecayRate: 0.001,
-  extractionModel: "claude-sonnet-4-5",
+  extractionModel: "claude-sonnet-5",
   gistModel: "claude-haiku-4-5",
   gistChunkSize: 40,
   briefingModel: "claude-opus-4-6",
-  consolidationModel: "claude-sonnet-4-5",
+  consolidationModel: "claude-sonnet-5",
   briefingMaxMemories: 60,
   maxBackups: 5,
   interferenceFactor: 0.7,

@@ -736,6 +736,9 @@ async function singlePassConsolidation(
     const response = await getClient().messages.create({
       model: config.consolidationModel,
       max_tokens: 8000,
+      // Sonnet 5+ defaults to adaptive thinking when this field is omitted;
+      // thinking tokens share max_tokens, which is sized for output only
+      thinking: { type: "disabled" },
       system: CONSOLIDATION_SYSTEM_PROMPT,
       messages: [{ role: "user", content: `MEMORY BANK (${memories.length} memories):\n\n${memoriesText}` }],
       output_config: {
@@ -1011,6 +1014,9 @@ async function twoPassConsolidation(
       const response = await getClient().messages.create({
         model: config.consolidationModel,
         max_tokens: 8000,
+        // Sonnet 5+ defaults to adaptive thinking when this field is omitted;
+        // thinking tokens share max_tokens, which is sized for output only
+        thinking: { type: "disabled" },
         system: CONSOLIDATION_SYSTEM_PROMPT,
         messages: [{ role: "user", content: `MEMORY BANK (${batchMemories.length} candidates for consolidation, batch ${batchIdx + 1}/${batches.length}):\n\n${memoriesText}` }],
         output_config: {

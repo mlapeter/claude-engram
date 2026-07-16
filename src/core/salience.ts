@@ -121,6 +121,9 @@ export async function extractMemories(
     const response = await getClient().messages.create({
       model: config.extractionModel,
       max_tokens: maxTokens,
+      // Sonnet 5+ defaults to adaptive thinking when this field is omitted;
+      // thinking tokens share max_tokens, which is sized for output only
+      thinking: { type: "disabled" },
       system: systemPrompt,
       messages: [{ role: "user", content: userContent }],
       output_config: {

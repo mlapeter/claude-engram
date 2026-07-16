@@ -191,8 +191,8 @@ All optional, in `~/.claude-engram/config.json`. The interesting ones:
 
 | Key | Default | What it does |
 |---|---|---|
-| `extractionModel` | `claude-sonnet-4-5` | Judges what's worth remembering. Small models measurably confabulate here — we tested; don't cheap out on the front door |
-| `consolidationModel` | `claude-sonnet-4-5` | Runs sleep |
+| `extractionModel` | `claude-sonnet-5` | Judges what's worth remembering. Small models measurably confabulate here — we tested; don't cheap out on the front door |
+| `consolidationModel` | `claude-sonnet-5` | Runs sleep |
 | `identityModel` | `claude-opus-4-6` | Rewrites identity documents — highest-stakes text in the system |
 | `briefingModel` | `claude-opus-4-6` | Writes the wake-up briefing |
 | `gistModel` | `claude-haiku-4-5` | Mechanical gist compression (mistakes are recoverable by design) |
