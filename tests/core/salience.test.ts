@@ -9,7 +9,7 @@ vi.mock("@anthropic-ai/sdk", () => ({
   },
 }));
 
-import { extractMemories } from "../../src/core/salience.js";
+import { extractMemories, truncateAtSentence } from "../../src/core/salience.js";
 import { sanitizeSalience } from "../../src/core/types.js";
 import type { Memory } from "../../src/core/types.js";
 
@@ -220,5 +220,73 @@ describe("sanitizeSalience", () => {
   it("passes through valid values unchanged", () => {
     const result = sanitizeSalience({ novelty: 0.5, relevance: 0.7, emotional: 0.3, predictive: 0.8 });
     expect(result).toEqual({ novelty: 0.5, relevance: 0.7, emotional: 0.3, predictive: 0.8 });
+  });
+});
+
+describe("truncateAtSentence", () => {
+  it("returns short content unchanged", () => {
+    expect(truncateAtSentence("A short memory.", 600)).toBe("A short memory.");
+  });
+
+  it("cuts at the last full sentence inside the budget", () => {
+    const text = "First sentence here. Second sentence here. Third sentence that runs past the budget and keeps going.";
+    const result = truncateAtSentence(text, 60);
+    expect(result).toBe("First sentence here. Second sentence here.");
+  });
+
+  it("keeps a sentence ending in a closing quote", () => {
+    const text = 'Mike said "judge on real assets." Then a long tail that overflows the budget entirely for sure.';
+    const result = truncateAtSentence(text, 40);
+    expect(result).toBe('Mike said "judge on real assets."');
+  });
+
+  it("falls back to a word boundary with ellipsis when no sentence end lands in the window", () => {
+    const text = "one two three four five six seven eight nine ten eleven twelve thirteen fourteen";
+    const result = truncateAtSentence(text, 30);
+    expect(result.endsWith("…")).toBe(true);
+    expect(result.length).toBeLessThanOrEqual(30);
+    expect(result).not.toContain("thirteen");
+  });
+
+  it("hard-cuts when there is no usable boundary", () => {
+    const text = "x".repeat(700);
+    expect(truncateAtSentence(text, 600)).toBe("x".repeat(600));
+  });
+});
+
+describe("extraction content sanitation", () => {
+  beforeEach(() => {
+    mockCreate.mockReset();
+  });
+
+  it("strips leading backslash artifacts and drops artifact-only memories", async () => {
+    mockCreate.mockResolvedValueOnce({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            memories: [
+              {
+                content: "\\ Site bridge techniques distilled from research.",
+                scope: "project",
+                salience: { novelty: 0.5, relevance: 0.8, emotional: 0.3, predictive: 0.5 },
+                tags: ["technical"],
+                updates: null,
+              },
+              {
+                content: "\\",
+                scope: "project",
+                salience: { novelty: 0.5, relevance: 0.5, emotional: 0.5, predictive: 0.5 },
+                tags: ["technical"],
+                updates: null,
+              },
+            ],
+          }),
+        },
+      ],
+    });
+    const result = await extractMemories("span text", [], "transcript");
+    expect(result).toHaveLength(1);
+    expect(result[0].content).toBe("Site bridge techniques distilled from research.");
   });
 });

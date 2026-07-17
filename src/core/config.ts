@@ -94,6 +94,10 @@ export interface EngramConfig {
    * JSON mid-string, and fail atomically (the whole buffer looped back and only
    * grew). Chunks extract and fail independently (default: 16384) */
   extractChunkBytes: number;
+  /** Hard cap on an extracted memory's content, in characters. The extraction
+   * prompt states this budget so the model writes to fit; enforcement cuts at a
+   * sentence boundary when possible rather than mid-sentence (default: 600) */
+  extractionContentMax: number;
   /** Flush the encoding buffer when its oldest content exceeds this age (default: 4h) */
   bufferFlushHours: number;
   /** Sleep (consolidation) triggers on a new active day once at least this many
@@ -138,6 +142,7 @@ const DEFAULTS: EngramConfig = {
   observerMode: false,
   bufferFlushBytes: 32_768,
   extractChunkBytes: 16_384,
+  extractionContentMax: 600,
   bufferFlushHours: 4,
   sleepMinNewMemories: 5,
 };

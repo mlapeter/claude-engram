@@ -5,6 +5,21 @@ import { loadConfig } from "./config.js";
 import { log } from "./logger.js";
 import { z } from "zod";
 
+/** Cut overlong extraction content at a sentence boundary within `max` chars
+ * (falling back to a word boundary + ellipsis) instead of mid-sentence. */
+export function truncateAtSentence(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const slice = text.substring(0, max);
+  const terminator = /[.!?]["')\]]?(?=\s|$)/g;
+  let lastEnd = -1;
+  let m: RegExpExecArray | null;
+  while ((m = terminator.exec(slice)) !== null) lastEnd = m.index + m[0].length;
+  if (lastEnd >= max * 0.5) return slice.substring(0, lastEnd).trimEnd();
+  const lastSpace = slice.lastIndexOf(" ");
+  if (lastSpace >= max * 0.5) return `${slice.substring(0, lastSpace).trimEnd()}…`;
+  return slice.trimEnd();
+}
+
 let client: Anthropic | null = null;
 
 function getClient(): Anthropic {
@@ -114,7 +129,7 @@ export async function extractMemories(
 
   try {
     const config = loadConfig();
-    const dated = `${EXTRACTION_SYSTEM_PROMPT}\nTODAY: ${new Date().toISOString().slice(0, 10)}`;
+    const dated = `${EXTRACTION_SYSTEM_PROMPT}\nCONTENT LENGTH: each memory's content must be a self-contained note of at most ${config.extractionContentMax} characters (one to three sentences). Anything longer is mechanically cut off, so write to fit the budget.\nTODAY: ${new Date().toISOString().slice(0, 10)}`;
     const systemPrompt = weightsHint
       ? `${dated}\nSALIENCE CALIBRATION: ${weightsHint}`
       : dated;
@@ -158,16 +173,20 @@ export async function extractMemories(
     };
     const validated = ExtractedResponseSchema.parse(sanitized);
 
-    return validated.memories.map((m) => ({
-      content: m.content.substring(0, 400),
-      scope: m.scope,
-      register: m.register,
-      memory_type: "episodic" as const,
-      salience: m.salience,
-      tags: m.tags.slice(0, 5),
-      source_session: "",
-      updates: m.updates,
-    }));
+    return validated.memories
+      .map((m) => ({
+        // Leading backslash runs are a model formatting artifact (first live
+        // Sonnet 5 batch), never content; a memory that is only artifact drops.
+        content: truncateAtSentence(m.content.replace(/^[\\\s]+/, ""), config.extractionContentMax),
+        scope: m.scope,
+        register: m.register,
+        memory_type: "episodic" as const,
+        salience: m.salience,
+        tags: m.tags.slice(0, 5),
+        source_session: "",
+        updates: m.updates,
+      }))
+      .filter((m) => m.content.length > 0);
   } catch (error) {
     // Rethrow — the caller (detached runner) restores the buffer on failure.
     // Returning [] here would make an API outage indistinguishable from
