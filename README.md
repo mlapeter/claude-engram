@@ -2,6 +2,15 @@
 
 **Where this went next:** claude-engram was my first experiment in giving Claude a memory of its own. My current work on that idea is [Counterparts](https://counterparts.ai/?r=L-0004).
 
+To try it in Claude Code (macOS or Linux), run these two commands inside Claude Code:
+
+```
+/plugin marketplace add mlapeter/counterparts
+/plugin install counterparts@counterparts
+```
+
+Then restart Claude Code. Or install it with Node 22.15 or newer: `npm install -g counterparts@latest`, then run `counterparts`. Setup and what it stores: [counterparts.ai/claude-code](https://counterparts.ai/claude-code/?r=L-0008).
+
 **Brain-inspired persistent memory for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).** Memory *for* Claude, not notes *about* you: episodes Claude writes in its own voice, an identity it authors and maintains across sessions, and a world-store where memories strengthen with use, fade without it, and consolidate while you sleep.
 
 The design center is a single idea: **memory is structure, not record.** A transcript is not a memory. What matters is that the shape of what happened keeps doing work — the way a forgotten childhood keeps doing work in an adult. So this system gates hard on salience, forgets honestly on a power-law curve, compresses old episodes to gist, and treats "nothing durable happened today" as a correct answer rather than a failure.
