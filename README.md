@@ -1,15 +1,32 @@
 # claude-engram
 
-**Where this went next:** claude-engram was my first experiment in giving Claude a memory of its own. My current work on that idea is [Counterparts](https://counterparts.ai/?r=L-0004).
+**Status:** I'm no longer working on claude-engram. Its last code change was July 17, 2026; since then only this README has changed. It was my first experiment in giving Claude a memory of its own, and my current work on that idea is [Counterparts](https://counterparts.ai/?r=L-0067).
 
-To try it in Claude Code (macOS or Linux), run these two commands inside Claude Code:
+| If you | Then |
+|---|---|
+| run claude-engram now, it works for you, and you like its plain text files, the git commit per nightly pass and paying through your own API key | Staying is fine. Its defaults name specific models (`claude-opus-4-6`, `claude-sonnet-5`, `claude-haiku-4-5`). When one is retired on the API, change its name in `~/.claude-engram/config.json`. |
+| use it on claude.ai, through the memory-dump bridge or the original artifact | Stay for now, and keep the artifact's backup download (in its footer). Counterparts for claude.ai is coming soon, in beta. [Sign up](https://counterparts.ai/#waitlist) to hear when it opens. |
+| want a memory for Claude Code with no API keys, that Claude writes in its own words during the session, in a project that's actively developed | Move to Counterparts. It runs with Claude Code on macOS or Linux, not Windows. |
+
+**What carries over if you move:**
+
+- There's no importer; nothing moves by itself.
+- `~/.claude-engram` stays as it is. Counterparts keeps its memory in `~/.counterparts` and refuses to put its store inside the old folder.
+- The terminal setup leaves claude-engram's hooks alone, so both memories load at each session start, and claude-engram keeps making its calls on your API key, until you turn claude-engram off.
+- To bring across what still holds, ask Claude in a session to read `~/.claude-engram/identity/core.md` and the files in `~/.claude-engram/identity/people/`, and remember what's still true in its own words. With the terminal install, `counterparts note "Prefers short answers." --kind person` adds one memory by hand. The plugin install has no `counterparts` command.
+- Episodes stay where they are, as Markdown files in `~/.claude-engram/episodes/`.
+
+**Install Counterparts.** You already have bun from claude-engram (Counterparts needs 1.3 or newer; `bun upgrade` if yours is older), so in a terminal:
 
 ```
-/plugin marketplace add mlapeter/counterparts
-/plugin install counterparts@counterparts
+bun add -g counterparts && counterparts
 ```
 
-Then restart Claude Code. Or install it with Node 22.15 or newer: `npm install -g counterparts@latest`, then run `counterparts`. Setup and what it stores: [counterparts.ai/claude-code](https://counterparts.ai/claude-code/?utm_source=claude-engram&utm_campaign=L-0008).
+Then restart Claude Code. Or run `/plugin marketplace add mlapeter/counterparts` and then `/plugin install counterparts@counterparts` inside Claude Code. With Node 22.15 or newer, `npm install -g counterparts@latest` works too.
+
+The full comparison, with the steps for bringing old notes across and turning claude-engram off: [claude-engram vs Counterparts: stay or move?](https://counterparts.ai/guides/claude-engram-vs-counterparts/?r=L-0067)
+
+---
 
 **Brain-inspired persistent memory for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).** Memory *for* Claude, not notes *about* you: episodes Claude writes in its own voice, an identity it authors and maintains across sessions, and a world-store where memories strengthen with use, fade without it, and consolidate while you sleep.
 
